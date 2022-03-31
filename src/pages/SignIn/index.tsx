@@ -8,6 +8,7 @@ import { TextField } from 'ui/components/TextField'
 import { login } from 'assets'
 
 import * as S from './SignIn.styled'
+import user from 'service/user/user'
 
 type FormData = {
   email: string
@@ -25,10 +26,18 @@ export default function SignIn() {
     formState: { errors },
   } = useForm<FormData>()
 
-  function onSubmit(data: FormData) {
+  async function onSubmit(data: FormData) {
     console.log(data)
 
+    const canLogin = await user.login(data.email, data.password)
+
+    console.log("canLogin")
+    console.log(canLogin)
+
+    if(!canLogin) return
+    
     navigate('/dashboard', { replace: true })
+
   }
 
   return (
