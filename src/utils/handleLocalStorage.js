@@ -8,5 +8,5 @@ export default function HandleLocalStorageData(role, tenatId, id, status, token,
     localStorage.setItem("id", JSON.stringify(id))
     localStorage.setItem("status", JSON.stringify(status))
     localStorage.setItem("token", JSON.stringify(token));
-    localStorage.setItem("empresaId", JSON.stringify(empresaId));
+    localStorage.setItem("fullName", JSON.stringify(empresaId));
   }
