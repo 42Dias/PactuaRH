@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import { welcome } from 'assets'
 import * as S from './Home.styled'
+import { api, fullName } from 'service/api'
+
 
 export default function Home() {
   return (
@@ -13,7 +15,7 @@ export default function Home() {
       <S.Container>
         <S.ContainerCall>
           <div>
-            <h2>Olá, Luciano 😁</h2>
+            <h2>Olá, { fullName } 😁</h2>
             <p>Aproveite ao máximo da nossa plataforma e descubra talentos</p>
             <Link to='/planos'>Planos</Link>
           </div>
