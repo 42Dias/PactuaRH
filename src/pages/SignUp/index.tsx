@@ -9,6 +9,7 @@ import { login } from 'assets'
 
 import * as S from './SignUp.styled'
 import user from 'service/user/user'
+import { toast } from 'react-toastify'
 
 type FormData = {
   fullName: string
@@ -38,8 +39,9 @@ export default function SignUp() {
 
     console.log(singUpDone)
 
+    if(!singUpDone) return toast.error("...")
 
-    // navigate('/dashboard', { replace: true })
+    navigate('/dashboard', { replace: true })
   }
 
   return (
