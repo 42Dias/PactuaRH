@@ -1,8 +1,10 @@
 
-import {api} from '../api'
+import {api, apiWithoutTenant, apiWithoutTenantAndWithToken, apiWithTenantAndWithToken} from '../api'
 
 import responseHandler from '../../utils/responseHandler'
 import servidorErrorMessage from '../../utils/servidorErrorMessage'
+import handleLocalStorageEmailAndPassword from 'utils/handleLocalStorageEmailAndPassword'
+import HandleLocalStorageData from 'utils/handleLocalStorage'
 
 
 export default class user{
@@ -135,13 +137,11 @@ export default class user{
   }
 
 
-  static async cadastro(name, email, password, phone, cpf, role, invitationToken,  tenantId) {
+  static async cadastro( fullName, email, password,  role, invitationToken,  tenantId) {
 
     return apiWithoutTenant.post('auth/sign-up', {
-      fullName:        name,
+      fullName:        fullName,
       email:           email, 
-      telefone:        phone, 
-      cpf:             cpf, 
       password:        password, 
       role:            role, 
       invitationToken: invitationToken,
@@ -155,7 +155,6 @@ export default class user{
         responseHandler(response.status, mensagemOk)
 
         if (response.status == 200) {
-          //first check the http response, returning the result to user
           await loadUser(response.data)
           handleLocalStorageEmailAndPassword(email, password)
           return 'ok'
@@ -165,6 +164,26 @@ export default class user{
       .catch(() => {
         servidorErrorMessage()
       })
+  }
+
+
+  static async loadUser(token) {
+    const response = await apiWithoutTenantAndWithToken.get('auth/me')
+    .then(response => {
+      return response.data;
+    })
+
+    console.log(response)
+
+
+    let newRoleLocal = response.tenants[0].roles[0]
+    let newTenatId = response.tenants[0].tenant.id
+    let newId = response.id
+    let newStatus = response.tenants[0].status
+    let empresaId = response.empresaId
+    HandleLocalStorageData(newRoleLocal, newTenatId, newId, newStatus, token, empresaId)
+
+    return response
   }
 
 
