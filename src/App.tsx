@@ -4,6 +4,7 @@
 import RoutesApp from './routes'
 import { GlobalStyle } from 'ui'
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
         draggable
         pauseOnHover
       />
-      
+
     </>
   )
 }
