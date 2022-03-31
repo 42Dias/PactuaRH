@@ -1,10 +1,12 @@
 
-import {api, apiWithoutTenant, apiWithoutTenantAndWithToken, apiWithTenantAndWithToken} from '../api'
+import {api, apiWithoutTenant, apiWithoutTenantAndWithToken, apiWithTenantAndWithToken, ip, porta} from '../api'
 
 import responseHandler from '../../utils/responseHandler'
 import servidorErrorMessage from '../../utils/servidorErrorMessage'
 import handleLocalStorageEmailAndPassword from 'utils/handleLocalStorageEmailAndPassword'
 import HandleLocalStorageData from 'utils/handleLocalStorage'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 
 export default class user{
@@ -128,7 +130,7 @@ export default class user{
      responseHandler(response.status, messageOk, messageNotOk )
       if (response.status == 200) {
 
-        let userData = await loadUser(response.data)
+        let userData = await this.loadUser(response.data)
         handleLocalStorageEmailAndPassword(email, password)
         
         return userData.tenants[0].roles[0]
@@ -155,7 +157,7 @@ export default class user{
         responseHandler(response.status, mensagemOk)
 
         if (response.status == 200) {
-          await loadUser(response.data)
+          await this.loadUser(response.data)
           handleLocalStorageEmailAndPassword(email, password)
           return 'ok'
         }
@@ -168,20 +170,34 @@ export default class user{
 
 
   static async loadUser(token) {
-    const response = await apiWithoutTenantAndWithToken.get('auth/me')
+
+    console.log("INFERNO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+    console.log(token)
+
+    const response = await axios({
+      method: "get",
+      url: `${ip}:${porta}/api/auth/me`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      timeout: 50000,
+    })
+
     .then(response => {
       return response.data;
     })
 
-    console.log(response)
 
 
+    let fullName = response.fullName
     let newRoleLocal = response.tenants[0].roles[0]
     let newTenatId = response.tenants[0].tenant.id
     let newId = response.id
     let newStatus = response.tenants[0].status
-    let empresaId = response.empresaId
-    HandleLocalStorageData(newRoleLocal, newTenatId, newId, newStatus, token, empresaId)
+    // let empresaId = response.empresaId
+    HandleLocalStorageData(newRoleLocal, newTenatId, newId, newStatus, token, fullName)
 
     return response
   }
