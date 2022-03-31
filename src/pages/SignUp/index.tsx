@@ -8,12 +8,13 @@ import { TextField } from 'ui/components/TextField'
 import { login } from 'assets'
 
 import * as S from './SignUp.styled'
+import user from 'service/user/user'
 
 type FormData = {
-  name: string
+  fullName: string
   email: string
   password: string
-  enter_as: string
+  role: string
   terms: string
 }
 
@@ -28,10 +29,17 @@ export default function SignUp() {
     formState: { errors },
   } = useForm<FormData>()
 
-  function onSubmit(data: FormData) {
+  async function onSubmit(data: FormData) {
+    console.log("data")
+    console.log(data)
     console.log(data)
 
-    navigate('/dashboard', { replace: true })
+    let singUpDone = await user.cadastro(data.fullName, data.email, data.password, data.role)
+
+    console.log(singUpDone)
+
+
+    // navigate('/dashboard', { replace: true })
   }
 
   return (
@@ -44,9 +52,9 @@ export default function SignUp() {
           <TextField
             label='Nome'
             id='name'
-            errorMessage={errors.name?.message}
+            errorMessage={errors.fullName?.message}
             placeholder='seu nome'
-            {...register('name', {
+            {...register('fullName', {
               required: {
                 value: true,
                 message: 'Todos os campos são obrigatórios',
@@ -78,16 +86,16 @@ export default function SignUp() {
             </button>
           </S.Password>
           <S.ContentForm>
-            <label htmlFor='enter_as'>Entrar como</label>
+            <label htmlFor='role'>Entrar como</label>
             <select
-              {...register('enter_as', {
+              {...register('role', {
                 required: true,
               })}
             >
               <option value=''>selecione...</option>
-              <option value='Empresa'>Empresa</option>
-              <option value='Profissional'>Profissional</option>
-              <option value='Usuário'>Usuário</option>
+              <option value='1'>Usuário</option>
+              <option value='2'>Profissional</option>
+              <option value='3'>Empresa</option>
             </select>
           </S.ContentForm>
           <S.CheckDiv>
