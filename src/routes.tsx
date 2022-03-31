@@ -12,12 +12,15 @@ import Positions from 'pages/Dashboard/Positions'
 import FunctionsPage from 'pages/Dashboard/FunctionsPage'
 import Benefits from 'pages/Dashboard/Benefits'
 import Questionnaires from 'pages/Dashboard/Questionnaires'
+import Plans from 'pages/Dashboard/Plans'
+import GeneralEvaluation from 'pages/Dashboard/GeneralEvaluation'
+import Performance from 'pages/Dashboard/Performance'
 
 const RoutesApp = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<SignIn />} />
+      <Route path='/' element={<SignIn />} />
         <Route path='/cadastro' element={<SignUp />} />
         <Route path='/termos' element={<Terms />} />
         <Route path='/dashboard' element={<Home />} />
@@ -29,6 +32,9 @@ const RoutesApp = () => {
         <Route path='/funcoes' element={<FunctionsPage />} />
         <Route path='/beneficios' element={<Benefits />} />
         <Route path='/questionarios' element={<Questionnaires />} />
+        <Route path='/planos' element={<Plans />} />
+        <Route path='/desempenho' element={< Performance />} />
+        <Route path='/avaliacao-geral' element={<GeneralEvaluation />} />
       </Routes>
     </BrowserRouter>
   )
