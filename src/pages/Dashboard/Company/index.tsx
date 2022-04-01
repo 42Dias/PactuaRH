@@ -24,6 +24,19 @@ export default function Company() {
   function closeModalNew() {
     setIsOpenNew(false)
   }
+
+  /*
+  
+  IMPORTANT OBS.: This plataform works as Multi-Tenant so a admin can only see its own employees,
+  HE CANNOT SEE ANY OTHER EMPLOYEE INSTEAD OF ITS OWN! 
+
+  */ 
+
+  /*
+  
+    IT CREATES A ENTERPRISE WITH ADMIN's TENANTID 
+  
+  */
   return (
     <>
       <S.Body>

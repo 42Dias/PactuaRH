@@ -34,9 +34,11 @@ export default function UserRegistration() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
+            {/* This button toggles a modal to create a newUser */}
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+          {/* Is it necessary? */}
             <Link to='/status-de-usuario'>
               Status <FiEye size={18} color='#fff' />
             </Link>
@@ -55,6 +57,7 @@ export default function UserRegistration() {
               <td>000.000.000-00</td>
               <td>000.000.000</td>
               <td>
+                {/* Edits this user data */}
                 <button onClick={openModal}>
                   <FiEdit size={18} />
                 </button>

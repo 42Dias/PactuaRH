@@ -6,6 +6,14 @@ import Sidebar from 'ui/components/Sidebar'
 import {setaesquerda} from 'assets'
 import {cubo} from 'assets'
 
+
+/*
+
+How will it work?
+Which Payment Gateway? 
+
+*/
+
 export default function Plans() {
     return(
        <S.Body>
