@@ -22,7 +22,7 @@ export default class user{
       let responseData = response.data
       return responseData
   }
-  
+
   static async update(id, data){
 
     let response = await api.put(`user/${id}`, {
@@ -32,11 +32,11 @@ export default class user{
         servidorErrorMessage()
       })
 
-      /*
-      let mensagemOk = 'Seu user foi alterado com sucesso! Ele será revisado e logo estará na plataforma :)'
-      let mensagemNaoOK = 'Revise os dados do user :('
+
+      let mensagemOk = 'Usuário alterado com sucesso!'
+      let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
-      */
+
       let responseData = response.data
 
       return responseData    
