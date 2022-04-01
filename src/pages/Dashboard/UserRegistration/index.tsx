@@ -2,7 +2,7 @@ import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
 import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './UserRegistration.styled'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import { Link } from 'react-router-dom'
 import user from 'service/user/user'
@@ -20,6 +20,9 @@ export default function UserRegistration() {
   const [estado    , setEstado    ] = useState<string>("")
   const [cpf       , setCpf       ] = useState<string>("")
   const [rg        , setRg        ] = useState<string>("")
+  const [allUsers  , setAllUsers  ] = useState<string[]>([])
+
+  
 
   function openModal() {
     setIsOpen(true)
@@ -36,6 +39,21 @@ export default function UserRegistration() {
   function closeModalNew() {
     setIsOpenNew(false)
   }
+
+  async function getUsers(){
+    let users = await user.list()
+
+    console.log("users")
+    console.log(users)
+
+    setAllUsers(users)
+  }
+
+  useEffect(
+    () => {
+      getUsers()
+    }, []
+  )
 
   async function createUser(){
     let data = {
@@ -109,6 +127,30 @@ export default function UserRegistration() {
                 </button>
               </td>
             </S.TrSecond>
+
+            {
+            allUsers.map(
+              () => (
+                <S.TrSecond>
+              <td>Giovanna</td>
+              <td>Mulher</td>
+              <td>000.000.000-00</td>
+              <td>000.000.000</td>
+              <td>
+                {/* Edits this user data */}
+                <button onClick={openModal}>
+                  <FiEdit size={18} />
+                </button>
+              </td>
+              <td>
+                <button>
+                  <FiTrash size={18} />
+                </button>
+              </td>
+            </S.TrSecond>
+              )
+            )
+            }
           </S.Table>
         </S.Container>
       </S.Body>
