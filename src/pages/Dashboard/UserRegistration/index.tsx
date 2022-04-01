@@ -20,10 +20,11 @@ export default function UserRegistration() {
   const [estado    , setEstado    ] = useState<string>("")
   const [cpf       , setCpf       ] = useState<string>("")
   const [rg        , setRg        ] = useState<string>("")
-  const [allUsers  , setAllUsers  ] = useState<string[]>([])
+  const [allUsers  , setAllUsers  ] = useState<any[]>([])
+  const [userEdit  , setUserEdit  ] = useState<any>({})
 
   
-
+  
   function openModal() {
     setIsOpen(true)
   }
@@ -77,8 +78,20 @@ export default function UserRegistration() {
     console.log(isCreated)
   }
 
-  async function updateUser(){
+  async function updateUser(id: string){
+    let data = {
+      fullName: nome,
+      firstName:  nome.split(' ')[0],
+      estadocivil: estado,
+      aniversario: nascimento,
+      cpf: cpf,
+      rg: rg,
+      gender: genero,
+    }
 
+    let updatedUser = await user.update(id, data)
+
+    if(updatedUser) closeModal()
   }
 
 
@@ -110,35 +123,26 @@ export default function UserRegistration() {
               <td>CPF</td>
               <td>RG</td>
             </S.TrTitle>
-            <S.TrSecond>
-              <td>Giovanna</td>
-              <td>Mulher</td>
-              <td>000.000.000-00</td>
-              <td>000.000.000</td>
-              <td>
-                {/* Edits this user data */}
-                <button onClick={openModal}>
-                  <FiEdit size={18} />
-                </button>
-              </td>
-              <td>
-                <button>
-                  <FiTrash size={18} />
-                </button>
-              </td>
-            </S.TrSecond>
 
             {
             allUsers.map(
-              () => (
+              (user) => (
                 <S.TrSecond>
-              <td>Giovanna</td>
-              <td>Mulher</td>
-              <td>000.000.000-00</td>
-              <td>000.000.000</td>
+              <td>user.fullName</td>
+              <td>user.gender</td>
+              <td>user.cpf</td>
+              <td>user.rg</td>
               <td>
                 {/* Edits this user data */}
-                <button onClick={openModal}>
+                <button
+                  onClick={
+                  () => {
+
+                    setUserEdit(user)
+                    openModal()
+
+                  }
+                  }>
                   <FiEdit size={18} />
                 </button>
               </td>
@@ -151,6 +155,7 @@ export default function UserRegistration() {
               )
             )
             }
+
           </S.Table>
         </S.Container>
       </S.Body>
@@ -174,7 +179,7 @@ export default function UserRegistration() {
           (e: any) => {
           e.preventDefault()
           // e.target.reset()
-          updateUser()
+          updateUser(userEdit.id)
          }
         }
         >
@@ -182,13 +187,14 @@ export default function UserRegistration() {
 
           <input
           type='text'
-          value='Ryan Costa'
+          defaultValue={userEdit?.fullName}
           onChange={(e) =>  setNome(e.target.value)}
           />
 
           <select
           name=''
           id=''
+          defaultValue={userEdit?.gender}
           onChange={(e) =>  setGenero(e.target.value)}
           >
             <option value='Homem'>Homem</option>
@@ -197,14 +203,26 @@ export default function UserRegistration() {
           </select>
 
         <InputMask
+          defaultValue={userEdit?.cpf}
           onChange={(e) =>  setCpf(e.target.value)}
           mask='999.999.999-99' placeholder='Seu CPF'
         />
         <InputMask
+          defaultValue={userEdit?.rg}
           onChange={(e) =>  setRg(e.target.value)}
           mask='99.999.999-9' placeholder='Seu RG' 
         />
+
+        <button
+          type='submit'
+          >
+            Enviar
+        </button>
+
         </S.ContainerForm>
+
+
+
       </Modal>
 
       <Modal
