@@ -5,10 +5,16 @@ import * as S from './UserRegistration.styled'
 import { useState } from 'react'
 import InputMask from 'react-input-mask'
 import { Link } from 'react-router-dom'
+import user from 'service/user/user'
 
 export default function UserRegistration() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+
+  const [nome      , setNome      ] = useState("")
+  const [nascimento, setNascimento] = useState("")
+  const [genero    , setGenero    ] = useState("")
+  const [estado    , setEstado    ] = useState("")
 
   function openModal() {
     setIsOpen(true)
@@ -25,6 +31,14 @@ export default function UserRegistration() {
   function closeModalNew() {
     setIsOpenNew(false)
   }
+
+  function createUser(){
+
+  }
+
+
+
+
   return (
     <>
       <S.Body>
@@ -92,9 +106,9 @@ export default function UserRegistration() {
           <input type='text' value='Ryan Costa' />
 
           <select name='' id=''>
-            <option value=''>Homem</option>
-            <option value=''>Mulher</option>
-            <option value=''>Prefiro não responder</option>
+            <option value='Homem'>Homem</option>
+            <option value='Mulher'>Mulher</option>
+            <option value='404'>Prefiro não responder</option>
           </select>
           <InputMask mask='999.999.999-99' placeholder='Seu CPF' />
           <InputMask mask='99.999.999-9' placeholder='Seu RG' />
@@ -118,17 +132,34 @@ export default function UserRegistration() {
         <S.ContainerForm>
           <h2>Novo usuário</h2>
 
-          <input type='text' placeholder='Seu nome completo' />
-          <InputMask mask='99/99/9999' placeholder='Data de nascimento' />
+          <input
+            type='text'
+            placeholder='Seu nome completo'
+            onChange={(e) =>  setNome(e.target.value)}
+          />
+          <InputMask
+            mask='99/99/9999'
+            placeholder='Data de nascimento'
 
-          <select name='' id=''>
+            onChange={(e) =>  setNascimento(e.target.value)}
+          />
+
+          <select
+            name=''
+            id=''
+            onChange={(e) =>  setGenero(e.target.value)}
+          >
             <option hidden>Gênero</option>
             <option value=''>Mulher</option>
             <option value=''>Homem</option>
             <option value=''>Prefiro não responder</option>R
           </select>
 
-          <select name='' id=''>
+          <select
+            name=''
+            id=''
+            onChange={(e) =>  setEstado(e.target.value)}
+          >
             <option hidden>Estado civil</option>
             <option value=''>Solteiro(a)</option>
             <option value=''>Casado(a)</option>
