@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { FiEye } from 'react-icons/fi'
@@ -46,7 +46,7 @@ export default function SignIn() {
     if(token) window.location.pathname = '/dashboard'
   }
 
-  useEffect(
+  useLayoutEffect(
     () => {
       checkIfIsLogged()
     },[]
