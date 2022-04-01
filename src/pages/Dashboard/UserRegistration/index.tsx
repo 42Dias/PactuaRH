@@ -15,6 +15,8 @@ export default function UserRegistration() {
   const [nascimento, setNascimento] = useState("")
   const [genero    , setGenero    ] = useState("")
   const [estado    , setEstado    ] = useState("")
+  const [cpf       , setCpf    ] = useState("")
+  const [Rg        , setRg    ] = useState("")
 
   function openModal() {
     setIsOpen(true)
@@ -103,15 +105,30 @@ export default function UserRegistration() {
         <S.ContainerForm>
           <h2>Editar usuário</h2>
 
-          <input type='text' value='Ryan Costa' />
+          <input
+          type='text'
+          value='Ryan Costa'
+          onChange={(e) =>  setNome(e.target.value)}
+          />
 
-          <select name='' id=''>
+          <select
+          name=''
+          id=''
+          onChange={(e) =>  setGenero(e.target.value)}
+          >
             <option value='Homem'>Homem</option>
             <option value='Mulher'>Mulher</option>
             <option value='404'>Prefiro não responder</option>
           </select>
-          <InputMask mask='999.999.999-99' placeholder='Seu CPF' />
-          <InputMask mask='99.999.999-9' placeholder='Seu RG' />
+          
+        <InputMask
+          onChange={(e) =>  setCpf(e.target.value)}
+          mask='999.999.999-99' placeholder='Seu CPF'
+        />
+        <InputMask
+          onChange={(e) =>  setRg(e.target.value)}
+          mask='99.999.999-9' placeholder='Seu RG' 
+        />
         </S.ContainerForm>
       </Modal>
 
