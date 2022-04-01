@@ -92,8 +92,17 @@ export default function UserRegistration() {
     let updatedUser = await user.update(id, data)
 
     if(updatedUser) closeModal()
+
+    await getUsers()
   }
 
+  async function deleteUser(id: string){
+
+    await user.delete(id)
+
+
+    await getUsers()
+  }
 
 
 
@@ -147,7 +156,9 @@ export default function UserRegistration() {
                 </button>
               </td>
               <td>
-                <button>
+                <button
+                onClick={() => deleteUser(user.id)}
+                >
                   <FiTrash size={18} />
                 </button>
               </td>
