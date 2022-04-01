@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 
 
 export default class user{
-  static async create(data){
+  static async createByEmpresa(data){
     let response = await api.post(`user`, {
       data
       })
@@ -21,8 +21,8 @@ export default class user{
 
       let responseData = response.data
       return responseData
-
   }
+  
   static async update(id, data){
 
     let response = await api.put(`user/${id}`, {
@@ -170,10 +170,6 @@ export default class user{
 
 
   static async loadUser(token) {
-
-    console.log("INFERNO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-    console.log(token)
-
     const response = await axios({
       method: "get",
       url: `${ip}:${porta}/api/auth/me`,
