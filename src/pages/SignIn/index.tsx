@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { FiEye } from 'react-icons/fi'
@@ -9,6 +9,7 @@ import { login } from 'assets'
 
 import * as S from './SignIn.styled'
 import user from 'service/user/user'
+import { token } from 'service/api'
 
 type FormData = {
   email: string
@@ -16,6 +17,7 @@ type FormData = {
 }
 
 export default function SignIn() {
+
   const [textPass, setTextPass] = useState(true)
 
   const navigate = useNavigate()
@@ -39,6 +41,16 @@ export default function SignIn() {
     navigate('/dashboard', { replace: true })
 
   }
+
+  function checkIfIsLogged(){
+    if(token) window.location.pathname = '/dashboard'
+  }
+
+  useEffect(
+    () => {
+      checkIfIsLogged()
+    },[]
+  )
 
   return (
     <S.Container>
