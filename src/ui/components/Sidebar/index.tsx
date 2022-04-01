@@ -2,6 +2,15 @@
 import React, { useState } from 'react'
 import * as S from './Sidebar.styled'
 
+/*
+DEPENDENDO DA ROLE NEM APARECERÁ CADASTRO!!!!
+
+
+Varios dos dados são apenas Read
+
+*/
+
+
 // import react pro sidebar components
 import {
   ProSidebar,
@@ -34,6 +43,11 @@ const Sidebar = () => {
   const menuIconClick = () => {
     // condition checking to change state from true to false and vice versa
     menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true)
+  }
+
+
+  async function logOut(){
+    
   }
 
   return (
@@ -98,7 +112,9 @@ const Sidebar = () => {
               </Menu>
             </SidebarContent>
             <SidebarFooter>
-              <Menu iconShape='square'>
+              <Menu
+              onClick={() => logOut()}
+              iconShape='square'>
                 <MenuItem icon={<FiLogOut />}>
                   <Link to='/'>Sair</Link>
                 </MenuItem>
