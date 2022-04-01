@@ -6,17 +6,20 @@ import { useState } from 'react'
 import InputMask from 'react-input-mask'
 import { Link } from 'react-router-dom'
 import user from 'service/user/user'
+import { id } from 'service/api'
+// import { randomUUID } from 'crypto'
 
 export default function UserRegistration() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
 
-  const [nome      , setNome      ] = useState("")
-  const [nascimento, setNascimento] = useState("")
-  const [genero    , setGenero    ] = useState("")
-  const [estado    , setEstado    ] = useState("")
-  const [cpf       , setCpf    ] = useState("")
-  const [Rg        , setRg    ] = useState("")
+  const [email     , setEmail     ] = useState<string>("")
+  const [nome      , setNome      ] = useState<string>("")
+  const [nascimento, setNascimento] = useState<string>("")
+  const [genero    , setGenero    ] = useState<string>("")
+  const [estado    , setEstado    ] = useState<string>("")
+  const [cpf       , setCpf       ] = useState<string>("")
+  const [rg        , setRg        ] = useState<string>("")
 
   function openModal() {
     setIsOpen(true)
@@ -34,7 +37,29 @@ export default function UserRegistration() {
     setIsOpenNew(false)
   }
 
-  function createUser(){
+  async function createUser(){
+    let data = {
+      emails: [email],
+      roles: ['user'],
+      email: email,
+      fullName: nome,
+      firstName:  nome.split(' ')[0],
+      estadocivil: estado,
+      aniversario: nascimento,
+      cpf: cpf,
+      rg: rg,
+      gender: genero,
+    }
+
+    console.log("data")
+    console.log(data)
+
+    let isCreated = await user.createByEmpresa(data)
+    console.log("isCreated")
+    console.log(isCreated)
+  }
+
+  async function updateUser(){
 
   }
 
@@ -102,7 +127,15 @@ export default function UserRegistration() {
           <FiX />
         </button>
 
-        <S.ContainerForm>
+        <S.ContainerForm
+        onSubmit={
+          (e: any) => {
+          e.preventDefault()
+          // e.target.reset()
+          updateUser()
+         }
+        }
+        >
           <h2>Editar usuário</h2>
 
           <input
@@ -118,9 +151,9 @@ export default function UserRegistration() {
           >
             <option value='Homem'>Homem</option>
             <option value='Mulher'>Mulher</option>
-            <option value='404'>Prefiro não responder</option>
+            <option value='Prefiro não responder'>Prefiro não responder</option>
           </select>
-          
+
         <InputMask
           onChange={(e) =>  setCpf(e.target.value)}
           mask='999.999.999-99' placeholder='Seu CPF'
@@ -146,14 +179,29 @@ export default function UserRegistration() {
           <FiX />
         </button>
 
-        <S.ContainerForm>
+        <S.ContainerForm
+          onSubmit={
+            (e: any) => {
+            e.preventDefault()
+            // e.target.reset()
+            createUser()
+            }
+          }
+        >
           <h2>Novo usuário</h2>
+
+          <input
+            type='text'
+            placeholder='Email'
+            onChange={(e) =>  setEmail(e.target.value)}
+          />
 
           <input
             type='text'
             placeholder='Seu nome completo'
             onChange={(e) =>  setNome(e.target.value)}
           />
+
           <InputMask
             mask='99/99/9999'
             placeholder='Data de nascimento'
@@ -167,9 +215,9 @@ export default function UserRegistration() {
             onChange={(e) =>  setGenero(e.target.value)}
           >
             <option hidden>Gênero</option>
-            <option value=''>Mulher</option>
-            <option value=''>Homem</option>
-            <option value=''>Prefiro não responder</option>R
+            <option value='Mulher'>Mulher</option>
+            <option value='Homem'>Homem</option>
+            <option value='Prefiro não responder'>Prefiro não responder</option>
           </select>
 
           <select
@@ -178,12 +226,26 @@ export default function UserRegistration() {
             onChange={(e) =>  setEstado(e.target.value)}
           >
             <option hidden>Estado civil</option>
-            <option value=''>Solteiro(a)</option>
-            <option value=''>Casado(a)</option>
-            <option value=''>Viúvo(a)</option>
+            <option value='Solteiro(a)'>Solteiro(a)</option>
+            <option value='Casado(a)'>Casado(a)</option>
+            <option value='Viúvo(a)'>Viúvo(a)</option>
           </select>
 
-          <button>Enviar</button>
+
+          <InputMask
+          onChange={(e) =>  setCpf(e.target.value)}
+          mask='999.999.999-99' placeholder='CPF'
+        />
+        <InputMask
+          onChange={(e) =>  setRg(e.target.value)}
+          mask='99.999.999-9' placeholder='RG' 
+        />
+
+          <button
+          type='submit'
+          >
+            Enviar
+          </button>
         </S.ContainerForm>
       </Modal>
     </>
