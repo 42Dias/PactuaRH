@@ -163,21 +163,23 @@ export default function Professionals() {
           
           onChange={
             e => {
-              console.log(e.target.value)
-
               let userIndex: number = parseInt(e.target.value)
-
+              
+              //if the index is selected as new it clears the present data
+              if(isNaN(userIndex)) {
+                setUserSelected({})
+                setCpf('')
+                setRg('')
+                setNascimento('')
+              } 
               let newUserSelected = allUsers[userIndex]
-
+              
               setUserSelected(newUserSelected)
               
               // Sets the setState values 'cause defaultValue does not work
               setCpf(newUserSelected.cpf)
               setRg(newUserSelected.rg)
               setNascimento(newUserSelected.aniversario)
-
-
-              console.log(allUsers[userIndex])
             }
           }
           
@@ -219,7 +221,7 @@ export default function Professionals() {
           value={rg}
 
         />
-        
+
         <InputMask
             mask='99/99/9999'
             placeholder='Data de nascimento'
@@ -228,13 +230,12 @@ export default function Professionals() {
             onChange={(e) =>  setNascimento(e.target.value)}
         />
 
-
+        {/* These are not saved in user data */}
           <input
             type='text'
             placeholder='Nome da mãe' />
           <input
             type='text'
-            
             placeholder='Cargo' />
           <input
             type='text'
