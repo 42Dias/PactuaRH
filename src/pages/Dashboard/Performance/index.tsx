@@ -20,49 +20,48 @@ export default function Performance() {
                     <p>Departamento: Dev. Front end </p>
                     <p>Avaliador: Luciano </p>
                 </S.Information>
- 
-                  <div>
-                  <S.Table>
-              <S.TrTitle>
-                    <h4> Critérios </h4>
-              </S.TrTitle>
-              <S.TrTitle>
-                <td> Insuficiente</td>
-                <td >Suficiente</td>
-                <td>Excede</td>
-              </S.TrTitle>
-              <S.TrSecond>
-                <td className="teste">1 - 4</td>
-                <td className="teste">5 - 7</td>
-                <td className="teste">8 - 10</td>
-              </S.TrSecond>
-              </S.Table>
-                  </div>
-                </S.Container>
 
 
+                <S.Information> 
+                  <S.Standard> 
+                        <p>Critérios </p>
+                        <div> 
+                            <td> Insuficiente</td>
+                            <td >Suficiente</td>
+                            <td>Excede</td>
+                        </div>
+
+                        <S.TrStandard> 
+                          <td> 1 - 4</td>
+                          <td> 5 - 7</td>
+                          <td> 8 - 10</td>
+                        </S.TrStandard> 
+                       
+                  </S.Standard>
+                </S.Information>
+                 </S.Container>
               
+            
               <S.Container>
                   <S.Table>
-                  <S.TrTitle>
-                    <div>
-                    <h3> Avaliação de desempenho </h3>
-                     </div>
-                    </S.TrTitle>
-
-                  <S.TrTitle>
-                    <td>Mês</td>
-                    <td>Pontuação</td>
-                    <td>Total</td>
-                  </S.TrTitle>
-
-                  <S.TrSecond>
-                    <td>Janeiro</td>
-                    <td>5</td>
-                    <td>5</td>
-                  </S.TrSecond>
-                    </S.Table>
-              </S.Container>
+                  <p>Avaliação de Desempenho </p>
+                      <S.TrTitle>
+                        <td>Mês</td>
+                        <td >Pontuação</td>
+                        <td>Total</td>
+                      </S.TrTitle>
+                      <S.TrSecond>
+                        <td>Janeiro</td>
+                        <td>5</td>
+                        <td>5</td>
+                      </S.TrSecond>
+                      <S.TrSecond>
+                        <td>Fevereiro</td>
+                        <td>3</td>
+                        <td>8</td>
+                      </S.TrSecond>
+                        </S.Table>
+                      </S.Container>
 
 
                 <S.Container> 

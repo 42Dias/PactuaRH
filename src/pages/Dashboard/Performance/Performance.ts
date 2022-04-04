@@ -6,6 +6,8 @@ export const Container = styled.div`
   flex-direction: row;
   max-width: 980px;
   margin: 0 auto;
+ 
+  
   @media (max-width: 970px) {
     padding: 0 12%;
   }
@@ -24,8 +26,7 @@ export const Body = styled.body`
 `
 
 export const Information = styled.div`
-
-  margin:30px;
+  margin:30px 5px;
   padding:25px;
   width: 500px !important; 
   height: 180px;
@@ -33,63 +34,98 @@ export const Information = styled.div`
   border-radius: 5px;
 }
  
-h4{
-  display: flex;
-  flex-direction: column;
-}
 
 p{
-  padding:5px;
+  padding:5px 15px;
 }
 
+.table-title{
+  text-align: center;
+  height: 80px;
 
+}
+`
+
+export const Standard = styled.tr`
+  margin: 40px 0 !important;
+  height: 53px;
+
+ 
+  p{
+    padding-left: 160px;
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  td {
+    padding: 10px 30px;
+    font-weight: 500;
+    
+  }
+  .valor{
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+`
+
+export const TrStandard = styled.tr`
+
+  td {
+    color: rgba(0, 0, 0, 0.5);
+    padding-left: 65px;
+    text-align: center;
+    
+  }
 
 `
 
 export const Table = styled.table`
 
+  width: 910px !important;
   background: white;
   border-radius: 5px;
-  margin: 8% 25%;
+  padding: 5px 45px;
+  margin: 5%;
 
-  h3{
+  p{
+  
     position:relative;
-    left:95px;
-    top:15px;
+    text-align: center;
+    left: 280px;
+    margin:25px;
+    font-weight: 500;
+   font-size: 20px;
+    
+
   }
+
+
+
 `
 
 export const TrTitle = styled.tr`
-  margin: 50px 0 !important;
-  height: 53px;
- 
+
   td {
-    padding: 20px;
+    position-relative;
+    text-align: center;
     font-weight: 500;
+    padding: 10px 100px;
   }
 
-h4{
-  position:relative;
-  left:140px;
-  top:20px;
-}
+  
 
 `
 
 export const TrSecond = styled.tr`
   height: 53px;
   background: white;
+
   td {
-    padding: 20px;
-  }
-  button {
-    background: transparent;
-    border: 0;
+    text-align: center;
   }
 
-  .teste{
-    color: rgba(0, 0, 0, 0.5);
-  }
+
+ 
 `
 
 export const ContainerForm = styled.form`
@@ -105,7 +141,6 @@ input {
   border: 1px solid rgba(35, 35, 35, 0.33);
   box-sizing: border-box;
   border-radius: 5px;
-
 }
 `
 
@@ -117,7 +152,7 @@ export const Button = styled.div`
   button {
     position: relative;
     top:30px;
-    right:600px;
+    right:540px;
     background: #000;
     border: 0;
     width: 150px;
