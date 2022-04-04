@@ -5,6 +5,7 @@ import * as S from './Professionals.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import user from 'service/user/user'
+import profissional from 'service/profissional/profissional'
 
 export default function Professionals() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -16,15 +17,16 @@ export default function Professionals() {
   const [nascimento, setNascimento] = useState<string>("")
   const [genero    , setGenero    ] = useState<string>("")
   const [estado    , setEstado    ] = useState<string>("")
-  const [index     , setIndex     ] = useState<number>(0)
   const [nome      , setNome      ] = useState<string>("")
   const [rg        , setRg        ] = useState<string>("")
   const [cpf       , setCpf       ] = useState<string>("")
   const [nomeMae   , setNomeMae   ] = useState<string>("")
-  const [beneficios, setbeneficios] = useState<string>("")
+  const [beneficios, setBeneficios] = useState<string>("")
   const [cargo     , setCargo     ] = useState<string>("")
   const [cep       , setCep       ] = useState<string>("")  
-
+  const [estadoCivil, setEstadoCivil] = useState<string>("")
+  
+  const [index     , setIndex     ] = useState<number>(0)
   
   function openModal() {
     setIsOpen(true)
@@ -59,6 +61,62 @@ export default function Professionals() {
 
 
   async function handleCreateProfessional(){
+
+    let createdUser;
+
+    if(!userSelected){
+      let data = {
+        emails: [email],
+        roles: ['user'],
+        email: email,
+        fullName: nome,
+        firstName:  nome.split(' ')[0],
+        estadoCivilcivil: estadoCivil,
+        aniversario: nascimento,
+        cpf: cpf,
+        rg: rg,
+        gender: genero,
+      }
+  
+      console.log("data")
+      console.log(data)
+  
+      createdUser = await user.createByEmpresa(data)
+      
+      if(!createdUser) return ;
+    }
+    
+    
+
+
+
+
+
+    let data = {
+      nome       : nome,
+      cpf        : cpf,
+      rg         : rg,
+      userId     : userSelected.id || createdUser.id,
+      dataNasc   : nascimento,
+      nomeMae    : nomeMae,
+      cep        : cep,
+      estadoCivil     : estadoCivil,
+      // cidade     : userSelected.fullname,
+      // bairro     : userSelected.fullname,
+      // logradouro : userSelected.fullname,
+      // numero     : userSelected.fullname,
+      // complemento: userSelected.fullname,
+      // telefone1  : userSelected.fullname,
+      // telefone2  : userSelected.fullname,
+      // email      : userSelected.fullname,          
+      // importHash : userSelected.fullname,
+    }
+
+    let isCreated = await profissional.create(data)
+
+    console.log(isCreated)
+
+    closeModalNew()
     
   }
 
@@ -172,6 +230,7 @@ export default function Professionals() {
                 setRg('')
                 setNascimento('')
               } 
+              
               let newUserSelected = allUsers[userIndex]
               
               setUserSelected(newUserSelected)
@@ -206,7 +265,8 @@ export default function Professionals() {
             type='text'
             defaultValue={userSelected?.fullName}
             onChange={(e) =>  setNome(e.target.value)}
-            placeholder='Nome' />
+            placeholder='Nome'
+          />
 
         <InputMask
           // defaultValue={userSelected?.cpf}
@@ -226,23 +286,38 @@ export default function Professionals() {
             mask='99/99/9999'
             placeholder='Data de nascimento'
             value={nascimento}
-
             onChange={(e) =>  setNascimento(e.target.value)}
         />
 
         {/* These are not saved in user data */}
           <input
             type='text'
-            placeholder='Nome da mãe' />
+            placeholder='Nome da mãe'
+            value={nomeMae}
+            onChange={(e) =>  setNomeMae(e.target.value)}
+            />
+
           <input
             type='text'
-            placeholder='Cargo' />
+            placeholder='Cargo'
+            value={cargo}
+            onChange={(e) =>  setCargo(e.target.value)}
+            />
+
           <input
             type='text'
-            placeholder='Benefícios' />
+            placeholder='Benefícios'
+            value={beneficios}
+            onChange={(e) =>  setBeneficios(e.target.value)}
+            />
+            
           <input
             type='text'
-            placeholder='CEP*' />
+            placeholder='CEP*'
+            value={cep}
+            onChange={(e) =>  setCep(e.target.value)}
+            />
+
 
           {
           !userSelected && (
@@ -262,9 +337,9 @@ export default function Professionals() {
                 </select><select
                   name=''
                   id=''
-                  onChange={(e) => setEstado(e.target.value)}
+                  onChange={(e) => setEstadoCivil(e.target.value)}
                 >
-                  <option hidden>Estado civil</option>
+                  <option hidden>EstadoCivil civil</option>
                   <option value='Solteiro(a)'>Solteiro(a)</option>
                   <option value='Casado(a)'>Casado(a)</option>
                   <option value='Viúvo(a)'>Viúvo(a)</option>
