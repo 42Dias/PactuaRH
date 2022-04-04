@@ -16,7 +16,15 @@ export default function Professionals() {
   const [nascimento, setNascimento] = useState<string>("")
   const [genero    , setGenero    ] = useState<string>("")
   const [estado    , setEstado    ] = useState<string>("")
+  const [index     , setIndex     ] = useState<number>(0)
 
+
+  const [rg        , setRg] = useState<string>("")
+  const [cpf       , setCpf] = useState<string>("")
+  const [nomeMae   , setNomeMae] = useState<string>("")
+  const [beneficios, setbeneficios] = useState<string>("")
+  const [cargo     , setCargo] = useState<string>("")
+  const [cep       , setCep] = useState<string>("")  
 
   
   function openModal() {
@@ -49,6 +57,11 @@ export default function Professionals() {
       getUsers()
     }, []
   )
+
+
+  async function handleCreateProfessional(){
+    
+  }
 
 
   return (
@@ -134,7 +147,14 @@ export default function Professionals() {
           <FiX />
         </button>
 
-        <S.ContainerForm>
+
+
+        <S.ContainerForm
+        onSubmit={e => {
+          e.preventDefault
+          handleCreateProfessional()
+        }}
+        >
           <h2>Cadastrar profissional</h2>
 
           <h4>Selecione um profissional</h4>
@@ -143,7 +163,12 @@ export default function Professionals() {
           onChange={
             e => {
               console.log(e.target.value)
-              setUserSelected(e.target.value)
+
+              let userIndex: number = parseInt(e.target.value)
+
+              setUserSelected(allUsers[userIndex])
+
+              console.log(allUsers[userIndex])
             }
           }
           
@@ -151,15 +176,19 @@ export default function Professionals() {
             <option value={""}>
               Novo
             </option>
+
             {
               allUsers.map(
-                (user, index)  =>
+                (user, i)  =>
                 (
-                  <option value={user.id}>
+                  <option
+                  value={i}
+                  >
                     {user.fullName} | {user.cpf}
                   </option>
                 )
               )}
+              
           </select>
 
           <input
@@ -174,6 +203,23 @@ export default function Professionals() {
             type='number'
             defaultValue={userSelected?.rg}
             placeholder='RG' />
+
+
+        <InputMask
+          defaultValue={userSelected?.cpf}
+          onChange={(e) =>  setCpf(e.target.value)}
+          mask='999.999.999-99' placeholder='Seu CPF'
+        />
+        <InputMask
+          defaultValue={userSelected?.rg}
+          onChange={(e) =>  setRg(e.target.value)}
+          mask='99.999.999-9' placeholder='Seu RG' 
+        />
+
+
+
+
+
           <input
             type='number'
             defaultValue={userSelected?.datanascimento}
@@ -225,7 +271,9 @@ export default function Professionals() {
           )
           }
 
-          <button>Enviar</button>
+          <button
+          type='submit'
+          >Enviar</button>
         </S.ContainerForm>
       </Modal>
     </>
