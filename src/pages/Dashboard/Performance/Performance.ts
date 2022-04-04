@@ -18,35 +18,44 @@ export const Title = styled.h2`
 `
 
 export const Body = styled.body`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 
 `
 
-export const Test = styled.div`
-  margin:25px;
-  width: 480px;
+export const Information = styled.div`
+
+  margin:30px;
+  padding:25px;
+  width: 500px !important; 
   height: 180px;
   background: #FEFDFF;
   border-radius: 5px;
 }
  
-div{
-  padding:14px;
-  
+h4{
+  display: flex;
+  flex-direction: column;
 }
+
+p{
+  padding:5px;
+}
+
+
 
 `
 
 export const Table = styled.table`
-  /* width: 100%; */
+
   background: white;
   border-radius: 5px;
-  margin: 5% 5% 5% 25%;
+  margin: 8% 25%;
 
   h3{
-position:relative;
-left:95px;
+    position:relative;
+    left:95px;
+    top:15px;
   }
 `
 
@@ -56,7 +65,15 @@ export const TrTitle = styled.tr`
  
   td {
     padding: 20px;
+    font-weight: 500;
   }
+
+h4{
+  position:relative;
+  left:140px;
+  top:20px;
+}
+
 `
 
 export const TrSecond = styled.tr`
@@ -69,13 +86,20 @@ export const TrSecond = styled.tr`
     background: transparent;
     border: 0;
   }
+
+  .teste{
+    color: rgba(0, 0, 0, 0.5);
+  }
 `
 
 export const ContainerForm = styled.form`
+width:500px;
+padding: 15px;
+
 input {
-  padding: 0 1.5rem;
-  width: 385px;
-  height: 71.03px;
+  padding: 15px;
+  width:400px;
+  height: 85px;
   font-size: 1rem;
   font-weight: 400;
   border: 1px solid rgba(35, 35, 35, 0.33);
@@ -88,19 +112,21 @@ input {
 
 export const Button = styled.div`
   display: flex;
-  margin: 40px 0;
+  flex-direction: column;
+
   button {
+    position: relative;
+    top:30px;
+    right:600px;
     background: #000;
     border: 0;
-    width: 120px;
+    width: 150px;
     height: 48px;
     border-radius: 5px;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    svg {
-      margin-left: 10px;
-    }
+    
   }
 `
