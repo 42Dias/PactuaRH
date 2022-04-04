@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import user from 'service/user/user'
 import profissional from 'service/profissional/profissional'
+import cepInformation from 'utils/cepInformation'
 
 export default function Professionals() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -24,7 +25,12 @@ export default function Professionals() {
   const [beneficios, setBeneficios] = useState<string>("")
   const [cargo     , setCargo     ] = useState<string>("")
   const [cep       , setCep       ] = useState<string>("")  
-  const [estadoCivil, setEstadoCivil] = useState<string>("")
+  const [logradouro, setLogradouro] = useState<string>("");
+  const [bairro, setBairro]         = useState<string>("");
+  const [cidade, setCidade]         = useState<string>("");
+  const [estadoCivil, setEstadoCivil]= useState<string>("")
+
+
   
   const [index     , setIndex     ] = useState<number>(0)
   
@@ -58,6 +64,27 @@ export default function Professionals() {
       getUsers()
     }, []
   )
+
+
+  async function handleChangeCep(cepText: string){
+    const cep = cepText.replace(/[^0-9]/g, '')
+
+    console.log("cep")
+    console.log(cep)
+
+    if(cep.length == 8){
+      const data = await cepInformation(cep)
+      console.log(data)
+      setCep(data.cep)
+      setLogradouro(data.logradouro)
+      setBairro(data.bairro)
+      setCidade(data.localidade)
+      setEstado(data.uf) 
+    }
+  }
+
+
+
 
 
   async function handleCreateProfessional(){
@@ -313,11 +340,14 @@ export default function Professionals() {
             onChange={(e) =>  setBeneficios(e.target.value)}
             />
             
+       
+
           <input
             type='text'
             placeholder='CEP*'
             value={cep}
             onChange={(e) =>  setCep(e.target.value)}
+            onBlur={ev => handleChangeCep(ev.target.value)}
             />
 
 
