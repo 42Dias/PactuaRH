@@ -195,15 +195,6 @@ export default function Professionals() {
             type='text'
             defaultValue={userSelected?.fullName}
             placeholder='Nome' />
-          <input
-            type='number'
-            defaultValue={userSelected?.cpf}
-            placeholder='CPF' />
-          <input
-            type='number'
-            defaultValue={userSelected?.rg}
-            placeholder='RG' />
-
 
         <InputMask
           defaultValue={userSelected?.cpf}
