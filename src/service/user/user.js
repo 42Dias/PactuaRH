@@ -1,5 +1,11 @@
-
-import {api, apiWithoutTenant, apiWithoutTenantAndWithToken, apiWithTenantAndWithToken, ip, porta} from '../api'
+import {
+  api,
+  apiWithoutTenant,
+  apiWithoutTenantAndWithToken,
+  apiWithTenantAndWithToken,
+  ip,
+  porta,
+} from '../api'
 
 import responseHandler from '../../utils/responseHandler'
 import servidorErrorMessage from '../../utils/servidorErrorMessage'
@@ -8,155 +14,145 @@ import HandleLocalStorageData from 'utils/handleLocalStorage'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-
-export default class user{
-  static async createByEmpresa(data){
-    let response = await api.post(`user`, {
-      data
+export default class user {
+  static async createByEmpresa(data) {
+    const response = await api
+      .post('user', {
+        data,
       })
 
       .catch(() => {
         servidorErrorMessage()
       })
 
-      let mensagemOk = 'Usuário criado com sucesso!'
-      let mensagemNaoOK = 'Revise seus dados :('
-      responseHandler(response.status, mensagemOk, mensagemNaoOK)
+    const mensagemOk = 'Usuário criado com sucesso!'
+    const mensagemNaoOK = 'Revise seus dados :('
+    responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
-      let responseData = response.data
-      return responseData
+    const responseData = response.data
+    return responseData
   }
 
-  static async update(id, data){
-
-    let response = await api.put(`user/${id}`, {
-      data
+  static async update(id, data) {
+    const response = await api
+      .put(`user/${id}`, {
+        data,
       })
       .catch(() => {
         servidorErrorMessage()
       })
 
+    const mensagemOk = 'Usuário alterado com sucesso!'
+    const mensagemNaoOK = 'Revise seus dados :('
+    responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
-      let mensagemOk = 'Usuário alterado com sucesso!'
-      let mensagemNaoOK = 'Revise seus dados :('
-      responseHandler(response.status, mensagemOk, mensagemNaoOK)
+    const responseData = response.data
 
-      let responseData = response.data
-
-      return responseData    
-
+    return responseData
   }
-  static async delete(id){
 
-    let response = await api.delete(`user/${id}`)
-    .then(
-      (res) => {
-          
-          let status = res.status 
-          let mensagemOk    = 'Modulo apagado com sucesso!'
-          let mensagemNaoOK = 'Algo deu errado :('
+  static async delete(id) {
+    const response = await api
+      .delete(`user/${id}`)
+      .then((res) => {
+        const status = res.status
+        const mensagemOk = 'Modulo apagado com sucesso!'
+        const mensagemNaoOK = 'Algo deu errado :('
 
-          responseHandler(status, mensagemOk, mensagemNaoOK)
+        responseHandler(status, mensagemOk, mensagemNaoOK)
       })
 
       .catch(() => {
         servidorErrorMessage()
       })
 
-      return response
+    return response
   }
 
-  static async list(){
+  static async list() {
+    const response = await api.get('user').catch(() => {
+      servidorErrorMessage()
+    })
 
-    let response = await api.get(`user`)
+    const responseData = response.data.rows
+
+    return responseData
+  }
+
+  static async listWithFilter(filter, value) {
+    const response = await api
+      .get(`user?filter%5B${filter}%5D=${value}`)
       .catch(() => {
         servidorErrorMessage()
       })
 
-      let responseData = response.data.rows
+    const responseData = response.data.rows
 
-      return responseData
-    
+    return responseData
   }
 
-  static async listWithFilter(filter ,value){
+  static async listWithManyFilters(filters) {
+    const response = await api.get(`user?${filters}`).catch(() => {
+      servidorErrorMessage()
+    })
 
-    let response = await api.get(`user?filter%5B${filter}%5D=${value}`)
-      .catch(() => {
-        servidorErrorMessage()
-      })
+    const responseData = response.data.rows
 
-      let responseData = response.data.rows
-
-      return responseData
-    
+    return responseData
   }
 
-  static async listWithManyFilters(filters){
-    let response = await api.get(`user?${filters}`)
-      .catch(() => {
-        servidorErrorMessage()
-      })
-
-      let responseData = response.data.rows
-
-      return responseData
-    
-  }
-
-  static async find(id){
-
-    let response = await api.get(`user/${id}`)
+  static async find(id) {
+    const response = await api
+      .get(`user/${id}`)
 
       .catch(() => {
         servidorErrorMessage()
       })
 
-      return response.data
-    
+    return response.data
   }
-
 
   static async login(email, password) {
-    let response = await apiWithoutTenant.post(`auth/sign-in`, {
-      email: email,
-      password: password,
-    })  
-    .catch((error) => {
-        if (error.response) return toast.error(error.response.data);
-        servidorErrorMessage()
-        return 
-
+    const response = await apiWithoutTenant
+      .post('auth/sign-in', {
+        email: email,
+        password: password,
       })
-     let messageOk = `Login efetuado com sucesso! :)`
-     let messageNotOk = `Ops, Dados Incorretos!`
-     
-     responseHandler(response.status, messageOk, messageNotOk )
-      if (response.status == 200) {
+      .catch((error) => {
+        if (error.response) return toast.error(error.response.data)
+        servidorErrorMessage()
+      })
+    const messageOk = 'Login efetuado com sucesso! :)'
+    const messageNotOk = 'Ops, Dados Incorretos!'
 
-        let userData = await this.loadUser(response.data)
-        handleLocalStorageEmailAndPassword(email, password)
-        
-        return userData.tenants[0].roles[0]
-      }
-    
+    responseHandler(response.status, messageOk, messageNotOk)
+    if (response.status == 200) {
+      const userData = await this.loadUser(response.data)
+      handleLocalStorageEmailAndPassword(email, password)
+
+      return userData.tenants[0].roles[0]
+    }
   }
 
-
-  static async cadastro( fullName, email, password,  role, invitationToken,  tenantId) {
-
-    return apiWithoutTenant.post('auth/sign-up', {
-      fullName:        fullName,
-      email:           email, 
-      password:        password, 
-      role:            role, 
-      invitationToken: invitationToken,
-      tenantId:        tenantId
+  static async cadastro(
+    fullName,
+    email,
+    password,
+    role,
+    invitationToken,
+    tenantId,
+  ) {
+    return apiWithoutTenant
+      .post('auth/sign-up', {
+        fullName: fullName,
+        email: email,
+        password: password,
+        role: role,
+        invitationToken: invitationToken,
+        tenantId: tenantId,
       })
-      .then(
-        async (response) => {
-
-        let mensagemOk = 'Opa, recebemos o seu registro :)'
+      .then(async (response) => {
+        const mensagemOk = 'Opa, recebemos o seu registro :)'
 
         responseHandler(response.status, mensagemOk)
 
@@ -165,43 +161,41 @@ export default class user{
           handleLocalStorageEmailAndPassword(email, password)
           return 'ok'
         }
-
       })
       .catch(() => {
         servidorErrorMessage()
       })
   }
 
-
   static async loadUser(token) {
     const response = await axios({
-      method: "get",
+      method: 'get',
       url: `${ip}:${porta}/api/auth/me`,
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
       timeout: 50000,
+    }).then((response) => {
+      return response.data
     })
 
-    .then(response => {
-      return response.data;
-    })
-
-
-
-    let fullName = response.fullName
-    let newRoleLocal = response.tenants[0].roles[0]
-    let newTenatId = response.tenants[0].tenant.id
-    let newId = response.id
-    let newStatus = response.tenants[0].status
+    const fullName = response.fullName
+    const newRoleLocal = response.tenants[0].roles[0]
+    const newTenatId = response.tenants[0].tenant.id
+    const newId = response.id
+    const newStatus = response.tenants[0].status
     // let empresaId = response.empresaId
-    HandleLocalStorageData(newRoleLocal, newTenatId, newId, newStatus, token, fullName)
+    HandleLocalStorageData(
+      newRoleLocal,
+      newTenatId,
+      newId,
+      newStatus,
+      token,
+      fullName,
+    )
 
     return response
   }
-
-
-
 }
