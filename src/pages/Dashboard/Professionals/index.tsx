@@ -350,6 +350,28 @@ export default function Professionals() {
             onBlur={ev => handleChangeCep(ev.target.value)}
             />
 
+         <input
+            type='text'
+            placeholder='Logradouro*'
+            value={logradouro}
+            onChange={(e) =>  setLogradouro(e.target.value)}
+            />
+
+          <input
+            type='text'
+            placeholder='Bairro*'
+            value={bairro}
+            onChange={(e) =>  setBairro(e.target.value)}
+            />
+
+          
+        <input
+            type='text'
+            placeholder='Cidade*'
+            value={cidade}
+            onChange={(e) =>  setCidade(e.target.value)}
+            />
+
 
           {
           !userSelected && (
