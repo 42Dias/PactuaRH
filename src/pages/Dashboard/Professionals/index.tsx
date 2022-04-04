@@ -13,7 +13,8 @@ export default function Professionals() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [allUsers  , setAllUsers  ] = useState<any[]>([])
   const [userSelected  , setUserSelected  ] = useState<any>()
-
+  
+  const [id        , setId        ] = useState<string>("");
   const [email     , setEmail     ] = useState<string>("")
   const [nascimento, setNascimento] = useState<string>("")
   const [genero    , setGenero    ] = useState<string>("")
@@ -26,12 +27,11 @@ export default function Professionals() {
   const [cargo     , setCargo     ] = useState<string>("")
   const [cep       , setCep       ] = useState<string>("")  
   const [logradouro, setLogradouro] = useState<string>("");
-  const [bairro, setBairro]         = useState<string>("");
-  const [cidade, setCidade]         = useState<string>("");
+  const [bairro, setBairro        ] = useState<string>("");
+  const [numero, setNumero        ] = useState<string>("");
+  const [cidade, setCidade        ] = useState<string>("");
   const [estadoCivil, setEstadoCivil]= useState<string>("")
 
-
-  
   const [index     , setIndex     ] = useState<number>(0)
   
   function openModal() {
@@ -89,9 +89,10 @@ export default function Professionals() {
 
   async function handleCreateProfessional(){
 
-    let createdUser;
 
     if(!userSelected){
+
+      console.log("nummmm tem userrrrrr")
 
       //if no user is selected it creates one with that data and use it to create the professional register
       let data = {
@@ -110,14 +111,20 @@ export default function Professionals() {
       console.log("data")
       console.log(data)
   
-      createdUser = await user.createByEmpresa(data)
+      let createdUser = await user.createByEmpresa(data)
+
+
+      console.log("createdUser")
+
+      
+      console.log("--")
+      console.log("--")
+
+      console.log("createdUserID")
+      setId(createdUser.id)
       
       if(!createdUser) return ;
     }
-    
-    
-
-
 
 
 
@@ -125,27 +132,26 @@ export default function Professionals() {
       nome       : nome,
       cpf        : cpf,
       rg         : rg,
-      userId     : userSelected.id || createdUser.id,
+      userId     : id,
       dataNasc   : nascimento,
       nomeMae    : nomeMae,
       cep        : cep,
       estadoCivil: estadoCivil,
-      // cidade     : userSelected.fullname,
-      // bairro     : userSelected.fullname,
-      // logradouro : userSelected.fullname,
-      // numero     : userSelected.fullname,
-      // complemento: userSelected.fullname,
+      cidade     : cidade,
+      bairro     : bairro,
+      logradouro : logradouro,
+      numero     : numero,
+      email      : email,          
       // telefone1  : userSelected.fullname,
       // telefone2  : userSelected.fullname,
-      // email      : userSelected.fullname,          
-      // importHash : userSelected.fullname,
     }
 
-    let isCreated = await profissional.create(data)
+    // let isCreated = await profissional.create(data)
+    let isCreated = data
 
     console.log(isCreated)
 
-    closeModalNew()
+    if(isCreated) closeModalNew()
     
   }
 
@@ -239,7 +245,7 @@ export default function Professionals() {
 
         <S.ContainerForm
         onSubmit={e => {
-          e.preventDefault
+          e.preventDefault()
           handleCreateProfessional()
         }}
         >
@@ -265,6 +271,8 @@ export default function Professionals() {
               setUserSelected(newUserSelected)
               
               // Sets the setState values 'cause defaultValue does not work
+              setId(newUserSelected.id)
+              setEmail(newUserSelected.email)
               setCpf(newUserSelected.cpf)
               setRg(newUserSelected.rg)
               setNascimento(newUserSelected.aniversario)
