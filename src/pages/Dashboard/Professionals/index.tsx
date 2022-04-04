@@ -11,7 +11,6 @@ import cepInformation from 'utils/cepInformation'
 export default function Professionals() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
-<<<<<<< HEAD
   const [allUsers, setAllUsers] = useState<any[]>([])
   const [userSelected, setUserSelected] = useState<any>()
 
@@ -33,31 +32,6 @@ export default function Professionals() {
 
   const [index, setIndex] = useState<number>(0)
 
-=======
-  const [allUsers  , setAllUsers  ] = useState<any[]>([])
-  const [userSelected  , setUserSelected  ] = useState<any>()
-  
-  const [id        , setId        ] = useState<string>("");
-  const [email     , setEmail     ] = useState<string>("")
-  const [nascimento, setNascimento] = useState<string>("")
-  const [genero    , setGenero    ] = useState<string>("")
-  const [estado    , setEstado    ] = useState<string>("")
-  const [nome      , setNome      ] = useState<string>("")
-  const [rg        , setRg        ] = useState<string>("")
-  const [cpf       , setCpf       ] = useState<string>("")
-  const [nomeMae   , setNomeMae   ] = useState<string>("")
-  const [beneficios, setBeneficios] = useState<string>("")
-  const [cargo     , setCargo     ] = useState<string>("")
-  const [cep       , setCep       ] = useState<string>("")  
-  const [logradouro, setLogradouro] = useState<string>("");
-  const [bairro, setBairro        ] = useState<string>("");
-  const [numero, setNumero        ] = useState<string>("");
-  const [cidade, setCidade        ] = useState<string>("");
-  const [estadoCivil, setEstadoCivil]= useState<string>("")
-
-  const [index     , setIndex     ] = useState<number>(0)
-  
->>>>>>> de4c9757406660ee16f795bfb710a752c2ad70d7
   function openModal() {
     setIsOpen(true)
   }
@@ -107,24 +81,9 @@ export default function Professionals() {
   async function handleCreateProfessional() {
     let createdUser
 
-<<<<<<< HEAD
     if (!userSelected) {
       // if no user is selected it creates one with that data and use it to create the professional register
       const data = {
-=======
-
-
-
-  async function handleCreateProfessional(){
-
-
-    if(!userSelected){
-
-      console.log("nummmm tem userrrrrr")
-
-      //if no user is selected it creates one with that data and use it to create the professional register
-      let data = {
->>>>>>> de4c9757406660ee16f795bfb710a752c2ad70d7
         emails: [email],
         roles: ['user'],
         email: email,
@@ -136,37 +95,15 @@ export default function Professionals() {
         rg: rg,
         gender: genero,
       }
-<<<<<<< HEAD
 
       console.log('data')
       console.log(data)
-=======
-  
-      console.log("data")
-      console.log(data)
-  
-      let createdUser = await user.createByEmpresa(data)
-
-
-      console.log("createdUser")
-
-      
-      console.log("--")
-      console.log("--")
-
-      console.log("createdUserID")
-      setId(createdUser.id)
-      
-      if(!createdUser) return ;
-    }
->>>>>>> de4c9757406660ee16f795bfb710a752c2ad70d7
 
       createdUser = await user.createByEmpresa(data)
 
       if (!createdUser) return
     }
 
-<<<<<<< HEAD
     const data = {
       nome: nome,
       cpf: cpf,
@@ -175,25 +112,14 @@ export default function Professionals() {
       dataNasc: nascimento,
       nomeMae: nomeMae,
       cep: cep,
-=======
-    let data = {
-      nome       : nome,
-      cpf        : cpf,
-      rg         : rg,
-      userId     : id,
-      dataNasc   : nascimento,
-      nomeMae    : nomeMae,
-      cep        : cep,
->>>>>>> de4c9757406660ee16f795bfb710a752c2ad70d7
       estadoCivil: estadoCivil,
-      cidade     : cidade,
-      bairro     : bairro,
-      logradouro : logradouro,
-      numero     : numero,
-      email      : email,          
+      // cidade     : userSelected.fullname,
+      // bairro     : userSelected.fullname,
+      // logradouro : userSelected.fullname,
+      // numero     : userSelected.fullname,
+      // complemento: userSelected.fullname,
       // telefone1  : userSelected.fullname,
       // telefone2  : userSelected.fullname,
-<<<<<<< HEAD
       // email      : userSelected.fullname,
       // importHash : userSelected.fullname,
     }
@@ -203,17 +129,6 @@ export default function Professionals() {
     console.log(isCreated)
 
     closeModalNew()
-=======
-    }
-
-    // let isCreated = await profissional.create(data)
-    let isCreated = data
-
-    console.log(isCreated)
-
-    if(isCreated) closeModalNew()
-    
->>>>>>> de4c9757406660ee16f795bfb710a752c2ad70d7
   }
 
   console.log(userSelected?.cpf)
@@ -302,17 +217,10 @@ export default function Professionals() {
         </button>
 
         <S.ContainerForm
-<<<<<<< HEAD
           onSubmit={(e) => {
             e.preventDefault
             handleCreateProfessional()
           }}
-=======
-        onSubmit={e => {
-          e.preventDefault()
-          handleCreateProfessional()
-        }}
->>>>>>> de4c9757406660ee16f795bfb710a752c2ad70d7
         >
           <h2>Cadastrar profissional</h2>
 
@@ -334,8 +242,6 @@ export default function Professionals() {
               setUserSelected(newUserSelected)
 
               // Sets the setState values 'cause defaultValue does not work
-              setId(newUserSelected.id)
-              setEmail(newUserSelected.email)
               setCpf(newUserSelected.cpf)
               setRg(newUserSelected.rg)
               setNascimento(newUserSelected.aniversario)

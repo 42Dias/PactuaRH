@@ -88,6 +88,8 @@ export default function Positions() {
           <input type='text' placeholder='Cargo' />
           <input type='text' placeholder='Benefícios' />
           <input type='text' placeholder='CEP*' />
+
+          <button>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
@@ -115,6 +117,27 @@ export default function Positions() {
           </select>
           <select>
             <option>Código de Ocupação conforme IR</option>
+          </select>
+          <select>
+            <option>Área</option>
+          </select>
+          <select>
+            <option>Cargos Liderados</option>
+          </select>
+          <select>
+            <option>Habilidades</option>
+          </select>
+          <select>
+            <option>Desejaveis</option>
+          </select>
+          <select>
+            <option>Funções</option>
+          </select>
+          <select>
+            <option>Escolaridade</option>
+          </select>
+          <select>
+            <option>Questionario</option>
           </select>
           <input type='text' placeholder='Plano ADM' />
           <input type='text' placeholder='Classe/Faixa sugerida' />
