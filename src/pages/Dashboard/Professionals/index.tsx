@@ -65,6 +65,8 @@ export default function Professionals() {
     let createdUser;
 
     if(!userSelected){
+
+      //if no user is selected it creates one with that data and use it to create the professional register
       let data = {
         emails: [email],
         roles: ['user'],
@@ -100,7 +102,7 @@ export default function Professionals() {
       dataNasc   : nascimento,
       nomeMae    : nomeMae,
       cep        : cep,
-      estadoCivil     : estadoCivil,
+      estadoCivil: estadoCivil,
       // cidade     : userSelected.fullname,
       // bairro     : userSelected.fullname,
       // logradouro : userSelected.fullname,
