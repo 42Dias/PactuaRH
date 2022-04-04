@@ -13,8 +13,8 @@ export default function UserRegistration() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
 
-  const [email     , setEmail     ] = useState<string>("")
   const [nome      , setNome      ] = useState<string>("")
+  const [email     , setEmail     ] = useState<string>("")
   const [nascimento, setNascimento] = useState<string>("")
   const [genero    , setGenero    ] = useState<string>("")
   const [estado    , setEstado    ] = useState<string>("")
@@ -74,8 +74,12 @@ export default function UserRegistration() {
     console.log(data)
 
     let isCreated = await user.createByEmpresa(data)
-    console.log("isCreated")
-    console.log(isCreated)
+
+
+    if(!isCreated) return ;
+    
+    closeModalNew()
+    await getUsers()
   }
 
   async function updateUser(id: string){
@@ -92,8 +96,17 @@ export default function UserRegistration() {
     let updatedUser = await user.update(id, data)
 
     if(updatedUser) closeModal()
+
+    await getUsers()
   }
 
+  async function deleteUser(id: string){
+
+    await user.delete(id)
+
+
+    await getUsers()
+  }
 
 
 
@@ -128,10 +141,10 @@ export default function UserRegistration() {
             allUsers.map(
               (user) => (
                 <S.TrSecond>
-              <td>user.fullName</td>
-              <td>user.gender</td>
-              <td>user.cpf</td>
-              <td>user.rg</td>
+              <td>{user.fullName || "Não cadastrado"}</td>
+              <td>{user.gender   || "Não cadastrado"}</td>
+              <td>{user.cpf      || "Não cadastrado"}</td>
+              <td>{user.rg       || "Não cadastrado"}</td>
               <td>
                 {/* Edits this user data */}
                 <button
@@ -147,7 +160,9 @@ export default function UserRegistration() {
                 </button>
               </td>
               <td>
-                <button>
+                <button
+                onClick={() => deleteUser(user.id)}
+                >
                   <FiTrash size={18} />
                 </button>
               </td>

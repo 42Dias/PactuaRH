@@ -19,6 +19,10 @@ export default class user{
         servidorErrorMessage()
       })
 
+      let mensagemOk = 'Usuário criado com sucesso!'
+      let mensagemNaoOK = 'Revise seus dados :('
+      responseHandler(response.status, mensagemOk, mensagemNaoOK)
+
       let responseData = response.data
       return responseData
   }
