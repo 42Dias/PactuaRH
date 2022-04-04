@@ -195,7 +195,36 @@ export default function Professionals() {
             defaultValue={userSelected?.CEP}
             placeholder='CEP*' />
 
-         
+          {
+          !userSelected && (
+          <>
+            <input
+                type='text'
+                placeholder='Email'
+                onChange={(e) => setEmail(e.target.value)} /><select
+                  name=''
+                  id=''
+                  onChange={(e) => setGenero(e.target.value)}
+                >
+                  <option hidden>Gênero</option>
+                  <option value='Mulher'>Mulher</option>
+                  <option value='Homem'>Homem</option>
+                  <option value='Prefiro não responder'>Prefiro não responder</option>
+                </select><select
+                  name=''
+                  id=''
+                  onChange={(e) => setEstado(e.target.value)}
+                >
+                  <option hidden>Estado civil</option>
+                  <option value='Solteiro(a)'>Solteiro(a)</option>
+                  <option value='Casado(a)'>Casado(a)</option>
+                  <option value='Viúvo(a)'>Viúvo(a)</option>
+                </select>
+                
+          </>
+          )
+          }
+
           <button>Enviar</button>
         </S.ContainerForm>
       </Modal>
