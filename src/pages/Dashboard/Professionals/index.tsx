@@ -17,14 +17,13 @@ export default function Professionals() {
   const [genero    , setGenero    ] = useState<string>("")
   const [estado    , setEstado    ] = useState<string>("")
   const [index     , setIndex     ] = useState<number>(0)
-
-
-  const [rg        , setRg] = useState<string>("")
-  const [cpf       , setCpf] = useState<string>("")
-  const [nomeMae   , setNomeMae] = useState<string>("")
+  const [nome      , setNome      ] = useState<string>("")
+  const [rg        , setRg        ] = useState<string>("")
+  const [cpf       , setCpf       ] = useState<string>("")
+  const [nomeMae   , setNomeMae   ] = useState<string>("")
   const [beneficios, setbeneficios] = useState<string>("")
-  const [cargo     , setCargo] = useState<string>("")
-  const [cep       , setCep] = useState<string>("")  
+  const [cargo     , setCargo     ] = useState<string>("")
+  const [cep       , setCep       ] = useState<string>("")  
 
   
   function openModal() {
@@ -62,6 +61,8 @@ export default function Professionals() {
   async function handleCreateProfessional(){
     
   }
+
+  console.log(userSelected?.cpf)
 
 
   return (
@@ -166,7 +167,15 @@ export default function Professionals() {
 
               let userIndex: number = parseInt(e.target.value)
 
-              setUserSelected(allUsers[userIndex])
+              let newUserSelected = allUsers[userIndex]
+
+              setUserSelected(newUserSelected)
+              
+              // Sets the setState values 'cause defaultValue does not work
+              setCpf(newUserSelected.cpf)
+              setRg(newUserSelected.rg)
+              setNascimento(newUserSelected.aniversario)
+
 
               console.log(allUsers[userIndex])
             }
@@ -194,42 +203,44 @@ export default function Professionals() {
           <input
             type='text'
             defaultValue={userSelected?.fullName}
+            onChange={(e) =>  setNome(e.target.value)}
             placeholder='Nome' />
 
         <InputMask
-          defaultValue={userSelected?.cpf}
+          // defaultValue={userSelected?.cpf}
           onChange={(e) =>  setCpf(e.target.value)}
           mask='999.999.999-99' placeholder='Seu CPF'
+          value={cpf}
         />
         <InputMask
-          defaultValue={userSelected?.rg}
+          // defaultValue={userSelected?.rg}
           onChange={(e) =>  setRg(e.target.value)}
           mask='99.999.999-9' placeholder='Seu RG' 
+          value={rg}
+
+        />
+        
+        <InputMask
+            mask='99/99/9999'
+            placeholder='Data de nascimento'
+            value={nascimento}
+
+            onChange={(e) =>  setNascimento(e.target.value)}
         />
 
 
-
-
-
-          <input
-            type='number'
-            defaultValue={userSelected?.datanascimento}
-            placeholder='Data de nascimento' />
           <input
             type='text'
-            defaultValue={userSelected?.Nome}
             placeholder='Nome da mãe' />
           <input
             type='text'
-            defaultValue={userSelected?.Cargo}
+            
             placeholder='Cargo' />
           <input
             type='text'
-            defaultValue={userSelected?.Benefícios}
             placeholder='Benefícios' />
           <input
             type='text'
-            defaultValue={userSelected?.CEP}
             placeholder='CEP*' />
 
           {
