@@ -99,11 +99,11 @@ const Sidebar = () => {
                   </MenuItem>
                 
                   <MenuItem>
-                    <Link to='/habilidades'>Questionários</Link>
+                    <Link to='/habilidades'>Habilidades</Link>
                   </MenuItem>
                 
                   <MenuItem>
-                    <Link to='/escolaridade'>Questionários</Link>
+                    <Link to='/escolaridade'>Escolaridade</Link>
                   </MenuItem>
                 </SubMenu>
 
