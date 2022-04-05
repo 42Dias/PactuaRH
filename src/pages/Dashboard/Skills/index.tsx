@@ -81,7 +81,7 @@ export default function Skills() {
           {skills.length > 0 && (
             <S.Table>
               <S.TrTitle>
-                <td>Nome do benefício</td>
+                <td>Nome do habilidades</td>
                 <td></td>
               </S.TrTitle>
 
@@ -133,10 +133,10 @@ export default function Skills() {
             handleUpdate(id)
           }}
         >
-          <h2>Editar benefício</h2>
+          <h2>Editar habilidades</h2>
           <input
             type='text'
-            placeholder='Nome do benefício'
+            placeholder='Nome do habilidades'
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
@@ -165,12 +165,12 @@ export default function Skills() {
             handleCreate()
           }}
         >
-          <h2>Cadastrar benefício</h2>
+          <h2>Cadastrar habilidades</h2>
 
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome do benefício'
+            placeholder='Nome do habilidades'
             required
           />
 

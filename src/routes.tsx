@@ -17,6 +17,7 @@ import GeneralEvaluation from 'pages/Dashboard/GeneralEvaluation'
 import Performance from 'pages/Dashboard/Performance'
 import Education from 'pages/Dashboard/Education'
 import Skills from 'pages/Dashboard/Skills'
+import Area from 'pages/Dashboard/Area'
 
 const RoutesApp = () => {
   return (
@@ -33,6 +34,7 @@ const RoutesApp = () => {
         <Route path='/cargos' element={<Positions />} />
         <Route path='/funcoes' element={<FunctionsPage />} />
         <Route path='/beneficios' element={<Benefits />} />
+        <Route path='/area' element={<Area />} />
         <Route path='/questionarios' element={<Questionnaires />} />
         <Route path='/habilidades' element={<Skills />} />
         <Route path='/escolaridade' element={<Education />} />

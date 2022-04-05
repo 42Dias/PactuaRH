@@ -47,6 +47,26 @@ export const FlexButtons = styled.div`
   }
 `
 
+export const divCheck = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`
+
+export const Checkbox = styled.input`
+  width: 18px !important;
+  background: white;
+`
+
+export const Label = styled.label`
+  font-size: 16px;
+  margin-left: 5px;
+`
+
+export const SelectPai = styled.select``
+
+export const OptionsPai = styled.option``
+
 export const Table = styled.table`
   /* width: 100%; */
   background: white;
@@ -75,6 +95,7 @@ export const TrSecond = styled.tr`
     border: 0;
   }
 `
+
 export const ContainerForm = styled.form`
   h2 {
     margin-bottom: 2rem;
