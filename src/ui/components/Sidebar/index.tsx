@@ -88,12 +88,22 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/funcoes'>Funções</Link>
                   </MenuItem>
+                  <MenuItem>Relatórios*</MenuItem>
+                 
                   <MenuItem>
                     <Link to='/beneficios'>Benefícios</Link>
                   </MenuItem>
-                  <MenuItem>Relatórios*</MenuItem>
+                
                   <MenuItem>
                     <Link to='/questionarios'>Questionários</Link>
+                  </MenuItem>
+                
+                  <MenuItem>
+                    <Link to='/habilidades'>Questionários</Link>
+                  </MenuItem>
+                
+                  <MenuItem>
+                    <Link to='/escolaridade'>Questionários</Link>
                   </MenuItem>
                 </SubMenu>
 
