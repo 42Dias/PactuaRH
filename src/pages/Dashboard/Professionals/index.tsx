@@ -342,43 +342,6 @@ export default function Professionals() {
             value={cidade}
             onChange={(e) => setCidade(e.target.value)}
           />
-
-          <S.divCheck>
-            <Checkbox
-              type='checkbox'
-              placeholder='Sub-Área?'
-              defaultChecked={hasDependente}
-              onChange={() => setHasDependente(!hasDependente) }
-            />
-            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
-
-          </S.divCheck>
-
-          {hasDependente && (
-              <>
-                <input
-                  type='text'
-                  placeholder='Cpf do Dependente '
-                  value={dependenteCpf}
-                  onChange={(e) => setCidade(e.target.value)}
-                />
-
-              <input
-                  type='text'
-                  placeholder='Rg do Dependente*'
-                  value={dependenteRg}
-                  onChange={(e) => setCidade(e.target.value)}
-                />
-                
-                <input
-                  type='text'
-                  placeholder='Nome do Dependente'
-                  value={dependenteNome}
-                  onChange={(e) => setDependenteNome(e.target.value)}
-                />              
-              </>
-          )}
-
           
 
           {!userSelected && (
@@ -406,6 +369,46 @@ export default function Professionals() {
                 <option value='Casado(a)'>Casado(a)</option>
                 <option value='Viúvo(a)'>Viúvo(a)</option>
               </select>
+
+
+          <S.divCheck>
+            <Checkbox
+              type='checkbox'
+              placeholder='Sub-Área?'
+              defaultChecked={hasDependente}
+              onChange={() => setHasDependente(!hasDependente) }
+            />
+            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
+
+          </S.divCheck>
+              {
+              hasDependente && (
+                  <>
+                    <input
+                      type='text'
+                      placeholder='CPF do Dependente '
+                      value={dependenteCpf}
+                      onChange={(e) => setCidade(e.target.value)}
+                    />
+
+                  <input
+                      type='text'
+                      placeholder='RG do Dependente*'
+                      value={dependenteRg}
+                      onChange={(e) => setCidade(e.target.value)}
+                    />
+                    
+                    <input
+                      type='text'
+                      placeholder='Nome do Dependente'
+                      value={dependenteNome}
+                      onChange={(e) => setDependenteNome(e.target.value)}
+                    />
+                  </>
+              )
+              }
+
+
             </>
           )}
 
