@@ -78,24 +78,25 @@ export default function Benefits() {
               <td>Nome do benefício</td>
               <td></td>
             </S.TrTitle>
+
+            {
+            benefits.map(
+              (benefit) => (
               <S.TrSecond>
-              <td>Auxilio infraestrutura</td>
-              <td>front end</td>
-              <td>25/09/2022</td>
-              <td></td>
-              <td>
-                <button onClick={openModal}>
-                  <FiEdit size={18} />
-                </button>
-              </td>
-              <td>
-                <button>
-                  <FiTrash size={18} />
-                </button>
-              </td>
+                <td>{benefit.nome}</td>
+                <td>
+                  <button onClick={openModal}>
+                    <FiEdit size={18} />
+                  </button>
+                </td>
+                <td>
+                  <button>
+                    <FiTrash size={18} />
+                  </button>
+                </td>
               </S.TrSecond> )
               )
-              
+              }
 
             </S.Table>
         </S.Container>
@@ -117,15 +118,11 @@ export default function Benefits() {
 
         <S.ContainerForm>
           <h2>Editar benefício</h2>
-
-          <input type='text' placeholder='Nome do benefício' />
-          <input type='text' placeholder='Descrição' />
-          <input type='text' placeholder='Operadora da assistência médica' />
-          <input type='text' placeholder='Razão Social' />
-          <input type='number' placeholder='CNPJ' />
-          <input type='text' placeholder='Registro da ASN' />
-          <input type='number' placeholder='Data admissão ' />
-          <input type='number' placeholder='Data demissão' />
+          <input
+            type='text'
+            placeholder='Nome do benefício'
+            defaultValue={nome}
+          />
         </S.ContainerForm>
       </Modal>
 
