@@ -34,7 +34,7 @@ export default function Professionals() {
   const [dependenteCpf, setdependenteCpf] = useState<string>('')
   const [dependenteRg , setdependenteRg ] = useState<string>('')
   const [hasDependente, setHasDependente] = useState<boolean>(false)
-  const [pependenteNome, setpependenteNome] = useState<string>('')
+  const [dependenteNome, setDependenteNome] = useState<string>('')
   
   const [index, setIndex] = useState<number>(0)
 
@@ -355,10 +355,28 @@ export default function Professionals() {
           </S.divCheck>
 
           {hasDependente && (
-              `hasDependente, setHasDependente
-              dependenteCpf, setdependenteCpf
-              dependenteRg , setdependenteRg
-              pependenteNome, setpependenteNome`
+              <>
+                <input
+                  type='text'
+                  placeholder='Cpf do Dependente '
+                  value={dependenteCpf}
+                  onChange={(e) => setCidade(e.target.value)}
+                />
+
+              <input
+                  type='text'
+                  placeholder='Rg do Dependente*'
+                  value={dependenteRg}
+                  onChange={(e) => setCidade(e.target.value)}
+                />
+                
+                <input
+                  type='text'
+                  placeholder='Nome do Dependente'
+                  value={dependenteNome}
+                  onChange={(e) => setDependenteNome(e.target.value)}
+                />              
+              </>
           )}
 
           
