@@ -10,27 +10,31 @@ import cepInformation from 'utils/cepInformation'
 import { fullName } from 'service/api'
 
 export default function Professionals() {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [allUsers, setAllUsers] = useState<any[]>([])
-  const [userSelected, setUserSelected] = useState<any>()
+  const [modalIsOpenNew, setIsOpenNew   ] = useState(false)
+  const [modalIsOpen  , setIsOpen       ] = useState(false)
+  const [allUsers     , setAllUsers     ] = useState<any[]>([])
+  const [userSelected , setUserSelected ] = useState<any>()
 
-  const [email, setEmail] = useState<string>('')
-  const [nascimento, setNascimento] = useState<string>('')
-  const [genero, setGenero] = useState<string>('')
-  const [estado, setEstado] = useState<string>('')
-  const [nome, setNome] = useState<string>('')
-  const [rg, setRg] = useState<string>('')
-  const [cpf, setCpf] = useState<string>('')
-  const [nomeMae, setNomeMae] = useState<string>('')
-  const [beneficios, setBeneficios] = useState<string>('')
-  const [cargo, setCargo] = useState<string>('')
-  const [cep, setCep] = useState<string>('')
-  const [logradouro, setLogradouro] = useState<string>('')
-  const [bairro, setBairro] = useState<string>('')
-  const [cidade, setCidade] = useState<string>('')
-  const [estadoCivil, setEstadoCivil] = useState<string>('')
-
+  const [email        , setEmail        ] = useState<string>('')
+  const [nascimento   , setNascimento   ] = useState<string>('')
+  const [genero       , setGenero       ] = useState<string>('')
+  const [estado       , setEstado       ] = useState<string>('')
+  const [nome         , setNome         ] = useState<string>('')
+  const [rg           , setRg           ] = useState<string>('')
+  const [cpf          , setCpf          ] = useState<string>('')
+  const [nomeMae      , setNomeMae      ] = useState<string>('')
+  const [beneficios   , setBeneficios   ] = useState<string>('')
+  const [cargo        , setCargo        ] = useState<string>('')
+  const [cep          , setCep          ] = useState<string>('')
+  const [logradouro   , setLogradouro   ] = useState<string>('')
+  const [bairro       , setBairro       ] = useState<string>('')
+  const [cidade       , setCidade       ] = useState<string>('')
+  const [estadoCivil  , setEstadoCivil  ] = useState<string>('')
+  const [hasDependente, setHasDependente] = useState<string>('')
+  const [dependenteCpf, setdependenteCpf] = useState<string>('')
+  const [dependenteRg , setdependenteRg] = useState<string>('')
+  const [pependenteNome, setpependenteNome] = useState<string>('')
+  
   const [index, setIndex] = useState<number>(0)
 
   function openModal() {
@@ -338,6 +342,8 @@ export default function Professionals() {
             onChange={(e) => setCidade(e.target.value)}
           />
 
+          
+
           {!userSelected && (
             <>
               <input
@@ -358,7 +364,7 @@ export default function Professionals() {
                 id=''
                 onChange={(e) => setEstadoCivil(e.target.value)}
               >
-                <option hidden>EstadoCivil civil</option>
+                <option hidden>Estado civil</option>
                 <option value='Solteiro(a)'>Solteiro(a)</option>
                 <option value='Casado(a)'>Casado(a)</option>
                 <option value='Viúvo(a)'>Viúvo(a)</option>
