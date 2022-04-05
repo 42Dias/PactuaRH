@@ -5,6 +5,7 @@ import * as S from './Benefits.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import beneficio from 'service/beneficio/beneficio'
+import { fullName } from 'service/api'
 
 export default function Benefits() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -79,7 +80,7 @@ export default function Benefits() {
       <S.Body>
         <Sidebar />
         <S.Title>
-          <S.Container>Bem vindo, {nome} 😁</S.Container>
+          <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
           <S.FlexButtons>
