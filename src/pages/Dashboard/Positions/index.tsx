@@ -2,12 +2,27 @@ import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
 import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './Positions.styled'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
+import loadCargos from 'service/cargos/cargos'
+import cargos from 'service/cargos/cargos'
 
 export default function Positions() {
+  // const { allCargos } = useCargos()
+  const [allCargos, setAllCargos] = useState([])
+
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  // const [cargos, setCargos] = useState()
+
+  async function getAllCargos() {
+    const cargo = await cargos.list()
+
+    console.log('cargos')
+    console.log(cargo)
+
+    setAllCargos(cargo)
+  }
 
   function openModal() {
     setIsOpen(true)
@@ -24,6 +39,11 @@ export default function Positions() {
   function closeModalNew() {
     setIsOpenNew(false)
   }
+
+  useEffect(() => {
+    getAllCargos()
+  }, [])
+
   return (
     <>
       <S.Body>
@@ -37,29 +57,32 @@ export default function Positions() {
               Novo <FiPlus size={18} color='#fff' />
             </button>
           </S.FlexButtons>
-
-          <S.Table>
-            <S.TrTitle>
-              <td>Descrição</td>
-              <td>CBO</td>
-              <td>Nível Hierarquico</td>
-            </S.TrTitle>
-            <S.TrSecond>
-              <td>Ryan</td>
-              <td>123</td>
-              <td>Gerente</td>
-              <td>
-                <button onClick={openModal}>
-                  <FiEdit size={18} />
-                </button>
-              </td>
-              <td>
-                <button>
-                  <FiTrash size={18} />
-                </button>
-              </td>
-            </S.TrSecond>
-          </S.Table>
+          {/* TABELA */}
+          {allCargos.length > 0 && (
+            <S.Table>
+              <S.TrTitle>
+                <td>Descrição</td>
+                <td>CBO</td>
+                <td>Nível Hierarquico</td>
+              </S.TrTitle>
+              <S.TrSecond>
+                <td>Ryan</td>
+                <td>123</td>
+                <td>Gerente</td>
+                <td>
+                  <button onClick={openModal}>
+                    <FiEdit size={18} />
+                  </button>
+                </td>
+                <td>
+                  <button>
+                    <FiTrash size={18} />
+                  </button>
+                </td>
+              </S.TrSecond>
+            </S.Table>
+          )}
+          {allCargos.length == 0 && <p>Nenhum cargo cadastrado!</p>}
         </S.Container>
       </S.Body>
 
@@ -77,6 +100,7 @@ export default function Positions() {
           <FiX />
         </button>
 
+        {/* EDITAR CARGO */}
         <S.ContainerForm>
           <h2>Editar profissional</h2>
 
@@ -107,6 +131,7 @@ export default function Positions() {
           <FiX />
         </button>
 
+        {/* CADASTRO DO CARGO */}
         <S.ContainerForm>
           <h2>Cadastrar profissional</h2>
 
