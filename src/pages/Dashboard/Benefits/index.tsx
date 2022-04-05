@@ -55,7 +55,10 @@ export default function Benefits() {
   )
 
 
-  async function handleDelete(){
+  async function handleDelete(id: string){
+    await beneficio.delete(id)
+
+    handleLoadBenefits()
     
   }
   return (
@@ -90,7 +93,9 @@ export default function Benefits() {
                   </button>
                 </td>
                 <td>
-                  <button>
+                  <button
+                  onClick={() => handleDelete(benefit.id)}
+                  >
                     <FiTrash size={18} />
                   </button>
                 </td>
@@ -116,13 +121,25 @@ export default function Benefits() {
           <FiX />
         </button>
 
-        <S.ContainerForm>
+        <S.ContainerForm
+        onSubmit={(e) => {
+          e.preventDefault()
+        }}
+        >
+
           <h2>Editar benefício</h2>
           <input
             type='text'
             placeholder='Nome do benefício'
             defaultValue={nome}
           />
+          
+          <button
+            type='submit'
+          >
+            Enviar
+          </button>
+
         </S.ContainerForm>
       </Modal>
 
