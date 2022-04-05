@@ -4,6 +4,7 @@ import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './Company.styled'
 import { useState } from 'react'
 import InputMask from 'react-input-mask'
+import { fullName } from 'service/api'
 
 export default function Company() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -42,7 +43,7 @@ export default function Company() {
       <S.Body>
         <Sidebar />
         <S.Title>
-          <S.Container>Bem vindo, Luciano 😁</S.Container>
+          <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
           <S.FlexButtons>

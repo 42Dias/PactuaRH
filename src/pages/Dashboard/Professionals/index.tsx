@@ -7,6 +7,7 @@ import InputMask from 'react-input-mask'
 import user from 'service/user/user'
 import profissional from 'service/profissional/profissional'
 import cepInformation from 'utils/cepInformation'
+import { fullName } from 'service/api'
 
 export default function Professionals() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -138,7 +139,7 @@ export default function Professionals() {
       <S.Body>
         <Sidebar />
         <S.Title>
-          <S.Container>Bem vindo, Luciano 😁</S.Container>
+          <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
           <S.FlexButtons>

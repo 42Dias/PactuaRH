@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import loadCargos from 'service/cargos/cargos'
 import cargos from 'service/cargos/cargos'
+import { fullName } from 'service/api'
 
 export default function Positions() {
   // const { allCargos } = useCargos()
@@ -49,7 +50,7 @@ export default function Positions() {
       <S.Body>
         <Sidebar />
         <S.Title>
-          <S.Container>Bem vindo, Luciano 😁</S.Container>
+          <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
           <S.FlexButtons>

@@ -89,7 +89,7 @@ export default function Home() {
                   alt='Man'
                 />
               </S.Photo>
-              <h2>Luciano Barbosa</h2>
+              <h2>{fullName} Barbosa</h2>
             </S.FlexPhoto>
             <S.TitleUser>
               <S.TextDetails>

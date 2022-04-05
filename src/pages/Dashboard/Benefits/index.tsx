@@ -79,7 +79,7 @@ export default function Benefits() {
       <S.Body>
         <Sidebar />
         <S.Title>
-          <S.Container>Bem vindo, Luciano 😁</S.Container>
+          <S.Container>Bem vindo, {nome} 😁</S.Container>
         </S.Title>
         <S.Container>
           <S.FlexButtons>

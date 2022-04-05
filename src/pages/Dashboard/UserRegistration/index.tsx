@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import { Link } from 'react-router-dom'
 import user from 'service/user/user'
-import { id } from 'service/api'
+import { fullName, id } from 'service/api'
 // import { randomUUID } from 'crypto'
 
 export default function UserRegistration() {
@@ -115,7 +115,7 @@ export default function UserRegistration() {
       <S.Body>
         <Sidebar />
         <S.Title>
-          <S.Container>Bem vindo, Luciano 😁</S.Container>
+          <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
           <S.FlexButtons>

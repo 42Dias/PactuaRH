@@ -5,6 +5,7 @@ import * as S from './FunctionsPage.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import funcoes from 'service/funcoes/funcoes'
+import { fullName } from 'service/api'
 
 export default function FunctionsPage() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -76,7 +77,7 @@ export default function FunctionsPage() {
       <S.Body>
         <Sidebar />
         <S.Title>
-          <S.Container>Bem vindo, Luciano 😁</S.Container>
+          <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
           <S.FlexButtons>
