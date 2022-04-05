@@ -99,7 +99,9 @@ export default function Education() {
             {
             education.map(
               (education) => (
-              <S.TrSecond>
+              <S.TrSecond
+                key={education.id}
+              >
                 <td>{education.nome}</td>
                 <td>
                   <button onClick={() => {
