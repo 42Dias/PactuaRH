@@ -55,10 +55,10 @@ export default function Skills() {
     if (isUpdated) closeModal()
     await handleLoadSkills()
   }
-
   useEffect(() => {
     handleLoadSkills()
   }, [])
+
   async function handleDelete(id: string) {
     await habilidades.delete(id)
 
@@ -78,34 +78,38 @@ export default function Skills() {
             </button>
           </S.FlexButtons>
 
-          <S.Table>
-            <S.TrTitle>
-              <td>Nome do benefício</td>
-              <td></td>
-            </S.TrTitle>
+          {skills.length > 0 && (
+            <S.Table>
+              <S.TrTitle>
+                <td>Nome do benefício</td>
+                <td></td>
+              </S.TrTitle>
 
-            {skills.map((skills) => (
-              <S.TrSecond>
-                <td>{skills.nome}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      setId(skills.id)
-                      setNome(skills.nome)
-                      openModal()
-                    }}
-                  >
-                    <FiEdit size={18} />
-                  </button>
-                </td>
-                <td>
-                  <button onClick={() => handleDelete(skills.id)}>
-                    <FiTrash size={18} />
-                  </button>
-                </td>
-              </S.TrSecond>
-            ))}
-          </S.Table>
+              {skills.map((skills) => (
+                <S.TrSecond>
+                  <td>{skills.nome}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setId(skills.id)
+                        setNome(skills.nome)
+                        openModal()
+                      }}
+                    >
+                      <FiEdit size={18} />
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => handleDelete(skills.id)}>
+                      <FiTrash size={18} />
+                    </button>
+                  </td>
+                </S.TrSecond>
+              ))}
+            </S.Table>
+          )}
+
+          {skills.length === 0 && <p>Não há dados</p>}
         </S.Container>
       </S.Body>
 
