@@ -10,6 +10,7 @@ export default function Benefits() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [nome      , setNome      ] = useState<string>("")
+  const [id        , setId        ] = useState<string>("")
   const [benefits      , setBenefits      ] = useState<any[]>([])
 
 
@@ -43,6 +44,18 @@ export default function Benefits() {
     let isCreated = await beneficio.create(data)
 
     if(isCreated) closeModalNew()
+    await handleLoadBenefits()
+
+  }
+
+  async function handleUpdate(id: string){
+    let data = {
+      nome: nome
+    }
+
+    let isUpdated = await beneficio.update(id, data)
+
+    if(isUpdated) closeModal()
     await handleLoadBenefits()
 
   }
@@ -88,7 +101,11 @@ export default function Benefits() {
               <S.TrSecond>
                 <td>{benefit.nome}</td>
                 <td>
-                  <button onClick={openModal}>
+                  <button onClick={() => {
+                    setId(benefit.id)
+                    setNome(benefit.nome)
+                    openModal()
+                    }}>
                     <FiEdit size={18} />
                   </button>
                 </td>
@@ -124,6 +141,7 @@ export default function Benefits() {
         <S.ContainerForm
         onSubmit={(e) => {
           e.preventDefault()
+          handleUpdate(id)
         }}
         >
 
@@ -132,6 +150,7 @@ export default function Benefits() {
             type='text'
             placeholder='Nome do benefício'
             defaultValue={nome}
+            onChange={(e) => setNome(e.target.value)}
           />
           
           <button
