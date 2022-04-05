@@ -4,6 +4,7 @@ import { FiPlus, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './Skills.styled'
 import { useEffect, useState } from 'react'
 import habilidades from 'service/habilidades/habilidades'
+import { fullName } from 'service/api'
 
 export default function Skills() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -69,7 +70,7 @@ export default function Skills() {
       <S.Body>
         <Sidebar />
         <S.Title>
-          <S.Container>Bem vindo, {nome} 😁</S.Container>
+          <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
           <S.FlexButtons>
