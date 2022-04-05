@@ -15,26 +15,28 @@ import Questionnaires from 'pages/Dashboard/Questionnaires'
 import Plans from 'pages/Dashboard/Plans'
 import GeneralEvaluation from 'pages/Dashboard/GeneralEvaluation'
 import Performance from 'pages/Dashboard/Performance'
+import Education from 'pages/Dashboard/Education'
 
 const RoutesApp = () => {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path='/' element={<SignIn />} />
-        <Route path='/cadastro' element={<SignUp />} />
-        <Route path='/termos' element={<Terms />} />
-        <Route path='/dashboard' element={<Home />} />
-        <Route path='/cadastrar-usuario' element={<UserRegistration />} />
-        <Route path='/status-de-usuario' element={<UserStatus />} />
-        <Route path='/cadastro-da-empresa' element={<Company />} />
-        <Route path='/profissionais' element={<Professionals />} />
-        <Route path='/cargos' element={<Positions />} />
-        <Route path='/funcoes' element={<FunctionsPage />} />
-        <Route path='/beneficios' element={<Benefits />} />
-        <Route path='/questionarios' element={<Questionnaires />} />
-        <Route path='/planos' element={<Plans />} />
-        <Route path='/desempenho' element={< Performance />} />
-        <Route path='/avaliacao-geral' element={<GeneralEvaluation />} />
+        <Route path='/'                    element={<SignIn />}           />
+        <Route path='/cadastro'            element={<SignUp />}           />
+        <Route path='/termos'              element={<Terms />}            />
+        <Route path='/dashboard'           element={<Home />}             />
+        <Route path='/cadastrar-usuario'   element={<UserRegistration />} />
+        <Route path='/cadastro-da-empresa' element={<Company />}          />
+        <Route path='/status-de-usuario'   element={<UserStatus />}       />
+        <Route path='/profissionais'       element={<Professionals />}    />
+        <Route path='/cargos'              element={<Positions />}        />
+        <Route path='/funcoes'             element={<FunctionsPage />}    />
+        <Route path='/beneficios'          element={<Benefits />}         />
+        <Route path='/questionarios'       element={<Questionnaires />}   />
+        <Route path='/escolaridade'          element={< Education />}     />
+        <Route path='/planos'              element={<Plans />}            />
+        <Route path='/desempenho'          element={< Performance />}     />
+        <Route path='/avaliacao-geral'     element={<GeneralEvaluation />}/>
       </Routes>
     </BrowserRouter>
   )
