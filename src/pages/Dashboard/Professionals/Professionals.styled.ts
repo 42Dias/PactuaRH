@@ -136,4 +136,18 @@ export const ContainerForm = styled.form`
       filter: brightness(0.9);
     }
   }
+
+  
+`
+
+
+export const divCheck = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`
+
+export const Label = styled.label`
+  font-size: 16px;
+  margin-left: 5px;
 `
