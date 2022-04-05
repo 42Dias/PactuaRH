@@ -8,6 +8,7 @@ import user from 'service/user/user'
 import profissional from 'service/profissional/profissional'
 import cepInformation from 'utils/cepInformation'
 import { fullName } from 'service/api'
+import { Checkbox } from '../Area/Area.styled'
 
 export default function Professionals() {
   const [modalIsOpenNew, setIsOpenNew   ] = useState(false)
@@ -30,9 +31,9 @@ export default function Professionals() {
   const [bairro       , setBairro       ] = useState<string>('')
   const [cidade       , setCidade       ] = useState<string>('')
   const [estadoCivil  , setEstadoCivil  ] = useState<string>('')
-  const [hasDependente, setHasDependente] = useState<string>('')
   const [dependenteCpf, setdependenteCpf] = useState<string>('')
-  const [dependenteRg , setdependenteRg] = useState<string>('')
+  const [dependenteRg , setdependenteRg ] = useState<string>('')
+  const [hasDependente, setHasDependente] = useState<boolean>(false)
   const [pependenteNome, setpependenteNome] = useState<string>('')
   
   const [index, setIndex] = useState<number>(0)
@@ -341,6 +342,24 @@ export default function Professionals() {
             value={cidade}
             onChange={(e) => setCidade(e.target.value)}
           />
+
+          <S.divCheck>
+            <Checkbox
+              type='checkbox'
+              placeholder='Sub-Área?'
+              defaultChecked={hasDependente}
+              onChange={() => setHasDependente(!hasDependente) }
+            />
+            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
+
+          </S.divCheck>
+
+          {hasDependente && (
+              `hasDependente, setHasDependente
+              dependenteCpf, setdependenteCpf
+              dependenteRg , setdependenteRg
+              pependenteNome, setpependenteNome`
+          )}
 
           
 
