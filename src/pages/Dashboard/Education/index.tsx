@@ -4,7 +4,7 @@ import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './Education.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
-import beneficio from 'service/beneficio/beneficio'
+import escolaridade from 'service/escolaridade/escolaridade'
 import { fullName } from 'service/api'
 
 export default function Education() {
@@ -32,7 +32,7 @@ export default function Education() {
   }
 
   async function handleLoadEducation() {
-    let allEducation = await beneficio.list()
+    let allEducation = await escolaridade.list()
 
     setEducation(allEducation)
   }
@@ -42,7 +42,7 @@ export default function Education() {
       nome: nome
     }
 
-    let isCreated = await beneficio.create(data)
+    let isCreated = await escolaridade.create(data)
 
     if(isCreated) closeModalNew()
     await handleLoadEducation()
@@ -54,7 +54,7 @@ export default function Education() {
       nome: nome
     }
 
-    let isUpdated = await beneficio.update(id, data)
+    let isUpdated = await escolaridade.update(id, data)
 
     if(isUpdated) closeModal()
     await handleLoadEducation()
@@ -70,7 +70,7 @@ export default function Education() {
 
 
   async function handleDelete(id: string){
-    await beneficio.delete(id)
+    await escolaridade.delete(id)
 
     handleLoadEducation()
     
