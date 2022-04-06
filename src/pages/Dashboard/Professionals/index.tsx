@@ -11,6 +11,15 @@ import { fullName } from 'service/api'
 import { Checkbox } from '../Area/Area.styled'
 
 export default function Professionals() {
+
+  interface iDependent  {
+    nome:     string,
+    cpf:      string,
+    rg:       string,
+    dataNasc: string 
+
+  }
+
   const [modalIsOpenNew, setIsOpenNew   ] = useState(false)
   const [modalIsOpen  , setIsOpen       ] = useState(false)
   const [allUsers     , setAllUsers     ] = useState<any[]>([])
@@ -31,10 +40,8 @@ export default function Professionals() {
   const [bairro       , setBairro       ] = useState<string>('')
   const [cidade       , setCidade       ] = useState<string>('')
   const [estadoCivil  , setEstadoCivil  ] = useState<string>('')
-  const [dependenteCpf, setdependenteCpf] = useState<string>('')
-  const [dependenteRg , setdependenteRg ] = useState<string>('')
-  const [hasDependente, setHasDependente] = useState<boolean>(false)
-  const [dependenteNome, setDependenteNome] = useState<string>('')
+  const [hasDependente, setHasDependente  ] = useState<boolean>(false)
+  const [dependentes  , setDependentes  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNasc: '' } ])
   
   const [index, setIndex] = useState<number>(0)
 
@@ -137,7 +144,25 @@ export default function Professionals() {
     closeModalNew()
   }
 
-  console.log(userSelected?.cpf)
+  let handleChangeDependente = (i: number, e: React.FormEvent<HTMLInputElement>) => {
+    let newFormValues = [...dependentes];
+    //@ts-ignore
+    newFormValues[i][e.target.name] = e.target.value;
+
+    setDependentes(newFormValues);
+ }
+      
+  let addFormFields = () => {
+    //@ts-ignore
+    setDependentes([...dependentes, { name: "", email: "" }])
+  }
+
+  let removeFormFields = (i: number) => {
+      console.log(dependentes[i])
+      let newFormValues = [...dependentes];
+      newFormValues.splice(i, 1);
+      setDependentes(newFormValues)
+  }
 
   return (
     <>
@@ -384,26 +409,65 @@ export default function Professionals() {
               {
               hasDependente && (
                   <>
-                    <input
-                      type='text'
-                      placeholder='CPF do Dependente '
-                      value={dependenteCpf}
-                      onChange={(e) => setCidade(e.target.value)}
-                    />
+                  {
+                  dependentes.map(
+                    (e, index) => (
+                      <div
+                        className='border'
+                      >
 
-                  <input
-                      type='text'
-                      placeholder='RG do Dependente*'
-                      value={dependenteRg}
-                      onChange={(e) => setCidade(e.target.value)}
-                    />
-                    
-                    <input
-                      type='text'
-                      placeholder='Nome do Dependente'
-                      value={dependenteNome}
-                      onChange={(e) => setDependenteNome(e.target.value)}
-                    />
+                      <input
+                        type='text'
+                        placeholder='Nome do Dependente'
+                        name='nome'
+                        onChange={(e) => handleChangeDependente(index, e)}
+                      />
+
+
+                      <InputMask
+                        name='cpf'
+                        mask='999.999.999-99'
+                        placeholder='CPF do Dependente'
+
+                        onChange={(e) => {
+                          handleChangeDependente(index, e)
+
+
+                        }}
+                        />
+                      <InputMask
+                        name='rg'
+                        mask='99.999.999-9'
+                        placeholder='RG do Dependente'
+                        onChange={(e) => handleChangeDependente(index, e)}
+                      />
+                      <input
+                        name='rg'
+                        type="date"
+                        placeholder='Data de Nascimento do Dependente'
+                        onChange={(e) => handleChangeDependente(index, e)}
+                      />
+
+
+                      <button
+                        className='btn-actions btn-trash'
+                        type='button'
+                        onClick={() => removeFormFields(index)}
+                      >
+                        <FiTrash/>
+                      </button>
+                    </div>
+                    )
+                  )}
+
+
+                  <button
+                  type='button'
+                  className='btn-actions'
+                  onClick={() => addFormFields()}
+                  >
+                    <FiPlus/>
+                  </button>
                   </>
               )
               }
