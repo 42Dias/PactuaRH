@@ -11,6 +11,9 @@ import { fullName } from 'service/api'
 import { Checkbox } from '../Area/Area.styled'
 import { toast } from 'react-toastify'
 import { checkCPF } from 'utils/checkCPF'
+import { iCargo } from 'types'
+import cargos from 'service/cargos/cargos'
+import { isNullOrUndefined } from 'util'
 
 export default function Professionals() {
 
@@ -40,10 +43,15 @@ export default function Professionals() {
   const [cep          , setCep          ] = useState<string>('')
   const [logradouro   , setLogradouro   ] = useState<string>('')
   const [bairro       , setBairro       ] = useState<string>('')
+  const [numero       , setNumero       ] = useState<string>('')
   const [cidade       , setCidade       ] = useState<string>('')
+  const [telefone     , setTelefone     ] = useState<string>('')
+  const [telefone2    , setTelefone2    ] = useState<string>('')
   const [estadoCivil  , setEstadoCivil  ] = useState<string>('')
-  const [hasDependente, setHasDependente  ] = useState<boolean>(false)
+  const [hasDependente, setHasDependente] = useState<boolean>(false)
   const [dependentes  , setDependentes  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNasc: '' } ])
+  
+  const [allPositions  , setAllPositions  ] = useState<iCargo[]>([])
   
   const [index, setIndex] = useState<number>(0)
 
@@ -63,19 +71,7 @@ export default function Professionals() {
     setIsOpenNew(false)
   }
 
-  async function getUsers() {
-    const users = await user.list()
-
-    console.log('users')
-    console.log(users)
-
-    setAllUsers(users)
-  }
-
-  useEffect(() => {
-    getUsers()
-  }, [])
-
+  
   async function handleChangeCep(cepText: string) {
     const cep = cepText.replace(/[^0-9]/g, '')
 
@@ -91,6 +87,28 @@ export default function Professionals() {
       setCidade(data.localidade)
       setEstado(data.uf)
     }
+  }
+
+      
+  let addFormFields = () => {
+    //@ts-ignore
+    setDependentes([...dependentes, { name: "", email: "" }])
+  }
+
+  let removeFormFields = (i: number) => {
+      console.log(dependentes[i])
+      let newFormValues = [...dependentes];
+      newFormValues.splice(i, 1);
+      setDependentes(newFormValues)
+  }
+
+  async function getUsers() {
+    const users = await user.list()
+
+    console.log('users')
+    console.log(users)
+
+    setAllUsers(users)
   }
 
   async function handleCreateProfessional() {
@@ -128,15 +146,16 @@ export default function Professionals() {
       nomeMae: nomeMae,
       cep: cep,
       estadoCivil: estadoCivil,
-      // cidade     : userSelected.fullname,
-      // bairro     : userSelected.fullname,
-      // logradouro : userSelected.fullname,
-      // numero     : userSelected.fullname,
+      email      : userSelected.email || email,
+      cidade     : cidade,
+      bairro     : bairro,
+      logradouro : logradouro,
+      numero     : numero,
+      telefone1  : userSelected.fullname,
+      telefone2  : userSelected.fullname,
       // complemento: userSelected.fullname,
-      // telefone1  : userSelected.fullname,
-      // telefone2  : userSelected.fullname,
-      // email      : userSelected.fullname,
       // importHash : userSelected.fullname,
+      dependentes: dependentes
     }
 
     const isCreated = await profissional.create(data)
@@ -153,18 +172,24 @@ export default function Professionals() {
 
     setDependentes(newFormValues);
  }
-      
-  let addFormFields = () => {
-    //@ts-ignore
-    setDependentes([...dependentes, { name: "", email: "" }])
+
+  useEffect(() => {
+    getUsers()
+  }, [])
+
+  async function handleLoadPosition() {
+    const cargo = await cargos.list()
+
+    console.log('cargos')
+    console.log(cargo)
+
+    setAllPositions(cargo)
   }
 
-  let removeFormFields = (i: number) => {
-      console.log(dependentes[i])
-      let newFormValues = [...dependentes];
-      newFormValues.splice(i, 1);
-      setDependentes(newFormValues)
-  }
+  useEffect(() => {
+    handleLoadPosition()
+  }, [])
+
 
   return (
     <>
@@ -327,6 +352,19 @@ export default function Professionals() {
             onChange={(e) => setNomeMae(e.target.value)}
           />
 
+          <input
+            type='text'
+            placeholder='Telefone'
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
+          />
+
+          <input
+            type='text'
+            placeholder='Telefone 2'
+            value={telefone2}
+            onChange={(e) => setTelefone2(e.target.value)}
+          />
 
 
           {/* 
@@ -334,19 +372,31 @@ export default function Professionals() {
           ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
           
           */}
-          <input
-            type='text'
-            placeholder='Cargo'
+
+
+          <select
             value={cargo}
             onChange={(e) => setCargo(e.target.value)}
-          />
+          >
+            <option hidden>Cargo</option>
+            {
+            allPositions.map(
+              position => (
+                <option value={position.id}>{position.nome}</option>
+              )
+            )
+            }
+          </select>
 
+          {/* This is not necesssary anymore */}
+          {/*
           <input
             type='text'
             placeholder='Benefícios'
             value={beneficios}
             onChange={(e) => setBeneficios(e.target.value)}
           />
+          */}
 
           <input
             type='text'
@@ -358,9 +408,9 @@ export default function Professionals() {
 
           <input
             type='text'
-            placeholder='Logradouro*'
-            value={logradouro}
-            onChange={(e) => setLogradouro(e.target.value)}
+            placeholder='Cidade*'
+            value={cidade}
+            onChange={(e) => setCidade(e.target.value)}
           />
 
           <input
@@ -370,13 +420,21 @@ export default function Professionals() {
             onChange={(e) => setBairro(e.target.value)}
           />
 
+          
           <input
             type='text'
-            placeholder='Cidade*'
-            value={cidade}
-            onChange={(e) => setCidade(e.target.value)}
+            placeholder='Logradouro*'
+            value={logradouro}
+            onChange={(e) => setLogradouro(e.target.value)}
           />
-          
+
+
+        <input
+            type='text'
+            placeholder='Número*'
+            value={numero}
+            onChange={(e) => setNumero(e.target.value)}
+          />
 
           {!userSelected && (
             <>
