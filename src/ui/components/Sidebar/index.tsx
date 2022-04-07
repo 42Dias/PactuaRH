@@ -117,7 +117,9 @@ const Sidebar = () => {
                   <MenuItem>Individual</MenuItem>
                   <MenuItem>Recuperação</MenuItem>
                   <MenuItem>Desenvolvimento</MenuItem>
-                  <MenuItem>9box</MenuItem>
+                  <MenuItem>
+                  <Link to='/relatorio-9box'> 9box </Link>
+                  </MenuItem>
                 </SubMenu>
               </Menu>
             </SidebarContent>
