@@ -13,7 +13,7 @@ export default class areas {
         servidorErrorMessage()
       })
 
-    const mensagemOk = 'Usuário criado com sucesso!'
+    const mensagemOk = 'Área criado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -30,7 +30,7 @@ export default class areas {
       .catch(() => {
         servidorErrorMessage()
       })
-    const mensagemOk = 'Usuário alterado com sucesso!'
+    const mensagemOk = 'Área alterado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 

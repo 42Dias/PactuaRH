@@ -19,7 +19,7 @@ export default class escolaridade{
         servidorErrorMessage()
       })
 
-      let mensagemOk = 'Usuário criado com sucesso!'
+      let mensagemOk = 'Escolaridade criado com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -37,7 +37,7 @@ export default class escolaridade{
       })
 
 
-      let mensagemOk = 'Usuário alterado com sucesso!'
+      let mensagemOk = 'Escolaridade alterado com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 

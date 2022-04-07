@@ -70,7 +70,8 @@ export default class user {
   }
 
   static async list() {
-    const response = await api.get('user').catch(() => {
+    const response = await api.get('user')
+    .catch(() => {
       servidorErrorMessage()
     })
 

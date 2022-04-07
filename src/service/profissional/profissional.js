@@ -19,7 +19,7 @@ export default class profissional{
         servidorErrorMessage()
       })
 
-      let mensagemOk = 'Usuário criado com sucesso!'
+      let mensagemOk = 'Profissional criado com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -37,7 +37,7 @@ export default class profissional{
       })
 
 
-      let mensagemOk = 'Usuário alterado com sucesso!'
+      let mensagemOk = 'Profissional alterado com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 

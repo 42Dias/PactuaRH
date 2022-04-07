@@ -19,7 +19,7 @@ export default class beneficio{
         servidorErrorMessage()
       })
 
-      let mensagemOk = 'Usuário criado com sucesso!'
+      let mensagemOk = 'Benefício criado com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -37,7 +37,7 @@ export default class beneficio{
       })
 
 
-      let mensagemOk = 'Usuário alterado com sucesso!'
+      let mensagemOk = 'Benefício alterado com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
