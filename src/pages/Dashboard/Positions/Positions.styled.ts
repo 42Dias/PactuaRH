@@ -119,6 +119,24 @@ export const ContainerForm = styled.form`
     }
   }
 
+  .button {
+    margin-top: 1.5rem;
+    padding: 0 1.5rem;
+    width: 100%;
+    height: 4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: black;
+    border: 0;
+    border-radius: 0.25rem;
+    transition: filter 0.2s ease-in-out;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+
   button {
     margin-top: 1.5rem;
     padding: 0 1.5rem;
@@ -136,4 +154,47 @@ export const ContainerForm = styled.form`
       filter: brightness(0.9);
     }
   }
+
+  .border{
+    border-bottom: 2px solid #0000007d;
+    margin-bottom: 10px
+  }
+
+  .btn-actions{
+    display: block;
+    margin: 5px auto 20px auto;
+    width: 50px;
+    height: 50px;
+    position: relative;
+
+    svg {
+      position:absolute;
+      left:0;
+      right:0;
+      margin-left:auto;
+      margin-right:auto;
+      top:0;
+      bottom:0;
+      margin-top:auto;
+      margin-bottom:auto;
+    }
+
+    
+  }
+
+  .btn-trash{
+    background-color: red;
+  }
+
+
+
 `
+
+
+
+export const divCheck = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`
+
