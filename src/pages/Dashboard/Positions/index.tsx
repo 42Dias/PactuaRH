@@ -15,7 +15,7 @@ import escolaridade from 'service/escolaridade/escolaridade'
 import areas from 'service/area/area'
 import habilidades from 'service/habilidades/habilidades'
 
-import { iData } from '../../../types'
+import { iCargo, iData } from '../../../types'
 import { useForm } from 'react-hook-form'
 
 export default function Positions() {
@@ -23,13 +23,14 @@ export default function Positions() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<any>()
 
 
 
   // const { allCargos } = useCargos()
-  const [allCargos    , setAllCargos    ] = useState<iData[]>([])
+  const [allCargos    , setAllCargos    ] = useState<iCargo[]>([])
   const [allAreas     , setAllAreas     ] = useState<iData[]>([])
   const [allEducations, setAllEducations] = useState<iData[]>([])
   const [allFunctions , setAllFunctions ] = useState<iData[]>([])
@@ -92,60 +93,6 @@ export default function Positions() {
     handleLoadSkills()
   }
 
-  async function handleLoadPosition() {
-    const cargo = await cargos.list()
-
-    console.log('cargos')
-    console.log(cargo)
-
-    setAllCargos(cargo)
-  }
-
-
-  async function handleCreatePosition(rawData: any){
-    let data = {
-      nome: rawData.desc,
-      area: rawData.areaId,
-      lideranca: rawData.lideranca == 'true',
-      // ecolaridade: rawData.id,
-
-      cargosLiderados: [ rawData.cargoLiderId ],
-      // Estes 4 são tabelas separadas aaaaaaaa, como listas n:m 
-      desejaveis: wanted,
-      funcoes:    functions,
-      habilidades: skills,
-      ecolaridade: educations,
-    }  
-
-
-    console.log("data")
-    console.log(data)
-    
-    let isCreated = await cargos.create(data)
-
-    console.log("isCreated")
-    console.log(isCreated)
-  }
-
-  async function handleUpdatePosition(id: string){
-    console.log("test")
-  }
-
-  async function handleDeletePosition(id: string){
-    console.log("test")
-  }
-
-
-  useEffect(() => {
-    handleLoadPosition()
-  }, [])
-  useEffect(() => {
-    // Made like this 'cause of handleLoadAssociations threw a error "react-hooks/exhaustive-deps"
-    handleLoadArea()
-    handleLoadEducation()
-    handleLoadFunctions()
-    handleLoadSkills()
-  }, [])
 
   /*
   ==================================================
@@ -223,7 +170,7 @@ export default function Positions() {
       setFunctions(newFormValues)
   }
 
-    /*
+  /*
   ==================================================
             Multiple Skills Handler
   ==================================================
@@ -251,6 +198,90 @@ export default function Positions() {
 
 
 
+/*
+  ==================================================
+                  Positions Crud
+  ==================================================
+*/
+
+
+  async function handleLoadPosition() {
+    const cargo = await cargos.list()
+
+    console.log('cargos')
+    console.log(cargo)
+
+    setAllCargos(cargo)
+  }
+
+
+  async function handleCreatePosition(rawData: any){
+    let data = {
+      nome: rawData.desc,
+      area: rawData.areaId,
+      lideranca: rawData.lideranca == 'true',
+      // ecolaridade: rawData.id,
+
+      cargosLiderados: [ rawData.cargoLiderId ],
+      // Estes 4 são tabelas separadas aaaaaaaa, como listas n:m 
+      desejaveis: wanted,
+      funcoes:    functions,
+      habilidades: skills,
+      ecolaridade: educations,
+    }  
+
+
+    console.log("data")
+    console.log(data)
+    
+    let isCreated = await cargos.create(data)
+
+    if(isCreated) closeModalNew()
+
+    await handleLoadPosition()
+    
+    //Clears all data used
+    reset(rawData)
+    setSkills( [ "" ] )
+    setWanted( [ "" ] )
+    setFunctions( [ "" ] )
+    setEducations( [ "" ] )
+
+  }
+
+  async function handleUpdatePosition(id: string){
+    console.log("test")
+  }
+
+  async function handleDeletePosition(id: string){
+    console.log("test")
+  }
+
+
+
+
+
+
+
+
+/*
+  ==================================================
+                   useEffects
+  ==================================================
+*/
+  useEffect(() => {
+    handleLoadPosition()
+  }, [])
+  useEffect(() => {
+    // Made like this 'cause of handleLoadAssociations threw a error "react-hooks/exhaustive-deps"
+    handleLoadArea()
+    handleLoadEducation()
+    handleLoadFunctions()
+    handleLoadSkills()
+  }, [])
+
+
+
 
 
   return (
@@ -274,21 +305,27 @@ export default function Positions() {
                 <td>CBO</td>
                 <td>Nível Hierarquico</td>
               </S.TrTitle>
-              <S.TrSecond>
-                <td>Ryan</td>
-                <td>123</td>
-                <td>Gerente</td>
-                <td>
-                  <button onClick={openModal}>
-                    <FiEdit size={18} />
-                  </button>
-                </td>
-                <td>
-                  <button>
-                    <FiTrash size={18} />
-                  </button>
-                </td>
-              </S.TrSecond>
+            {
+              allCargos.map(
+                cargo => (
+                  <S.TrSecond>
+                    <td>{cargo.nome}</td>
+                    <td>{cargo.cbo || "Não cadastrado"}</td>
+                    <td>Gerente</td>
+                    <td>
+                      <button onClick={openModal}>
+                        <FiEdit size={18} />
+                      </button>
+                    </td>
+                    <td>
+                      <button>
+                        <FiTrash size={18} />
+                      </button>
+                    </td>
+                  </S.TrSecond>
+                )
+              )
+            }
             </S.Table>
           )}
           {allCargos.length == 0 && <p>Nenhum cargo cadastrado!</p>}
@@ -316,11 +353,11 @@ export default function Positions() {
         >
           <h2>Editar Cargo</h2>
 
-          
           <input
           type='text' placeholder='Descrição'
           {...register('desc')}
           />
+
 
         <select
           placeholder='Liderança'
@@ -329,13 +366,14 @@ export default function Positions() {
         <option value={"false"}> Não </option>
         <option value={"true"}> Sim  </option>
 
-        </select>
 
+        </select>
           <input
           type='text' placeholder='Descrição oficial'
           // onChange={() => console.log(register)}
           {...register('descOfc')}
           />
+
 
           <select
           {...register('ocupationCodeBr')}
@@ -344,6 +382,8 @@ export default function Positions() {
               Código Brasileiro de Ocupações
             </option>
           </select>
+
+
           <select
           {...register('ocupationCodeIR')}>
             <option>
