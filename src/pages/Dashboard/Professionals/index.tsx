@@ -9,6 +9,8 @@ import profissional from 'service/profissional/profissional'
 import cepInformation from 'utils/cepInformation'
 import { fullName } from 'service/api'
 import { Checkbox } from '../Area/Area.styled'
+import { toast } from 'react-toastify'
+import { checkCPF } from 'utils/checkCPF'
 
 export default function Professionals() {
 
@@ -325,6 +327,13 @@ export default function Professionals() {
             onChange={(e) => setNomeMae(e.target.value)}
           />
 
+
+
+          {/* 
+          
+          ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
+          
+          */}
           <input
             type='text'
             placeholder='Cargo'
@@ -389,10 +398,14 @@ export default function Professionals() {
                 id=''
                 onChange={(e) => setEstadoCivil(e.target.value)}
               >
-                <option hidden>Estado civil</option>
-                <option value='Solteiro(a)'>Solteiro(a)</option>
-                <option value='Casado(a)'>Casado(a)</option>
-                <option value='Viúvo(a)'>Viúvo(a)</option>
+                <option hidden>
+                  Estado civil</option>
+                <option value='Solteiro(a)'>
+                  Solteiro(a)</option>
+                <option value='Casado(a)'>
+                  Casado(a)</option>
+                <option value='Viúvo(a)'> 
+                  Viúvo(a)</option>
               </select>
 
 
@@ -432,7 +445,14 @@ export default function Professionals() {
                         onChange={(e) => {
                           handleChangeDependente(index, e)
 
-
+                          let cpfWithLetters = e.target.value
+                          let clearedCpf = cpfWithLetters.replace(/\D/g, "");
+                          
+                          console.log(clearedCpf)
+                          if(clearedCpf.length != 11) return 
+                          
+                          checkCPF(clearedCpf)
+                          
                         }}
                         />
                       <InputMask
