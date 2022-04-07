@@ -16,9 +16,9 @@ import areas from 'service/area/area'
 export default function Positions() {
   // const { allCargos } = useCargos()
   const [allCargos    , setAllCargos    ] = useState([])
-  const [AllAreas     , setAllAreas     ] = useState([])
-  const [AllEducations, setAllEducations] = useState([])
-  const [AllFunctions , setAllFunctions ] = useState([])
+  const [allAreas     , setAllAreas     ] = useState([])
+  const [allEducations, setAllEducations] = useState([])
+  const [allFunctions , setAllFunctions ] = useState([])
 
 
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -165,24 +165,48 @@ export default function Positions() {
             <option>Código de Ocupação conforme IR</option>
           </select>
           <select>
-            <option>Área</option>
-            <option>Área</option>
+            <option hidden >Área</option>
+            {
+            allAreas.map(
+              (area) => (
+                <option>Área</option>
+              )
+            )}
             
           </select>
           <select>
-            <option>Cargos Liderados</option>
+            <option hidden>Cargos Liderados</option>
+            {
+            allCargos.map(
+              (area) => (
+                <option>Área</option>
+              )
+            )
+            }
           </select>
           <select>
-            <option>Habilidades</option>
+            <option hidden >Habilidades</option>
+
           </select>
           <select>
-            <option>Desejaveis</option>
+            {/* Habilidade */}
+            <option hidden >Desejaveis</option>
           </select>
           <select>
             <option>Funções</option>
+            {allFunctions.map(
+              (area)=> (
+                <option>Área</option>
+              )
+            )}
           </select>
           <select>
-            <option>Escolaridade</option>
+            <option hidden >Escolaridade</option>
+            {allEducations.map(
+              (education) => (
+                <option>Escolaridade</option>
+              )
+            )}
           </select>
           <select>
             <option>Questionario</option>
