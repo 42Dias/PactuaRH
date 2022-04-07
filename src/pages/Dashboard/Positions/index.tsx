@@ -11,6 +11,7 @@ import cargos from 'service/cargos/cargos'
 import funcoes from 'service/funcoes/funcoes'
 import escolaridade from 'service/escolaridade/escolaridade'
 import areas from 'service/area/area'
+import habilidades from 'service/habilidades/habilidades'
 
 
 export default function Positions() {
@@ -19,7 +20,7 @@ export default function Positions() {
   const [allAreas     , setAllAreas     ] = useState([])
   const [allEducations, setAllEducations] = useState([])
   const [allFunctions , setAllFunctions ] = useState([])
-
+  const [allSkills    , setAllSkills    ] = useState([])
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -58,11 +59,18 @@ export default function Positions() {
     setAllFunctions(funcao)
   }
 
+  async function handleLoadSkills() {
+    const allSkills = await habilidades.list()
+
+    setAllSkills(allSkills)
+  }
+
   // Loads all tables associated
   async function handleLoadAssociations() {
-    await handleLoadArea()
-    await handleLoadEducation()
-    await handleLoadFunctions()
+    handleLoadArea()
+    handleLoadEducation()
+    handleLoadFunctions()
+    handleLoadSkills()
   }
 
   async function handleLoadPosition() {
@@ -186,7 +194,13 @@ export default function Positions() {
           </select>
           <select>
             <option hidden >Habilidades</option>
-
+            {
+              allSkills.map(
+                (skill) => (
+                  <option>Habilidade</option>
+                )
+              )
+            }
           </select>
           <select>
             {/* Habilidade */}
