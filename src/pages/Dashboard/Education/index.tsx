@@ -8,12 +8,12 @@ import escolaridade from 'service/escolaridade/escolaridade'
 import { fullName } from 'service/api'
 
 export default function Education() {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [nome      , setNome      ] = useState<string>("")
-  const [id        , setId        ] = useState<string>("")
-  const [education      , setEducation      ] = useState<any[]>([])
-
+  const [modalIsOpen   , setIsOpen    ] = useState(false)
+  const [modalIsOpenNew, setIsOpenNew ] = useState(false)
+  const [nome          , setNome      ] = useState<string>("")
+  const [id            , setId        ] = useState<string>("")
+  const [education     , setEducation ] = useState<any[]>([])
+    
 
   function openModal() {
     setIsOpen(true)
