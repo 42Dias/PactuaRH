@@ -105,6 +105,11 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/escolaridade'>Escolaridade</Link>
                   </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/area'>Área</Link>
+                  </MenuItem>
+
                 </SubMenu>
 
                 <SubMenu title='Avaliação' icon={<FiTrendingUp />}>
