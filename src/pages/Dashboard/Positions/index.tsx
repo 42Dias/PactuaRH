@@ -205,14 +205,24 @@ export default function Positions() {
           <select>
             {/* Habilidade */}
             <option hidden >Desejaveis</option>
+            {
+              allSkills.map(
+                (skill) => (
+                  <option>Habilidade</option>
+                )
+              )
+            }
+            
           </select>
           <select>
             <option>Funções</option>
-            {allFunctions.map(
+            {
+            allFunctions.map(
               (area)=> (
                 <option>Área</option>
               )
-            )}
+            )
+            }
           </select>
           <select>
             <option hidden >Escolaridade</option>
