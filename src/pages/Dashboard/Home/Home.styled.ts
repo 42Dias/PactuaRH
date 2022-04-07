@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components'
 import { theme } from 'config'
 
@@ -69,7 +70,7 @@ export const GridDetails = styled.div`
   grid-template-columns: 1.4fr 0.6fr;
   gap: 50px;
 
-  @media (max-width: 870px) {
+  @media (max-width: 895px) {
     grid-template-columns: 1fr;
   }
 `
@@ -155,7 +156,7 @@ export const Content = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     flex-direction: column;
     align-items: center;
     justify-content: center;

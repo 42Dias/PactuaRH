@@ -35,9 +35,10 @@ export default function Positions() {
   const [allFunctions , setAllFunctions ] = useState<iData[]>([])
   const [allSkills    , setAllSkills    ] = useState<iData[]>([])
   
-  const [skills       , setSkills       ] = useState([ { id: '' } ])
-  const [wanted       , setWanted       ] = useState([ { id: '' } ])
-  const [functions    , setFunctions    ] = useState([ { id: '' } ])
+  const [skills       , setSkills       ] = useState([ "" ])
+  const [wanted       , setWanted       ] = useState([ "" ])
+  const [functions    , setFunctions    ] = useState([ "" ])
+  const [educations   , setEducations   ] = useState([ "" ])
 
 
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -105,17 +106,25 @@ export default function Positions() {
     let data = {
       nome: rawData.desc,
       area: rawData.areaId,
-      ecolaridade: rawData.id,
-      habilidade: rawData.habilidadeId,
+      lideranca: rawData.lideranca == 'true',
+      // ecolaridade: rawData.id,
 
-      // Estes três são tabelas separadas aaaaaaaa, como listas n:m 
-      cargosLiderados: rawData.cargoLiderId,
-      desejaveis: rawData.desejavelId,
-      funcoes: rawData.funcaoId,
-      habilidades: rawData.habilidadesId,
+      cargosLiderados: [ rawData.cargoLiderId ],
+      // Estes 4 são tabelas separadas aaaaaaaa, como listas n:m 
+      desejaveis: wanted,
+      funcoes:    functions,
+      habilidades: skills,
+      ecolaridade: educations,
     }  
+
+
+    console.log("data")
     console.log(data)
     
+    let isCreated = await cargos.create(data)
+
+    console.log("isCreated")
+    console.log(isCreated)
   }
 
   async function handleUpdatePosition(id: string){
@@ -147,7 +156,7 @@ export default function Positions() {
   let handleChangeSkills = (i: number, id: string) => {
     let newFormValues = [...skills];
     //@ts-ignore
-    newFormValues[i].id = id;
+    newFormValues[i] = id;
 
     setSkills(newFormValues);
  }
@@ -172,13 +181,13 @@ export default function Positions() {
 
   let handleChangeWanted = (i: number, id: string) => {
     let newFormValues = [...wanted];
-    newFormValues[i].id = id;
+    newFormValues[i] = id;
 
     setWanted(newFormValues);
  }
       
   let addWanted = () => {
-    setWanted([...wanted, { id: "" }])
+    setWanted([...wanted, "" ])
   }
 
   let removeWanted = (i: number) => {
@@ -197,7 +206,7 @@ export default function Positions() {
   let handleChangeFunctions = (i: number, id: string) => {
     let newFormValues = [...functions];
     //@ts-ignore
-    newFormValues[i].id = id;
+    newFormValues[i] = id;
 
     setFunctions(newFormValues);
  }
@@ -213,6 +222,33 @@ export default function Positions() {
       newFormValues.splice(i, 1);
       setFunctions(newFormValues)
   }
+
+    /*
+  ==================================================
+            Multiple Skills Handler
+  ==================================================
+  */
+
+  let handleChangeEducations = (i: number, id: string) => {
+    let newFormValues = [...educations];
+    //@ts-ignore
+    newFormValues[i] = id;
+
+    setEducations(newFormValues);
+ }
+      
+  let addEducations = () => {
+    //@ts-ignore
+    setEducations([...educations, { id: "" }])
+  }
+
+  let removeEducations = (i: number) => {
+      if(educations.length == 1) return
+      let newFormValues = [...educations];
+      newFormValues.splice(i, 1);
+      setEducations(newFormValues)
+  }
+
 
 
 
@@ -278,13 +314,23 @@ export default function Positions() {
           // onSubmit={ handleSubmit(handleCreatePosition) }
           onSubmit={handleSubmit(handleCreatePosition)}
         >
-          <h2>Cadastrar Cargo</h2>
+          <h2>Editar Cargo</h2>
 
           
           <input
           type='text' placeholder='Descrição'
           {...register('desc')}
           />
+
+        <select
+          placeholder='Liderança'
+          {...register('lideranca')}
+          >
+        <option value={"false"}> Não </option>
+        <option value={"true"}> Sim  </option>
+
+        </select>
+
           <input
           type='text' placeholder='Descrição oficial'
           // onChange={() => console.log(register)}
@@ -382,7 +428,7 @@ export default function Positions() {
           className='btn-actions'
           onClick={() => addSkills()}
           >
-            <FiPlus/>
+            <FiPlus size={20} />
           </button>
 
 
@@ -419,13 +465,12 @@ export default function Positions() {
 
           <button
           type='button'
-          className='btn-actions'
+          className='button btn-actions'
           onClick={() => addWanted()}
           >
-            <FiPlus/>
+            <FiPlus size={20} />
           </button>
 
-          jajajajajaja
         {
           functions.map(
             (skill, index) => (
@@ -461,9 +506,48 @@ export default function Positions() {
           className='btn-actions'
           onClick={() => addWanted()}
           >
-            <FiPlus/>
+            <FiPlus size={20} />
           </button>
 
+          {  
+        educations.map(
+          (education, index) => (
+            <div className="border">
+              <select
+              onChange={(e) => handleChangeEducations(index, e.target.value)}
+              >
+                <option hidden >Escolaridade</option>
+                {
+                  allEducations.map(
+                    (education) => (
+                      <option key={education.id} value={education.id}>
+                        {education.nome}
+                      </option>
+                    )
+                  )
+                }
+              </select>
+              <button
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeEducations(index)}
+              >
+                <FiTrash/>
+              </button>
+            </div>
+          )
+         )
+        }
+
+          <button
+          type='button'
+          className='btn-actions'
+          onClick={() => addEducations()}
+          >
+            <FiPlus size={20} />
+          </button>
+
+          
 
           {/* <select
           {...register('desejavelId')}
@@ -495,7 +579,7 @@ export default function Positions() {
             )
             }
           </select> */}
-          <select
+          {/* <select
           
           {...register('escolaridadeId')}
           >
@@ -509,7 +593,7 @@ export default function Positions() {
               )
             )
             }
-          </select>
+          </select> */}
           {/* <select>
             <option>Questionario</option>
           </select> */}
@@ -594,6 +678,16 @@ export default function Positions() {
           // onChange={() => console.log(register)}
           {...register('descOfc')}
           />
+          <select
+            placeholder='Liderança'
+            {...register('lideranca')}
+            >
+          <option hidden> Liderança </option>
+          <option value={"true"}> Sim  </option>
+          <option value={"false"}> Não </option>
+
+          </select>
+
 
           <select
           {...register('ocupationCodeBr')}
@@ -686,7 +780,7 @@ export default function Positions() {
           className='btn-actions'
           onClick={() => addSkills()}
           >
-            <FiPlus/>
+            <FiPlus size={20} />
           </button>
 
 
@@ -743,7 +837,7 @@ export default function Positions() {
           className='btn-actions'
           onClick={() => addWanted()}
           >
-            <FiPlus/>
+            <FiPlus size={20} />
           </button>
 
           
@@ -782,8 +876,58 @@ export default function Positions() {
           className='btn-actions'
           onClick={() => addFunctions()}
           >
-            <FiPlus/>
+            <FiPlus size={20} />
           </button>
+
+
+        
+        {/* 
+        <button
+        type='button'
+        className='btn-actions'
+        onClick={() => addFunctions()}
+        >
+          <FiPlus size={20} />
+        </button> */}
+
+        {  
+        educations.map(
+          (education, index) => (
+            <div className="border">
+              <select
+              onChange={(e) => handleChangeEducations(index, e.target.value)}
+              >
+                <option hidden >Escolaridade</option>
+                {
+                  allEducations.map(
+                    (education) => (
+                      <option key={education.id} value={education.id}>
+                        {education.nome}
+                      </option>
+                    )
+                  )
+                }
+              </select>
+              <button
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeEducations(index)}
+              >
+                <FiTrash/>
+              </button>
+            </div>
+          )
+         )
+        }
+
+          <button
+          type='button'
+          className='btn-actions'
+          onClick={() => addEducations()}
+          >
+            <FiPlus size={20} />
+          </button>
+
           
           {/* <select
           {...register('funcaoId')}
@@ -799,7 +943,7 @@ export default function Positions() {
             )
             }
           </select> */}
-          <select
+          {/* <select
           
           {...register('escolaridadeId')}
           >
@@ -813,7 +957,7 @@ export default function Positions() {
               )
             )
             }
-          </select>
+          </select> */}
           {/* <select>
             <option>Questionario</option>
           </select> */}
