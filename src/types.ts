@@ -10,3 +10,8 @@ export interface iData  {
     id:      string,
     nome:     string,
 }
+
+export interface iCargo extends iData{
+    cbo: string
+
+}
