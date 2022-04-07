@@ -5,25 +5,25 @@ import * as S from './Positions.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import loadCargos from 'service/cargos/cargos'
-import cargos from 'service/cargos/cargos'
 import { fullName } from 'service/api'
+// All tables used
+import cargos from 'service/cargos/cargos'
+import funcoes from 'service/funcoes/funcoes'
+import escolaridade from 'service/escolaridade/escolaridade'
+import areas from 'service/area/area'
+
 
 export default function Positions() {
   // const { allCargos } = useCargos()
-  const [allCargos, setAllCargos] = useState([])
+  const [allCargos    , setAllCargos    ] = useState([])
+  const [AllAreas     , setAllAreas     ] = useState([])
+  const [AllEducations, setAllEducations] = useState([])
+  const [AllFunctions , setAllFunctions ] = useState([])
+
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   // const [cargos, setCargos] = useState()
-
-  async function getAllCargos() {
-    const cargo = await cargos.list()
-
-    console.log('cargos')
-    console.log(cargo)
-
-    setAllCargos(cargo)
-  }
 
   function openModal() {
     setIsOpen(true)
@@ -41,9 +41,59 @@ export default function Positions() {
     setIsOpenNew(false)
   }
 
+  async function handleLoadArea() {
+    const allArea = await areas.list()
+
+    setAllAreas(allArea)
+  }
+  async function handleLoadEducation() {
+    let allEducation = await escolaridade.list()
+
+    setAllEducations(allEducation)
+  }
+
+  async function handleLoadFunctions() {
+    const funcao = await funcoes.list()
+
+    setAllFunctions(funcao)
+  }
+
+  // Loads all tables associated
+  async function handleLoadAssociations() {
+    await handleLoadArea()
+    await handleLoadEducation()
+    await handleLoadFunctions()
+  }
+
+  async function handleLoadPosition() {
+    const cargo = await cargos.list()
+
+    console.log('cargos')
+    console.log(cargo)
+
+    setAllCargos(cargo)
+  }
+
+
+  async function handleCreatePosition(){
+    console.log("test")
+  }
+
+  async function handleUpdatePosition(id: string){
+    console.log("test")
+  }
+
+  async function handleDeletePosition(id: string){
+    console.log("test")
+  }
+
+
   useEffect(() => {
-    getAllCargos()
+    handleLoadPosition()
+    handleLoadAssociations()
   }, [])
+
+
 
   return (
     <>
@@ -105,14 +155,45 @@ export default function Positions() {
         <S.ContainerForm>
           <h2>Editar profissional</h2>
 
-          <input type='text' placeholder='Nome' />
-          <input type='number' placeholder='CPF' />
-          <input type='number' placeholder='RG' />
-          <input type='number' placeholder='Data de nascimento' />
-          <input type='text' placeholder='Nome da mãe' />
-          <input type='text' placeholder='Cargo' />
-          <input type='text' placeholder='Benefícios' />
-          <input type='text' placeholder='CEP*' />
+          <input type='text' placeholder='Descrição' />
+          <input type='text' placeholder='Descrição oficial' />
+
+          <select>
+            <option>Código Brasileiro de Ocupações</option>
+          </select>
+          <select>
+            <option>Código de Ocupação conforme IR</option>
+          </select>
+          <select>
+            <option>Área</option>
+            <option>Área</option>
+            
+          </select>
+          <select>
+            <option>Cargos Liderados</option>
+          </select>
+          <select>
+            <option>Habilidades</option>
+          </select>
+          <select>
+            <option>Desejaveis</option>
+          </select>
+          <select>
+            <option>Funções</option>
+          </select>
+          <select>
+            <option>Escolaridade</option>
+          </select>
+          <select>
+            <option>Questionario</option>
+          </select>
+          <input type='text' placeholder='Plano ADM' />
+          <input type='text' placeholder='Classe/Faixa sugerida' />
+          <input type='text' placeholder='Nível Hierárquico na empresa' />
+          <input
+            type='text'
+            placeholder='Grau de instrução mínimo para o cargo'
+          />
 
           <button>Enviar</button>
         </S.ContainerForm>
@@ -133,7 +214,12 @@ export default function Positions() {
         </button>
 
         {/* CADASTRO DO CARGO */}
-        <S.ContainerForm>
+        <S.ContainerForm
+          onSubmit={e => {
+            e.preventDefault()
+            handleCreatePosition()
+          }}
+        >
           <h2>Cadastrar profissional</h2>
 
           <input type='text' placeholder='Descrição' />
