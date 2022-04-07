@@ -184,7 +184,9 @@ export default function Positions() {
             {
             allAreas.map(
               (area) => (
-                <option>Área</option>
+                <option key={area.id} value={area.id}>
+                  Área
+                </option>
               )
             )}
             
@@ -194,8 +196,8 @@ export default function Positions() {
             {
             allCargos.map(
               (cargo) => (
-                <option value={cargo.id}>
-                  Área
+                <option key={cargo.id} value={cargo.id}>
+                  {cargo.nome}
                 </option>
               )
             )
@@ -206,7 +208,9 @@ export default function Positions() {
             {
               allSkills.map(
                 (skill) => (
-                  <option>Habilidade</option>
+                  <option key={skill.id} value={skill.id}>
+                    {skill.nome}
+                  </option>
                 )
               )
             }
@@ -217,7 +221,9 @@ export default function Positions() {
             {
               allSkills.map(
                 (skill) => (
-                  <option>Habilidade</option>
+                  <option key={skill.id} value={skill.id}>
+                    {skill.nome}
+                  </option>
                 )
               )
             }
@@ -227,19 +233,25 @@ export default function Positions() {
             <option>Funções</option>
             {
             allFunctions.map(
-              (area)=> (
-                <option>Área</option>
+              (afunction)=> (
+                <option key={afunction.id} value={afunction.id}>
+                  {afunction.nome}
+                </option>
               )
             )
             }
           </select>
           <select>
             <option hidden >Escolaridade</option>
-            {allEducations.map(
+            {
+            allEducations.map(
               (education) => (
-                <option>Escolaridade</option>
+                <option key={education.id} value={education.id}>
+                  {education.nome}
+                </option>
               )
-            )}
+            )
+            }
           </select>
           <select>
             <option>Questionario</option>
