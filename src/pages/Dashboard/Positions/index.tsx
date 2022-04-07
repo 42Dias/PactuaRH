@@ -36,6 +36,8 @@ export default function Positions() {
   const [allSkills    , setAllSkills    ] = useState<iData[]>([])
   
   const [skills       , setSkills       ] = useState([ { id: '' } ])
+  const [wanted       , setWanted       ] = useState([ { id: '' } ])
+
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -135,7 +137,11 @@ export default function Positions() {
     handleLoadSkills()
   }, [])
 
-
+  /*
+  ==================================================
+            Multiple Skills Handler
+  ==================================================
+  */
 
   let handleChangeSkills = (i: number, id: string) => {
     let newFormValues = [...skills];
@@ -155,6 +161,30 @@ export default function Positions() {
       let newFormValues = [...skills];
       newFormValues.splice(i, 1);
       setSkills(newFormValues)
+  }
+
+   /*
+  ==================================================
+           Multiple Skills Wanted Skills
+  ==================================================
+  */
+
+  let handleChangeWanted = (i: number, id: string) => {
+    let newFormValues = [...wanted];
+    newFormValues[i].id = id;
+
+    setWanted(newFormValues);
+ }
+      
+  let addWanted = () => {
+    setWanted([...wanted, { id: "" }])
+  }
+
+  let removeWanted = (i: number) => {
+      if(wanted.length == 1) return
+      let newFormValues = [...wanted];
+      newFormValues.splice(i, 1);
+      setWanted(newFormValues)
   }
 
 
@@ -329,10 +359,48 @@ export default function Positions() {
 
 
 
-          <select
+          {
+          wanted.map(
+            (skill, index) => (
+              <div className="border">
+                <select
+                onChange={(e) => handleChangeWanted(index, e.target.value)}
+                >
+                  <option hidden >Desejaveis</option>
+                  {
+                    allSkills.map(
+                      (skill) => (
+                        <option key={skill.id} value={skill.id}>
+                          {skill.nome}
+                        </option>
+                      )
+                    )
+                  }
+                </select>
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeWanted(index)}
+                >
+                  <FiTrash/>
+                </button>
+              </div>
+            )
+          )
+          }
+
+          <button
+          type='button'
+          className='btn-actions'
+          onClick={() => addWanted()}
+          >
+            <FiPlus/>
+          </button>
+
+
+          {/* <select
           {...register('desejavelId')}
           >
-            {/* Habilidade */}
             <option hidden >Desejaveis</option>
             {
               allSkills.map(
@@ -344,7 +412,7 @@ export default function Positions() {
               )
             }
 
-          </select>
+          </select> */}
           <select
           {...register('funcaoId')}
           >
@@ -555,10 +623,10 @@ export default function Positions() {
 
 
 
-          <select
+          {/* <select
           {...register('desejavelId')}
           >
-            {/* Habilidade */}
+
             <option hidden >Desejaveis</option>
             {
               allSkills.map(
@@ -570,7 +638,46 @@ export default function Positions() {
               )
             }
 
-          </select>
+          </select> */}
+
+        {
+          wanted.map(
+            (skill, index) => (
+              <div className="border">
+                <select
+                onChange={(e) => handleChangeWanted(index, e.target.value)}
+                >
+                  <option hidden >Desejaveis</option>
+                  {
+                    allSkills.map(
+                      (skill) => (
+                        <option key={skill.id} value={skill.id}>
+                          {skill.nome}
+                        </option>
+                      )
+                    )
+                  }
+                </select>
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeWanted(index)}
+                >
+                  <FiTrash/>
+                </button>
+              </div>
+            )
+          )
+          }
+          <button
+          type='button'
+          className='btn-actions'
+          onClick={() => addWanted()}
+          >
+            <FiPlus/>
+          </button>
+
+
           <select
           {...register('funcaoId')}
           >
