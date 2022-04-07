@@ -13,14 +13,15 @@ import escolaridade from 'service/escolaridade/escolaridade'
 import areas from 'service/area/area'
 import habilidades from 'service/habilidades/habilidades'
 
+import { iData } from '../../../types'
 
 export default function Positions() {
   // const { allCargos } = useCargos()
-  const [allCargos    , setAllCargos    ] = useState([])
-  const [allAreas     , setAllAreas     ] = useState([])
-  const [allEducations, setAllEducations] = useState([])
-  const [allFunctions , setAllFunctions ] = useState([])
-  const [allSkills    , setAllSkills    ] = useState([])
+  const [allCargos    , setAllCargos    ] = useState<iData[]>([])
+  const [allAreas     , setAllAreas     ] = useState<iData[]>([])
+  const [allEducations, setAllEducations] = useState<iData[]>([])
+  const [allFunctions , setAllFunctions ] = useState<iData[]>([])
+  const [allSkills    , setAllSkills    ] = useState<iData[]>([])
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -98,7 +99,13 @@ export default function Positions() {
 
   useEffect(() => {
     handleLoadPosition()
-    handleLoadAssociations()
+  }, [])
+  useEffect(() => {
+    // Made like this 'cause of handleLoadAssociations threw a error "react-hooks/exhaustive-deps"
+    handleLoadArea()
+    handleLoadEducation()
+    handleLoadFunctions()
+    handleLoadSkills()
   }, [])
 
 
@@ -186,8 +193,10 @@ export default function Positions() {
             <option hidden>Cargos Liderados</option>
             {
             allCargos.map(
-              (area) => (
-                <option>Área</option>
+              (cargo) => (
+                <option value={cargo.id}>
+                  Área
+                </option>
               )
             )
             }
@@ -212,7 +221,7 @@ export default function Positions() {
                 )
               )
             }
-            
+
           </select>
           <select>
             <option>Funções</option>
@@ -270,8 +279,6 @@ export default function Positions() {
         >
           <h2>Cadastrar profissional</h2>
 
-          <input type='text' placeholder='Descrição' />
-          <input type='text' placeholder='Descrição oficial' />
           <select>
             <option>Código Brasileiro de Ocupações</option>
           </select>
@@ -279,22 +286,64 @@ export default function Positions() {
             <option>Código de Ocupação conforme IR</option>
           </select>
           <select>
-            <option>Área</option>
+            <option hidden >Área</option>
+            {
+            allAreas.map(
+              (area) => (
+                <option>Área</option>
+              )
+            )}
+            
           </select>
           <select>
-            <option>Cargos Liderados</option>
+            <option hidden>Cargos Liderados</option>
+            {
+            allCargos.map(
+              (area) => (
+                <option>Área</option>
+              )
+            )
+            }
           </select>
           <select>
-            <option>Habilidades</option>
+            <option hidden >Habilidades</option>
+            {
+              allSkills.map(
+                (skill) => (
+                  <option>Habilidade</option>
+                )
+              )
+            }
           </select>
           <select>
-            <option>Desejaveis</option>
+            {/* Habilidade */}
+            <option hidden >Desejaveis</option>
+            {
+              allSkills.map(
+                (skill) => (
+                  <option>Habilidade</option>
+                )
+              )
+            }
+            
           </select>
           <select>
             <option>Funções</option>
+            {
+            allFunctions.map(
+              (area)=> (
+                <option>Área</option>
+              )
+            )
+            }
           </select>
           <select>
-            <option>Escolaridade</option>
+            <option hidden >Escolaridade</option>
+            {allEducations.map(
+              (education) => (
+                <option>Escolaridade</option>
+              )
+            )}
           </select>
           <select>
             <option>Questionario</option>
@@ -306,6 +355,7 @@ export default function Positions() {
             type='text'
             placeholder='Grau de instrução mínimo para o cargo'
           />
+
           <button>Enviar</button>
         </S.ContainerForm>
       </Modal>
