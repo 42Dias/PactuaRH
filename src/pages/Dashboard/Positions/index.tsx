@@ -37,6 +37,7 @@ export default function Positions() {
   
   const [skills       , setSkills       ] = useState([ { id: '' } ])
   const [wanted       , setWanted       ] = useState([ { id: '' } ])
+  const [functions    , setFunctions    ] = useState([ { id: '' } ])
 
 
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -186,6 +187,33 @@ export default function Positions() {
       newFormValues.splice(i, 1);
       setWanted(newFormValues)
   }
+  
+  /*
+  ==================================================
+          Multiple functions Handler
+  ==================================================
+  */
+
+  let handleChangeFunctions = (i: number, id: string) => {
+    let newFormValues = [...functions];
+    //@ts-ignore
+    newFormValues[i].id = id;
+
+    setFunctions(newFormValues);
+ }
+      
+  let addFunctions = () => {
+    //@ts-ignore
+    setFunctions([...functions, { id: "" }])
+  }
+
+  let removeFunctions = (i: number) => {
+      if(functions.length == 1) return
+      let newFormValues = [...functions];
+      newFormValues.splice(i, 1);
+      setFunctions(newFormValues)
+  }
+
 
 
 
@@ -397,6 +425,45 @@ export default function Positions() {
             <FiPlus/>
           </button>
 
+          jajajajajaja
+        {
+          functions.map(
+            (skill, index) => (
+              <div className="border">
+                <select
+                onChange={(e) => handleChangeWanted(index, e.target.value)}
+                >
+                  <option hidden >Funções</option>
+                  {
+                    allFunctions.map(
+                      (afunction) => (
+                        <option key={afunction.id} value={afunction.id}>
+                          {afunction.nome}
+                        </option>
+                      )
+                    )
+                  }
+                </select>
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeWanted(index)}
+                >
+                  <FiTrash/>
+                </button>
+              </div>
+            )
+          )
+          }
+
+          <button
+          type='button'
+          className='btn-actions'
+          onClick={() => addWanted()}
+          >
+            <FiPlus/>
+          </button>
+
 
           {/* <select
           {...register('desejavelId')}
@@ -413,7 +480,8 @@ export default function Positions() {
             }
 
           </select> */}
-          <select
+          {/* 1 - 1 is wrong, it is n:n */}
+          {/* <select
           {...register('funcaoId')}
           >
             <option hidden>Funções</option>
@@ -426,7 +494,7 @@ export default function Positions() {
               )
             )
             }
-          </select>
+          </select> */}
           <select
           
           {...register('escolaridadeId')}
@@ -669,6 +737,7 @@ export default function Positions() {
             )
           )
           }
+
           <button
           type='button'
           className='btn-actions'
@@ -677,8 +746,46 @@ export default function Positions() {
             <FiPlus/>
           </button>
 
+          
+        {
+          functions.map(
+            (skill, index) => (
+              <div className="border">
+                <select
+                onChange={(e) => handleChangeFunctions(index, e.target.value)}
+                >
+                  <option hidden >Funções</option>
+                  {
+                    allFunctions.map(
+                      (afunction) => (
+                        <option key={afunction.id} value={afunction.id}>
+                          {afunction.nome}
+                        </option>
+                      )
+                    )
+                  }
+                </select>
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeFunctions(index)}
+                >
+                  <FiTrash/>
+                </button>
+              </div>
+            )
+          )
+          }
 
-          <select
+          <button
+          type='button'
+          className='btn-actions'
+          onClick={() => addFunctions()}
+          >
+            <FiPlus/>
+          </button>
+          
+          {/* <select
           {...register('funcaoId')}
           >
             <option hidden>Funções</option>
@@ -691,7 +798,7 @@ export default function Positions() {
               )
             )
             }
-          </select>
+          </select> */}
           <select
           
           {...register('escolaridadeId')}
