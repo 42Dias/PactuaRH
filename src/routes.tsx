@@ -18,6 +18,7 @@ import Performance from 'pages/Dashboard/Performance'
 import Education from 'pages/Dashboard/Education'
 import Skills from 'pages/Dashboard/Skills'
 import Area from 'pages/Dashboard/Area'
+import Box from 'pages/Dashboard/9Box'
 
 const RoutesApp = () => {
   return (
@@ -43,6 +44,7 @@ const RoutesApp = () => {
         <Route path='/planos' element={<Plans />} />
         <Route path='/desempenho' element={<Performance />} />
         <Route path='/avaliacao-geral' element={<GeneralEvaluation />} />
+         <Route path='/relatorio-9box' element={<Box />} />
       </Routes>
     </BrowserRouter>
   )
