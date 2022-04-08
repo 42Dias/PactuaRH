@@ -44,7 +44,7 @@ export default function Positions() {
   const [functions    , setFunctions    ] = useState([ "" ])
   const [educations   , setEducations   ] = useState([ "" ])
   
-  const [cargosSelected, setCargosSelected] = useState<iCargo>()
+  const [cargoSelected, setCargoSelected] = useState<iCargo>()
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -322,7 +322,11 @@ export default function Positions() {
                     <td>{cargo.cbo || "Não cadastrado"}</td>
                     <td>{cargo.area ? cargo.area.nome : "Não cadastrado"}</td>
                     <td>
-                      <button onClick={openModal}>
+                      <button onClick={() => {
+                        setCargoSelected(cargo)
+                        openModal()
+                        }}
+                        >
                         <FiEdit size={18} />
                       </button>
                     </td>
@@ -361,14 +365,18 @@ export default function Positions() {
           onSubmit={handleSubmit(handleCreatePosition)}
         >
           <h2>Editar Cargo</h2>
+          <h2>{cargoSelected?.nome}</h2>
 
           <input
-          type='text' placeholder='Descrição'
+          defaultValue={cargoSelected?.nome}
+          type='text'
+          placeholder='Descrição'
           {...register('desc')}
           />
 
 
         <select
+          defaultValue={cargoSelected?.lideranca}
           placeholder='Liderança'
           {...register('lideranca')}
           >
@@ -377,14 +385,15 @@ export default function Positions() {
 
 
         </select>
-          <input
+          {/* <input
           type='text' placeholder='Descrição oficial'
           // onChange={() => console.log(register)}
           {...register('descOfc')}
-          />
+          /> */}
 
 
           <select
+          defaultValue={cargoSelected?.cbo || "Não cadastrado"}
           {...register('ocupationCodeBr')}
           >
             <option>
@@ -394,6 +403,7 @@ export default function Positions() {
 
 
           <select
+          defaultValue={cargoSelected?.ir || "Não cadastrado"}
           {...register('ocupationCodeIR')}>
             <option>
               Código de Ocupação conforme IR
@@ -414,6 +424,7 @@ export default function Positions() {
             
           </select>
           <select
+          defaultValue={cargoSelected?.ir || "Não cadastrado"}
           {...register('cargoLiderId')}
           >
             <option hidden>Cargos Liderados</option>
@@ -722,11 +733,11 @@ export default function Positions() {
           type='text' placeholder='Descrição'
           {...register('desc')}
           />
-          <input
+          {/* <input
           type='text' placeholder='Descrição oficial'
           // onChange={() => console.log(register)}
           {...register('descOfc')}
-          />
+          /> */}
           <select
             placeholder='Liderança'
             {...register('lideranca')}
