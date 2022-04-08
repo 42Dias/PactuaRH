@@ -303,7 +303,7 @@ export default function Positions() {
               <S.TrTitle>
                 <td>Descrição</td>
                 <td>CBO</td>
-                <td>Nível Hierarquico</td>
+                <td>Área</td>
               </S.TrTitle>
             {
               allCargos.map(
@@ -311,7 +311,7 @@ export default function Positions() {
                   <S.TrSecond>
                     <td>{cargo.nome}</td>
                     <td>{cargo.cbo || "Não cadastrado"}</td>
-                    <td>Gerente</td>
+                    <td>{cargo.area ? cargo.area.nome : "Não cadastrado"}</td>
                     <td>
                       <button onClick={openModal}>
                         <FiEdit size={18} />
