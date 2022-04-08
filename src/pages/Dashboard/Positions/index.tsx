@@ -30,6 +30,9 @@ export default function Positions() {
 
 
   // const { allCargos } = useCargos()
+
+  
+  
   const [allCargos    , setAllCargos    ] = useState<iCargo[]>([])
   const [allAreas     , setAllAreas     ] = useState<iData[]>([])
   const [allEducations, setAllEducations] = useState<iData[]>([])
@@ -40,7 +43,8 @@ export default function Positions() {
   const [wanted       , setWanted       ] = useState([ "" ])
   const [functions    , setFunctions    ] = useState([ "" ])
   const [educations   , setEducations   ] = useState([ "" ])
-
+  
+  const [cargosSelected, setCargosSelected] = useState<iCargo>()
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -254,7 +258,12 @@ export default function Positions() {
   }
 
   async function handleDeletePosition(id: string){
-    console.log("test")
+    console.log(id)
+
+    let isDeleted = await cargos.delete(id)
+
+    await handleLoadPosition()
+
   }
 
 
@@ -319,7 +328,7 @@ export default function Positions() {
                     </td>
                     <td>
                       <button>
-                        <FiTrash size={18} />
+                        <FiTrash size={18} onClick={() => handleDeletePosition(cargo.id)} />
                       </button>
                     </td>
                   </S.TrSecond>
