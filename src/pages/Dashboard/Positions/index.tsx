@@ -246,10 +246,10 @@ export default function Positions() {
     
     //Clears all data used
     reset(rawData)
-    setSkills( [ "" ] )
-    setWanted( [ "" ] )
-    setFunctions( [ "" ] )
-    setEducations( [ "" ] )
+    setSkills( [ ] )
+    setWanted( [ ] )
+    setFunctions([ ] )
+    setEducations([ ] )
 
   }
 
@@ -265,12 +265,6 @@ export default function Positions() {
     await handleLoadPosition()
 
   }
-
-
-
-
-
-
 
 
 /*
@@ -290,7 +284,70 @@ export default function Positions() {
   }, [])
 
 
+  /*
+  ==================================================
+                Values Handlers
+  ==================================================
+*/
 
+
+  function handleSetSkills(cargo:iCargo){
+    setSkills([])
+    cargo.habilidades.map(
+      (skills) => {
+        setSkills(prevValues => {
+          return Array.from(new Set([...prevValues, skills.id]))
+          })
+      }
+    )
+  }
+
+  function handleSetWanted(cargo:iCargo){
+    setWanted([])
+    cargo.desejaveis.map(
+      (wanted) => {
+        setWanted(prevValues => {
+          console.log(prevValues)
+          console.log(wanted.id)
+          return Array.from(new Set([...prevValues, wanted.id]))
+          })
+      }
+    )
+  }
+
+  function handleSetFunctions(cargo:iCargo){
+    setFunctions([])
+    cargo.funcoes.map(
+      (functions) => {
+        setFunctions(prevValues => {
+          return Array.from(new Set([...prevValues, functions.id]))
+          })
+
+      }
+    )
+
+  }
+
+  function handleSetEducations(cargo:iCargo){
+    setEducations([])
+
+    cargo.ecolaridade.map(
+      (educations) => {
+        setEducations(prevValues => {
+          return Array.from(new Set([...prevValues, educations.id]))
+          })
+      }
+    )
+  }
+  // encapsulated all above
+  function handleSetArrays(cargo: iCargo){
+    console.log(cargo)
+    handleSetSkills(cargo)
+    handleSetWanted(cargo)
+    handleSetFunctions(cargo)
+    handleSetEducations(cargo)
+
+  }
 
 
   return (
@@ -324,6 +381,9 @@ export default function Positions() {
                     <td>
                       <button onClick={() => {
                         setCargoSelected(cargo)
+
+                        handleSetArrays(cargo)
+                        
                         openModal()
                         }}
                         >
@@ -452,12 +512,14 @@ export default function Positions() {
               )
             }
           </select>
-
           {
           skills.map(
             (skill, index) => (
               <div className="border">
+                defaultValue={skills[index]}
+
                 <select
+                defaultValue={skills[index]}
                 onChange={(e) => handleChangeSkills(index, e.target.value)}
                 >
                   <option hidden >Habilidades</option>
@@ -492,12 +554,16 @@ export default function Positions() {
           </button>
 
 
-
+          wanted
           {
           wanted.map(
             (skill, index) => (
               <div className="border">
+
+                {wanted[index]}
+
                 <select
+                defaultValue={wanted[index]}
                 onChange={(e) => handleChangeWanted(index, e.target.value)}
                 >
                   <option hidden >Desejaveis</option>
@@ -535,7 +601,10 @@ export default function Positions() {
           functions.map(
             (skill, index) => (
               <div className="border">
+                defaultValue={functions[index]}
+
                 <select
+                defaultValue={functions[index]}
                 onChange={(e) => handleChangeWanted(index, e.target.value)}
                 >
                   <option hidden >Funções</option>
@@ -569,11 +638,12 @@ export default function Positions() {
             <FiPlus size={20} />
           </button>
 
-          {  
+        {  
         educations.map(
           (education, index) => (
             <div className="border">
               <select
+              defaultValue={educations[index]}
               onChange={(e) => handleChangeEducations(index, e.target.value)}
               >
                 <option hidden >Escolaridade</option>
