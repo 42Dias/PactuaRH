@@ -3,10 +3,22 @@ import Sidebar from 'ui/components/Sidebar'
 import { welcome } from 'assets'
 import * as S from './Home.styled'
 import { api, Email, fullName } from 'service/api'
+import { useEffect } from 'react'
+import { emitWarning } from 'process'
 
 const avatar = require('./../../../assets/avatar.png')
 
 export default function Home() {
+  function checkLogin(){
+    if(!Email) window.location.reload()
+  }
+
+  useEffect(
+    () => {
+      checkLogin()
+    }, []
+  )
+
   return (
     <S.Body>
       <Sidebar />
