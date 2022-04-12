@@ -12,6 +12,14 @@ export interface iData  {
 }
 
 export interface iCargo extends iData{
-    cbo: string
+    lideranca: string,
+    cbo:       string,
+    ir:        string,
+    ecolaridade: iData[],
+    habilidades: iData[],
+    desejaveis:  iData[],
+    funcoes:     iData[]
+    area:        iData,
+
 
 }
