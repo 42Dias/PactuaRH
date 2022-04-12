@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import { welcome } from 'assets'
 import * as S from './Home.styled'
-import { api, fullName } from 'service/api'
+import { api, Email, fullName } from 'service/api'
 
+const avatar = require('./../../../assets/avatar.png')
 
 export default function Home() {
   return (
@@ -82,21 +83,21 @@ export default function Home() {
            {/* <h1>User pertencente a empresaX</h1> */}
 
             <S.FlexPhoto>
-              
               <S.Photo>
                 <img
-                  src='https://images.unsplash.com/photo-1618077360395-f3068be8e001?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80'
+                  src={avatar}
                   alt='Man'
                 />
               </S.Photo>
-              <h2>{fullName} Barbosa</h2>
+              <h2>{fullName}</h2>
             </S.FlexPhoto>
             <S.TitleUser>
               <S.TextDetails>
                 <h5>E-mail</h5>
-                <p>fulanoDeTal@gmail.com</p>
+                <p>{Email}</p>
               </S.TextDetails>
 
+              {/*
               <S.TextDetails>
                 <h5>CPF</h5>
                 <p>000.000.000-00</p>
@@ -106,6 +107,7 @@ export default function Home() {
                 <h5>Empresa</h5>
                 <p>PactuaRH</p>
               </S.TextDetails>
+              */}
             </S.TitleUser>
           </S.DetailsUser>
         </S.GridDetails>
