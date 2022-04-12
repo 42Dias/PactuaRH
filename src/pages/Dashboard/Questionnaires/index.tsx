@@ -2,14 +2,19 @@ import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
 import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './Questionnaires.styled'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import { fullName } from 'service/api'
+import questionarios from 'service/questionarios/questionarios'
 
 export default function Questionnaires() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenQuestion, setIsOpenQuestion] = useState(false)
+  const [questionario, setQuestionario] = useState([])
+  const [id, setId] = useState('')
+  const [nome, setNome] = useState('')
+  const [tipoResposta, setTipoResposta] = useState('')
 
   function openModal() {
     setIsOpen(true)
@@ -17,6 +22,8 @@ export default function Questionnaires() {
 
   function closeModal() {
     setIsOpen(false)
+    setNome('')
+    setTipoResposta('')
   }
 
   function openModalNew() {
@@ -25,6 +32,8 @@ export default function Questionnaires() {
 
   function closeModalNew() {
     setIsOpenNew(false)
+    setNome('')
+    setTipoResposta('')
   }
 
   function openModalQuestion() {
@@ -34,6 +43,46 @@ export default function Questionnaires() {
 
   function closeModalQuestion() {
     setIsOpenQuestion(false)
+  }
+
+  async function handleLoadQuestionario() {
+    const allQuestionario = await questionarios.list()
+
+    setQuestionario(allQuestionario)
+  }
+
+  async function handleCreate() {
+    const data = {
+      nome: nome,
+      tipoResposta: tipoResposta,
+    }
+
+    const isCreated = await questionarios.create(data)
+
+    if (isCreated) closeModalNew()
+    await handleLoadQuestionario()
+  }
+
+  async function handleUpdate(id: string) {
+    const data = {
+      nome: nome,
+      tipoResposta: tipoResposta,
+    }
+
+    const isUpdated = await questionarios.update(id, data)
+
+    if (isUpdated) closeModal()
+    await handleLoadQuestionario()
+  }
+
+  useEffect(() => {
+    handleLoadQuestionario()
+  }, [])
+
+  async function handleDelete(id: string) {
+    await questionarios.delete(id)
+
+    handleLoadQuestionario()
   }
   return (
     <>
@@ -48,43 +97,40 @@ export default function Questionnaires() {
               Novo <FiPlus size={18} color='#fff' />
             </button>
           </S.FlexButtons>
+          {questionario.length > 0 && (
+            <S.Table>
+              <S.TrTitle>
+                <td>Nome</td>
+                <td>Tipo de resposta</td>
+              </S.TrTitle>
 
-          <S.Table>
-            <S.TrTitle>
-              <td>Nome</td>
-              <td>Tipo de resposta</td>
-            </S.TrTitle>
-            <S.TrSecond>
-              <td>Desempenho</td>
-              <td>Sim/Não</td>
-              <td></td>
-              <td>
-                <button onClick={openModal}>
-                  <FiEdit size={18} />
-                </button>
-              </td>
-              <td>
-                <button>
-                  <FiTrash size={18} />
-                </button>
-              </td>
-            </S.TrSecond>
-            <S.TrSecond>
-              <td>Geral</td>
-              <td>Texto</td>
-              <td></td>
-              <td>
-                <button onClick={openModal}>
-                  <FiEdit size={18} />
-                </button>
-              </td>
-              <td>
-                <button>
-                  <FiTrash size={18} />
-                </button>
-              </td>
-            </S.TrSecond>
-          </S.Table>
+              {questionario.map((value: any, index) => (
+                <S.TrSecond key={index}>
+                  <td>{value.nome}</td>
+                  <td>{value.tipoResposta}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setId(value.id)
+                        setNome(value.nome)
+                        setTipoResposta(value.tipoResposta)
+                        openModal()
+                      }}
+                    >
+                      <FiEdit size={18} />
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => handleDelete(value.id)}>
+                      <FiTrash size={18} />
+                    </button>
+                  </td>
+                </S.TrSecond>
+              ))}
+            </S.Table>
+          )}
+
+          {questionario.length === 0 && <p>Não há dados!</p>}
         </S.Container>
       </S.Body>
 
@@ -102,13 +148,28 @@ export default function Questionnaires() {
           <FiX />
         </button>
 
-        <S.ContainerForm>
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleUpdate(id)
+          }}
+        >
           <h2>Editar Questionario</h2>
 
-          <input type='text' placeholder='Nome' />
-          <input type='text' placeholder='Descrição' />
+          <input
+            type='text'
+            placeholder='Nome'
+            defaultValue={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Tipo de reposta'
+            defaultValue={tipoResposta}
+            onChange={(e) => setTipoResposta(e.target.value)}
+          />
 
-          <button>Enviar</button>
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
@@ -126,14 +187,27 @@ export default function Questionnaires() {
           <FiX />
         </button>
 
-        <S.ContainerForm>
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate()
+          }}
+        >
           <h2>Cadastrar questionário</h2>
 
-          <input type='text' placeholder='Nome' />
-          <input type='text' placeholder='Descrição' />
+          <input
+            type='text'
+            placeholder='Nome'
+            onChange={(e) => setNome(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Tipo de resposta'
+            onChange={(e) => setTipoResposta(e.target.value)}
+          />
 
           <S.ContainerBntFlex>
-            <button>Enviar</button>
+            <button type='submit'>Enviar</button>
             <button onClick={openModalQuestion}>
               <FiPlus />
               Pergunta
