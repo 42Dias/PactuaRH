@@ -135,17 +135,21 @@ export default function Professionals() {
       console.log(data)
 
       createdUser = await user.createByEmpresa(data)
+      
+      console.log("createdUser")
+      console.log(createdUser)
 
-      if (!createdUser) return
+      setUserSelected(createdUser)
+
+      if (!createdUser) return toast.error("Revise os dados do usuário!")
     }
 
-    console.log(nascimento)
     
     const data = {
       nome: nome,
       cpf: cpf,
       rg: rg,
-      userId: userSelected.id || createdUser.id,
+      userId: '', //  userSelected.id || createdUser.id,
       dataNasc: nascimento,
       nomeMae: nomeMae,
       cep: cep,
@@ -163,6 +167,9 @@ export default function Professionals() {
       cargo: cargo,
     }
 
+    if(createdUser.id) data.userId = createdUser.id
+    else data.userId = userSelected.id
+
     console.log("data")
     console.log(data)
 
@@ -170,7 +177,7 @@ export default function Professionals() {
 
     console.log(isCreated)
 
-    closeModalNew()
+    // closeModalNew()
   }
 
   let handleChangeDependente = (i: number, e: React.FormEvent<HTMLInputElement>) => {
@@ -400,9 +407,11 @@ export default function Professionals() {
             <option hidden>Cargo</option>
             {
             allPositions.map(
-              position => (
+              position => {
+                console.log(allPositions)
+                return (
                 <option value={position.id}>{position.nome}</option>
-              )
+              )}
             )
             }
           </select>

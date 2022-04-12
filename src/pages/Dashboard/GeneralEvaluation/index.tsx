@@ -49,7 +49,7 @@ export default function GeneralEvaluation() {
                       <td>Giovanna</td>
                       <td>
                       <button>
-                         <Link to='/'><FiEye size={18}/>
+                         <Link to='/PactuaRH/'><FiEye size={18}/>
                     </Link>
                     </button>
                       </td>
@@ -71,7 +71,7 @@ export default function GeneralEvaluation() {
                       <td> Teste</td>
                       <td>
                       <button>
-                         <Link to='/'><FiEye size={18}/>
+                         <Link to='/PactuaRH/'><FiEye size={18}/>
                     </Link>
                     </button>
                       </td>

@@ -136,7 +136,7 @@ export default function Terms() {
           Controlador.
         </p>
 
-        <Link to='/'>Voltar</Link>
+        <Link to='/PactuaRH/'>Voltar</Link>
       </S.Container>
     </>
   )

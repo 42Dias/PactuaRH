@@ -22,7 +22,7 @@ export default function Plans() {
         <S.Container>Planos</S.Container>
       </S.Title>
       <S.Container>
-        <Link to='/dashboard'>
+        <Link to='/PactuaRH/dashboard'>
            <img src={setaesquerda} alt='Back Image'/>
            </Link>
             

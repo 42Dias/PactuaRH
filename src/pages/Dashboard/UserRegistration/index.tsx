@@ -124,7 +124,7 @@ export default function UserRegistration() {
               Novo <FiPlus size={18} color='#fff' />
             </button>
           {/* Is it necessary? */}
-            <Link to='/status-de-usuario'>
+            <Link to='/PactuaRH/status-de-usuario'>
               Status <FiEye size={18} color='#fff' />
             </Link>
           </S.FlexButtons>

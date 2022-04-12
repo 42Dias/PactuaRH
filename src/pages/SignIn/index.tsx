@@ -90,7 +90,7 @@ export default function SignIn() {
           </S.Password>
           <SubmitButton />
         </form>
-        <Link to='/cadastro'>Cadastre-se</Link>
+        <Link to='/PactuaRH/cadastro'>Cadastre-se</Link>
       </S.Content>
     </S.Container>
   )

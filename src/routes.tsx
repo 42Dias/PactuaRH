@@ -24,27 +24,27 @@ const RoutesApp = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<SignIn />} />
-        <Route path='/cadastro' element={<SignUp />} />
-        <Route path='/termos' element={<Terms />} />
-        <Route path='/dashboard' element={<Home />} />
-        <Route path='/cadastrar-usuario' element={<UserRegistration />} />
-        <Route path='/cadastro-da-empresa' element={<Company />} />
-        <Route path='/status-de-usuario' element={<UserStatus />} />
-        <Route path='/profissionais' element={<Professionals />} />
-        <Route path='/cargos' element={<Positions />} />
-        <Route path='/funcoes' element={<FunctionsPage />} />
+        <Route path='/PactuaRH/' element={<SignIn />} />
+        <Route path='/PactuaRH/cadastro' element={<SignUp />} />
+        <Route path='/PactuaRH/termos' element={<Terms />} />
+        <Route path='/PactuaRH/dashboard' element={<Home />} />
+        <Route path='/PactuaRH/cadastrar-usuario' element={<UserRegistration />} />
+        <Route path='/PactuaRH/cadastro-da-empresa' element={<Company />} />
+        <Route path='/PactuaRH/status-de-usuario' element={<UserStatus />} />
+        <Route path='/PactuaRH/profissionais' element={<Professionals />} />
+        <Route path='/PactuaRH/cargos' element={<Positions />} />
+        <Route path='/PactuaRH/funcoes' element={<FunctionsPage />} />
         {/*  */}
-        <Route path='/area' element={<Area />} />
-        <Route path='/beneficios' element={<Benefits />} />
-        <Route path='/questionarios' element={<Questionnaires />} />
-        <Route path='/habilidades' element={<Skills />} />
-        <Route path='/escolaridade' element={<Education />} />
+        <Route path='/PactuaRH/area' element={<Area />} />
+        <Route path='/PactuaRH/beneficios' element={<Benefits />} />
+        <Route path='/PactuaRH/questionarios' element={<Questionnaires />} />
+        <Route path='/PactuaRH/habilidades' element={<Skills />} />
+        <Route path='/PactuaRH/escolaridade' element={<Education />} />
         {/*  */}
-        <Route path='/planos' element={<Plans />} />
-        <Route path='/desempenho' element={<Performance />} />
-        <Route path='/avaliacao-geral' element={<GeneralEvaluation />} />
-         <Route path='/relatorio-9box' element={<Box />} />
+        <Route path='/PactuaRH/planos' element={<Plans />} />
+        <Route path='/PactuaRH/desempenho' element={<Performance />} />
+        <Route path='/PactuaRH/avaliacao-geral' element={<GeneralEvaluation />} />
+         <Route path='/PactuaRH/relatorio-9box' element={<Box />} />
       </Routes>
     </BrowserRouter>
   )

@@ -72,54 +72,54 @@ const Sidebar = () => {
             <SidebarContent>
               <Menu iconShape='square'>
                 <MenuItem active={true} icon={<FiHome />}>
-                  <Link to='/dashboard'>Inicío</Link>
+                  <Link to='/PactuaRH/dashboard'>Inicío</Link>
                 </MenuItem>
                 <SubMenu title='Cadastros' icon={<FiEdit />}>
 
                   <MenuItem>
-                    <Link to='/area'>Área</Link>
+                    <Link to='/PactuaRH/area'>Área</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/beneficios'>Benefícios</Link>
+                    <Link to='/PactuaRH/beneficios'>Benefícios</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/cargos'>Cargos</Link>
+                    <Link to='/PactuaRH/cargos'>Cargos</Link>
                   </MenuItem>
                   
 
                   <MenuItem>
-                    <Link to='/cadastro-da-empresa'>Empresas</Link>
+                    <Link to='/PactuaRH/cadastro-da-empresa'>Empresas</Link>
                   </MenuItem>
 
         
                   <MenuItem>
-                    <Link to='/escolaridade'>Escolaridade</Link>
+                    <Link to='/PactuaRH/escolaridade'>Escolaridade</Link>
                   </MenuItem>
 
 
                   <MenuItem>
-                    <Link to='/funcoes'>Funções</Link>
+                    <Link to='/PactuaRH/funcoes'>Funções</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/habilidades'>Habilidades</Link>
+                    <Link to='/PactuaRH/habilidades'>Habilidades</Link>
                   </MenuItem>
         
 
                   <MenuItem>
-                    <Link to='/profissionais'>Profissionais</Link>
+                    <Link to='/PactuaRH/profissionais'>Profissionais</Link>
                   </MenuItem>
 
                   <MenuItem>Relatórios*</MenuItem>
 
                   <MenuItem>
-                    <Link to='/questionarios'>Questionários</Link>
+                    <Link to='/PactuaRH/questionarios'>Questionários</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/cadastrar-usuario'>Usuário</Link>
+                    <Link to='/PactuaRH/cadastrar-usuario'>Usuário</Link>
                   </MenuItem>
                 
                  
@@ -127,16 +127,16 @@ const Sidebar = () => {
 
                 <SubMenu title='Avaliação' icon={<FiTrendingUp />}>
                   <MenuItem>
-                      <Link to='/desempenho'> Desempenho</Link>
+                      <Link to='/PactuaRH/desempenho'> Desempenho</Link>
                   </MenuItem>
                   <MenuItem>
-                    <Link to='/avaliacao-geral'>Geral</Link>
+                    <Link to='/PactuaRH/avaliacao-geral'>Geral</Link>
                   </MenuItem>
                   <MenuItem>Individual</MenuItem>
                   <MenuItem>Recuperação</MenuItem>
                   <MenuItem>Desenvolvimento</MenuItem>
                   <MenuItem>
-                  <Link to='/relatorio-9box'> 9box </Link>
+                  <Link to='/PactuaRH/relatorio-9box'> 9box </Link>
                   </MenuItem>
                 </SubMenu>
               </Menu>

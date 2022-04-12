@@ -30,7 +30,7 @@ export default function Home() {
           <div>
             <h2>Olá, { fullName } 😁</h2>
             <p>Aproveite ao máximo da nossa plataforma e descubra talentos</p>
-            <Link to='/planos'>Planos</Link>
+            <Link to='/PactuaRH/planos'>Planos</Link>
           </div>
 
           <img src={welcome} alt='Welcome Image' />

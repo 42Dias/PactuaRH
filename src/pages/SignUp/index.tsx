@@ -108,7 +108,7 @@ export default function SignUp() {
               })}
             />
             <p>
-              Aceito os <Link to='/termos'> Termos e condições</Link> e autorizo
+              Aceito os <Link to='/PactuaRH/termos'> Termos e condições</Link> e autorizo
               o uso de meus dados de acordo com a Declaração de privacidade.
             </p>
           </S.CheckDiv>
