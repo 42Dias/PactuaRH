@@ -73,43 +73,54 @@ const Sidebar = () => {
                   <Link to='/dashboard'>Inicío</Link>
                 </MenuItem>
                 <SubMenu title='Cadastros' icon={<FiEdit />}>
-                  <MenuItem>
-                    <Link to='/cadastrar-usuario'>Usuário</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to='/cadastro-da-empresa'>Empresas</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to='/profissionais'>Profissionais</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to='/cargos'>Cargos</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to='/funcoes'>Funções</Link>
-                  </MenuItem>
-                  <MenuItem>Relatórios*</MenuItem>
-                 
-                  <MenuItem>
-                    <Link to='/beneficios'>Benefícios</Link>
-                  </MenuItem>
-                
-                  <MenuItem>
-                    <Link to='/questionarios'>Questionários</Link>
-                  </MenuItem>
-                
-                  <MenuItem>
-                    <Link to='/habilidades'>Habilidades</Link>
-                  </MenuItem>
-                
-                  <MenuItem>
-                    <Link to='/escolaridade'>Escolaridade</Link>
-                  </MenuItem>
 
                   <MenuItem>
                     <Link to='/area'>Área</Link>
                   </MenuItem>
 
+                  <MenuItem>
+                    <Link to='/beneficios'>Benefícios</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/cargos'>Cargos</Link>
+                  </MenuItem>
+                  
+
+                  <MenuItem>
+                    <Link to='/cadastro-da-empresa'>Empresas</Link>
+                  </MenuItem>
+
+        
+                  <MenuItem>
+                    <Link to='/escolaridade'>Escolaridade</Link>
+                  </MenuItem>
+
+
+                  <MenuItem>
+                    <Link to='/funcoes'>Funções</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/habilidades'>Habilidades</Link>
+                  </MenuItem>
+        
+
+                  <MenuItem>
+                    <Link to='/profissionais'>Profissionais</Link>
+                  </MenuItem>
+
+                  <MenuItem>Relatórios*</MenuItem>
+
+                  <MenuItem>
+                    <Link to='/questionarios'>Questionários</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/cadastrar-usuario'>Usuário</Link>
+                  </MenuItem>
+                
+                 
                 </SubMenu>
 
                 <SubMenu title='Avaliação' icon={<FiTrendingUp />}>
