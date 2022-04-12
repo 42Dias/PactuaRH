@@ -15,6 +15,8 @@ import { iCargo } from 'types'
 import cargos from 'service/cargos/cargos'
 import { isNullOrUndefined } from 'util'
 
+import moment from 'moment'
+
 export default function Professionals() {
 
   interface iDependent  {
@@ -137,6 +139,8 @@ export default function Professionals() {
       if (!createdUser) return
     }
 
+    console.log(nascimento)
+    
     const data = {
       nome: nome,
       cpf: cpf,
@@ -151,12 +155,16 @@ export default function Professionals() {
       bairro     : bairro,
       logradouro : logradouro,
       numero     : numero,
-      telefone1  : userSelected.fullname,
-      telefone2  : userSelected.fullname,
+      telefone1  : telefone ,
+      telefone2  : telefone2,
       // complemento: userSelected.fullname,
       // importHash : userSelected.fullname,
-      dependentes: dependentes
+      dependentes: dependentes,
+      cargo: cargo,
     }
+
+    console.log("data")
+    console.log(data)
 
     const isCreated = await profissional.create(data)
 
@@ -276,7 +284,7 @@ export default function Professionals() {
 
         <S.ContainerForm
           onSubmit={(e) => {
-            e.preventDefault
+            e.preventDefault()
             handleCreateProfessional()
           }}
         >
@@ -337,8 +345,15 @@ export default function Professionals() {
             value={rg}
           />
 
-          <InputMask
+          {/* <InputMask
             mask='99/99/9999'
+            placeholder='Data de nascimento'
+            value={nascimento}
+            onChange={(e) => setNascimento(e.target.value)}
+          /> */}
+
+          <input
+            type='date'
             placeholder='Data de nascimento'
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
@@ -352,17 +367,21 @@ export default function Professionals() {
             onChange={(e) => setNomeMae(e.target.value)}
           />
 
-          <input
-            type='text'
+          <InputMask
+            className="masked-input"
+            type="text"
+            name="phoneNumber"
+            mask="(99) 99999-9999"
             placeholder='Telefone'
-            value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
           />
 
-          <input
-            type='text'
+          <InputMask
+            className="masked-input"
+            type="text"
+            name="phoneNumber"
+            mask="(99) 99999-9999"
             placeholder='Telefone 2'
-            value={telefone2}
             onChange={(e) => setTelefone2(e.target.value)}
           />
 
