@@ -56,7 +56,7 @@ export default class cargos {
       .delete(`cargo/${id}`)
       .then((res) => {
         const status = res.status
-        const mensagemOk = 'Modulo apagado com sucesso!'
+        const mensagemOk = 'Cargo apagado com sucesso!'
         const mensagemNaoOK = 'Algo deu errado :('
 
         responseHandler(status, mensagemOk, mensagemNaoOK)
