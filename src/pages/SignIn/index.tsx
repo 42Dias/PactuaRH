@@ -38,12 +38,12 @@ export default function SignIn() {
 
     if(!canLogin) return
     
-    navigate('/dashboard', { })
+    navigate('/PactuaRH/dashboard', { })
 
   }
 
   function checkIfIsLogged(){
-    if(token) window.location.pathname = '/dashboard'
+    if(token) window.location.pathname = '/PactuaRH/dashboard'
   }
 
   useLayoutEffect(

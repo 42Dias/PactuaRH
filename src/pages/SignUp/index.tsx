@@ -41,7 +41,7 @@ export default function SignUp() {
 
     if(!singUpDone) return toast.error("...")
 
-    navigate('/dashboard', { replace: true })
+    navigate('/PactuaRH/dashboard', { replace: true })
   }
 
   return (
