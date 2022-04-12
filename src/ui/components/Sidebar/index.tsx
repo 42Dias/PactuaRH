@@ -47,6 +47,8 @@ const Sidebar = () => {
 
 
   async function logOut(){
+    localStorage.clear()
+    window.location.pathname = '/'
     
   }
 
@@ -144,7 +146,7 @@ const Sidebar = () => {
               onClick={() => logOut()}
               iconShape='square'>
                 <MenuItem icon={<FiLogOut />}>
-                  <Link to='/'>Sair</Link>
+                  <p >Sair</p>
                 </MenuItem>
               </Menu>
             </SidebarFooter>
