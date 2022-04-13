@@ -16,6 +16,7 @@ import cargos from 'service/cargos/cargos'
 import { isNullOrUndefined } from 'util'
 
 import moment from 'moment'
+import profissional from 'service/profissional/profissional'
 
 export default function Professionals() {
 
@@ -163,14 +164,10 @@ export default function Professionals() {
       cargo: cargo,
     }
 
-<<<<<<< HEAD
-    //let isCreated = await profissional.create(data)
-=======
     console.log("data")
     console.log(data)
 
     const isCreated = await profissional.create(data)
->>>>>>> 691e6bfa4edab91f66ad8ceabd973724a8b53b27
 
     //console.log(isCreated)
 
@@ -489,11 +486,6 @@ export default function Professionals() {
                   Viúvo(a)</option>
               </select>
 
-<<<<<<< HEAD
-          <button
-          type='submit'
-          >Enviarr</button>
-=======
 
           <S.divCheck>
             <Checkbox
@@ -583,7 +575,6 @@ export default function Professionals() {
           )}
 
           <button type='submit'>Enviar</button>
->>>>>>> 691e6bfa4edab91f66ad8ceabd973724a8b53b27
         </S.ContainerForm>
       </Modal>
     </>
