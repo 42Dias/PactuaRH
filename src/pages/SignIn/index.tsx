@@ -48,7 +48,7 @@ export default function SignIn() {
 
   useEffect(
     () => {
-      checkIfIsLogged()
+      navigate('/dashboard', { })
     },[]
   )
 
