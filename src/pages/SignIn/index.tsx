@@ -43,7 +43,7 @@ export default function SignIn() {
   }
 
   function checkIfIsLogged(){
-    if(token) navigate('/dashboard', { })
+    if(token) return navigate('/dashboard', { })
   }
 
   useEffect(
