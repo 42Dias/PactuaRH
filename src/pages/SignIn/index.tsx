@@ -46,7 +46,7 @@ export default function SignIn() {
     if(token) navigate('/dashboard', { })
   }
 
-  useLayoutEffect(
+  useEffect(
     () => {
       checkIfIsLogged()
     },[]
