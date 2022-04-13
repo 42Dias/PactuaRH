@@ -27,12 +27,15 @@ export default function Professionals() {
     dataNasc: string 
 
   }
+  const [profissionals, setProfissionals] = useState<any[]>([])
 
   const [modalIsOpenNew, setIsOpenNew   ] = useState(false)
   const [modalIsOpen  , setIsOpen       ] = useState(false)
   const [allUsers     , setAllUsers     ] = useState<any[]>([])
   const [userSelected , setUserSelected ] = useState<any>()
 
+
+  const [id           , setId           ] = useState<string>('')
   const [email        , setEmail        ] = useState<string>('')
   const [nascimento   , setNascimento   ] = useState<string>('')
   const [genero       , setGenero       ] = useState<string>('')
@@ -92,27 +95,14 @@ export default function Professionals() {
     }
   }
 
-      
-  let addFormFields = () => {
-    //@ts-ignore
-    setDependentes([...dependentes, { name: "", email: "" }])
+  // ============================== Main Functions
+
+  async function handleLoadProfessionals() {
+    const allProfissionals = await profissional.list()
+
+    setProfissionals(allProfissionals)
   }
 
-  let removeFormFields = (i: number) => {
-      console.log(dependentes[i])
-      let newFormValues = [...dependentes];
-      newFormValues.splice(i, 1);
-      setDependentes(newFormValues)
-  }
-
-  async function getUsers() {
-    const users = await user.list()
-
-    console.log('users')
-    console.log(users)
-
-    setAllUsers(users)
-  }
 
   async function handleCreateProfessional() {
     let createdUser
@@ -174,18 +164,36 @@ export default function Professionals() {
     closeModalNew()
   }
 
+  async function handleDelete(id: string) {
+    await profissional.delete(id)
+
+    handleLoadProfessionals()
+  }
+
+
+  // ============================== Handle Change Screen elements
+  let addFormFields = () => {
+    //@ts-ignore
+    setDependentes([...dependentes, { name: "", email: "" }])
+  }
+
   let handleChangeDependente = (i: number, e: React.FormEvent<HTMLInputElement>) => {
     let newFormValues = [...dependentes];
     //@ts-ignore
     newFormValues[i][e.target.name] = e.target.value;
 
     setDependentes(newFormValues);
- }
+ }    
 
-  useEffect(() => {
-    getUsers()
-  }, [])
+  let removeFormFields = (i: number) => {
+      console.log(dependentes[i])
+      let newFormValues = [...dependentes];
+      newFormValues.splice(i, 1);
+      setDependentes(newFormValues)
+  }
 
+  
+  // ============================== Handle SubCruds
   async function handleLoadPosition() {
     const cargo = await cargos.list()
 
@@ -195,10 +203,34 @@ export default function Professionals() {
     setAllPositions(cargo)
   }
 
+
+  async function getUsers() {
+    const users = await user.list()
+
+    console.log('users')
+    console.log(users)
+
+    setAllUsers(users)
+  }
+  // ============================== UseEffects
+
   useEffect(() => {
     handleLoadPosition()
   }, [])
 
+  useEffect(() => {
+    getUsers()
+  }, [])
+
+
+  useEffect(() => {
+    handleLoadProfessionals()
+  }, [])
+
+
+  console.log(
+    profissionals
+  )
 
   return (
     <>
@@ -215,13 +247,41 @@ export default function Professionals() {
           </S.FlexButtons>
 
           <S.Table>
+            
             <S.TrTitle>
               <td>Nome</td>
               <td>CPF</td>
               <td>RG</td>
               <td>Cargo</td>
             </S.TrTitle>
-            <S.TrSecond>
+            {
+            profissionals.map((value: any, index) => (
+                <S.TrSecond key={index}>
+                  <td>{value.nome}</td>
+                  <td>{value.cpf}</td>
+                  <td>{value.rg}</td>
+                  <td>{value.cargo.nome}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setId(value.id)
+                        setNome(value.nome)
+
+                        openModal()
+                      }}
+                    >
+                      <FiEdit size={18} />
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => handleDelete(value.id)}>
+                      <FiTrash size={18} />
+                    </button>
+                  </td>
+                </S.TrSecond>
+              ))
+              }
+            {/* <S.TrSecond>
               <td>Ryan</td>
               <td>049.253.142-45</td>
               <td>55.432.123-9</td>
@@ -236,7 +296,7 @@ export default function Professionals() {
                   <FiTrash size={18} />
                 </button>
               </td>
-            </S.TrSecond>
+            </S.TrSecond> */}
           </S.Table>
         </S.Container>
       </S.Body>
@@ -487,7 +547,10 @@ export default function Professionals() {
               </select>
 
 
-          <S.divCheck>
+            </>
+          )}
+
+      <S.divCheck>
             <Checkbox
               type='checkbox'
               placeholder='Sub-Área?'
@@ -496,83 +559,79 @@ export default function Professionals() {
             />
             <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
 
-          </S.divCheck>
-              {
-              hasDependente && (
-                  <>
-                  {
-                  dependentes.map(
-                    (e, index) => (
-                      <div
-                        className='border'
-                      >
+        </S.divCheck>
+            {
+            hasDependente && (
+                <>
+                {
+                dependentes.map(
+                  (e, index) => (
+                    <div
+                      className='border'
+                    >
 
-                      <input
-                        type='text'
-                        placeholder='Nome do Dependente'
-                        name='nome'
-                        onChange={(e) => handleChangeDependente(index, e)}
+                    <input
+                      type='text'
+                      placeholder='Nome do Dependente'
+                      name='nome'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                    />
+
+
+                    <InputMask
+                      name='cpf'
+                      mask='999.999.999-99'
+                      placeholder='CPF do Dependente'
+
+                      onChange={(e) => {
+                        handleChangeDependente(index, e)
+
+                        let cpfWithLetters = e.target.value
+                        let clearedCpf = cpfWithLetters.replace(/\D/g, "");
+                        
+                        console.log(clearedCpf)
+                        if(clearedCpf.length != 11) return 
+                        
+                        checkCPF(clearedCpf)
+                        
+                      }}
                       />
+                    <InputMask
+                      name='rg'
+                      mask='99.999.999-9'
+                      placeholder='RG do Dependente'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                    />
+                    <input
+                      name='rg'
+                      type="date"
+                      placeholder='Data de Nascimento do Dependente'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                    />
 
 
-                      <InputMask
-                        name='cpf'
-                        mask='999.999.999-99'
-                        placeholder='CPF do Dependente'
-
-                        onChange={(e) => {
-                          handleChangeDependente(index, e)
-
-                          let cpfWithLetters = e.target.value
-                          let clearedCpf = cpfWithLetters.replace(/\D/g, "");
-                          
-                          console.log(clearedCpf)
-                          if(clearedCpf.length != 11) return 
-                          
-                          checkCPF(clearedCpf)
-                          
-                        }}
-                        />
-                      <InputMask
-                        name='rg'
-                        mask='99.999.999-9'
-                        placeholder='RG do Dependente'
-                        onChange={(e) => handleChangeDependente(index, e)}
-                      />
-                      <input
-                        name='rg'
-                        type="date"
-                        placeholder='Data de Nascimento do Dependente'
-                        onChange={(e) => handleChangeDependente(index, e)}
-                      />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(index)}
+                    >
+                      <FiTrash/>
+                    </button>
+                  </div>
+                  )
+                )}
 
 
-                      <button
-                        className='btn-actions btn-trash'
-                        type='button'
-                        onClick={() => removeFormFields(index)}
-                      >
-                        <FiTrash/>
-                      </button>
-                    </div>
-                    )
-                  )}
-
-
-                  <button
-                  type='button'
-                  className='btn-actions'
-                  onClick={() => addFormFields()}
-                  >
-                    <FiPlus/>
-                  </button>
-                  </>
-              )
-              }
-
-
-            </>
-          )}
+                <button
+                type='button'
+                className='btn-actions'
+                onClick={() => addFormFields()}
+                >
+                  <FiPlus/>
+                </button>
+                </>
+            )
+            }
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
