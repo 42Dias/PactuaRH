@@ -5,7 +5,7 @@ import * as S from './Professionals.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import user from 'service/user/user'
-import profissional from 'service/profissional/profissional'
+//import profissional from 'service/profissional/profissional'
 import cepInformation from 'utils/cepInformation'
 
 export default function Professionals() {
@@ -141,9 +141,9 @@ export default function Professionals() {
       // importHash : userSelected.fullname,
     }
 
-    let isCreated = await profissional.create(data)
+    //let isCreated = await profissional.create(data)
 
-    console.log(isCreated)
+    //console.log(isCreated)
 
     closeModalNew()
     
@@ -405,7 +405,7 @@ export default function Professionals() {
 
           <button
           type='submit'
-          >Enviar</button>
+          >Enviarr</button>
         </S.ContainerForm>
       </Modal>
     </>

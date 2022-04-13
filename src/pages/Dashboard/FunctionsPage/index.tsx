@@ -45,6 +45,7 @@ export default function FunctionsPage() {
               <td>Grau de instrução</td>
               <td>Requisito da função</td>
             </S.TrTitle>
+            
             <S.TrSecond>
               <td>Dev</td>
               <td>front end</td>
