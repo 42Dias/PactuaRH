@@ -131,43 +131,78 @@ export default function Professionals() {
     }
 
     console.log(nascimento)
+
+    if(userSelected) setEmail(userSelected.email)
+    
     
     const data = {
       nome: nome,
       cpf: cpf,
       rg: rg,
-      userId: userSelected.id || createdUser.id,
+      userId: '',
       dataNasc: nascimento,
       nomeMae: nomeMae,
       cep: cep,
       estadoCivil: estadoCivil,
-      email      : userSelected.email || email,
+      email      : email,
       cidade     : cidade,
       bairro     : bairro,
       logradouro : logradouro,
       numero     : numero,
       telefone1  : telefone ,
       telefone2  : telefone2,
-      // complemento: userSelected.fullname,
-      // importHash : userSelected.fullname,
+      // complemento: complemento,
       dependentes: dependentes,
       cargo: cargo,
     }
-
+    if (userSelected)  data.userId = userSelected.id
+    if (createdUser )  data.userId = createdUser.id
     console.log("data")
     console.log(data)
 
     const isCreated = await profissional.create(data)
 
-    //console.log(isCreated)
+    console.log(isCreated)
 
     closeModalNew()
   }
 
   async function handleDelete(id: string) {
     await profissional.delete(id)
-
     handleLoadProfessionals()
+  }
+
+  async function handleUpdate(){
+
+    let id = selectedProfessional.id
+
+    const data = {
+      nome: nome,
+      cpf: cpf,
+      rg: rg,
+      userId: '',
+      dataNasc: nascimento,
+      nomeMae: nomeMae,
+      cep: cep,
+      estadoCivil: estadoCivil,
+      email      : email,
+      cidade     : cidade,
+      bairro     : bairro,
+      logradouro : logradouro,
+      numero     : numero,
+      telefone1  : telefone ,
+      telefone2  : telefone2,
+      // complemento: complemento,
+      dependentes: dependentes,
+      cargo: cargo,
+    }
+
+
+    const isUpdated = await profissional.update(id, data)
+
+    console.log(isUpdated)
+
+    closeModal()
   }
 
 
@@ -266,6 +301,9 @@ export default function Professionals() {
                       onClick={() => {
                         setId(value.id)
                         setSelectedProfessional(value)
+                        console.log(value)
+                        setHasDependente(value.dependente.length >= 1)
+                        setDependentes(value.dependente)
                         openModal()
                       }}
                     >
@@ -280,25 +318,15 @@ export default function Professionals() {
                 </S.TrSecond>
               ))
               }
-            {/* <S.TrSecond>
-              <td>Ryan</td>
-              <td>049.253.142-45</td>
-              <td>55.432.123-9</td>
-              <td>Full Stack</td>
-              <td>
-                <button onClick={openModal}>
-                  <FiEdit size={18} />
-                </button>
-              </td>
-              <td>
-                <button>
-                  <FiTrash size={18} />
-                </button>
-              </td>
-            </S.TrSecond> */}
           </S.Table>
         </S.Container>
       </S.Body>
+
+{/* 
+==========================================================================================================
+                                                  EDIT!
+==========================================================================================================
+*/}
 
       <Modal
         isOpen={modalIsOpen}
@@ -317,7 +345,7 @@ export default function Professionals() {
         <S.ContainerForm
         onSubmit={e => {
           e.preventDefault()
-          // handleEdit
+          handleUpdate()
         }}
         >
           <h4>Selecione um profissional</h4>
@@ -424,12 +452,6 @@ export default function Professionals() {
           />
 
 
-          {/* 
-          
-          ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
-          
-          */}
-
 
           <select
             // value={cargo}
@@ -445,16 +467,6 @@ export default function Professionals() {
             )
             }
           </select>
-
-          {/* This is not necesssary anymore */}
-          {/*
-          <input
-            type='text'
-            placeholder='Benefícios'
-            value={beneficios}
-            onChange={(e) => setBeneficios(e.target.value)}
-          />
-          */}
 
           <input
             type='text'
@@ -597,7 +609,10 @@ export default function Professionals() {
                     <button
                       className='btn-actions btn-trash'
                       type='button'
-                      onClick={() => removeFormFields(index)}
+                      onClick={() => {
+                        removeFormFields(index)
+                      
+                      }}
                     >
                       <FiTrash/>
                     </button>
@@ -621,6 +636,11 @@ export default function Professionals() {
         </S.ContainerForm>
       </Modal>
 
+{/* 
+==========================================================================================================
+                                                  CREATE
+==========================================================================================================
+*/}
       <Modal
         isOpen={modalIsOpenNew}
         onRequestClose={closeModalNew}
