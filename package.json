@@ -2,7 +2,7 @@
   "name": "typescript-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "projetos.42dias.com.br/PactuaRH/",
+  "homepage": "https://pactuarh.netlify.app/",
   "scripts": {
     "start": "react-scripts start",
     "dev": "react-scripts start",
