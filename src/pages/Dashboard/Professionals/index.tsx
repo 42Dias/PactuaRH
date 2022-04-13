@@ -33,7 +33,7 @@ export default function Professionals() {
   const [modalIsOpen  , setIsOpen       ] = useState(false)
   const [allUsers     , setAllUsers     ] = useState<any[]>([])
   const [userSelected , setUserSelected ] = useState<any>()
-
+  const [selectedProfessional , setSelectedProfessional ] = useState<any>()
 
   const [id           , setId           ] = useState<string>('')
   const [email        , setEmail        ] = useState<string>('')
@@ -265,8 +265,7 @@ export default function Professionals() {
                     <button
                       onClick={() => {
                         setId(value.id)
-                        setNome(value.nome)
-
+                        setSelectedProfessional(value)
                         openModal()
                       }}
                     >
@@ -315,17 +314,310 @@ export default function Professionals() {
           <FiX />
         </button>
 
-        <S.ContainerForm>
-          <h2>Editar profissional</h2>
+        <S.ContainerForm
+        onSubmit={e => {
+          e.preventDefault()
+          // handleEdit
+        }}
+        >
+          <h4>Selecione um profissional</h4>
+          <select
+            onChange={(e) => {
+              const userIndex: number = parseInt(e.target.value)
 
-          <input type='text' placeholder='Nome' />
-          <input type='number' placeholder='CPF' />
-          <input type='number' placeholder='RG' />
-          <input type='number' placeholder='Data de nascimento' />
-          <input type='text' placeholder='Nome da mãe' />
-          <input type='text' placeholder='Cargo' />
-          <input type='text' placeholder='Benefícios' />
-          <input type='text' placeholder='CEP*' />
+              // if the index is selected as new it clears the present data
+              if (isNaN(userIndex)) {
+                setUserSelected({})
+                setCpf('')
+                setRg('')
+                setNascimento('')
+              }
+
+              const newUserSelected = allUsers[userIndex]
+
+              setUserSelected(newUserSelected)
+
+              // Sets the setState values 'cause defaultValue does not work
+              setCpf(newUserSelected.cpf)
+              setRg(newUserSelected.rg)
+              setNascimento(newUserSelected.aniversario)
+            }}
+            placeholder='Usuário Cadastrado'
+          >
+            <option value={''}>Novo</option>
+
+            {allUsers.map((user, i) => (
+              <option value={i}>
+                {user.fullName} | {user.cpf}
+              </option>
+            ))}
+          </select>
+
+          <input
+            type='text'
+            defaultValue={userSelected?.fullName || selectedProfessional?.nome}
+            onChange={(e) => setNome(e.target.value)}
+            placeholder='Nome'
+          />
+
+          <InputMask
+            // defaultValue={userSelected?.cpf}
+            onChange={(e) => setCpf(e.target.value)}
+            mask='999.999.999-99'
+            placeholder='Seu CPF'
+            defaultValue={selectedProfessional?.cpf}
+
+          />
+          <InputMask
+            // defaultValue={userSelected?.rg}
+            onChange={(e) => setRg(e.target.value)}
+            mask='99.999.999-9'
+            placeholder='Seu RG'
+            defaultValue={selectedProfessional?.rg}
+
+          />
+
+          {/* <InputMask
+            mask='99/99/9999'
+            placeholder='Data de nascimento'
+            value={nascimento}
+            onChange={(e) => setNascimento(e.target.value)}
+          /> */}
+
+          <input
+            type='date'
+            placeholder='Data de nascimento'
+            value={nascimento}
+            defaultValue={selectedProfessional?.dataNasc}
+
+            onChange={(e) => setNascimento(e.target.value)}
+          />
+
+          {/* These are not saved in user data */}
+          <input
+            type='text'
+            placeholder='Nome da mãe'
+            value={nomeMae}
+            defaultValue={selectedProfessional?.nomeMae}
+            onChange={(e) => setNomeMae(e.target.value)}
+          />
+
+          <InputMask
+            className="masked-input"
+            type="text"
+            name="phoneNumber"
+            mask="(99) 99999-9999"
+            placeholder='Telefone'
+            defaultValue={selectedProfessional?.telefone1}
+            onChange={(e) => setTelefone(e.target.value)}
+          />
+
+          <InputMask
+            className="masked-input"
+            type="text"
+            name="phoneNumber"
+            mask="(99) 99999-9999"
+            placeholder='Telefone 2'
+            defaultValue={selectedProfessional?.telefone2}
+
+            onChange={(e) => setTelefone2(e.target.value)}
+          />
+
+
+          {/* 
+          
+          ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
+          
+          */}
+
+
+          <select
+            // value={cargo}
+            defaultValue={selectedProfessional?.cargo.id}
+            onChange={(e) => setCargo(e.target.value)}
+          >
+            <option hidden>Cargo</option>
+            {
+            allPositions.map(
+              position => (
+                <option value={position.id}>{position.nome}</option>
+              )
+            )
+            }
+          </select>
+
+          {/* This is not necesssary anymore */}
+          {/*
+          <input
+            type='text'
+            placeholder='Benefícios'
+            value={beneficios}
+            onChange={(e) => setBeneficios(e.target.value)}
+          />
+          */}
+
+          <input
+            type='text'
+            placeholder='CEP*'
+            // value={cep}
+            defaultValue={selectedProfessional?.cep}
+            onChange={(e) => setCep(e.target.value)}
+            onBlur={(ev) => handleChangeCep(ev.target.value)}
+          />
+
+          <input
+            type='text'
+            placeholder='Cidade*'
+            // value={cidade}
+            defaultValue={selectedProfessional?.cidade}
+            onChange={(e) => setCidade(e.target.value)}
+          />
+
+          <input
+            type='text'
+            placeholder='Bairro*'
+            // value={bairro}
+            defaultValue={selectedProfessional?.bairro}
+            onChange={(e) => setBairro(e.target.value)}
+          />
+
+          
+          <input
+            type='text'
+            placeholder='Logradouro*'
+            defaultValue={selectedProfessional?.logradouro}
+            onChange={(e) => setLogradouro(e.target.value)}
+          />
+
+
+        <input
+            type='text'
+            placeholder='Número*'
+            defaultValue={selectedProfessional?.numero}
+            onChange={(e) => setNumero(e.target.value)}
+          />
+
+          {!userSelected && (
+            <>
+              <input
+                type='text'
+                placeholder='Email'
+                onChange={(e) => setEmail(e.target.value)}
+                defaultValue={selectedProfessional?.genero}
+              />
+              <select name='' id='' onChange={(e) => setGenero(e.target.value)}>
+                <option hidden>Gênero</option>
+                <option value='Mulher'>Mulher</option>
+                <option value='Homem'>Homem</option>
+                <option value='Prefiro não responder'>
+                  Prefiro não responder
+                </option>
+              </select>
+              <select
+                name=''
+                id=''
+                onChange={(e) => setEstadoCivil(e.target.value)}
+                defaultValue={selectedProfessional?.estadoCivil}
+
+              >
+                <option hidden>
+                  Estado civil</option>
+                <option value='Solteiro(a)'>
+                  Solteiro(a)</option>
+                <option value='Casado(a)'>
+                  Casado(a)</option>
+                <option value='Viúvo(a)'> 
+                  Viúvo(a)</option>
+              </select>
+
+
+            </>
+          )}
+
+        <S.divCheck>
+            <Checkbox
+              type='checkbox'
+              placeholder='Sub-Área?'
+              defaultChecked={hasDependente}
+              onChange={() => setHasDependente(!hasDependente) }
+            />
+            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
+
+        </S.divCheck>
+            {
+            hasDependente && (
+                <>
+                {
+                dependentes.map(
+                  (e, index) => (
+                    <div
+                      className='border'
+                    >
+
+                    <input
+                      type='text'
+                      placeholder='Nome do Dependente'
+                      name='nome'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                    />
+
+
+                    <InputMask
+                      name='cpf'
+                      mask='999.999.999-99'
+                      placeholder='CPF do Dependente'
+
+                      onChange={(e) => {
+                        handleChangeDependente(index, e)
+
+                        let cpfWithLetters = e.target.value
+                        let clearedCpf = cpfWithLetters.replace(/\D/g, "");
+                        
+                        console.log(clearedCpf)
+                        if(clearedCpf.length != 11) return 
+                        
+                        checkCPF(clearedCpf)
+                        
+                      }}
+                      />
+                    <InputMask
+                      name='rg'
+                      mask='99.999.999-9'
+                      placeholder='RG do Dependente'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                    />
+                    <input
+                      name='rg'
+                      type="date"
+                      placeholder='Data de Nascimento do Dependente'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                    />
+
+
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(index)}
+                    >
+                      <FiTrash/>
+                    </button>
+                  </div>
+                  )
+                )}
+
+
+                <button
+                type='button'
+                className='btn-actions'
+                onClick={() => addFormFields()}
+                >
+                  <FiPlus/>
+                </button>
+                </>
+            )
+            }
+
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
