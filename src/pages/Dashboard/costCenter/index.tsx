@@ -198,7 +198,7 @@ export default function CostCenter() {
             ))}
           </S.Select>
 
-          <button>Enviar</button>
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
