@@ -38,7 +38,7 @@ export default function SignIn() {
 
     if(!canLogin) return
     
-    navigate('/dashboard', { replace: true })
+    navigate('/dashboard', { })
 
   }
 

@@ -3,6 +3,7 @@ import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { fullName } from 'service/api'
 
 
 export default function Performance() {
@@ -11,7 +12,7 @@ export default function Performance() {
              <S.Body>
                 <Sidebar />
                 <S.Title>
-                  <S.Container>Bem vindo, Luciano 😁</S.Container>
+                  <S.Container>Bem vindo, {fullName} 😁</S.Container>
                 </S.Title>
               <S.Container>
                 <S.Information>

@@ -1,18 +1,17 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
-import * as S from './Benefits.styled'
+import { FiPlus, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import * as S from './Skills.styled'
 import { useEffect, useState } from 'react'
-import InputMask from 'react-input-mask'
-import beneficio from 'service/beneficio/beneficio'
+import habilidades from 'service/habilidades/habilidades'
 import { fullName } from 'service/api'
 
-export default function Benefits() {
+export default function Skills() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [nome, setNome] = useState<string>('')
   const [id, setId] = useState<string>('')
-  const [benefits, setBenefits] = useState<any[]>([])
+  const [skills, setSkills] = useState<any[]>([])
 
   function openModal() {
     setIsOpen(true)
@@ -30,10 +29,10 @@ export default function Benefits() {
     setIsOpenNew(false)
   }
 
-  async function handleLoadBenefits() {
-    const allBenefits = await beneficio.list()
+  async function handleLoadSkills() {
+    const allSkills = await habilidades.list()
 
-    setBenefits(allBenefits)
+    setSkills(allSkills)
   }
 
   async function handleCreate() {
@@ -41,10 +40,10 @@ export default function Benefits() {
       nome: nome,
     }
 
-    const isCreated = await beneficio.create(data)
+    const isCreated = await habilidades.create(data)
 
     if (isCreated) closeModalNew()
-    await handleLoadBenefits()
+    await handleLoadSkills()
   }
 
   async function handleUpdate(id: string) {
@@ -52,19 +51,19 @@ export default function Benefits() {
       nome: nome,
     }
 
-    const isUpdated = await beneficio.update(id, data)
+    const isUpdated = await habilidades.update(id, data)
 
     if (isUpdated) closeModal()
-    await handleLoadBenefits()
+    await handleLoadSkills()
   }
-
   useEffect(() => {
-    handleLoadBenefits()
+    handleLoadSkills()
   }, [])
-  async function handleDelete(id: string) {
-    await beneficio.delete(id)
 
-    handleLoadBenefits()
+  async function handleDelete(id: string) {
+    await habilidades.delete(id)
+
+    handleLoadSkills()
   }
   return (
     <>
@@ -80,34 +79,38 @@ export default function Benefits() {
             </button>
           </S.FlexButtons>
 
-          <S.Table>
-            <S.TrTitle>
-              <td>Nome do benefício</td>
-              <td></td>
-            </S.TrTitle>
+          {skills.length > 0 && (
+            <S.Table>
+              <S.TrTitle>
+                <td>Nome do habilidades</td>
+                <td></td>
+              </S.TrTitle>
 
-            {benefits.map((benefit) => (
-              <S.TrSecond>
-                <td>{benefit.nome}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      setId(benefit.id)
-                      setNome(benefit.nome)
-                      openModal()
-                    }}
-                  >
-                    <FiEdit size={18} />
-                  </button>
-                </td>
-                <td>
-                  <button onClick={() => handleDelete(benefit.id)}>
-                    <FiTrash size={18} />
-                  </button>
-                </td>
-              </S.TrSecond>
-            ))}
-          </S.Table>
+              {skills.map((skills) => (
+                <S.TrSecond>
+                  <td>{skills.nome}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setId(skills.id)
+                        setNome(skills.nome)
+                        openModal()
+                      }}
+                    >
+                      <FiEdit size={18} />
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => handleDelete(skills.id)}>
+                      <FiTrash size={18} />
+                    </button>
+                  </td>
+                </S.TrSecond>
+              ))}
+            </S.Table>
+          )}
+
+          {skills.length === 0 && <p>Não há dados</p>}
         </S.Container>
       </S.Body>
 
@@ -131,10 +134,10 @@ export default function Benefits() {
             handleUpdate(id)
           }}
         >
-          <h2>Editar benefício</h2>
+          <h2>Editar habilidades</h2>
           <input
             type='text'
-            placeholder='Nome do benefício'
+            placeholder='Nome do habilidades'
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
@@ -163,12 +166,12 @@ export default function Benefits() {
             handleCreate()
           }}
         >
-          <h2>Cadastrar benefício</h2>
+          <h2>Cadastrar habilidades</h2>
 
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome do benefício'
+            placeholder='Nome do habilidades'
             required
           />
 

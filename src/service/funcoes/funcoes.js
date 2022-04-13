@@ -14,35 +14,16 @@ import HandleLocalStorageData from 'utils/handleLocalStorage'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-export default class user {
-  static async createByEmpresa(data) {
-    const response = await api
-      .post('user', {
-        data,
-      })
-
-      .catch(() => {
-        servidorErrorMessage()
-      })
-
-    const mensagemOk = 'Usuário criado com sucesso!'
-    const mensagemNaoOK = 'Revise seus dados :('
-    responseHandler(response.status, mensagemOk, mensagemNaoOK)
-
-    const responseData = response.data
-    return responseData
-  }
-
+export default class funcoes {
   static async update(id, data) {
     const response = await api
-      .put(`user/${id}`, {
+      .put(`funcao/${id}`, {
         data,
       })
       .catch(() => {
         servidorErrorMessage()
       })
-
-    const mensagemOk = 'Usuário alterado com sucesso!'
+    const mensagemOk = 'Função alterado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -53,7 +34,7 @@ export default class user {
 
   static async delete(id) {
     const response = await api
-      .delete(`user/${id}`)
+      .delete(`funcao/${id}`)
       .then((res) => {
         const status = res.status
         const mensagemOk = 'Modulo apagado com sucesso!'
@@ -70,8 +51,7 @@ export default class user {
   }
 
   static async list() {
-    const response = await api.get('user')
-    .catch(() => {
+    const response = await api.get('funcao').catch(() => {
       servidorErrorMessage()
     })
 
@@ -113,55 +93,16 @@ export default class user {
     return response.data
   }
 
-  static async login(email, password) {
-    const response = await apiWithoutTenant
-      .post('auth/sign-in', {
-        email: email,
-        password: password,
-      })
-      .catch((error) => {
-        if (error.response) return toast.error(error.response.data)
-        servidorErrorMessage()
-      })
-    const messageOk = 'Login efetuado com sucesso! :)'
-    const messageNotOk = 'Ops, Dados Incorretos!'
-
-    responseHandler(response.status, messageOk, messageNotOk)
-    if (response.status == 200) {
-      const userData = await this.loadUser(response.data)
-      handleLocalStorageEmailAndPassword(email, password)
-
-      return userData.tenants[0].roles[0]
-    }
-  }
-
-  static async cadastro(
-    fullName,
-    email,
-    password,
-    role,
-    invitationToken,
-    tenantId,
-  ) {
-    return apiWithoutTenant
-      .post('auth/sign-up', {
-        fullName: fullName,
-        email: email,
-        password: password,
-        role: role,
-        invitationToken: invitationToken,
-        tenantId: tenantId,
+  static async cadastro(data) {
+    return api
+      .post('funcao', {
+        data,
       })
       .then(async (response) => {
         const mensagemOk = 'Opa, recebemos o seu registro :)'
-
+        console.log(response)
         responseHandler(response.status, mensagemOk)
-
-        if (response.status == 200) {
-          await this.loadUser(response.data)
-          handleLocalStorageEmailAndPassword(email, password)
-          return 'ok'
-        }
+        return response
       })
       .catch(() => {
         servidorErrorMessage()

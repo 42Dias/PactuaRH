@@ -47,6 +47,8 @@ const Sidebar = () => {
 
 
   async function logOut(){
+    localStorage.clear()
+    window.location.pathname = '/'
     
   }
 
@@ -73,28 +75,54 @@ const Sidebar = () => {
                   <Link to='/dashboard'>Inicío</Link>
                 </MenuItem>
                 <SubMenu title='Cadastros' icon={<FiEdit />}>
+
                   <MenuItem>
-                    <Link to='/cadastrar-usuario'>Usuário</Link>
+                    <Link to='/area'>Área</Link>
                   </MenuItem>
-                  <MenuItem>
-                    <Link to='/cadastro-da-empresa'>Empresas</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to='/profissionais'>Profissionais</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to='/cargos'>Cargos</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to='/funcoes'>Funções</Link>
-                  </MenuItem>
+
                   <MenuItem>
                     <Link to='/beneficios'>Benefícios</Link>
                   </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/cargos'>Cargos</Link>
+                  </MenuItem>
+                  
+
+                  <MenuItem>
+                    <Link to='/cadastro-da-empresa'>Empresas</Link>
+                  </MenuItem>
+
+        
+                  <MenuItem>
+                    <Link to='/escolaridade'>Escolaridade</Link>
+                  </MenuItem>
+
+
+                  <MenuItem>
+                    <Link to='/funcoes'>Funções</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/habilidades'>Habilidades</Link>
+                  </MenuItem>
+        
+
+                  <MenuItem>
+                    <Link to='/profissionais'>Profissionais</Link>
+                  </MenuItem>
+
                   <MenuItem>Relatórios*</MenuItem>
+
                   <MenuItem>
                     <Link to='/questionarios'>Questionários</Link>
                   </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/cadastrar-usuario'>Usuário</Link>
+                  </MenuItem>
+                
+                 
                 </SubMenu>
 
                 <SubMenu title='Avaliação' icon={<FiTrendingUp />}>
@@ -107,7 +135,9 @@ const Sidebar = () => {
                   <MenuItem>Individual</MenuItem>
                   <MenuItem>Recuperação</MenuItem>
                   <MenuItem>Desenvolvimento</MenuItem>
-                  <MenuItem>9box</MenuItem>
+                  <MenuItem>
+                  <Link to='/relatorio-9box'> 9box </Link>
+                  </MenuItem>
                 </SubMenu>
               </Menu>
             </SidebarContent>
@@ -116,7 +146,7 @@ const Sidebar = () => {
               onClick={() => logOut()}
               iconShape='square'>
                 <MenuItem icon={<FiLogOut />}>
-                  <Link to='/'>Sair</Link>
+                  <p >Sair</p>
                 </MenuItem>
               </Menu>
             </SidebarFooter>

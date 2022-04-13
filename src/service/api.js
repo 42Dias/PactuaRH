@@ -1,46 +1,60 @@
-import axios from 'axios';
+import axios from 'axios'
 
-export let token     =  localStorage.getItem("token")?.replace(/"/g, "")     || '' 
-export let tenantId  =  localStorage.getItem("tenantId")?.replace(/"/g, "")  || '' 
-export let role      =  localStorage.getItem("roles")?.replace(/"/g, "")     || '' 
-export let id        =  localStorage.getItem("id")?.replace(/"/g, "")        || '' 
-export let fullName =  localStorage.getItem("fullName")?.replace(/"/g, "") || '' 
-export let status    =  localStorage.getItem("status")?.replace(/"/g, "")    || '' 
-export let Email     =  localStorage.getItem("email")?.replace(/"/g, "")     || '' 
-export const semImagem = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Item_sem_imagem.svg/1024px-Item_sem_imagem.svg.png"
+export const token = localStorage.getItem('token')?.replace(/"/g, '') || ''
+export const tenantId =
+  localStorage.getItem('tenantId')?.replace(/"/g, '') || ''
+export const role = localStorage.getItem('roles')?.replace(/"/g, '') || ''
+export const id = localStorage.getItem('id')?.replace(/"/g, '') || ''
+export const fullName =
+  localStorage.getItem('fullName')?.replace(/"/g, '') || ''
+export const status = localStorage.getItem('status')?.replace(/"/g, '') || ''
+export const Email = localStorage.getItem('email')?.replace(/"/g, '') || ''
+export const semImagem =
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Item_sem_imagem.svg/1024px-Item_sem_imagem.svg.png'
 export const loadingGif = 'https://contribua.org/mb-static/images/loading.gif'
 
+// export const ip = 'http://localhost' // teste local
+export let ip = "https://projetos.42dias.com.br";//servidor/
 
+<<<<<<< HEAD
 export let ip = "http://127.0.0.1";//teste local
 // export let ip = "https://projetos.42dias.com.br";//servidor/
 
 export let porta = '8154'    // teste local
+=======
+export const porta = '8154' // teste local
+>>>>>>> 691e6bfa4edab91f66ad8ceabd973724a8b53b27
 // export let porta = '8154' // servidor
 //***************************************************************************************/
 export const api = axios.create({
   baseURL: `${ip}:${porta}/api/tenant/${tenantId}/`,
   // baseURL: 'http://'+ip+':8157/api/tenant/'+tenantId || "fa22705e-cf27-41d0-bebf-9a6ab52948c4" +"/",
   timeout: 50000,
+<<<<<<< HEAD
   headers: {'Authorization': 'Bearer '+ token}
 });
 //***************************************************************************************/
+=======
+  headers: { Authorization: 'Bearer ' + token },
+})
+>>>>>>> 691e6bfa4edab91f66ad8ceabd973724a8b53b27
 
 export const apiWithoutTenant = axios.create({
   baseURL: `${ip}:${porta}/api/`,
   timeout: 50000,
-});
+})
 
 export const apiWithoutTenantAndWithToken = axios.create({
   baseURL: `${ip}:${porta}/api/`,
   headers: {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + token
+    Authorization: 'Bearer ' + token,
   },
-  timeout: 50000
+  timeout: 50000,
 })
 
 export const apiWithTenantAndWithToken = axios.create({
   baseURL: `${ip}:${porta}/api/tenant/${tenantId}/`,
-  timeout: 50000
+  timeout: 50000,
 })

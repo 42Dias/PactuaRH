@@ -3,7 +3,9 @@ import styled from 'styled-components'
 export const Container = styled.div`
   #header {
     position: absolute;
+    /*
     width: 220px;
+    */
   }
   #header .pro-sidebar {
     height: 100vh;

@@ -1,18 +1,19 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
 import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
-import * as S from './Benefits.styled'
+import * as S from './Education.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
-import beneficio from 'service/beneficio/beneficio'
+import escolaridade from 'service/escolaridade/escolaridade'
 import { fullName } from 'service/api'
 
-export default function Benefits() {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [nome, setNome] = useState<string>('')
-  const [id, setId] = useState<string>('')
-  const [benefits, setBenefits] = useState<any[]>([])
+export default function Education() {
+  const [modalIsOpen   , setIsOpen    ] = useState(false)
+  const [modalIsOpenNew, setIsOpenNew ] = useState(false)
+  const [nome          , setNome      ] = useState<string>("")
+  const [id            , setId        ] = useState<string>("")
+  const [education     , setEducation ] = useState<any[]>([])
+    
 
   function openModal() {
     setIsOpen(true)
@@ -30,41 +31,49 @@ export default function Benefits() {
     setIsOpenNew(false)
   }
 
-  async function handleLoadBenefits() {
-    const allBenefits = await beneficio.list()
+  async function handleLoadEducation() {
+    let allEducation = await escolaridade.list()
 
-    setBenefits(allBenefits)
+    setEducation(allEducation)
   }
 
-  async function handleCreate() {
-    const data = {
-      nome: nome,
+  async function handleCreate(){
+    let data = {
+      nome: nome
     }
 
-    const isCreated = await beneficio.create(data)
+    let isCreated = await escolaridade.create(data)
 
-    if (isCreated) closeModalNew()
-    await handleLoadBenefits()
+    if(isCreated) closeModalNew()
+    await handleLoadEducation()
+
   }
 
-  async function handleUpdate(id: string) {
-    const data = {
-      nome: nome,
+  async function handleUpdate(id: string){
+    let data = {
+      nome: nome
     }
 
-    const isUpdated = await beneficio.update(id, data)
+    let isUpdated = await escolaridade.update(id, data)
 
-    if (isUpdated) closeModal()
-    await handleLoadBenefits()
+    if(isUpdated) closeModal()
+    await handleLoadEducation()
+
   }
 
-  useEffect(() => {
-    handleLoadBenefits()
-  }, [])
-  async function handleDelete(id: string) {
-    await beneficio.delete(id)
 
-    handleLoadBenefits()
+  useEffect(
+    () => {
+      handleLoadEducation() 
+    }, []
+  )
+
+
+  async function handleDelete(id: string){
+    await escolaridade.delete(id)
+
+    handleLoadEducation()
+    
   }
   return (
     <>
@@ -81,33 +90,40 @@ export default function Benefits() {
           </S.FlexButtons>
 
           <S.Table>
+
             <S.TrTitle>
-              <td>Nome do benefício</td>
+              <td>Nome da escolaridade</td>
               <td></td>
             </S.TrTitle>
 
-            {benefits.map((benefit) => (
-              <S.TrSecond>
-                <td>{benefit.nome}</td>
+            {
+            education.map(
+              (education) => (
+              <S.TrSecond
+                key={education.id}
+              >
+                <td>{education.nome}</td>
                 <td>
-                  <button
-                    onClick={() => {
-                      setId(benefit.id)
-                      setNome(benefit.nome)
-                      openModal()
-                    }}
-                  >
+                  <button onClick={() => {
+                    setId(education.id)
+                    setNome(education.nome)
+                    openModal()
+                    }}>
                     <FiEdit size={18} />
                   </button>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(benefit.id)}>
+                  <button
+                  onClick={() => handleDelete(education.id)}
+                  >
                     <FiTrash size={18} />
                   </button>
                 </td>
-              </S.TrSecond>
-            ))}
-          </S.Table>
+              </S.TrSecond> )
+              )
+              }
+
+            </S.Table>
         </S.Container>
       </S.Body>
 
@@ -126,20 +142,26 @@ export default function Benefits() {
         </button>
 
         <S.ContainerForm
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleUpdate(id)
-          }}
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleUpdate(id)
+        }}
         >
-          <h2>Editar benefício</h2>
+
+          <h2>Editar escolaridade</h2>
           <input
             type='text'
-            placeholder='Nome do benefício'
+            placeholder='Nome da escolaridade'
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
+          
+          <button
+            type='submit'
+          >
+            Enviar
+          </button>
 
-          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
@@ -158,21 +180,25 @@ export default function Benefits() {
         </button>
 
         <S.ContainerForm
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleCreate()
-          }}
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleCreate()
+        }}
         >
-          <h2>Cadastrar benefício</h2>
+          <h2>Cadastrar escolaridade</h2>
 
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome do benefício'
+            placeholder='Nome da escolaridade'
             required
           />
 
-          <button type='submit'>Enviar</button>
+          <button
+            type='submit'
+          >
+            Enviar
+          </button>
         </S.ContainerForm>
       </Modal>
     </>
