@@ -43,12 +43,12 @@ export default function SignIn() {
   }
 
   function checkIfIsLogged(){
-    if(token) return navigate('/dashboard', { })
+    if(token) window.location.pathname = '/dashboard'
   }
 
-  useEffect(
+  useLayoutEffect(
     () => {
-      navigate('/dashboard', { })
+      checkIfIsLogged()
     },[]
   )
 
