@@ -43,7 +43,7 @@ export default function SignIn() {
   }
 
   function checkIfIsLogged(){
-    if(token) window.location.pathname = '/dashboard'
+    if(token) navigate('/dashboard', { })
   }
 
   useLayoutEffect(
