@@ -1,47 +1,37 @@
-import {
-  api,
-  apiWithoutTenant,
-  apiWithoutTenantAndWithToken,
-  apiWithTenantAndWithToken,
-  ip,
-  porta,
-} from '../api'
+import { api } from '../api'
 
 import responseHandler from '../../utils/responseHandler'
 import servidorErrorMessage from '../../utils/servidorErrorMessage'
-import handleLocalStorageEmailAndPassword from 'utils/handleLocalStorageEmailAndPassword'
-import HandleLocalStorageData from 'utils/handleLocalStorage'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-export default class cargos {
+export default class centroCustos {
   static async create(data) {
     const response = await api
-      .post('cargo', {
+      .post('centroCustos', {
         data,
       })
-
       .catch(() => {
         servidorErrorMessage()
       })
 
-    const mensagemOk = 'Cargo criado com sucesso!'
+    console.log(response)
+
+    const mensagemOk = 'Área criado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
     const responseData = response.data
     return responseData
   }
-  //= =========================================================================================================
 
+  //= =========================================================================================================
   static async update(id, data) {
     const response = await api
-      .put(`cargo/${id}`, {
+      .put(`centroCustos/${id}`, {
         data,
       })
       .catch(() => {
         servidorErrorMessage()
       })
-    const mensagemOk = 'cargo alterado com sucesso!'
+    const mensagemOk = 'Área alterado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -49,14 +39,14 @@ export default class cargos {
 
     return responseData
   }
-  //= =========================================================================================================
 
+  //= =========================================================================================================
   static async delete(id) {
     const response = await api
-      .delete(`cargo/${id}`)
+      .delete(`centroCustos/${id}`)
       .then((res) => {
         const status = res.status
-        const mensagemOk = 'Cargo apagado com sucesso!'
+        const mensagemOk = 'Modulo apagado com sucesso!'
         const mensagemNaoOK = 'Algo deu errado :('
 
         responseHandler(status, mensagemOk, mensagemNaoOK)
@@ -68,22 +58,21 @@ export default class cargos {
 
     return response
   }
-  //= =========================================================================================================
 
+  //= =========================================================================================================
   static async list() {
-    const response = await api.get('cargo').catch(() => {
+    const response = await api.get('centroCustos').catch(() => {
       servidorErrorMessage()
     })
 
     const responseData = response.data.rows
-
+    console.log(responseData)
     return responseData
   }
-  //= =========================================================================================================
 
   static async listWithFilter(filter, value) {
     const response = await api
-      .get(`cargo?filter%5B${filter}%5D=${value}`)
+      .get(`centroCustos?filter%5B${filter}%5D=${value}`)
       .catch(() => {
         servidorErrorMessage()
       })
@@ -92,10 +81,10 @@ export default class cargos {
 
     return responseData
   }
-  //= =========================================================================================================
 
+  //= =========================================================================================================
   static async listWithManyFilters(filters) {
-    const response = await api.get(`cargo?${filters}`).catch(() => {
+    const response = await api.get(`centroCustos?${filters}`).catch(() => {
       servidorErrorMessage()
     })
 
@@ -103,11 +92,11 @@ export default class cargos {
 
     return responseData
   }
-  //= =========================================================================================================
 
+  //= =========================================================================================================
   static async find(id) {
     const response = await api
-      .get(`cargo/${id}`)
+      .get(`centroCustos/${id}`)
 
       .catch(() => {
         servidorErrorMessage()
@@ -115,5 +104,4 @@ export default class cargos {
 
     return response.data
   }
-  //= ========================================================================================================
 }

@@ -10,10 +10,9 @@ import { fullName } from 'service/api'
 export default function Benefits() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [nome      , setNome      ] = useState<string>("")
-  const [id        , setId        ] = useState<string>("")
-  const [benefits      , setBenefits      ] = useState<any[]>([])
-
+  const [nome, setNome] = useState<string>('')
+  const [id, setId] = useState<string>('')
+  const [benefits, setBenefits] = useState<any[]>([])
 
   function openModal() {
     setIsOpen(true)
@@ -32,48 +31,40 @@ export default function Benefits() {
   }
 
   async function handleLoadBenefits() {
-    let allBenefits = await beneficio.list()
+    const allBenefits = await beneficio.list()
 
     setBenefits(allBenefits)
   }
 
-  async function handleCreate(){
-    let data = {
-      nome: nome
+  async function handleCreate() {
+    const data = {
+      nome: nome,
     }
 
-    let isCreated = await beneficio.create(data)
+    const isCreated = await beneficio.create(data)
 
-    if(isCreated) closeModalNew()
+    if (isCreated) closeModalNew()
     await handleLoadBenefits()
-
   }
 
-  async function handleUpdate(id: string){
-    let data = {
-      nome: nome
+  async function handleUpdate(id: string) {
+    const data = {
+      nome: nome,
     }
 
-    let isUpdated = await beneficio.update(id, data)
+    const isUpdated = await beneficio.update(id, data)
 
-    if(isUpdated) closeModal()
+    if (isUpdated) closeModal()
     await handleLoadBenefits()
-
   }
 
-
-  useEffect(
-    () => {
-      handleLoadBenefits() 
-    }, []
-  )
-
-
-  async function handleDelete(id: string){
+  useEffect(() => {
+    handleLoadBenefits()
+  }, [])
+  async function handleDelete(id: string) {
     await beneficio.delete(id)
 
     handleLoadBenefits()
-    
   }
   return (
     <>
@@ -90,38 +81,33 @@ export default function Benefits() {
           </S.FlexButtons>
 
           <S.Table>
-
             <S.TrTitle>
               <td>Nome do benefício</td>
               <td></td>
             </S.TrTitle>
 
-            {
-            benefits.map(
-              (benefit) => (
+            {benefits.map((benefit) => (
               <S.TrSecond>
                 <td>{benefit.nome}</td>
                 <td>
-                  <button onClick={() => {
-                    setId(benefit.id)
-                    setNome(benefit.nome)
-                    openModal()
-                    }}>
+                  <button
+                    onClick={() => {
+                      setId(benefit.id)
+                      setNome(benefit.nome)
+                      openModal()
+                    }}
+                  >
                     <FiEdit size={18} />
                   </button>
                 </td>
                 <td>
-                  <button
-                  onClick={() => handleDelete(benefit.id)}
-                  >
+                  <button onClick={() => handleDelete(benefit.id)}>
                     <FiTrash size={18} />
                   </button>
                 </td>
-              </S.TrSecond> )
-              )
-              }
-
-            </S.Table>
+              </S.TrSecond>
+            ))}
+          </S.Table>
         </S.Container>
       </S.Body>
 
@@ -140,12 +126,11 @@ export default function Benefits() {
         </button>
 
         <S.ContainerForm
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleUpdate(id)
-        }}
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleUpdate(id)
+          }}
         >
-
           <h2>Editar benefício</h2>
           <input
             type='text'
@@ -153,13 +138,8 @@ export default function Benefits() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
-          
-          <button
-            type='submit'
-          >
-            Enviar
-          </button>
 
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
@@ -178,10 +158,10 @@ export default function Benefits() {
         </button>
 
         <S.ContainerForm
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleCreate()
-        }}
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate()
+          }}
         >
           <h2>Cadastrar benefício</h2>
 
@@ -192,11 +172,7 @@ export default function Benefits() {
             required
           />
 
-          <button
-            type='submit'
-          >
-            Enviar
-          </button>
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
     </>
