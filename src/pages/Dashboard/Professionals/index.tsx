@@ -683,15 +683,6 @@ export default function Professionals() {
                       type='button'
                       onClick={() => {
                         removeFormFields(index)
-                        handleRemoveDependent(dependent?.id)
-                      }}
-                    />
-                    <button
-                      className='btn-actions btn-trash'
-                      type='button'
-                      onClick={() => {
-                        removeFormFields(index)
-                        handleRemoveDependent(dependent?.id)
                       }}
                     >  
                       <FiTrash/>
