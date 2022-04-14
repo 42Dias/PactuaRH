@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable eqeqeq */
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
 import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
@@ -5,7 +7,7 @@ import * as S from './Professionals.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import user from 'service/user/user'
-//import profissional from 'service/profissional/profissional'
+// import profissional from 'service/profissional/profissional'
 import cepInformation from 'utils/cepInformation'
 import { fullName } from 'service/api'
 import { Checkbox } from '../Area/Area.styled'
@@ -27,7 +29,6 @@ export default function Professionals() {
     cpf:      string,
     rg:       string,
     dataNas: string 
-
   }
   const [profissionals, setProfissionals] = useState<any[]>([])
 
@@ -89,7 +90,6 @@ export default function Professionals() {
     setIsOpenNew(false)
   }
 
-  
   async function handleChangeCep(cepText: string) {
     const cep = cepText.replace(/[^0-9]/g, '')
 
@@ -107,7 +107,21 @@ export default function Professionals() {
     }
   }
 
-  // ============================== Main Functions
+  const addFormFields = () => {
+    // @ts-ignore
+    setDependentes([...dependentes, { name: '', email: '' }])
+  }
+
+  const removeFormFields = (i: number) => {
+    console.log(dependentes[i])
+    const newFormValues = [...dependentes]
+    newFormValues.splice(i, 1)
+    setDependentes(newFormValues)
+  }
+
+  async function getUsers() {
+    const users = await user.list()
+   }
 
   async function handleLoadProfessionals() {
     const allProfissionals = await profissional.list()
@@ -140,6 +154,7 @@ export default function Professionals() {
 
     if(userSelected) setEmail(userSelected.email)
     
+
     const data = {
       nome       : nome || userSelected?.fullname,
       cpf        : cpf,
@@ -163,17 +178,28 @@ export default function Professionals() {
     if (userSelected)  data.userId = userSelected.id
     if (createdUser )  data.userId = createdUser.id
     // console.log("data")
-    // console.log(data)
+    // console.log(data
 
     const isCreated = await profissional.create(data)
 
-    // console.log(isCreated)
+
     
     handleLoadProfessionals()
+
 
     closeModalNew()
   }
 
+  const handleChangeDependente = (
+    i: number,
+    e: React.FormEvent<HTMLInputElement>,
+  ) => {
+    const newFormValues = [...dependentes]
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
+
+    setDependentes(newFormValues)
+  }
   async function handleDelete(id: string) {
     await profissional.delete(id)
     handleLoadProfessionals()
@@ -230,7 +256,7 @@ export default function Professionals() {
 
     // console.log(newFormValues)
     setDependentes(newFormValues);
- }    
+ }   
 
   let removeFormFields = (i: number) => {
       // console.log(dependentes[i])
@@ -318,14 +344,9 @@ export default function Professionals() {
   useEffect(() => {
     handleLoadPosition()
   }, [])
-
+  
   useEffect(() => {
     getUsers()
-  }, [])
-
-
-  useEffect(() => {
-    handleLoadProfessionals()
   }, [])
 
 
@@ -867,43 +888,32 @@ export default function Professionals() {
           />
 
           <InputMask
-            className="masked-input"
-            type="text"
-            name="phoneNumber"
-            mask="(99) 99999-9999"
+            className='masked-input'
+            type='text'
+            name='phoneNumber'
+            mask='(99) 99999-9999'
             placeholder='Telefone'
             onChange={(e) => setTelefone(e.target.value)}
           />
 
           <InputMask
-            className="masked-input"
-            type="text"
-            name="phoneNumber"
-            mask="(99) 99999-9999"
+            className='masked-input'
+            type='text'
+            name='phoneNumber'
+            mask='(99) 99999-9999'
             placeholder='Telefone 2'
             onChange={(e) => setTelefone2(e.target.value)}
           />
+          {/*
 
-
-          {/* 
-          
           ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
-          
+
           */}
-
-
-          <select
-            value={cargo}
-            onChange={(e) => setCargo(e.target.value)}
-          >
+          <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
             <option hidden>Cargo</option>
-            {
-            allPositions.map(
-              position => (
-                <option value={position.id}>{position.nome}</option>
-              )
-            )
-            }
+            {allPositions.map((position) => (
+              <option value={position.id}>{position.nome}</option>
+            ))}
           </select>
 
           {/* This is not necesssary anymore */}
@@ -937,17 +947,13 @@ export default function Professionals() {
             value={bairro}
             onChange={(e) => setBairro(e.target.value)}
           />
-
-          
           <input
             type='text'
             placeholder='Logradouro*'
             value={logradouro}
             onChange={(e) => setLogradouro(e.target.value)}
           />
-
-
-        <input
+          <input
             type='text'
             placeholder='Número*'
             value={numero}
@@ -974,15 +980,11 @@ export default function Professionals() {
                 id=''
                 onChange={(e) => setEstadoCivil(e.target.value)}
               >
-                <option hidden>
-                  Estado civil</option>
-                <option value='Solteiro(a)'>
-                  Solteiro(a)</option>
-                <option value='Casado(a)'>
-                  Casado(a)</option>
-                <option value='Viúvo(a)'> 
-                  Viúvo(a)</option>
-              </select>
+                <option hidden>Estado civil</option>
+                <option value='Solteiro(a)'>Solteiro(a)</option>
+                <option value='Casado(a)'>Casado(a)</option>
+                <option value='Viúvo(a)'>Viúvo(a)</option>
+              </select>=======
 
 
             </>
