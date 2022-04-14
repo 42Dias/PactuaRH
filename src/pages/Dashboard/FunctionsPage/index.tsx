@@ -92,33 +92,6 @@ export default function FunctionsPage() {
                 <td>Função</td>
               </S.TrTitle>
 
-<<<<<<< HEAD
-          <S.Table>
-            <S.TrTitle>
-              <td>Função</td>
-              <td>Mão de obra</td>
-              <td>Grau de instrução</td>
-              <td>Requisito da função</td>
-            </S.TrTitle>
-            
-            <S.TrSecond>
-              <td>Dev</td>
-              <td>front end</td>
-              <td>Ensino medio</td>
-              <td>Desenvolvimento</td>
-              <td>
-                <button onClick={openModal}>
-                  <FiEdit size={18} />
-                </button>
-              </td>
-              <td>
-                <button>
-                  <FiTrash size={18} />
-                </button>
-              </td>
-            </S.TrSecond>
-          </S.Table>
-=======
               {allFuncoes.map((funcao: any, index) => (
                 <S.TrSecond key={index}>
                   <td>{funcao.nome}</td>
@@ -146,7 +119,6 @@ export default function FunctionsPage() {
             </S.Table>
           )}
           {allFuncoes.length === 0 && <p>Não há funções cadastradas!</p>}
->>>>>>> 691e6bfa4edab91f66ad8ceabd973724a8b53b27
         </S.Container>
       </S.Body>
 

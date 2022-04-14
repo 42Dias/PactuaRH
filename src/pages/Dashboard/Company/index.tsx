@@ -4,18 +4,15 @@ import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './Company.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
-<<<<<<< HEAD
-import empresa from 'service/empresa/empresaCadastros'
-import { id } from 'service/api'
-=======
 import { fullName } from 'service/api'
->>>>>>> 691e6bfa4edab91f66ad8ceabd973724a8b53b27
+import empresa from 'service/empresa/empresaCadastros'
 
 export default function Company() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
 
   const [cnpj       , setCnpj       ] = useState<string>("")
+  const [id         , setId         ] = useState<string>("")
   const [cnac       , setCnac       ] = useState<string>("")
   const [nome       , setNome       ] = useState<string>("")
   const [razaoSocial, setRazaoSocial] = useState<string>("")
