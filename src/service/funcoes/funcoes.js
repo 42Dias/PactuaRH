@@ -23,7 +23,7 @@ export default class funcoes {
       .catch(() => {
         servidorErrorMessage()
       })
-    const mensagemOk = 'Função alterado com sucesso!'
+    const mensagemOk = 'Função alterada com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -37,7 +37,7 @@ export default class funcoes {
       .delete(`funcao/${id}`)
       .then((res) => {
         const status = res.status
-        const mensagemOk = 'Modulo apagado com sucesso!'
+        const mensagemOk = 'Função apagada com sucesso!'
         const mensagemNaoOK = 'Algo deu errado :('
 
         responseHandler(status, mensagemOk, mensagemNaoOK)

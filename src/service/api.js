@@ -13,10 +13,17 @@ export const semImagem =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Item_sem_imagem.svg/1024px-Item_sem_imagem.svg.png'
 export const loadingGif = 'https://contribua.org/mb-static/images/loading.gif'
 
-// export const ip = 'http://localhost' // teste local
-export let ip = "https://projetos.42dias.com.br";//servidor/
+export const ip = 'http://localhost' // teste local
+// export let ip = "https://projetos.42dias.com.br";//servidor/
 
+<<<<<<< HEAD
 export const porta = '8154' // teste local
+=======
+// export let ip = "http://127.0.0.1";//teste local
+// export let ip = "https://projetos.42dias.com.br";//servidor/
+
+export let porta = '8154'    // teste local
+>>>>>>> 0f0cc714611138ef113d7f95e15f06bbd7c4abe4
 // export let porta = '8154' // servidor
 //***************************************************************************************/
 export const api = axios.create({

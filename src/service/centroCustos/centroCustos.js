@@ -14,7 +14,7 @@ export default class centroCustos {
 
     console.log(response)
 
-    const mensagemOk = 'Área criado com sucesso!'
+    const mensagemOk = 'Área criada com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -31,7 +31,7 @@ export default class centroCustos {
       .catch(() => {
         servidorErrorMessage()
       })
-    const mensagemOk = 'Área alterado com sucesso!'
+    const mensagemOk = 'Área alterada com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -46,7 +46,7 @@ export default class centroCustos {
       .delete(`centroCustos/${id}`)
       .then((res) => {
         const status = res.status
-        const mensagemOk = 'Modulo apagado com sucesso!'
+        const mensagemOk = 'Modulo apagada com sucesso!'
         const mensagemNaoOK = 'Algo deu errado :('
 
         responseHandler(status, mensagemOk, mensagemNaoOK)

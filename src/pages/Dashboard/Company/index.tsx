@@ -4,8 +4,8 @@ import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './Company.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
-import { fullName } from 'service/api'
 import empresa from 'service/empresa/empresaCadastros'
+import { fullName, id } from 'service/api'
 
 export default function Company() {
   const [modalIsOpen, setIsOpen] = useState(false)
