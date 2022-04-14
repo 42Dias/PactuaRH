@@ -13,7 +13,7 @@ export default class habilidades {
         servidorErrorMessage()
       })
 
-    const mensagemOk = 'Usuário criado com sucesso!'
+    const mensagemOk = 'Habilidade criada com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -30,7 +30,7 @@ export default class habilidades {
       .catch(() => {
         servidorErrorMessage()
       })
-    const mensagemOk = 'Usuário alterado com sucesso!'
+    const mensagemOk = 'Habilidade alterada com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -45,7 +45,7 @@ export default class habilidades {
       .delete(`habilidade/${id}`)
       .then((res) => {
         const status = res.status
-        const mensagemOk = 'Modulo apagado com sucesso!'
+        const mensagemOk = 'Habilidade apagada com sucesso!'
         const mensagemNaoOK = 'Algo deu errado :('
 
         responseHandler(status, mensagemOk, mensagemNaoOK)
