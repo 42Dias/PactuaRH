@@ -9,9 +9,9 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 
-export default class profissional{
+export default class dependente{
   static async create(data){
-    let response = await api.post(`profissionais`, {
+    let response = await api.post(`dependente`, {
       data
       })
 
@@ -19,7 +19,7 @@ export default class profissional{
         servidorErrorMessage()
       })
 
-      let mensagemOk = 'Profissional criado com sucesso!'
+      let mensagemOk = 'dependente criado com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -29,7 +29,7 @@ export default class profissional{
 //==========================================================================================================
   static async update(id, data){
 
-    let response = await api.put(`profissionais/${id}`, {
+    let response = await api.put(`dependente/${id}`, {
       data
       })
       .catch(() => {
@@ -37,7 +37,7 @@ export default class profissional{
       })
 
 
-      let mensagemOk = 'Profissional alterado com sucesso!'
+      let mensagemOk = 'dependente alterado com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -49,12 +49,12 @@ export default class profissional{
 //==========================================================================================================
   static async delete(id){
 
-    let response = await api.delete(`profissionais/${id}`)
+    let response = await api.delete(`dependente/${id}`)
     .then(
       (res) => {
           
           let status = res.status 
-          let mensagemOk    = 'Profissional apagado com sucesso!'
+          let mensagemOk    = 'Dependente apagado com sucesso!'
           let mensagemNaoOK = 'Algo deu errado :('
 
           responseHandler(status, mensagemOk, mensagemNaoOK)
@@ -69,7 +69,7 @@ export default class profissional{
 //==========================================================================================================
   static async list(){
 
-    let response = await api.get(`profissionais`)
+    let response = await api.get(`dependente`)
       .catch(() => {
         servidorErrorMessage()
       })
@@ -82,7 +82,7 @@ export default class profissional{
 
   static async listWithFilter(filter ,value){
 
-    let response = await api.get(`profissionais?filter%5B${filter}%5D=${value}`)
+    let response = await api.get(`dependente?filter%5B${filter}%5D=${value}`)
       .catch(() => {
         servidorErrorMessage()
       })
@@ -94,7 +94,7 @@ export default class profissional{
   }
 //==========================================================================================================
   static async listWithManyFilters(filters){
-    let response = await api.get(`profissionais?${filters}`)
+    let response = await api.get(`dependente?${filters}`)
       .catch(() => {
         servidorErrorMessage()
       })
@@ -107,7 +107,7 @@ export default class profissional{
 //==========================================================================================================
   static async find(id){
 
-    let response = await api.get(`profissionais/${id}`)
+    let response = await api.get(`dependente/${id}`)
 
       .catch(() => {
         servidorErrorMessage()

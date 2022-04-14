@@ -37,7 +37,7 @@ export default class escolaridade{
       })
 
 
-      let mensagemOk = 'Escolaridade alterado com sucesso!'
+      let mensagemOk = 'Escolaridade alterada com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -54,7 +54,7 @@ export default class escolaridade{
       (res) => {
           
           let status = res.status 
-          let mensagemOk    = 'Modulo apagado com sucesso!'
+          let mensagemOk    = 'Escolaridade apagada com sucesso!'
           let mensagemNaoOK = 'Algo deu errado :('
 
           responseHandler(status, mensagemOk, mensagemNaoOK)
