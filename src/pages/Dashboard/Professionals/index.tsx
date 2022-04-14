@@ -58,7 +58,8 @@ export default function Professionals() {
   const [estadoCivil  , setEstadoCivil  ] = useState<string>('')
   const [hasDependente, setHasDependente] = useState<boolean>(false)
   const [dependentes  , setDependentes  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNas: '' } ])
-  const [dependentesNew  , setDependentesNew  ] = useState<iDependent[]>([])
+  const [dependentesNew,setDependentesNew] = useState<iDependent[]>([])
+  // const [dependentesNew, setDependentesNew  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNas: '' } ])
   
   const [allPositions  , setAllPositions  ] = useState<iCargo[]>([])
   
@@ -73,10 +74,15 @@ export default function Professionals() {
 
   function closeModal() {
     setIsOpen(false)
+    setHasDependente(false)
+    setDependentes([ { nome: '', cpf: '', rg: '', dataNas: '' } ])
+    setDependentesNew([ { nome: '', cpf: '', rg: '', dataNas: '' } ])
   }
 
   function openModalNew() {
+    setHasDependente(false)
     setIsOpenNew(true)
+    setDependentes([ { nome: '', cpf: '', rg: '', dataNas: '' } ])
   }
 
   function closeModalNew() {
@@ -116,39 +122,32 @@ export default function Professionals() {
     if (!userSelected) {
       // if no user is selected it creates one with that data and use it to create the professional register
       const data = {
-        emails: [email],
-        roles: ['user'],
-        email: email,
-        fullName: nome,
-        firstName: nome.split(' ')[0],
+        emails:           [email],
+        roles:            ['user'],
+        email:            email,
+        fullName:         nome,
+        firstName:        nome.split(' ')[0],
         estadoCivilcivil: estadoCivil,
-        aniversario: nascimento,
-        cpf: cpf,
-        rg: rg,
-        gender: genero,
+        aniversario:      nascimento,
+        cpf:              cpf,
+        rg:               rg,
+        gender:           genero,
       }
-
-      console.log('data')
-      console.log(data)
-
       createdUser = await user.createByEmpresa(data)
 
       if (!createdUser) return
     }
 
-    console.log(nascimento)
-
     if(userSelected) setEmail(userSelected.email)
     
-    
     const data = {
-      nome: nome,
-      cpf: cpf,
-      rg: rg,
-      userId: '',
-      dataNas: nascimento,
-      nomeMae: nomeMae,
-      cep: cep,
+      nome       : nome || userSelected?.fullname,
+      cpf        : cpf,
+      rg         : rg,
+      userId     : '',
+      dataNas    : nascimento,
+      nomeMae    : nomeMae,
+      cep        : cep,
       estadoCivil: estadoCivil,
       email      : email,
       cidade     : cidade,
@@ -159,7 +158,7 @@ export default function Professionals() {
       telefone2  : telefone2,
       // complemento: complemento,
       dependentes: dependentes,
-      cargo: cargo,
+      cargo      : cargo,
     }
     if (userSelected)  data.userId = userSelected.id
     if (createdUser )  data.userId = createdUser.id
@@ -185,25 +184,24 @@ export default function Professionals() {
     let id = selectedProfessional.id
 
     const data = {
-      nome: nome,
-      cpf: cpf,
-      rg: rg,
-      userId: '',
-      dataNas: nascimento,
-      nomeMae: nomeMae,
-      cep: cep,
-      estadoCivil: estadoCivil,
-      email      : email,
-      cidade     : cidade,
-      bairro     : bairro,
-      logradouro : logradouro,
-      numero     : numero,
-      telefone1  : telefone ,
-      telefone2  : telefone2,
-      // complemento: complemento,
-      dependentes: dependentes,
+      nome       : nome        || selectedProfessional?.nome,
+      cpf        : cpf         || selectedProfessional?.cpf,
+      rg         : rg          || selectedProfessional?.rg,
+      userId     : ''          || selectedProfessional?.userId,
+      dataNas    : nascimento  || selectedProfessional?.dataNas,
+      nomeMae    : nomeMae     || selectedProfessional?.nomeMae,
+      cep        : cep         || selectedProfessional?.cep,
+      estadoCivil: estadoCivil || selectedProfessional?.estadoCivil,
+      email      : email       || selectedProfessional?.email,
+      cidade     : cidade      || selectedProfessional?.cidade,
+      bairro     : bairro      || selectedProfessional?.bairro,
+      logradouro : logradouro  || selectedProfessional?.logradouro,
+      numero     : numero      || selectedProfessional?.numero,
+      telefone1  : telefone    || selectedProfessional?.telefone1 ,
+      telefone2  : telefone2   || selectedProfessional?.telefone2,
+      dependentes: dependentes || selectedProfessional?.dependentes,
+      cargo: cargo             || selectedProfessional?.cargo.id,
       dependentesNew: dependentesNew,
-      cargo: cargo,
     }
 
 
@@ -223,10 +221,6 @@ export default function Professionals() {
     setDependentes([...dependentes, { name: "", email: "" }])
   }
 
-  let addFormFieldsNew = () => {
-    //@ts-ignore
-    setDependentesNew([...dependentesNew, { }])
-  }
 
   let handleChangeDependente = (i: number, e: React.FormEvent<HTMLInputElement>) => {
     let newFormValues = [...dependentes];
@@ -245,6 +239,51 @@ export default function Professionals() {
       setDependentes(newFormValues)
   }
 
+  let addFormFieldsNew = () => {
+    //@ts-ignore
+    setDependentesNew([...dependentesNew, { }])
+  }
+
+  let handleChangeDependenteNew = (i: number, e: React.FormEvent<HTMLInputElement>) => {
+
+    console.log("bndjflnbdfknbdfnbjdfnbkjdfnbkjv,klmbojdfnfioudenbafo")
+    let newFormValues = [...dependentesNew];
+
+
+    //@ts-ignore
+    console.log(newFormValues[i])
+
+
+    
+    //@ts-ignore
+    console.log(newFormValues[i])
+
+
+    //@ts-ignore
+    console.log(e.target.name)
+
+
+
+    //@ts-ignore
+    console.log(newFormValues[i][e.target.name])
+    
+    //@ts-ignore
+    console.log(e.target.value)
+    
+    //@ts-ignore
+    newFormValues[i][e.target.name] = e.target.value;
+
+
+    console.log(newFormValues)
+    setDependentesNew(newFormValues);
+ }    
+
+  let removeFormFieldsNew = (i: number) => {
+      console.log(dependentesNew[i])
+      let newFormValues = [...dependentesNew];
+      newFormValues.splice(i, 1);
+      setDependentesNew(newFormValues)
+  }
   
   // ============================== Handle SubCruds
   async function handleLoadPosition() {
@@ -290,10 +329,6 @@ export default function Professionals() {
   }, [])
 
 
-  console.log(
-    profissionals
-  )
-
   return (
     <>
       <S.Body>
@@ -331,8 +366,10 @@ export default function Professionals() {
                         console.log(value)
                         setHasDependente(value.dependente.length >= 1)
                         setDependentes(value.dependente)
-                        console.log("value.dependente")
-                        console.log(value.dependente)
+                        setCargo(value.cargo.id)
+                        console.log("value.cargo.id")
+                        console.log(value.cargo.id)
+
                         openModal()
                       }}
                     >
@@ -444,8 +481,6 @@ export default function Professionals() {
             onChange={(e) => setTelefone2(e.target.value)}
           />
 
-
-
           <select
             // value={cargo}
             defaultValue={selectedProfessional?.cargo.id}
@@ -466,7 +501,10 @@ export default function Professionals() {
             placeholder='CEP*'
             // value={cep}
             defaultValue={selectedProfessional?.cep}
-            onChange={(e) => setCep(e.target.value)}
+            onChange={(e) => {
+              setCep(e.target.value)}
+            
+            }
             onBlur={(ev) => handleChangeCep(ev.target.value)}
           />
 
@@ -643,7 +681,7 @@ export default function Professionals() {
                       type='text'
                       placeholder='Nome do Dependente'
                       name='nome'
-                      onChange={(e) => handleChangeDependente(index, e)}
+                      onChange={(e) => handleChangeDependenteNew(index, e)}
                     />
 
 
@@ -653,7 +691,7 @@ export default function Professionals() {
                       placeholder='CPF do Dependente'
 
                       onChange={(e) => {
-                        handleChangeDependente(index, e)
+                        handleChangeDependenteNew(index, e)
 
                         let cpfWithLetters = e.target.value
                         let clearedCpf = cpfWithLetters.replace(/\D/g, "");
@@ -669,20 +707,20 @@ export default function Professionals() {
                       name='rg'
                       mask='99.999.999-9'
                       placeholder='RG do Dependente'
-                      onChange={(e) => handleChangeDependente(index, e)}
+                      onChange={(e) => handleChangeDependenteNew(index, e)}
                     />
                     <input
                       name='dataNas'
                       type="date"
                       placeholder='Data de Nascimento do Dependente'
-                      onChange={(e) => handleChangeDependente(index, e)}
+                      onChange={(e) => handleChangeDependenteNew(index, e)}
                     />
                                           
                     <button
                       className='btn-actions btn-trash'
                       type='button'
                       onClick={() => {
-                        removeFormFields(index)
+                        removeFormFieldsNew(index)
                       }}
                     >  
                       <FiTrash/>
@@ -744,13 +782,19 @@ export default function Professionals() {
                 setCpf('')
                 setRg('')
                 setNascimento('')
+                setNome('')
               }
 
               const newUserSelected = allUsers[userIndex]
 
+              console.log("newUserSelected")
+              console.log(newUserSelected)
               setUserSelected(newUserSelected)
 
               // Sets the setState values 'cause defaultValue does not work
+              console.log("newUserSelected.fullName")
+              console.log(newUserSelected.fullName)
+              setNome(newUserSelected.fullName)
               setCpf(newUserSelected.cpf)
               setRg(newUserSelected.rg)
               setNascimento(newUserSelected.aniversario)
