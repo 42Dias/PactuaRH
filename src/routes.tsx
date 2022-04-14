@@ -20,6 +20,7 @@ import Skills from 'pages/Dashboard/Skills'
 import Area from 'pages/Dashboard/Area'
 import Box from 'pages/Dashboard/9Box'
 import CostCenter from 'pages/Dashboard/costCenter'
+import Career from 'pages/Dashboard/Career'
 
 const RoutesApp = () => {
   return (
@@ -33,6 +34,7 @@ const RoutesApp = () => {
         <Route path='/cadastro-da-empresa' element={<Company />} />
         <Route path='/status-de-usuario' element={<UserStatus />} />
         <Route path='/profissionais' element={<Professionals />} />
+        <Route path='/carreira' element={<Career />} />
         <Route path='/cargos' element={<Positions />} />
         <Route path='/funcoes' element={<FunctionsPage />} />
         <Route path='/centroCustos' element={<CostCenter />} />
