@@ -93,12 +93,12 @@ export default function Professionals() {
   async function handleChangeCep(cepText: string) {
     const cep = cepText.replace(/[^0-9]/g, '')
 
-    console.log('cep')
-    console.log(cep)
+    // console.log('cep')
+    // console.log(cep)
 
     if (cep.length == 8) {
       const data = await cepInformation(cep)
-      console.log(data)
+      // console.log(data)
       setCep(data.cep)
       setLogradouro(data.logradouro)
       setBairro(data.bairro)
@@ -162,12 +162,12 @@ export default function Professionals() {
     }
     if (userSelected)  data.userId = userSelected.id
     if (createdUser )  data.userId = createdUser.id
-    console.log("data")
-    console.log(data)
+    // console.log("data")
+    // console.log(data)
 
     const isCreated = await profissional.create(data)
 
-    console.log(isCreated)
+    // console.log(isCreated)
     
     handleLoadProfessionals()
 
@@ -207,7 +207,7 @@ export default function Professionals() {
 
     const isUpdated = await profissional.update(id, data)
 
-    console.log(isUpdated)
+    // console.log(isUpdated)
 
     handleLoadProfessionals()
 
@@ -228,12 +228,12 @@ export default function Professionals() {
     newFormValues[i][e.target.name] = e.target.value;
 
 
-    console.log(newFormValues)
+    // console.log(newFormValues)
     setDependentes(newFormValues);
  }    
 
   let removeFormFields = (i: number) => {
-      console.log(dependentes[i])
+      // console.log(dependentes[i])
       let newFormValues = [...dependentes];
       newFormValues.splice(i, 1);
       setDependentes(newFormValues)
@@ -246,40 +246,40 @@ export default function Professionals() {
 
   let handleChangeDependenteNew = (i: number, e: React.FormEvent<HTMLInputElement>) => {
 
-    console.log("bndjflnbdfknbdfnbjdfnbkjdfnbkjv,klmbojdfnfioudenbafo")
+    // console.log("bndjflnbdfknbdfnbjdfnbkjdfnbkjv,klmbojdfnfioudenbafo")
     let newFormValues = [...dependentesNew];
 
 
     //@ts-ignore
-    console.log(newFormValues[i])
+    // console.log(newFormValues[i])
 
 
     
     //@ts-ignore
-    console.log(newFormValues[i])
+    // console.log(newFormValues[i])
 
 
     //@ts-ignore
-    console.log(e.target.name)
+    // console.log(e.target.name)
 
 
 
     //@ts-ignore
-    console.log(newFormValues[i][e.target.name])
+    // console.log(newFormValues[i][e.target.name])
     
     //@ts-ignore
-    console.log(e.target.value)
+    // console.log(e.target.value)
     
     //@ts-ignore
     newFormValues[i][e.target.name] = e.target.value;
 
 
-    console.log(newFormValues)
+    // console.log(newFormValues)
     setDependentesNew(newFormValues);
  }    
 
   let removeFormFieldsNew = (i: number) => {
-      console.log(dependentesNew[i])
+      // console.log(dependentesNew[i])
       let newFormValues = [...dependentesNew];
       newFormValues.splice(i, 1);
       setDependentesNew(newFormValues)
@@ -289,8 +289,8 @@ export default function Professionals() {
   async function handleLoadPosition() {
     const cargo = await cargos.list()
 
-    console.log('cargos')
-    console.log(cargo)
+    // console.log('cargos')
+    // console.log(cargo)
 
     setAllPositions(cargo)
   }
@@ -299,8 +299,8 @@ export default function Professionals() {
   async function getUsers() {
     const users = await user.list()
 
-    console.log('users')
-    console.log(users)
+    // console.log('users')
+    // console.log(users)
 
     setAllUsers(users)
   }
@@ -363,12 +363,12 @@ export default function Professionals() {
                       onClick={() => {
                         setId(value.id)
                         setSelectedProfessional(value)
-                        console.log(value)
+                        // console.log(value)
                         setHasDependente(value.dependente.length >= 1)
                         setDependentes(value.dependente)
                         setCargo(value.cargo.id)
-                        console.log("value.cargo.id")
-                        console.log(value.cargo.id)
+                        // console.log("value.cargo.id")
+                        // console.log(value.cargo.id)
 
                         openModal()
                       }}
@@ -419,6 +419,7 @@ export default function Professionals() {
           <h4>Selecione um profissional</h4>
 
           <input
+            required
             type='text'
             defaultValue={userSelected?.fullName || selectedProfessional?.nome}
             onChange={(e) => setNome(e.target.value)}
@@ -427,6 +428,7 @@ export default function Professionals() {
 
           <InputMask
             // defaultValue={userSelected?.cpf}
+            required
             onChange={(e) => setCpf(e.target.value)}
             mask='999.999.999-99'
             placeholder='Seu CPF'
@@ -434,6 +436,7 @@ export default function Professionals() {
 
           />
           <InputMask
+            required
             // defaultValue={userSelected?.rg}
             onChange={(e) => setRg(e.target.value)}
             mask='99.999.999-9'
@@ -444,6 +447,7 @@ export default function Professionals() {
 
           <input
             type='date'
+            required
             placeholder='Data de nascimento'
             value={nascimento}
             defaultValue={selectedProfessional?.dataNas}
@@ -454,6 +458,7 @@ export default function Professionals() {
           {/* These are not saved in user data */}
           <input
             type='text'
+            required
             placeholder='Nome da mãe'
             value={nomeMae}
             defaultValue={selectedProfessional?.nomeMae}
@@ -463,6 +468,7 @@ export default function Professionals() {
           <InputMask
             className="masked-input"
             type="text"
+            required
             name="phoneNumber"
             mask="(99) 99999-9999"
             placeholder='Telefone'
@@ -473,6 +479,7 @@ export default function Professionals() {
           <InputMask
             className="masked-input"
             type="text"
+            required
             name="phoneNumber"
             mask="(99) 99999-9999"
             placeholder='Telefone 2'
@@ -484,6 +491,7 @@ export default function Professionals() {
           <select
             // value={cargo}
             defaultValue={selectedProfessional?.cargo.id}
+            required
             onChange={(e) => setCargo(e.target.value)}
           >
             <option hidden>Cargo</option>
@@ -500,6 +508,7 @@ export default function Professionals() {
             type='text'
             placeholder='CEP*'
             // value={cep}
+            required
             defaultValue={selectedProfessional?.cep}
             onChange={(e) => {
               setCep(e.target.value)}
@@ -512,6 +521,7 @@ export default function Professionals() {
             type='text'
             placeholder='Cidade*'
             // value={cidade}
+            required
             defaultValue={selectedProfessional?.cidade}
             onChange={(e) => setCidade(e.target.value)}
           />
@@ -520,6 +530,7 @@ export default function Professionals() {
             type='text'
             placeholder='Bairro*'
             // value={bairro}
+            required
             defaultValue={selectedProfessional?.bairro}
             onChange={(e) => setBairro(e.target.value)}
           />
@@ -528,6 +539,7 @@ export default function Professionals() {
           <input
             type='text'
             placeholder='Logradouro*'
+            required
             defaultValue={selectedProfessional?.logradouro}
             onChange={(e) => setLogradouro(e.target.value)}
           />
@@ -537,6 +549,7 @@ export default function Professionals() {
             type='text'
             placeholder='Número*'
             defaultValue={selectedProfessional?.numero}
+            required
             onChange={(e) => setNumero(e.target.value)}
           />
 
@@ -618,7 +631,7 @@ export default function Professionals() {
                         let cpfWithLetters = e.target.value
                         let clearedCpf = cpfWithLetters.replace(/\D/g, "");
                         
-                        console.log(clearedCpf)
+                        // console.log(clearedCpf)
                         if(clearedCpf.length != 11) return 
                         
                         checkCPF(clearedCpf)
@@ -696,7 +709,7 @@ export default function Professionals() {
                         let cpfWithLetters = e.target.value
                         let clearedCpf = cpfWithLetters.replace(/\D/g, "");
                         
-                        console.log(clearedCpf)
+                        // console.log(clearedCpf)
                         if(clearedCpf.length != 11) return 
                         
                         checkCPF(clearedCpf)
@@ -787,13 +800,12 @@ export default function Professionals() {
 
               const newUserSelected = allUsers[userIndex]
 
-              console.log("newUserSelected")
-              console.log(newUserSelected)
+
               setUserSelected(newUserSelected)
 
               // Sets the setState values 'cause defaultValue does not work
-              console.log("newUserSelected.fullName")
-              console.log(newUserSelected.fullName)
+              // console.log("newUserSelected.fullName")
+              // console.log(newUserSelected.fullName)
               setNome(newUserSelected.fullName)
               setCpf(newUserSelected.cpf)
               setRg(newUserSelected.rg)
@@ -1015,7 +1027,7 @@ export default function Professionals() {
                         let cpfWithLetters = e.target.value
                         let clearedCpf = cpfWithLetters.replace(/\D/g, "");
                         
-                        console.log(clearedCpf)
+                        // console.log(clearedCpf)
                         if(clearedCpf.length != 11) return 
                         
                         checkCPF(clearedCpf)
