@@ -17,14 +17,16 @@ import { isNullOrUndefined } from 'util'
 
 import moment from 'moment'
 import profissional from 'service/profissional/profissional'
+import dependente from 'service/dependente/dependente'
 
 export default function Professionals() {
 
   interface iDependent  {
+    id?:      string,
     nome:     string,
     cpf:      string,
     rg:       string,
-    dataNasc: string 
+    dataNas: string 
 
   }
   const [profissionals, setProfissionals] = useState<any[]>([])
@@ -55,10 +57,14 @@ export default function Professionals() {
   const [telefone2    , setTelefone2    ] = useState<string>('')
   const [estadoCivil  , setEstadoCivil  ] = useState<string>('')
   const [hasDependente, setHasDependente] = useState<boolean>(false)
-  const [dependentes  , setDependentes  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNasc: '' } ])
+  const [dependentes  , setDependentes  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNas: '' } ])
+  const [dependentesNew  , setDependentesNew  ] = useState<iDependent[]>([])
   
   const [allPositions  , setAllPositions  ] = useState<iCargo[]>([])
   
+  const [dependentsToDelete, setDependentsToDelete] = useState<iDependent[]>([])
+
+
   const [index, setIndex] = useState<number>(0)
 
   function openModal() {
@@ -140,7 +146,7 @@ export default function Professionals() {
       cpf: cpf,
       rg: rg,
       userId: '',
-      dataNasc: nascimento,
+      dataNas: nascimento,
       nomeMae: nomeMae,
       cep: cep,
       estadoCivil: estadoCivil,
@@ -163,6 +169,8 @@ export default function Professionals() {
     const isCreated = await profissional.create(data)
 
     console.log(isCreated)
+    
+    handleLoadProfessionals()
 
     closeModalNew()
   }
@@ -181,7 +189,7 @@ export default function Professionals() {
       cpf: cpf,
       rg: rg,
       userId: '',
-      dataNasc: nascimento,
+      dataNas: nascimento,
       nomeMae: nomeMae,
       cep: cep,
       estadoCivil: estadoCivil,
@@ -194,6 +202,7 @@ export default function Professionals() {
       telefone2  : telefone2,
       // complemento: complemento,
       dependentes: dependentes,
+      dependentesNew: dependentesNew,
       cargo: cargo,
     }
 
@@ -201,6 +210,8 @@ export default function Professionals() {
     const isUpdated = await profissional.update(id, data)
 
     console.log(isUpdated)
+
+    handleLoadProfessionals()
 
     closeModal()
   }
@@ -212,11 +223,18 @@ export default function Professionals() {
     setDependentes([...dependentes, { name: "", email: "" }])
   }
 
+  let addFormFieldsNew = () => {
+    //@ts-ignore
+    setDependentesNew([...dependentesNew, { }])
+  }
+
   let handleChangeDependente = (i: number, e: React.FormEvent<HTMLInputElement>) => {
     let newFormValues = [...dependentes];
     //@ts-ignore
     newFormValues[i][e.target.name] = e.target.value;
 
+
+    console.log(newFormValues)
     setDependentes(newFormValues);
  }    
 
@@ -247,6 +265,15 @@ export default function Professionals() {
 
     setAllUsers(users)
   }
+
+
+  // ============================== Handle Subcrud Dependents
+  async function handleRemoveDependent(id?: string){
+    await dependente.delete(id)
+  }
+
+
+
   // ============================== UseEffects
 
   useEffect(() => {
@@ -304,6 +331,8 @@ export default function Professionals() {
                         console.log(value)
                         setHasDependente(value.dependente.length >= 1)
                         setDependentes(value.dependente)
+                        console.log("value.dependente")
+                        console.log(value.dependente)
                         openModal()
                       }}
                     >
@@ -348,38 +377,9 @@ export default function Professionals() {
           handleUpdate()
         }}
         >
+          <h2>Editar profissional</h2>
+
           <h4>Selecione um profissional</h4>
-          <select
-            onChange={(e) => {
-              const userIndex: number = parseInt(e.target.value)
-
-              // if the index is selected as new it clears the present data
-              if (isNaN(userIndex)) {
-                setUserSelected({})
-                setCpf('')
-                setRg('')
-                setNascimento('')
-              }
-
-              const newUserSelected = allUsers[userIndex]
-
-              setUserSelected(newUserSelected)
-
-              // Sets the setState values 'cause defaultValue does not work
-              setCpf(newUserSelected.cpf)
-              setRg(newUserSelected.rg)
-              setNascimento(newUserSelected.aniversario)
-            }}
-            placeholder='Usuário Cadastrado'
-          >
-            <option value={''}>Novo</option>
-
-            {allUsers.map((user, i) => (
-              <option value={i}>
-                {user.fullName} | {user.cpf}
-              </option>
-            ))}
-          </select>
 
           <input
             type='text'
@@ -405,18 +405,11 @@ export default function Professionals() {
 
           />
 
-          {/* <InputMask
-            mask='99/99/9999'
-            placeholder='Data de nascimento'
-            value={nascimento}
-            onChange={(e) => setNascimento(e.target.value)}
-          /> */}
-
           <input
             type='date'
             placeholder='Data de nascimento'
             value={nascimento}
-            defaultValue={selectedProfessional?.dataNasc}
+            defaultValue={selectedProfessional?.dataNas}
 
             onChange={(e) => setNascimento(e.target.value)}
           />
@@ -561,7 +554,87 @@ export default function Professionals() {
                 <>
                 {
                 dependentes.map(
-                  (e, index) => (
+                  (dependent, index) => (
+                    <div
+                      className='border'
+                    >
+
+                    <input
+                      type='text'
+                      placeholder='Nome do Dependente'
+                      name='nome'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                      defaultValue={dependent.nome}
+                    />
+
+
+                    <InputMask
+                      name='cpf'
+                      mask='999.999.999-99'
+                      placeholder='CPF do Dependente'
+                      defaultValue={dependent.cpf}
+
+                      onChange={(e) => {
+                        handleChangeDependente(index, e)
+
+                        let cpfWithLetters = e.target.value
+                        let clearedCpf = cpfWithLetters.replace(/\D/g, "");
+                        
+                        console.log(clearedCpf)
+                        if(clearedCpf.length != 11) return 
+                        
+                        checkCPF(clearedCpf)
+                        
+                      }}
+                      />
+                    <InputMask
+                      name='rg'
+                      mask='99.999.999-9'
+                      placeholder='RG do Dependente'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                      defaultValue={dependent.rg}
+                    />
+                    <input
+                      name='dataNas'
+                      type="date"
+                      placeholder='Data de Nascimento do Dependente'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                      defaultValue={dependent.dataNas}
+                    />
+
+
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => {
+                        removeFormFields(index)
+                        handleRemoveDependent(dependent?.id)
+                      }}
+                    >
+                      <FiTrash/>
+                    </button>
+                  </div>
+                  )
+                )}
+
+
+                {/* <button
+                type='button'
+                className='btn-actions'
+                onClick={() => addFormFields()}
+                >
+                  <FiPlus/>
+                </button> */}
+                </>
+            )
+            }
+
+          {
+            hasDependente && (
+                <>
+                {
+                dependentesNew.map(
+                  (dependent, index) => (
                     <div
                       className='border'
                     >
@@ -599,21 +672,28 @@ export default function Professionals() {
                       onChange={(e) => handleChangeDependente(index, e)}
                     />
                     <input
-                      name='rg'
+                      name='dataNas'
                       type="date"
                       placeholder='Data de Nascimento do Dependente'
                       onChange={(e) => handleChangeDependente(index, e)}
                     />
-
-
+                                          
                     <button
                       className='btn-actions btn-trash'
                       type='button'
                       onClick={() => {
                         removeFormFields(index)
-                      
+                        handleRemoveDependent(dependent?.id)
                       }}
-                    >
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => {
+                        removeFormFields(index)
+                        handleRemoveDependent(dependent?.id)
+                      }}
+                    >  
                       <FiTrash/>
                     </button>
                   </div>
@@ -624,14 +704,13 @@ export default function Professionals() {
                 <button
                 type='button'
                 className='btn-actions'
-                onClick={() => addFormFields()}
+                onClick={() => addFormFieldsNew()}
                 >
                   <FiPlus/>
                 </button>
                 </>
             )
             }
-
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
@@ -915,7 +994,7 @@ export default function Professionals() {
                       onChange={(e) => handleChangeDependente(index, e)}
                     />
                     <input
-                      name='rg'
+                      name='dataNas'
                       type="date"
                       placeholder='Data de Nascimento do Dependente'
                       onChange={(e) => handleChangeDependente(index, e)}
