@@ -20,6 +20,7 @@ import Skills from 'pages/Dashboard/Skills'
 import Area from 'pages/Dashboard/Area'
 import Box from 'pages/Dashboard/9Box'
 import CostCenter from 'pages/Dashboard/costCenter'
+import Career from 'pages/Dashboard/Career'
 
 const RoutesApp = () => {
   return (

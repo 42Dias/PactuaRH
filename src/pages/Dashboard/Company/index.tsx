@@ -12,6 +12,7 @@ export default function Company() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
 
   const [cnpj       , setCnpj       ] = useState<string>("")
+  const [id         , setId         ] = useState<string>("")
   const [cnac       , setCnac       ] = useState<string>("")
   const [nome       , setNome       ] = useState<string>("")
   const [razaoSocial, setRazaoSocial] = useState<string>("")

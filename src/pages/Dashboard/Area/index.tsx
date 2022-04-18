@@ -8,13 +8,14 @@ import areas from 'service/area/area'
 import { fullName } from 'service/api'
 
 export default function Area() {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [nome, setNome] = useState<string>('')
-  const [subArea, setSubArea] = useState<boolean>(false)
-  const [areaPai, setAreaPai] = useState<string>('')
-  const [id, setId] = useState<string>('')
-  const [area, setArea] = useState([])
+  const [modalIsOpen    ,setIsOpen   ] = useState(false)
+  const [modalIsOpenNew ,setIsOpenNew] = useState(false)
+  const [nome           ,setNome     ] = useState<string>('')
+  const [descricao      ,setDescricao] = useState<string>('')
+  const [subArea        ,setSubArea  ] = useState<boolean>(false)
+  const [areaPai        ,setAreaPai  ] = useState<string>('')
+  const [id             , setId      ] = useState<string>('')
+  const [area           , setArea    ] = useState([])
 
   function openModal() {
     setIsOpen(true)
@@ -45,6 +46,7 @@ export default function Area() {
   async function handleCreate() {
     const data = {
       nome: nome,
+      descricao: descricao,
       subarea: subArea,
       areaPai: areaPai,
     }
@@ -58,6 +60,7 @@ export default function Area() {
   async function handleUpdate(id: string) {
     const data = {
       nome: nome,
+      descricao: descricao,
       subarea: subArea,
       areaPai: areaPai,
     }
@@ -94,12 +97,14 @@ export default function Area() {
             <S.Table>
               <S.TrTitle>
                 <td>Nome do área</td>
-                <td></td>
+                <td>Descrição</td>
               </S.TrTitle>
 
               {area.map((area: any, index) => (
                 <S.TrSecond key={index}>
                   <td>{area.nome}</td>
+
+                  <td>{area.descricao}</td>
                   <td>
                     <button
                       onClick={() => {
@@ -223,6 +228,13 @@ export default function Area() {
             type='text'
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome da área'
+            required
+          />
+
+          <input
+            type='text'
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
             required
           />
           <S.divCheck>
