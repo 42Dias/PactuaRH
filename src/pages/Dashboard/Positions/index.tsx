@@ -43,7 +43,6 @@ export default function Positions() {
   const [wanted       , setWanted       ] = useState([ "" ])
   const [functions    , setFunctions    ] = useState([ "" ])
   const [educations   , setEducations   ] = useState([ "" ])
-  
   const [cargoSelected, setCargoSelected] = useState<iCargo>()
 
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -87,14 +86,6 @@ export default function Positions() {
     const allSkills = await habilidades.list()
 
     setAllSkills(allSkills)
-  }
-
-  // Loads all tables associated
-  async function handleLoadAssociations() {
-    handleLoadArea()
-    handleLoadEducation()
-    handleLoadFunctions()
-    handleLoadSkills()
   }
 
 
@@ -147,7 +138,7 @@ export default function Positions() {
       newFormValues.splice(i, 1);
       setWanted(newFormValues)
   }
-  
+
   /*
   ==================================================
           Multiple functions Handler
@@ -161,6 +152,7 @@ export default function Positions() {
 
     setFunctions(newFormValues);
  }
+    
       
   let addFunctions = () => {
     //@ts-ignore
@@ -221,7 +213,8 @@ export default function Positions() {
 
   async function handleCreatePosition(rawData: any){
     let data = {
-      nome: rawData.desc,
+      nome: rawData.nome,
+      descricao: rawData.desc,
       area: rawData.areaId,
       lideranca: rawData.lideranca == 'true',
       // ecolaridade: rawData.id,
@@ -253,8 +246,34 @@ export default function Positions() {
 
   }
 
-  async function handleUpdatePosition(id: string){
-    console.log("test")
+  async function handleUpdatePosition(rawData: any){
+    let id = cargoSelected?.id
+
+    let data = {
+      nome:      rawData.nome     || cargoSelected?.nome,
+      descricao: rawData.desc     || cargoSelected?.descricao,
+      area:      rawData.areaId   || cargoSelected?.area,
+      lideranca: rawData.lideranca == 'true'    || cargoSelected?.lideranca,
+      cargosLiderados: [ rawData.cargoLiderId ] || cargoSelected?.cargosLiderados,
+      desejaveis:  wanted,
+      funcoes:     functions,
+      habilidades: skills,
+      ecolaridade: educations,
+    }  
+
+    
+    let isUpdated = await cargos.update(id, data)
+
+    if(isUpdated) closeModal()
+
+    await handleLoadPosition()
+    
+    //Clears all data used
+    reset(rawData)
+    setSkills( [ ] )
+    setWanted( [ ] )
+    setFunctions([ ] )
+    setEducations([ ] )
   }
 
   async function handleDeletePosition(id: string){
@@ -405,6 +424,12 @@ export default function Positions() {
         </S.Container>
       </S.Body>
 
+{/*
+=========================================================================================================
+                                    Edit
+========================================================================================================= 
+ */}
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -421,11 +446,16 @@ export default function Positions() {
 
         {/* EDITAR CARGO */}
         <S.ContainerForm
-          // onSubmit={ handleSubmit(handleCreatePosition) }
-          onSubmit={handleSubmit(handleCreatePosition)}
+          onSubmit={handleSubmit(handleUpdatePosition)}
         >
           <h2>Editar Cargo</h2>
-          <h2>{cargoSelected?.nome}</h2>
+
+          <input
+          defaultValue={cargoSelected?.nome}
+          type='text'
+          placeholder='Nome'
+          {...register('nome')}
+          />
 
           <input
           defaultValue={cargoSelected?.nome}
@@ -433,6 +463,7 @@ export default function Positions() {
           placeholder='Descrição'
           {...register('desc')}
           />
+
 
 
         <select
@@ -470,6 +501,7 @@ export default function Positions() {
             </option>
           </select>
           <select
+          defaultValue={cargoSelected?.area?.id}
           {...register('areaId')}
           >
             <option hidden >Área</option>
@@ -485,6 +517,7 @@ export default function Positions() {
           </select>
           <select
           defaultValue={cargoSelected?.ir || "Não cadastrado"}
+          // defaultValue={cargoSelected?.area?.id}
           {...register('cargoLiderId')}
           >
             <option hidden>Cargos Liderados</option>
@@ -516,7 +549,7 @@ export default function Positions() {
           skills.map(
             (skill, index) => (
               <div className="border">
-                defaultValue={skills[index]}
+                Habilidades
 
                 <select
                 defaultValue={skills[index]}
@@ -554,13 +587,13 @@ export default function Positions() {
           </button>
 
 
-          wanted
+          
           {
           wanted.map(
             (skill, index) => (
               <div className="border">
 
-                {wanted[index]}
+                Desejaveis
 
                 <select
                 defaultValue={wanted[index]}
@@ -601,7 +634,7 @@ export default function Positions() {
           functions.map(
             (skill, index) => (
               <div className="border">
-                defaultValue={functions[index]}
+                Funções
 
                 <select
                 defaultValue={functions[index]}
@@ -621,7 +654,7 @@ export default function Positions() {
                 <button
                   className='btn-actions btn-trash'
                   type='button'
-                  onClick={() => removeWanted(index)}
+                  onClick={() => removeFunctions(index)}
                 >
                   <FiTrash/>
                 </button>
@@ -633,7 +666,7 @@ export default function Positions() {
           <button
           type='button'
           className='btn-actions'
-          onClick={() => addWanted()}
+          onClick={() => addFunctions()}
           >
             <FiPlus size={20} />
           </button>
@@ -642,6 +675,7 @@ export default function Positions() {
         educations.map(
           (education, index) => (
             <div className="border">
+              Escolaridade
               <select
               defaultValue={educations[index]}
               onChange={(e) => handleChangeEducations(index, e.target.value)}
@@ -776,7 +810,11 @@ export default function Positions() {
           
         </S.ContainerForm>
       </Modal>
-
+{/*
+=========================================================================================================
+                                  Register
+========================================================================================================= 
+ */}
       <Modal
         isOpen={modalIsOpenNew}
         onRequestClose={closeModalNew}
@@ -798,11 +836,16 @@ export default function Positions() {
         >
           <h2>Cadastrar Cargo</h2>
 
+          <input
+          type='text' placeholder='Nome'
+          {...register('nome')}
+          />
           
           <input
           type='text' placeholder='Descrição'
           {...register('desc')}
           />
+
           {/* <input
           type='text' placeholder='Descrição oficial'
           // onChange={() => console.log(register)}
