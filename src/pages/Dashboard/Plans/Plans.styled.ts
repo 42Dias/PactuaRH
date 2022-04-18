@@ -19,7 +19,7 @@ export const Container = styled.div`
   margin: 0 auto;
 
   img{
-    margin: 25px 10px 45px 0px;
+    margin: 25px 10px 0px 0px;
     width: 50px;
     height: 50px;
   }
@@ -45,8 +45,6 @@ margin-bottom:75px;
     border-radius: 5px;
     align-item:center;
   }
-
-
 
   .planos-icon{
     position:relative;
