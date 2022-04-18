@@ -90,6 +90,11 @@ const Sidebar = () => {
                   
 
                   <MenuItem>
+                    <Link to='/centroCustos'>Centro de Custos</Link>
+                  </MenuItem>
+                  
+
+                  <MenuItem>
                     <Link to='/cadastro-da-empresa'>Empresas</Link>
                   </MenuItem>
 
