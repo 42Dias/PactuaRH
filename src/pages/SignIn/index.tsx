@@ -17,7 +17,6 @@ type FormData = {
 }
 
 export default function SignIn() {
-
   const [textPass, setTextPass] = useState(true)
 
   const navigate = useNavigate()
@@ -33,24 +32,21 @@ export default function SignIn() {
 
     const canLogin = await user.login(data.email, data.password)
 
-    console.log("canLogin")
+    console.log('canLogin')
     console.log(canLogin)
 
-    if(!canLogin) return
-    
-    navigate('/dashboard', { })
+    if (!canLogin) return
 
+    navigate('/dashboard', {})
   }
 
-  function checkIfIsLogged(){
-    if(token) window.location.pathname = '/dashboard'
+  function checkIfIsLogged() {
+    if (token) window.location.pathname = '/dashboard'
   }
 
-  useLayoutEffect(
-    () => {
-      checkIfIsLogged()
-    },[]
-  )
+  useLayoutEffect(() => {
+    checkIfIsLogged()
+  }, [])
 
   return (
     <S.Container>

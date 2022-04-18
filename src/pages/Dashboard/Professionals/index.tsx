@@ -5,7 +5,7 @@ import * as S from './Professionals.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import user from 'service/user/user'
-//import profissional from 'service/profissional/profissional'
+// import profissional from 'service/profissional/profissional'
 import cepInformation from 'utils/cepInformation'
 import { fullName } from 'service/api'
 import { Checkbox } from '../Area/Area.styled'
@@ -19,43 +19,43 @@ import moment from 'moment'
 import profissional from 'service/profissional/profissional'
 
 export default function Professionals() {
-
-  interface iDependent  {
-    nome:     string,
-    cpf:      string,
-    rg:       string,
-    dataNasc: string 
-
+  interface iDependent {
+    nome: string
+    cpf: string
+    rg: string
+    dataNasc: string
   }
 
-  const [modalIsOpenNew, setIsOpenNew   ] = useState(false)
-  const [modalIsOpen  , setIsOpen       ] = useState(false)
-  const [allUsers     , setAllUsers     ] = useState<any[]>([])
-  const [userSelected , setUserSelected ] = useState<any>()
+  const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [allUsers, setAllUsers] = useState<any[]>([])
+  const [userSelected, setUserSelected] = useState<any>()
 
-  const [email        , setEmail        ] = useState<string>('')
-  const [nascimento   , setNascimento   ] = useState<string>('')
-  const [genero       , setGenero       ] = useState<string>('')
-  const [estado       , setEstado       ] = useState<string>('')
-  const [nome         , setNome         ] = useState<string>('')
-  const [rg           , setRg           ] = useState<string>('')
-  const [cpf          , setCpf          ] = useState<string>('')
-  const [nomeMae      , setNomeMae      ] = useState<string>('')
-  const [beneficios   , setBeneficios   ] = useState<string>('')
-  const [cargo        , setCargo        ] = useState<string>('')
-  const [cep          , setCep          ] = useState<string>('')
-  const [logradouro   , setLogradouro   ] = useState<string>('')
-  const [bairro       , setBairro       ] = useState<string>('')
-  const [numero       , setNumero       ] = useState<string>('')
-  const [cidade       , setCidade       ] = useState<string>('')
-  const [telefone     , setTelefone     ] = useState<string>('')
-  const [telefone2    , setTelefone2    ] = useState<string>('')
-  const [estadoCivil  , setEstadoCivil  ] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [nascimento, setNascimento] = useState<string>('')
+  const [genero, setGenero] = useState<string>('')
+  const [estado, setEstado] = useState<string>('')
+  const [nome, setNome] = useState<string>('')
+  const [rg, setRg] = useState<string>('')
+  const [cpf, setCpf] = useState<string>('')
+  const [nomeMae, setNomeMae] = useState<string>('')
+  const [beneficios, setBeneficios] = useState<string>('')
+  const [cargo, setCargo] = useState<string>('')
+  const [cep, setCep] = useState<string>('')
+  const [logradouro, setLogradouro] = useState<string>('')
+  const [bairro, setBairro] = useState<string>('')
+  const [numero, setNumero] = useState<string>('')
+  const [cidade, setCidade] = useState<string>('')
+  const [telefone, setTelefone] = useState<string>('')
+  const [telefone2, setTelefone2] = useState<string>('')
+  const [estadoCivil, setEstadoCivil] = useState<string>('')
   const [hasDependente, setHasDependente] = useState<boolean>(false)
-  const [dependentes  , setDependentes  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNasc: '' } ])
-  
-  const [allPositions  , setAllPositions  ] = useState<iCargo[]>([])
-  
+  const [dependentes, setDependentes] = useState<iDependent[]>([
+    { nome: '', cpf: '', rg: '', dataNasc: '' },
+  ])
+
+  const [allPositions, setAllPositions] = useState<iCargo[]>([])
+
   const [index, setIndex] = useState<number>(0)
 
   function openModal() {
@@ -74,7 +74,6 @@ export default function Professionals() {
     setIsOpenNew(false)
   }
 
-  
   async function handleChangeCep(cepText: string) {
     const cep = cepText.replace(/[^0-9]/g, '')
 
@@ -92,17 +91,16 @@ export default function Professionals() {
     }
   }
 
-      
-  let addFormFields = () => {
-    //@ts-ignore
-    setDependentes([...dependentes, { name: "", email: "" }])
+  const addFormFields = () => {
+    // @ts-ignore
+    setDependentes([...dependentes, { name: '', email: '' }])
   }
 
-  let removeFormFields = (i: number) => {
-      console.log(dependentes[i])
-      let newFormValues = [...dependentes];
-      newFormValues.splice(i, 1);
-      setDependentes(newFormValues)
+  const removeFormFields = (i: number) => {
+    console.log(dependentes[i])
+    const newFormValues = [...dependentes]
+    newFormValues.splice(i, 1)
+    setDependentes(newFormValues)
   }
 
   async function getUsers() {
@@ -141,7 +139,7 @@ export default function Professionals() {
     }
 
     console.log(nascimento)
-    
+
     const data = {
       nome: nome,
       cpf: cpf,
@@ -151,36 +149,39 @@ export default function Professionals() {
       nomeMae: nomeMae,
       cep: cep,
       estadoCivil: estadoCivil,
-      email      : userSelected.email || email,
-      cidade     : cidade,
-      bairro     : bairro,
-      logradouro : logradouro,
-      numero     : numero,
-      telefone1  : telefone ,
-      telefone2  : telefone2,
+      email: userSelected.email || email,
+      cidade: cidade,
+      bairro: bairro,
+      logradouro: logradouro,
+      numero: numero,
+      telefone1: telefone,
+      telefone2: telefone2,
       // complemento: userSelected.fullname,
       // importHash : userSelected.fullname,
       dependentes: dependentes,
       cargo: cargo,
     }
 
-    console.log("data")
+    console.log('data')
     console.log(data)
 
     const isCreated = await profissional.create(data)
 
-    //console.log(isCreated)
+    // console.log(isCreated)
 
     closeModalNew()
   }
 
-  let handleChangeDependente = (i: number, e: React.FormEvent<HTMLInputElement>) => {
-    let newFormValues = [...dependentes];
-    //@ts-ignore
-    newFormValues[i][e.target.name] = e.target.value;
+  const handleChangeDependente = (
+    i: number,
+    e: React.FormEvent<HTMLInputElement>,
+  ) => {
+    const newFormValues = [...dependentes]
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
 
-    setDependentes(newFormValues);
- }
+    setDependentes(newFormValues)
+  }
 
   useEffect(() => {
     getUsers()
@@ -198,7 +199,6 @@ export default function Professionals() {
   useEffect(() => {
     handleLoadPosition()
   }, [])
-
 
   return (
     <>
@@ -369,43 +369,34 @@ export default function Professionals() {
           />
 
           <InputMask
-            className="masked-input"
-            type="text"
-            name="phoneNumber"
-            mask="(99) 99999-9999"
+            className='masked-input'
+            type='text'
+            name='phoneNumber'
+            mask='(99) 99999-9999'
             placeholder='Telefone'
             onChange={(e) => setTelefone(e.target.value)}
           />
 
           <InputMask
-            className="masked-input"
-            type="text"
-            name="phoneNumber"
-            mask="(99) 99999-9999"
+            className='masked-input'
+            type='text'
+            name='phoneNumber'
+            mask='(99) 99999-9999'
             placeholder='Telefone 2'
             onChange={(e) => setTelefone2(e.target.value)}
           />
 
+          {/*
 
-          {/* 
-          
           ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
-          
+
           */}
 
-
-          <select
-            value={cargo}
-            onChange={(e) => setCargo(e.target.value)}
-          >
+          <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
             <option hidden>Cargo</option>
-            {
-            allPositions.map(
-              position => (
-                <option value={position.id}>{position.nome}</option>
-              )
-            )
-            }
+            {allPositions.map((position) => (
+              <option value={position.id}>{position.nome}</option>
+            ))}
           </select>
 
           {/* This is not necesssary anymore */}
@@ -440,7 +431,6 @@ export default function Professionals() {
             onChange={(e) => setBairro(e.target.value)}
           />
 
-          
           <input
             type='text'
             placeholder='Logradouro*'
@@ -448,8 +438,7 @@ export default function Professionals() {
             onChange={(e) => setLogradouro(e.target.value)}
           />
 
-
-        <input
+          <input
             type='text'
             placeholder='Número*'
             value={numero}
@@ -476,37 +465,25 @@ export default function Professionals() {
                 id=''
                 onChange={(e) => setEstadoCivil(e.target.value)}
               >
-                <option hidden>
-                  Estado civil</option>
-                <option value='Solteiro(a)'>
-                  Solteiro(a)</option>
-                <option value='Casado(a)'>
-                  Casado(a)</option>
-                <option value='Viúvo(a)'> 
-                  Viúvo(a)</option>
+                <option hidden>Estado civil</option>
+                <option value='Solteiro(a)'>Solteiro(a)</option>
+                <option value='Casado(a)'>Casado(a)</option>
+                <option value='Viúvo(a)'>Viúvo(a)</option>
               </select>
 
-
-          <S.divCheck>
-            <Checkbox
-              type='checkbox'
-              placeholder='Sub-Área?'
-              defaultChecked={hasDependente}
-              onChange={() => setHasDependente(!hasDependente) }
-            />
-            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
-
-          </S.divCheck>
-              {
-              hasDependente && (
-                  <>
-                  {
-                  dependentes.map(
-                    (e, index) => (
-                      <div
-                        className='border'
-                      >
-
+              <S.divCheck>
+                <Checkbox
+                  type='checkbox'
+                  placeholder='Sub-Área?'
+                  defaultChecked={hasDependente}
+                  onChange={() => setHasDependente(!hasDependente)}
+                />
+                <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
+              </S.divCheck>
+              {hasDependente && (
+                <>
+                  {dependentes.map((e, index) => (
+                    <div className='border'>
                       <input
                         type='text'
                         placeholder='Nome do Dependente'
@@ -514,25 +491,22 @@ export default function Professionals() {
                         onChange={(e) => handleChangeDependente(index, e)}
                       />
 
-
                       <InputMask
                         name='cpf'
                         mask='999.999.999-99'
                         placeholder='CPF do Dependente'
-
                         onChange={(e) => {
                           handleChangeDependente(index, e)
 
-                          let cpfWithLetters = e.target.value
-                          let clearedCpf = cpfWithLetters.replace(/\D/g, "");
-                          
+                          const cpfWithLetters = e.target.value
+                          const clearedCpf = cpfWithLetters.replace(/\D/g, '')
+
                           console.log(clearedCpf)
-                          if(clearedCpf.length != 11) return 
-                          
+                          if (clearedCpf.length != 11) return
+
                           checkCPF(clearedCpf)
-                          
                         }}
-                        />
+                      />
                       <InputMask
                         name='rg'
                         mask='99.999.999-9'
@@ -541,36 +515,30 @@ export default function Professionals() {
                       />
                       <input
                         name='rg'
-                        type="date"
+                        type='date'
                         placeholder='Data de Nascimento do Dependente'
                         onChange={(e) => handleChangeDependente(index, e)}
                       />
-
 
                       <button
                         className='btn-actions btn-trash'
                         type='button'
                         onClick={() => removeFormFields(index)}
                       >
-                        <FiTrash/>
+                        <FiTrash />
                       </button>
                     </div>
-                    )
-                  )}
-
+                  ))}
 
                   <button
-                  type='button'
-                  className='btn-actions'
-                  onClick={() => addFormFields()}
+                    type='button'
+                    className='btn-actions'
+                    onClick={() => addFormFields()}
                   >
-                    <FiPlus/>
+                    <FiPlus />
                   </button>
-                  </>
-              )
-              }
-
-
+                </>
+              )}
             </>
           )}
 

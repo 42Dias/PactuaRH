@@ -9,15 +9,13 @@ import { emitWarning } from 'process'
 const avatar = require('./../../../assets/avatar.png')
 
 export default function Home() {
-  function checkLogin(){
+  function checkLogin() {
     // if(!Email) window.location.reload()
   }
 
-  useEffect(
-    () => {
-      checkLogin()
-    }, []
-  )
+  useEffect(() => {
+    checkLogin()
+  }, [])
 
   return (
     <S.Body>
@@ -28,7 +26,7 @@ export default function Home() {
       <S.Container>
         <S.ContainerCall>
           <div>
-            <h2>Olá, { fullName } 😁</h2>
+            <h2>Olá, {fullName} 😁</h2>
             <p>Aproveite ao máximo da nossa plataforma e descubra talentos</p>
             <Link to='/planos'>Planos</Link>
           </div>
@@ -92,14 +90,11 @@ export default function Home() {
           </S.ContentUsers>
 
           <S.DetailsUser>
-           {/* <h1>User pertencente a empresaX</h1> */}
+            {/* <h1>User pertencente a empresaX</h1> */}
 
             <S.FlexPhoto>
               <S.Photo>
-                <img
-                  src={avatar}
-                  alt='Man'
-                />
+                <img src={avatar} alt='Man' />
               </S.Photo>
               <h2>{fullName}</h2>
             </S.FlexPhoto>

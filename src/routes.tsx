@@ -36,13 +36,11 @@ const RoutesApp = () => {
         <Route path='/cargos' element={<Positions />} />
         <Route path='/funcoes' element={<FunctionsPage />} />
         <Route path='/centroCustos' element={<CostCenter />} />
-        {/*  */}
         <Route path='/area' element={<Area />} />
         <Route path='/beneficios' element={<Benefits />} />
         <Route path='/questionarios' element={<Questionnaires />} />
         <Route path='/habilidades' element={<Skills />} />
         <Route path='/escolaridade' element={<Education />} />
-        {/*  */}
         <Route path='/planos' element={<Plans />} />
         <Route path='/desempenho' element={<Performance />} />
         <Route path='/avaliacao-geral' element={<GeneralEvaluation />} />

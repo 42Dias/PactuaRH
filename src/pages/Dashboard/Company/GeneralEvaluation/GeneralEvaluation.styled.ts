@@ -58,16 +58,15 @@ export const TrSecond = styled.tr`
 
   td {
     padding: 15px;
-   
   }
 
   button {
-    margin-left:65%;
+    margin-left: 65%;
     display: flex;
     align-items: center;
     justify-content: center;
-    postion:absolute;
-    background:transparent;
+    postion: absolute;
+    background: transparent;
     border: 0;
     border-radius: 5px;
     color: black;
@@ -83,7 +82,7 @@ export const TrSecond = styled.tr`
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     svg {
       margin-left: 90px;
     }
