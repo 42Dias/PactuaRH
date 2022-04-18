@@ -13,12 +13,14 @@ export interface iData {
 export interface iCargo extends iData {
   lideranca: string
   cbo: string
+  descricao: string
   ir: string
   ecolaridade: iData[]
   habilidades: iData[]
   desejaveis: iData[]
   funcoes: iData[]
   area: iData
+  cargosLiderados: iData[]
 }
 
 export interface iNiveis extends iData {
