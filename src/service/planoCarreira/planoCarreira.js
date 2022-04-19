@@ -65,7 +65,7 @@ export default class planoCarreira {
     })
 
     const responseData = response.data.rows
-
+    console.log(responseData)
     return responseData
   }
 

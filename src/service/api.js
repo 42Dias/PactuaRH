@@ -14,14 +14,11 @@ export const semImagem =
 export const loadingGif = 'https://contribua.org/mb-static/images/loading.gif'
 
 // export const ip = 'http://localhost' // teste local
-export let ip = "https://projetos.42dias.com.br";//servidor/
+export const ip = 'https://projetos.42dias.com.br' // servidor/
 
-// export let ip = "http://189.127.14.12:3357";//teste local
-// export let ip = "https://projetos.42dias.com.br";//servidor/
-
-export let porta = '8154'    // teste local
+export const porta = '8154' // teste local
 // export let porta = '8154' // servidor
-//***************************************************************************************/
+//* **************************************************************************************/
 export const api = axios.create({
   baseURL: `${ip}:${porta}/api/tenant/${tenantId}/`,
   // baseURL: 'http://'+ip+':8157/api/tenant/'+tenantId || "fa22705e-cf27-41d0-bebf-9a6ab52948c4" +"/",

@@ -1,19 +1,15 @@
+/* eslint-disable react/jsx-key */
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
 import { FiPlus, FiEdit, FiTrash, FiX } from 'react-icons/fi'
 import * as S from './Career.styled'
 import { useEffect, useState } from 'react'
-import InputMask from 'react-input-mask'
-import user from 'service/user/user'
 // import profissional from 'service/profissional/profissional'
-import cepInformation from 'utils/cepInformation'
 import { fullName } from 'service/api'
-import { Checkbox } from '../Area/Area.styled'
-import { checkCPF } from 'utils/checkCPF'
 import { iCargo, iNiveis } from 'types'
-import cargos from 'service/cargos/cargos'
 
 import planoCarreira from 'service/planoCarreira/planoCarreira'
+import cargos from 'service/cargos/cargos'
 
 export default function Professionals() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -22,7 +18,8 @@ export default function Professionals() {
   const [nome, setNome] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
 
-  // const [cargo, setCargo] = useState<string>('')
+  const [cargo, setCargo] = useState<string>('')
+  const [allCargos, setAllCargos] = useState<any>([])
 
   // const [hasNiveis, setHasNiveis] = useState<boolean>(false)
   const [allNiveis, setNiveis] = useState<iNiveis[]>([])
@@ -31,7 +28,7 @@ export default function Professionals() {
   //   { nome: '', cpf: '', rg: '', dataNasc: '' },
   // ])
 
-  const [allPositions, setAllPositions] = useState<iCargo[]>([])
+  // const [allPositions, setAllPositions] = useState<iCargo[]>([])
   const [index, setIndex] = useState<number>(0)
 
   const addFormFields = () => {
@@ -46,16 +43,27 @@ export default function Professionals() {
     setNiveis(newFormValues)
   }
 
-  const handleChangeNiveis = (
-    i: number,
-    e: React.FormEvent<HTMLInputElement>,
-  ) => {
+  const handleChangeNiveis = (i: number, e: any) => {
+    console.log('e')
+    // console.log(i)
+    console.log(e.target.value)
     const newFormValues = [...allNiveis]
+    // console.log(newFormValues)
     // @ts-ignore
-    newFormValues[i][e.target.nome] = e.target.value
-
+    newFormValues[i][e.target.name] = e.target.value
+    console.log(newFormValues)
     setNiveis(newFormValues)
   }
+
+  // const handleChangeNiveis2 = (i: number, e: any) => {
+  //   console.log('e')
+  //   const newFormValues = [...allNiveis]
+  //   console.log(newFormValues)
+  //   console.log(e)
+  //   newFormValues[i].cargo = e
+  //   console.log(e)
+  //   setNiveis(newFormValues)
+  // }
 
   function openModal() {
     setIsOpen(true)
@@ -65,8 +73,9 @@ export default function Professionals() {
     setIsOpen(false)
   }
 
-  function openModalNew() {
+  async function openModalNew() {
     setIsOpenNew(true)
+    await handleLoadCargos()
   }
 
   function closeModalNew() {
@@ -77,7 +86,7 @@ export default function Professionals() {
     const data = {
       nome: nome,
       descricao: descricao,
-      niveis: [allNiveis],
+      niveis: allNiveis,
     }
 
     console.log('data')
@@ -89,19 +98,24 @@ export default function Professionals() {
     await handleLoadCareer()
   }
 
-  useEffect(() => {
-    handleLoadCareer()
-  }, [])
-
   async function handleLoadCareer() {
     const carreira = await planoCarreira.list()
     setAllCareer(carreira)
+  }
+
+  async function handleLoadCargos() {
+    const cargo = await cargos.list()
+    setAllCargos(cargo)
+    console.log(allCargos)
   }
 
   useEffect(() => {
     handleLoadCareer()
   }, [])
 
+  // useEffect(() => {
+  //   handleLoadCargos()
+  // }, [])
   return (
     <>
       <S.Body>
@@ -115,29 +129,31 @@ export default function Professionals() {
               Novo <FiPlus size={18} color='#fff' />
             </button>
           </S.FlexButtons>
-
-          <S.Table>
-            <S.TrTitle>
-              <td>Nome</td>
-              <td>Descrição</td>
-              <td>Niveis</td>
-            </S.TrTitle>
-            <S.TrSecond>
-              <td>Ryan</td>
-              <td>049.253.142-45</td>
-              <td>55.432.123-9</td>
-              <td>
-                <button onClick={openModal}>
-                  <FiEdit size={18} />
-                </button>
-              </td>
-              <td>
-                <button>
-                  <FiTrash size={18} />
-                </button>
-              </td>
-            </S.TrSecond>
-          </S.Table>
+          {allCareer.length > 0 && (
+            <S.Table>
+              <S.TrTitle>
+                <td>Nome</td>
+                <td>Descrição</td>
+                <td>Niveis</td>
+              </S.TrTitle>
+              <S.TrSecond>
+                <td>Ryan</td>
+                <td>049.253.142-45</td>
+                <td>55.432.123-9</td>
+                <td>
+                  <button onClick={openModal}>
+                    <FiEdit size={18} />
+                  </button>
+                </td>
+                <td>
+                  <button>
+                    <FiTrash size={18} />
+                  </button>
+                </td>
+              </S.TrSecond>
+            </S.Table>
+          )}{' '}
+          {allCareer.length === 0 && <p>Não há dados</p>}
         </S.Container>
       </S.Body>
 
@@ -232,6 +248,24 @@ export default function Professionals() {
                     name='nivel'
                     onChange={(e) => handleChangeNiveis(index, e)}
                   />
+
+                  <S.SelectPai
+                    onChange={(e) => {
+                      // setCargo(e.target.value)
+                      console.log(e.target.value)
+                      // @ts-ignore
+                      handleChangeNiveis(index, 'select' + e)
+                    }}
+                    placeholder='Nome do cargo'
+                    value={cargo}
+                    name='cargo'
+                  >
+                    {allCargos.map((value: any, i: any) => (
+                      <S.OptionsPai key={i} value={value.id}>
+                        {value.nome}
+                      </S.OptionsPai>
+                    ))}
+                  </S.SelectPai>
 
                   <button
                     className='btn-actions btn-trash'
