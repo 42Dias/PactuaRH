@@ -47,6 +47,7 @@ const RoutesApp = () => {
         <Route path='/desempenho'          element={<Performance />}      />
         <Route path='/avaliacao-geral'     element={<GeneralEvaluation />}/>
         <Route path='/relatorio-9box'      element={<Box />}              />
+        <Route path='/plano-de-carreira'   element={<Career />}           />
       </Routes>
     </BrowserRouter>
     </>
