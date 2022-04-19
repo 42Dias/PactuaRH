@@ -131,6 +131,7 @@ export default function Career() {
     closeModalNew()
     await handleLoadCareer()
   }
+
   async function handleUpdateCareer(){
       const data = {
         nome: nome,
@@ -149,10 +150,18 @@ export default function Career() {
 
   }
 
+  async function handleDeleteCareer(id: string) {
+    const carreiraDeleted = await planoCarreira.delete(id)
+    
+    await handleLoadCareer()
+  }
+  
+  
   async function handleLoadCareer() {
     const carreira = await planoCarreira.list()
     setAllCareer(carreira)
   }
+  
   
  /* 
 ==========================================================================================================
@@ -208,7 +217,11 @@ export default function Career() {
                     </button>
                   </td>
                   <td>
-                    <button>
+                    <button
+                    onClick={() => {
+                      handleDeleteCareer(carrer.id)
+                      }}
+                    >
                       <FiTrash size={18} />
                     </button>
                   </td>
@@ -332,7 +345,7 @@ export default function Career() {
               ))}
             </>
           )}
-          
+
           {/*
           <button
             type='button'
