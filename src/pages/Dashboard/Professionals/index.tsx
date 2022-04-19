@@ -15,7 +15,7 @@ import { iCargo } from 'types'
 import cargos from 'service/cargos/cargos'
 import { isNullOrUndefined } from 'util'
 
-import moment from 'moment'
+//import moment from 'moment'
 import profissional from 'service/profissional/profissional'
 import dependente from 'service/dependente/dependente'
 
