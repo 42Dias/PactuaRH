@@ -106,6 +106,23 @@ export default function Career() {
     closeModalNew()
     await handleLoadCareer()
   }
+  async function handleUpdateCareer(){
+      const data = {
+        nome: nome,
+        descricao: descricao,
+        niveis: allNiveis,
+      }
+
+      console.log('data')
+      console.log(data)
+
+      const isUpdated = await planoCarreira.update(selectedCareer?.id ,data)
+
+      if (!isUpdated) return;
+      closeModalNew()
+      await handleLoadCareer()
+
+  }
 
   async function handleLoadCareer() {
     const carreira = await planoCarreira.list()
@@ -159,6 +176,7 @@ export default function Career() {
                   <td>
                     <button onClick={() => {
                       openModal()
+                      setSelectedCareer(carrer)
                       // setAllNiveis(carrer.nivel)
                       }}>
                       <FiEdit size={18} />
@@ -180,6 +198,12 @@ export default function Career() {
         </S.Container>
       </S.Body>
 
+
+{/* 
+
+              TO DO EDIT!
+
+*/}
 {/* 
 ==========================================================================================================
                                               Edit
@@ -203,7 +227,7 @@ export default function Career() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreateCareer()
+            handleUpdateCareer()
           }}
         >
           <h2>Editar Plano de carreira</h2>
