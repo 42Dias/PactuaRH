@@ -90,11 +90,16 @@ const Sidebar = () => {
                   
 
                   <MenuItem>
+                    <Link to='/centroCustos'>Centro de Custos</Link>
+                  </MenuItem>
+                  
+
+                  <MenuItem>
                     <Link to='/cadastro-da-empresa'>Empresas</Link>
                   </MenuItem>
 
         
-                  <MenuItem>
+                  <MenuItem>  
                     <Link to='/escolaridade'>Escolaridade</Link>
                   </MenuItem>
 
@@ -107,6 +112,9 @@ const Sidebar = () => {
                     <Link to='/habilidades'>Habilidades</Link>
                   </MenuItem>
         
+                  <MenuItem>  
+                    <Link to='/plano-de-carreira'>Plano de Carreira</Link>
+                  </MenuItem>
 
                   <MenuItem>
                     <Link to='/profissionais'>Profissionais</Link>

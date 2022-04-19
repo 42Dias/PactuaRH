@@ -29,18 +29,20 @@ margin:10% 0%;
 
 
 div{
-    padding:85px 5px;
+    text-align: center;
+    margin:50px 0px 100px 0px;
+    padding:5px 5px 45px 0px;
     width: 90px;
     height: 70px;
     
 }
 p{
-    
-    letter-spacing: .2rem;
+  
     color: rgba(0, 0, 0, 0.7);
-    padding:30px 5px 100px 0px;
+    padding:5px 5px 0px 20px;
     font-weight: 400;
     font-size: 20px;
+    line-height: 20px;
 }
 
 `

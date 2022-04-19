@@ -11,6 +11,7 @@ export default function Education() {
   const [modalIsOpen   , setIsOpen    ] = useState(false)
   const [modalIsOpenNew, setIsOpenNew ] = useState(false)
   const [nome          , setNome      ] = useState<string>("")
+  const [desc          , setDesc      ] = useState<string>("")
   const [id            , setId        ] = useState<string>("")
   const [education     , setEducation ] = useState<any[]>([])
     
@@ -39,7 +40,8 @@ export default function Education() {
 
   async function handleCreate(){
     let data = {
-      nome: nome
+      nome: nome    ,
+      descricao: desc
     }
 
     let isCreated = await escolaridade.create(data)
@@ -51,7 +53,8 @@ export default function Education() {
 
   async function handleUpdate(id: string){
     let data = {
-      nome: nome
+      nome: nome    ,
+      descricao: desc
     }
 
     let isUpdated = await escolaridade.update(id, data)
@@ -107,6 +110,7 @@ export default function Education() {
                   <button onClick={() => {
                     setId(education.id)
                     setNome(education.nome)
+                    setDesc(education.descricao)
                     openModal()
                     }}>
                     <FiEdit size={18} />
@@ -155,6 +159,13 @@ export default function Education() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
+          <input
+            type='text'
+            onChange={(e) => setDesc(e.target.value)}
+            defaultValue={desc}
+            placeholder='Descrição da escolaridade'
+            required
+          />
           
           <button
             type='submit'
@@ -191,6 +202,13 @@ export default function Education() {
             type='text'
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome da escolaridade'
+            required
+          />
+
+          <input
+            type='text'
+            onChange={(e) => setDesc(e.target.value)}
+            placeholder='Descrição da escolaridade'
             required
           />
 

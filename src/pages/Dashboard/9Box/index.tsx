@@ -12,9 +12,26 @@ export default function Box(){
                 <S.Container>
                     <S.Information>
                       <div>
-                         <p> Alto</p>
-                         <p>Médio</p>
-                         <p> Baixo</p>
+                        <p> A</p>
+                        <p> l</p> 
+                        <p> t</p>
+                        <p> o</p>
+                    </div>
+
+                    <div> 
+                         <p>M</p>
+                         <p>é</p>
+                         <p>d</p>
+                         <p>i</p>
+                         <p>o</p>
+                    </div>
+                    
+                    <div> 
+                         <p>B</p>
+                         <p>a</p>
+                         <p>i</p>
+                         <p>x</p>
+                         <p>o</p>
                     </div>
                     
                 </S.Information>
