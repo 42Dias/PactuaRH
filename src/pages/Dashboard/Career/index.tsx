@@ -12,16 +12,17 @@ import planoCarreira from 'service/planoCarreira/planoCarreira'
 import cargos from 'service/cargos/cargos'
 
 export default function Career() {
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpen   , setIsOpen   ] = useState(false)
-  const [allCareer     , setAllCareer] = useState<any>([])
-  const [nome          , setNome     ] = useState<string>('')
-  const [descricao     , setDescricao] = useState<string>('')
+  const [modalIsOpenNew, setIsOpenNew   ] = useState(false)
+  const [modalIsOpen   , setIsOpen      ] = useState(false)
+  const [allCareer     , setAllCareer   ] = useState<any>([])
+  const [nome          , setNome        ] = useState<string>('')
+  const [descricao     , setDescricao   ] = useState<string>('')
+  const [cargo         , setCargo       ] = useState<string>('')
+  const [allCargos     , setAllCargos   ] = useState<any>([])
+  const [allNiveis     , setAllNiveis   ] = useState<iNiveis[]>([])
+  const [allNiveisNew  , setAllNiveisNew] = useState<iNiveis[]>([])
 
-  const [cargo    , setCargo    ] = useState<string>('')
-  const [allCargos, setAllCargos] = useState<any>([])
-
-  const [allNiveis, setNiveis] = useState<iNiveis[]>([])
+  const [selectedCareer, setSelectedCareer] = useState<iNiveis>()
   const [index, setIndex] = useState<number>(0)
   
   // const [hasNiveis, setHasNiveis] = useState<boolean>(false)
@@ -38,14 +39,14 @@ export default function Career() {
 
   const addFormFields = () => {
     // @ts-ignore
-    setNiveis([...allNiveis, { nome: '', descricao: '', cargo: [], nivel: 0 }])
+    setAllNiveis([...allNiveis, { nome: '', descricao: '', cargo: [], nivel: 0 }])
   }
 
   const removeFormFields = (i: number) => {
     console.log(allNiveis[i])
     const newFormValues = [...allNiveis]
     newFormValues.splice(i, 1)
-    setNiveis(newFormValues)
+    setAllNiveis(newFormValues)
   }
 
   const handleChangeNiveis = (i: number, e: any) => {
@@ -57,7 +58,7 @@ export default function Career() {
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
     console.log(newFormValues)
-    setNiveis(newFormValues)
+    setAllNiveis(newFormValues)
   }
 
 /* 
@@ -110,6 +111,11 @@ export default function Career() {
     setAllCareer(carreira)
   }
   
+ /* 
+==========================================================================================================
+                                            Associated Tables
+==========================================================================================================
+*/ 
   async function handleLoadCargos() {
     const cargo = await cargos.list()
     setAllCargos(cargo)
@@ -140,12 +146,13 @@ export default function Career() {
                 <td>Nome</td>
                 <td>Descrição</td>
                 <td>Niveis</td>
+                <td></td>
               </S.TrTitle>
               <S.TrSecond>
-                <td>Ryan</td>
-                <td>049.253.142-45</td>
-                <td>55.432.123-9</td>
-                <td>
+                  <td>carrer.nome</td>
+                  <td>carrer.descricao</td>
+                  <td>carrer.nivel.lenght</td>
+                  <td>
                   <button onClick={openModal}>
                     <FiEdit size={18} />
                   </button>
@@ -182,19 +189,94 @@ export default function Career() {
           <FiX />
         </button>
 
-        <S.ContainerForm>
-          <h2>Editar profissional</h2>
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreateCareer()
+          }}
+        >
+          <h2>Editar Plano de carreira</h2>
 
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
-            placeholder='nome'
+            placeholder='Nome'
+            defaultValue={selectedCareer?.nome}
           />
+
           <input
             type='text'
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
+            defaultValue={selectedCareer?.descricao}
           />
+
+          {allNiveis.length > 0 && (
+            <>
+              {allNiveis.map((e: any, index: any) => (
+                <div className='border'>
+                  <br />
+                  <hr />
+                  <br />
+                  <input
+                    type='text'
+                    placeholder='Nome do Nivel'
+                    name='nome'
+                    onChange={(e) => handleChangeNiveis(index, e)}
+                  />
+
+                  <input
+                    type='text'
+                    placeholder='Descrição'
+                    name='descricao'
+                    onChange={(e) => handleChangeNiveis(index, e)}
+                  />
+
+                  <input
+                    type='number'
+                    placeholder='Nivel'
+                    name='nivel'
+                    onChange={(e) => handleChangeNiveis(index, e)}
+                  />
+
+                  <S.SelectPai
+                    onChange={(e) => {
+                      // setCargo(e.target.value)
+                      console.log(e.target.value)
+                      // @ts-ignore
+                      handleChangeNiveis(index, e)
+                    }}
+                    placeholder='Nome do cargo'
+                    value={cargo}
+                    name='cargo'
+                    id="cargo"
+                  >
+                    {allCargos.map((value: any, i: any) => (
+                      <S.OptionsPai key={i} value={value.id}>
+                        {value.nome}
+                      </S.OptionsPai>
+                    ))}
+                  </S.SelectPai>
+
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeFormFields(index)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
+          <button
+            type='button'
+            className='btn-actions'
+            onClick={() => addFormFields()}
+          >
+            <FiPlus />
+          </button>
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
@@ -277,9 +359,6 @@ export default function Career() {
                     name='cargo'
                     id="cargo"
                   >
-                    <S.OptionsPai hidden>
-                      --- Selecione ---                      
-                      </S.OptionsPai>
                     {allCargos.map((value: any, i: any) => (
                       <S.OptionsPai key={i} value={value.id}>
                         {value.nome}
