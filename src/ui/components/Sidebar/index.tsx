@@ -5,11 +5,9 @@ import * as S from './Sidebar.styled'
 /*
 DEPENDENDO DA ROLE NEM APARECERÁ CADASTRO!!!!
 
-
 Varios dos dados são apenas Read
 
 */
-
 
 // import react pro sidebar components
 import {
@@ -45,11 +43,9 @@ const Sidebar = () => {
     menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true)
   }
 
-
-  async function logOut(){
+  async function logOut() {
     localStorage.clear()
     window.location.pathname = '/'
-    
   }
 
   return (
@@ -75,7 +71,6 @@ const Sidebar = () => {
                   <Link to='/dashboard'>Inicío</Link>
                 </MenuItem>
                 <SubMenu title='Cadastros' icon={<FiEdit />}>
-
                   <MenuItem>
                     <Link to='/area'>Área</Link>
                   </MenuItem>
@@ -87,22 +82,18 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/cargos'>Cargos</Link>
                   </MenuItem>
-                  
 
                   <MenuItem>
                     <Link to='/centroCustos'>Centro de Custos</Link>
                   </MenuItem>
-                  
 
                   <MenuItem>
                     <Link to='/cadastro-da-empresa'>Empresas</Link>
                   </MenuItem>
 
-        
                   <MenuItem>
                     <Link to='/escolaridade'>Escolaridade</Link>
                   </MenuItem>
-
 
                   <MenuItem>
                     <Link to='/funcoes'>Funções</Link>
@@ -111,7 +102,6 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/habilidades'>Habilidades</Link>
                   </MenuItem>
-        
 
                   <MenuItem>
                     <Link to='/profissionais'>Profissionais</Link>
@@ -126,13 +116,11 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/cadastrar-usuario'>Usuário</Link>
                   </MenuItem>
-                
-                 
                 </SubMenu>
 
                 <SubMenu title='Avaliação' icon={<FiTrendingUp />}>
                   <MenuItem>
-                      <Link to='/desempenho'> Desempenho</Link>
+                    <Link to='/desempenho'> Desempenho</Link>
                   </MenuItem>
                   <MenuItem>
                     <Link to='/avaliacao-geral'>Geral</Link>
@@ -141,17 +129,15 @@ const Sidebar = () => {
                   <MenuItem>Recuperação</MenuItem>
                   <MenuItem>Desenvolvimento</MenuItem>
                   <MenuItem>
-                  <Link to='/relatorio-9box'> 9box </Link>
+                    <Link to='/relatorio-9box'> 9box </Link>
                   </MenuItem>
                 </SubMenu>
               </Menu>
             </SidebarContent>
             <SidebarFooter>
-              <Menu
-              onClick={() => logOut()}
-              iconShape='square'>
+              <Menu onClick={() => logOut()} iconShape='square'>
                 <MenuItem icon={<FiLogOut />}>
-                  <p >Sair</p>
+                  <p>Sair</p>
                 </MenuItem>
               </Menu>
             </SidebarFooter>

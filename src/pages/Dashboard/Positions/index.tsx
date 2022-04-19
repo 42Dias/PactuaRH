@@ -19,7 +19,6 @@ import { iCargo, iData } from '../../../types'
 import { useForm } from 'react-hook-form'
 
 export default function Positions() {
-
   const {
     register,
     handleSubmit,
@@ -27,22 +26,18 @@ export default function Positions() {
     formState: { errors },
   } = useForm<any>()
 
-
-
   // const { allCargos } = useCargos()
 
-  
-  
-  const [allCargos    , setAllCargos    ] = useState<iCargo[]>([])
-  const [allAreas     , setAllAreas     ] = useState<iData[]>([])
+  const [allCargos, setAllCargos] = useState<iCargo[]>([])
+  const [allAreas, setAllAreas] = useState<iData[]>([])
   const [allEducations, setAllEducations] = useState<iData[]>([])
-  const [allFunctions , setAllFunctions ] = useState<iData[]>([])
-  const [allSkills    , setAllSkills    ] = useState<iData[]>([])
-  
-  const [skills       , setSkills       ] = useState([ "" ])
-  const [wanted       , setWanted       ] = useState([ "" ])
-  const [functions    , setFunctions    ] = useState([ "" ])
-  const [educations   , setEducations   ] = useState([ "" ])
+  const [allFunctions, setAllFunctions] = useState<iData[]>([])
+  const [allSkills, setAllSkills] = useState<iData[]>([])
+
+  const [skills, setSkills] = useState([''])
+  const [wanted, setWanted] = useState([''])
+  const [functions, setFunctions] = useState([''])
+  const [educations, setEducations] = useState([''])
   const [cargoSelected, setCargoSelected] = useState<iCargo>()
 
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -71,7 +66,7 @@ export default function Positions() {
     setAllAreas(allArea)
   }
   async function handleLoadEducation() {
-    let allEducation = await escolaridade.list()
+    const allEducation = await escolaridade.list()
 
     setAllEducations(allEducation)
   }
@@ -88,55 +83,54 @@ export default function Positions() {
     setAllSkills(allSkills)
   }
 
-
   /*
   ==================================================
             Multiple Skills Handler
   ==================================================
   */
 
-  let handleChangeSkills = (i: number, id: string) => {
-    let newFormValues = [...skills];
-    //@ts-ignore
-    newFormValues[i] = id;
+  const handleChangeSkills = (i: number, id: string) => {
+    const newFormValues = [...skills]
+    // @ts-ignore
+    newFormValues[i] = id
 
-    setSkills(newFormValues);
- }
-      
-  let addSkills = () => {
-    //@ts-ignore
-    setSkills([...skills, { id: "" }])
+    setSkills(newFormValues)
   }
 
-  let removeSkills = (i: number) => {
-      if(skills.length == 1) return
-      let newFormValues = [...skills];
-      newFormValues.splice(i, 1);
-      setSkills(newFormValues)
+  const addSkills = () => {
+    // @ts-ignore
+    setSkills([...skills, { id: '' }])
   }
 
-   /*
+  const removeSkills = (i: number) => {
+    if (skills.length == 1) return
+    const newFormValues = [...skills]
+    newFormValues.splice(i, 1)
+    setSkills(newFormValues)
+  }
+
+  /*
   ==================================================
            Multiple Skills Wanted Skills
   ==================================================
   */
 
-  let handleChangeWanted = (i: number, id: string) => {
-    let newFormValues = [...wanted];
-    newFormValues[i] = id;
+  const handleChangeWanted = (i: number, id: string) => {
+    const newFormValues = [...wanted]
+    newFormValues[i] = id
 
-    setWanted(newFormValues);
- }
-      
-  let addWanted = () => {
-    setWanted([...wanted, "" ])
+    setWanted(newFormValues)
   }
 
-  let removeWanted = (i: number) => {
-      if(wanted.length == 1) return
-      let newFormValues = [...wanted];
-      newFormValues.splice(i, 1);
-      setWanted(newFormValues)
+  const addWanted = () => {
+    setWanted([...wanted, ''])
+  }
+
+  const removeWanted = (i: number) => {
+    if (wanted.length == 1) return
+    const newFormValues = [...wanted]
+    newFormValues.splice(i, 1)
+    setWanted(newFormValues)
   }
 
   /*
@@ -145,25 +139,24 @@ export default function Positions() {
   ==================================================
   */
 
-  let handleChangeFunctions = (i: number, id: string) => {
-    let newFormValues = [...functions];
-    //@ts-ignore
-    newFormValues[i] = id;
+  const handleChangeFunctions = (i: number, id: string) => {
+    const newFormValues = [...functions]
+    // @ts-ignore
+    newFormValues[i] = id
 
-    setFunctions(newFormValues);
- }
-    
-      
-  let addFunctions = () => {
-    //@ts-ignore
-    setFunctions([...functions, { id: "" }])
+    setFunctions(newFormValues)
   }
 
-  let removeFunctions = (i: number) => {
-      if(functions.length == 1) return
-      let newFormValues = [...functions];
-      newFormValues.splice(i, 1);
-      setFunctions(newFormValues)
+  const addFunctions = () => {
+    // @ts-ignore
+    setFunctions([...functions, { id: '' }])
+  }
+
+  const removeFunctions = (i: number) => {
+    if (functions.length == 1) return
+    const newFormValues = [...functions]
+    newFormValues.splice(i, 1)
+    setFunctions(newFormValues)
   }
 
   /*
@@ -172,34 +165,31 @@ export default function Positions() {
   ==================================================
   */
 
-  let handleChangeEducations = (i: number, id: string) => {
-    let newFormValues = [...educations];
-    //@ts-ignore
-    newFormValues[i] = id;
+  const handleChangeEducations = (i: number, id: string) => {
+    const newFormValues = [...educations]
+    // @ts-ignore
+    newFormValues[i] = id
 
-    setEducations(newFormValues);
- }
-      
-  let addEducations = () => {
-    //@ts-ignore
-    setEducations([...educations, { id: "" }])
+    setEducations(newFormValues)
   }
 
-  let removeEducations = (i: number) => {
-      if(educations.length == 1) return
-      let newFormValues = [...educations];
-      newFormValues.splice(i, 1);
-      setEducations(newFormValues)
+  const addEducations = () => {
+    // @ts-ignore
+    setEducations([...educations, { id: '' }])
   }
 
+  const removeEducations = (i: number) => {
+    if (educations.length == 1) return
+    const newFormValues = [...educations]
+    newFormValues.splice(i, 1)
+    setEducations(newFormValues)
+  }
 
-
-/*
+  /*
   ==================================================
                   Positions Crud
   ==================================================
 */
-
 
   async function handleLoadPosition() {
     const cargo = await cargos.list()
@@ -210,83 +200,77 @@ export default function Positions() {
     setAllCargos(cargo)
   }
 
-
-  async function handleCreatePosition(rawData: any){
-    let data = {
+  async function handleCreatePosition(rawData: any) {
+    const data = {
       nome: rawData.nome,
       descricao: rawData.desc,
       area: rawData.areaId,
       lideranca: rawData.lideranca == 'true',
       // ecolaridade: rawData.id,
 
-      cargosLiderados: [ rawData.cargoLiderId ],
-      // Estes 4 são tabelas separadas aaaaaaaa, como listas n:m 
+      cargosLiderados: [rawData.cargoLiderId],
+      // Estes 4 são tabelas separadas aaaaaaaa, como listas n:m
       desejaveis: wanted,
-      funcoes:    functions,
+      funcoes: functions,
       habilidades: skills,
       ecolaridade: educations,
-    }  
+    }
 
-
-    console.log("data")
+    console.log('data')
     console.log(data)
-    
-    let isCreated = await cargos.create(data)
 
-    if(isCreated) closeModalNew()
+    const isCreated = await cargos.create(data)
+
+    if (isCreated) closeModalNew()
 
     await handleLoadPosition()
-    
-    //Clears all data used
-    reset(rawData)
-    setSkills( [ ] )
-    setWanted( [ ] )
-    setFunctions([ ] )
-    setEducations([ ] )
 
+    // Clears all data used
+    reset(rawData)
+    setSkills([])
+    setWanted([])
+    setFunctions([])
+    setEducations([])
   }
 
-  async function handleUpdatePosition(rawData: any){
-    let id = cargoSelected?.id
+  async function handleUpdatePosition(rawData: any) {
+    const id = cargoSelected?.id
 
-    let data = {
-      nome:      rawData.nome     || cargoSelected?.nome,
-      descricao: rawData.desc     || cargoSelected?.descricao,
-      area:      rawData.areaId   || cargoSelected?.area,
-      lideranca: rawData.lideranca == 'true'    || cargoSelected?.lideranca,
-      cargosLiderados: [ rawData.cargoLiderId ] || cargoSelected?.cargosLiderados,
-      desejaveis:  wanted,
-      funcoes:     functions,
+    const data = {
+      nome: rawData.nome || cargoSelected?.nome,
+      descricao: rawData.desc || cargoSelected?.descricao,
+      area: rawData.areaId || cargoSelected?.area,
+      lideranca: rawData.lideranca == 'true' || cargoSelected?.lideranca,
+      cargosLiderados: [rawData.cargoLiderId] || cargoSelected?.cargosLiderados,
+      desejaveis: wanted,
+      funcoes: functions,
       habilidades: skills,
       ecolaridade: educations,
-    }  
+    }
 
-    
-    let isUpdated = await cargos.update(id, data)
+    const isUpdated = await cargos.update(id, data)
 
-    if(isUpdated) closeModal()
+    if (isUpdated) closeModal()
 
     await handleLoadPosition()
-    
-    //Clears all data used
+
+    // Clears all data used
     reset(rawData)
-    setSkills( [ ] )
-    setWanted( [ ] )
-    setFunctions([ ] )
-    setEducations([ ] )
+    setSkills([])
+    setWanted([])
+    setFunctions([])
+    setEducations([])
   }
 
-  async function handleDeletePosition(id: string){
+  async function handleDeletePosition(id: string) {
     console.log(id)
 
-    let isDeleted = await cargos.delete(id)
+    const isDeleted = await cargos.delete(id)
 
     await handleLoadPosition()
-
   }
 
-
-/*
+  /*
   ==================================================
                    useEffects
   ==================================================
@@ -302,72 +286,58 @@ export default function Positions() {
     handleLoadSkills()
   }, [])
 
-
   /*
   ==================================================
                 Values Handlers
   ==================================================
 */
 
-
-  function handleSetSkills(cargo:iCargo){
+  function handleSetSkills(cargo: iCargo) {
     setSkills([])
-    cargo.habilidades.map(
-      (skills) => {
-        setSkills(prevValues => {
-          return Array.from(new Set([...prevValues, skills.id]))
-          })
-      }
-    )
+    cargo.habilidades.map((skills) => {
+      setSkills((prevValues) => {
+        return Array.from(new Set([...prevValues, skills.id]))
+      })
+    })
   }
 
-  function handleSetWanted(cargo:iCargo){
+  function handleSetWanted(cargo: iCargo) {
     setWanted([])
-    cargo.desejaveis.map(
-      (wanted) => {
-        setWanted(prevValues => {
-          console.log(prevValues)
-          console.log(wanted.id)
-          return Array.from(new Set([...prevValues, wanted.id]))
-          })
-      }
-    )
+    cargo.desejaveis.map((wanted) => {
+      setWanted((prevValues) => {
+        console.log(prevValues)
+        console.log(wanted.id)
+        return Array.from(new Set([...prevValues, wanted.id]))
+      })
+    })
   }
 
-  function handleSetFunctions(cargo:iCargo){
+  function handleSetFunctions(cargo: iCargo) {
     setFunctions([])
-    cargo.funcoes.map(
-      (functions) => {
-        setFunctions(prevValues => {
-          return Array.from(new Set([...prevValues, functions.id]))
-          })
-
-      }
-    )
-
+    cargo.funcoes.map((functions) => {
+      setFunctions((prevValues) => {
+        return Array.from(new Set([...prevValues, functions.id]))
+      })
+    })
   }
 
-  function handleSetEducations(cargo:iCargo){
+  function handleSetEducations(cargo: iCargo) {
     setEducations([])
 
-    cargo.ecolaridade.map(
-      (educations) => {
-        setEducations(prevValues => {
-          return Array.from(new Set([...prevValues, educations.id]))
-          })
-      }
-    )
+    cargo.ecolaridade.map((educations) => {
+      setEducations((prevValues) => {
+        return Array.from(new Set([...prevValues, educations.id]))
+      })
+    })
   }
   // encapsulated all above
-  function handleSetArrays(cargo: iCargo){
+  function handleSetArrays(cargo: iCargo) {
     console.log(cargo)
     handleSetSkills(cargo)
     handleSetWanted(cargo)
     handleSetFunctions(cargo)
     handleSetEducations(cargo)
-
   }
-
 
   return (
     <>
@@ -390,44 +360,44 @@ export default function Positions() {
                 <td>CBO</td>
                 <td>Área</td>
               </S.TrTitle>
-            {
-              allCargos.map(
-                cargo => (
-                  <S.TrSecond>
-                    <td>{cargo.nome}</td>
-                    <td>{cargo.cbo || "Não cadastrado"}</td>
-                    <td>{cargo.area ? cargo.area.nome : "Não cadastrado"}</td>
-                    <td>
-                      <button onClick={() => {
+              {allCargos.map((cargo) => (
+                <S.TrSecond>
+                  <td>{cargo.nome}</td>
+                  <td>{cargo.cbo || 'Não cadastrado'}</td>
+                  <td>{cargo.area ? cargo.area.nome : 'Não cadastrado'}</td>
+                  <td>
+                    <button
+                      onClick={() => {
                         setCargoSelected(cargo)
 
                         handleSetArrays(cargo)
-                        
+
                         openModal()
-                        }}
-                        >
-                        <FiEdit size={18} />
-                      </button>
-                    </td>
-                    <td>
-                      <button>
-                        <FiTrash size={18} onClick={() => handleDeletePosition(cargo.id)} />
-                      </button>
-                    </td>
-                  </S.TrSecond>
-                )
-              )
-            }
+                      }}
+                    >
+                      <FiEdit size={18} />
+                    </button>
+                  </td>
+                  <td>
+                    <button>
+                      <FiTrash
+                        size={18}
+                        onClick={() => handleDeletePosition(cargo.id)}
+                      />
+                    </button>
+                  </td>
+                </S.TrSecond>
+              ))}
             </S.Table>
           )}
           {allCargos.length == 0 && <p>Nenhum cargo cadastrado!</p>}
         </S.Container>
       </S.Body>
 
-{/*
+      {/*
 =========================================================================================================
                                     Edit
-========================================================================================================= 
+=========================================================================================================
  */}
 
       <Modal
@@ -445,273 +415,208 @@ export default function Positions() {
         </button>
 
         {/* EDITAR CARGO */}
-        <S.ContainerForm
-          onSubmit={handleSubmit(handleUpdatePosition)}
-        >
+        <S.ContainerForm onSubmit={handleSubmit(handleUpdatePosition)}>
           <h2>Editar Cargo</h2>
 
           <input
-          defaultValue={cargoSelected?.nome}
-          type='text'
-          placeholder='Nome'
-          {...register('nome')}
+            defaultValue={cargoSelected?.nome}
+            type='text'
+            placeholder='Nome'
+            {...register('nome')}
           />
 
           <input
-          defaultValue={cargoSelected?.nome}
-          type='text'
-          placeholder='Descrição'
-          {...register('desc')}
+            defaultValue={cargoSelected?.nome}
+            type='text'
+            placeholder='Descrição'
+            {...register('desc')}
           />
 
-
-
-        <select
-          defaultValue={cargoSelected?.lideranca}
-          placeholder='Liderança'
-          {...register('lideranca')}
+          <select
+            defaultValue={cargoSelected?.lideranca}
+            placeholder='Liderança'
+            {...register('lideranca')}
           >
-        <option value={"false"}> Não </option>
-        <option value={"true"}> Sim  </option>
-
-
-        </select>
+            <option value={'false'}> Não </option>
+            <option value={'true'}> Sim </option>
+          </select>
           {/* <input
           type='text' placeholder='Descrição oficial'
           // onChange={() => console.log(register)}
           {...register('descOfc')}
           /> */}
 
-
           <select
-          defaultValue={cargoSelected?.cbo || "Não cadastrado"}
-          {...register('ocupationCodeBr')}
+            defaultValue={cargoSelected?.cbo || 'Não cadastrado'}
+            {...register('ocupationCodeBr')}
           >
-            <option>
-              Código Brasileiro de Ocupações
-            </option>
+            <option>Código Brasileiro de Ocupações</option>
           </select>
 
-
           <select
-          defaultValue={cargoSelected?.ir || "Não cadastrado"}
-          {...register('ocupationCodeIR')}>
-            <option>
-              Código de Ocupação conforme IR
-            </option>
-          </select>
-          <select
-          defaultValue={cargoSelected?.area?.id}
-          {...register('areaId')}
+            defaultValue={cargoSelected?.ir || 'Não cadastrado'}
+            {...register('ocupationCodeIR')}
           >
-            <option hidden >Área</option>
-            {
-            allAreas.map(
-              (area) => (
-                <option key={area.id} value={area.id}>
-                  {area.nome}
-                </option>
-              )
-            )}
-            
+            <option>Código de Ocupação conforme IR</option>
           </select>
           <select
-          defaultValue={cargoSelected?.ir || "Não cadastrado"}
-          // defaultValue={cargoSelected?.area?.id}
-          {...register('cargoLiderId')}
+            defaultValue={cargoSelected?.area?.id}
+            {...register('areaId')}
+          >
+            <option hidden>Área</option>
+            {allAreas.map((area) => (
+              <option key={area.id} value={area.id}>
+                {area.nome}
+              </option>
+            ))}
+          </select>
+          <select
+            defaultValue={cargoSelected?.ir || 'Não cadastrado'}
+            // defaultValue={cargoSelected?.area?.id}
+            {...register('cargoLiderId')}
           >
             <option hidden>Cargos Liderados</option>
-            {
-            allCargos.map(
-              (cargo) => (
-                <option key={cargo.id} value={cargo.id}>
-                  {cargo.nome}
-                </option>
-              )
-            )
-            }
+            {allCargos.map((cargo) => (
+              <option key={cargo.id} value={cargo.id}>
+                {cargo.nome}
+              </option>
+            ))}
           </select>
-          <select
-          {...register('habilidadeId')}
-          >
-            <option hidden >Habilidade</option>
-            {
-              allSkills.map(
-                (skill) => (
+          <select {...register('habilidadeId')}>
+            <option hidden>Habilidade</option>
+            {allSkills.map((skill) => (
+              <option key={skill.id} value={skill.id}>
+                {skill.nome}
+              </option>
+            ))}
+          </select>
+          {skills.map((skill, index) => (
+            <div className='border'>
+              Habilidades
+              <select
+                defaultValue={skills[index]}
+                onChange={(e) => handleChangeSkills(index, e.target.value)}
+              >
+                <option hidden>Habilidades</option>
+                {allSkills.map((skill) => (
                   <option key={skill.id} value={skill.id}>
                     {skill.nome}
                   </option>
-                )
-              )
-            }
-          </select>
-          {
-          skills.map(
-            (skill, index) => (
-              <div className="border">
-                Habilidades
-
-                <select
-                defaultValue={skills[index]}
-                onChange={(e) => handleChangeSkills(index, e.target.value)}
-                >
-                  <option hidden >Habilidades</option>
-                  {
-                    allSkills.map(
-                      (skill) => (
-                        <option key={skill.id} value={skill.id}>
-                          {skill.nome}
-                        </option>
-                      )
-                    )
-                  }
-                </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeSkills(index)}
-                >
-                  <FiTrash/>
-                </button>
-              </div>
-            )
-          )
-          }
+                ))}
+              </select>
+              <button
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeSkills(index)}
+              >
+                <FiTrash />
+              </button>
+            </div>
+          ))}
 
           <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addSkills()}
+            type='button'
+            className='btn-actions'
+            onClick={() => addSkills()}
           >
             <FiPlus size={20} />
           </button>
 
-
-          
-          {
-          wanted.map(
-            (skill, index) => (
-              <div className="border">
-
-                Desejaveis
-
-                <select
+          {wanted.map((skill, index) => (
+            <div className='border'>
+              Desejaveis
+              <select
                 defaultValue={wanted[index]}
                 onChange={(e) => handleChangeWanted(index, e.target.value)}
-                >
-                  <option hidden >Desejaveis</option>
-                  {
-                    allSkills.map(
-                      (skill) => (
-                        <option key={skill.id} value={skill.id}>
-                          {skill.nome}
-                        </option>
-                      )
-                    )
-                  }
-                </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeWanted(index)}
-                >
-                  <FiTrash/>
-                </button>
-              </div>
-            )
-          )
-          }
+              >
+                <option hidden>Desejaveis</option>
+                {allSkills.map((skill) => (
+                  <option key={skill.id} value={skill.id}>
+                    {skill.nome}
+                  </option>
+                ))}
+              </select>
+              <button
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeWanted(index)}
+              >
+                <FiTrash />
+              </button>
+            </div>
+          ))}
 
           <button
-          type='button'
-          className='button btn-actions'
-          onClick={() => addWanted()}
+            type='button'
+            className='button btn-actions'
+            onClick={() => addWanted()}
           >
             <FiPlus size={20} />
           </button>
 
-        {
-          functions.map(
-            (skill, index) => (
-              <div className="border">
-                Funções
-
-                <select
+          {functions.map((skill, index) => (
+            <div className='border'>
+              Funções
+              <select
                 defaultValue={functions[index]}
                 onChange={(e) => handleChangeWanted(index, e.target.value)}
-                >
-                  <option hidden >Funções</option>
-                  {
-                    allFunctions.map(
-                      (afunction) => (
-                        <option key={afunction.id} value={afunction.id}>
-                          {afunction.nome}
-                        </option>
-                      )
-                    )
-                  }
-                </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeFunctions(index)}
-                >
-                  <FiTrash/>
-                </button>
-              </div>
-            )
-          )
-          }
+              >
+                <option hidden>Funções</option>
+                {allFunctions.map((afunction) => (
+                  <option key={afunction.id} value={afunction.id}>
+                    {afunction.nome}
+                  </option>
+                ))}
+              </select>
+              <button
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeFunctions(index)}
+              >
+                <FiTrash />
+              </button>
+            </div>
+          ))}
 
           <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addFunctions()}
+            type='button'
+            className='btn-actions'
+            onClick={() => addFunctions()}
           >
             <FiPlus size={20} />
           </button>
 
-        {  
-        educations.map(
-          (education, index) => (
-            <div className="border">
+          {educations.map((education, index) => (
+            <div className='border'>
               Escolaridade
               <select
-              defaultValue={educations[index]}
-              onChange={(e) => handleChangeEducations(index, e.target.value)}
+                defaultValue={educations[index]}
+                onChange={(e) => handleChangeEducations(index, e.target.value)}
               >
-                <option hidden >Escolaridade</option>
-                {
-                  allEducations.map(
-                    (education) => (
-                      <option key={education.id} value={education.id}>
-                        {education.nome}
-                      </option>
-                    )
-                  )
-                }
+                <option hidden>Escolaridade</option>
+                {allEducations.map((education) => (
+                  <option key={education.id} value={education.id}>
+                    {education.nome}
+                  </option>
+                ))}
               </select>
               <button
                 className='btn-actions btn-trash'
                 type='button'
                 onClick={() => removeEducations(index)}
               >
-                <FiTrash/>
+                <FiTrash />
               </button>
             </div>
-          )
-         )
-        }
+          ))}
 
           <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addEducations()}
+            type='button'
+            className='btn-actions'
+            onClick={() => addEducations()}
           >
             <FiPlus size={20} />
           </button>
-
-          
 
           {/* <select
           {...register('desejavelId')}
@@ -744,7 +649,7 @@ export default function Positions() {
             }
           </select> */}
           {/* <select
-          
+
           {...register('escolaridadeId')}
           >
             <option hidden >Escolaridade</option>
@@ -763,7 +668,7 @@ export default function Positions() {
           </select> */}
 
           {/* This field does not exist in the table */}
-          {/* <input 
+          {/* <input
           {...register('planoAdm', {
               // required: true,
             })}
@@ -772,7 +677,7 @@ export default function Positions() {
           /> */}
 
           {/* No need  */}
-          {/* <input 
+          {/* <input
           {...register('sugerida', {
               required: true,
             })}
@@ -781,7 +686,7 @@ export default function Positions() {
           />
            */}
           {/* This is what the table itself shows */}
-          {/* <input 
+          {/* <input
           {...register('nivelHierarquico', {
               required: true,
             })}
@@ -800,20 +705,18 @@ export default function Positions() {
           placeholder='Grau de instrução mínimo para o cargo'
           /> */}
 
-
           <input
-          // onClick={(e) => console.log(register)}
-          type='submit'
-          className='button'
-          value="Enviar"
+            // onClick={(e) => console.log(register)}
+            type='submit'
+            className='button'
+            value='Enviar'
           />
-          
         </S.ContainerForm>
       </Modal>
-{/*
+      {/*
 =========================================================================================================
                                   Register
-========================================================================================================= 
+=========================================================================================================
  */}
       <Modal
         isOpen={modalIsOpenNew}
@@ -836,128 +739,84 @@ export default function Positions() {
         >
           <h2>Cadastrar Cargo</h2>
 
-          <input
-          type='text' placeholder='Nome'
-          {...register('nome')}
-          />
-          
-          <input
-          type='text' placeholder='Descrição'
-          {...register('desc')}
-          />
+          <input type='text' placeholder='Nome' {...register('nome')} />
+
+          <input type='text' placeholder='Descrição' {...register('desc')} />
 
           {/* <input
           type='text' placeholder='Descrição oficial'
           // onChange={() => console.log(register)}
           {...register('descOfc')}
           /> */}
-          <select
-            placeholder='Liderança'
-            {...register('lideranca')}
-            >
-          <option hidden> Liderança </option>
-          <option value={"true"}> Sim  </option>
-          <option value={"false"}> Não </option>
-
+          <select placeholder='Liderança' {...register('lideranca')}>
+            <option hidden> Liderança </option>
+            <option value={'true'}> Sim </option>
+            <option value={'false'}> Não </option>
           </select>
 
-
-          <select
-          {...register('ocupationCodeBr')}
-          >
-            <option>
-              Código Brasileiro de Ocupações
-            </option>
+          <select {...register('ocupationCodeBr')}>
+            <option>Código Brasileiro de Ocupações</option>
           </select>
-          <select
-          {...register('ocupationCodeIR')}>
-            <option>
-              Código de Ocupação conforme IR
-            </option>
+          <select {...register('ocupationCodeIR')}>
+            <option>Código de Ocupação conforme IR</option>
           </select>
-          <select
-          {...register('areaId')}
-          >
-            <option hidden >Área</option>
-            {
-            allAreas.map(
-              (area) => (
-                <option key={area.id} value={area.id}>
-                  {area.nome}
-                </option>
-              )
-            )}
-            
+          <select {...register('areaId')}>
+            <option hidden>Área</option>
+            {allAreas.map((area) => (
+              <option key={area.id} value={area.id}>
+                {area.nome}
+              </option>
+            ))}
           </select>
-          <select
-          {...register('cargoLiderId')}
-          >
+          <select {...register('cargoLiderId')}>
             <option hidden>Cargos Liderados</option>
-            {
-            allCargos.map(
-              (cargo) => (
-                <option key={cargo.id} value={cargo.id}>
-                  {cargo.nome}
-                </option>
-              )
-            )
-            }
+            {allCargos.map((cargo) => (
+              <option key={cargo.id} value={cargo.id}>
+                {cargo.nome}
+              </option>
+            ))}
           </select>
-          <select
-          {...register('habilidadeId')}
-          >
-            <option hidden >Habilidade</option>
-            {
-              allSkills.map(
-                (skill) => (
-                  <option key={skill.id} value={skill.id}>
-                    {skill.nome}
-                  </option>
-                )
-              )
-            }
+          <select {...register('habilidadeId')}>
+            <option hidden>Habilidade</option>
+            {allSkills.map((skill) => (
+              <option key={skill.id} value={skill.id}>
+                {skill.nome}
+              </option>
+            ))}
           </select>
 
-          {
-          skills.map(
-            (skill, index) => (
-              <div className="border">
+          <div className='border'>
+            {skills.map((skill, index) => (
+              <>
                 <select
-                onChange={(e) => handleChangeSkills(index, e.target.value)}
+                  onChange={(e) => handleChangeSkills(index, e.target.value)}
                 >
-                  <option hidden >Habilidades</option>
-                  {
-                    allSkills.map(
-                      (skill) => (
-                        <option key={skill.id} value={skill.id}>
-                          {skill.nome}
-                        </option>
-                      )
-                    )
-                  }
+                  <option hidden>Habilidadesd</option>
+                  {allSkills.map((skill) => (
+                    <option key={skill.id} value={skill.id}>
+                      {skill.nome}
+                    </option>
+                  ))}
                 </select>
+
                 <button
                   className='btn-actions btn-trash'
                   type='button'
                   onClick={() => removeSkills(index)}
                 >
-                  <FiTrash/>
+                  <FiTrash />
                 </button>
-              </div>
-            )
-          )
-          }
+              </>
+            ))}
 
-          <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addSkills()}
-          >
-            <FiPlus size={20} />
-          </button>
-
-
-
+            <button
+              type='button'
+              className='btn-actions'
+              onClick={() => addSkills()}
+            >
+              <FiPlus size={20} />
+            </button>
+          </div>
           {/* <select
           {...register('desejavelId')}
           >
@@ -975,86 +834,67 @@ export default function Positions() {
 
           </select> */}
 
-        {
-          wanted.map(
-            (skill, index) => (
-              <div className="border">
-                <select
+          {wanted.map((skill, index) => (
+            <div className='border'>
+              <select
                 onChange={(e) => handleChangeWanted(index, e.target.value)}
-                >
-                  <option hidden >Desejaveis</option>
-                  {
-                    allSkills.map(
-                      (skill) => (
-                        <option key={skill.id} value={skill.id}>
-                          {skill.nome}
-                        </option>
-                      )
-                    )
-                  }
-                </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeWanted(index)}
-                >
-                  <FiTrash/>
-                </button>
-              </div>
-            )
-          )
-          }
+              >
+                <option hidden>Desejaveis</option>
+                {allSkills.map((skill) => (
+                  <option key={skill.id} value={skill.id}>
+                    {skill.nome}
+                  </option>
+                ))}
+              </select>
+              <button
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeWanted(index)}
+              >
+                <FiTrash />
+              </button>
+            </div>
+          ))}
 
           <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addWanted()}
+            type='button'
+            className='btn-actions'
+            onClick={() => addWanted()}
           >
             <FiPlus size={20} />
           </button>
 
-          
-        {
-          functions.map(
-            (skill, index) => (
-              <div className="border">
-                <select
+          {functions.map((skill, index) => (
+            <div className='border'>
+              <select
                 onChange={(e) => handleChangeFunctions(index, e.target.value)}
-                >
-                  <option hidden >Funções</option>
-                  {
-                    allFunctions.map(
-                      (afunction) => (
-                        <option key={afunction.id} value={afunction.id}>
-                          {afunction.nome}
-                        </option>
-                      )
-                    )
-                  }
-                </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeFunctions(index)}
-                >
-                  <FiTrash/>
-                </button>
-              </div>
-            )
-          )
-          }
+              >
+                <option hidden>Funções</option>
+                {allFunctions.map((afunction) => (
+                  <option key={afunction.id} value={afunction.id}>
+                    {afunction.nome}
+                  </option>
+                ))}
+              </select>
+              <button
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeFunctions(index)}
+              >
+                <FiTrash />
+              </button>
+            </div>
+          ))}
 
           <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addFunctions()}
+            type='button'
+            className='btn-actions'
+            onClick={() => addFunctions()}
           >
             <FiPlus size={20} />
           </button>
 
-
-        
-        {/* 
+          {/*
         <button
         type='button'
         className='btn-actions'
@@ -1063,45 +903,36 @@ export default function Positions() {
           <FiPlus size={20} />
         </button> */}
 
-        {  
-        educations.map(
-          (education, index) => (
-            <div className="border">
+          {educations.map((education, index) => (
+            <div className='border'>
               <select
-              onChange={(e) => handleChangeEducations(index, e.target.value)}
+                onChange={(e) => handleChangeEducations(index, e.target.value)}
               >
-                <option hidden >Escolaridade</option>
-                {
-                  allEducations.map(
-                    (education) => (
-                      <option key={education.id} value={education.id}>
-                        {education.nome}
-                      </option>
-                    )
-                  )
-                }
+                <option hidden>Escolaridade</option>
+                {allEducations.map((education) => (
+                  <option key={education.id} value={education.id}>
+                    {education.nome}
+                  </option>
+                ))}
               </select>
               <button
                 className='btn-actions btn-trash'
                 type='button'
                 onClick={() => removeEducations(index)}
               >
-                <FiTrash/>
+                <FiTrash />
               </button>
             </div>
-          )
-         )
-        }
+          ))}
 
           <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addEducations()}
+            type='button'
+            className='btn-actions'
+            onClick={() => addEducations()}
           >
             <FiPlus size={20} />
           </button>
 
-          
           {/* <select
           {...register('funcaoId')}
           >
@@ -1117,7 +948,7 @@ export default function Positions() {
             }
           </select> */}
           {/* <select
-          
+
           {...register('escolaridadeId')}
           >
             <option hidden >Escolaridade</option>
@@ -1136,7 +967,7 @@ export default function Positions() {
           </select> */}
 
           {/* This field does not exist in the table */}
-          {/* <input 
+          {/* <input
           {...register('planoAdm', {
               // required: true,
             })}
@@ -1145,7 +976,7 @@ export default function Positions() {
           /> */}
 
           {/* No need  */}
-          {/* <input 
+          {/* <input
           {...register('sugerida', {
               required: true,
             })}
@@ -1154,7 +985,7 @@ export default function Positions() {
           />
            */}
           {/* This is what the table itself shows */}
-          {/* <input 
+          {/* <input
           {...register('nivelHierarquico', {
               required: true,
             })}
@@ -1173,14 +1004,12 @@ export default function Positions() {
           placeholder='Grau de instrução mínimo para o cargo'
           /> */}
 
-
           <input
-          // onClick={(e) => console.log(register)}
-          type='submit'
-          className='button'
-          value="Enviar"
+            // onClick={(e) => console.log(register)}
+            type='submit'
+            className='button'
+            value='Enviar'
           />
-          
         </S.ContainerForm>
       </Modal>
     </>

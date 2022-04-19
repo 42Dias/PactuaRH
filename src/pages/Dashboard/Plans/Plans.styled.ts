@@ -18,7 +18,7 @@ export const Container = styled.div`
   max-width: 980px;
   margin: 0 auto;
 
-  img{
+  img {
     margin: 25px 10px 0px 0px;
     width: 50px;
     height: 50px;
@@ -30,28 +30,25 @@ export const Container = styled.div`
 `
 
 export const ContainerPlans = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 2fr);
+  margin-bottom: 75px;
 
-display: grid;
-grid-template-columns: repeat(3, 2fr);
-margin-bottom:75px;
-
-  div{ 
+  div {
     text-align: center;
     width: 280px;
     height: 538px;
-    margin-left:70px;
-    padding:5px 10px 45px 0px;
-    background: #FEFDFF;
+    margin-left: 70px;
+    padding: 5px 10px 45px 0px;
+    background: #fefdff;
     border-radius: 5px;
-    align-item:center;
+    align-item: center;
   }
 
-  .planos-icon{
-    position:relative;
+  .planos-icon {
+    position: relative;
     margin-left: 10px;
-    align-item:left;
-    width:30px;
+    align-item: left;
+    width: 30px;
   }
-
 `
-

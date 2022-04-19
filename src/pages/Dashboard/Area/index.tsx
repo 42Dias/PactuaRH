@@ -8,14 +8,14 @@ import areas from 'service/area/area'
 import { fullName } from 'service/api'
 
 export default function Area() {
-  const [modalIsOpen    ,setIsOpen   ] = useState(false)
-  const [modalIsOpenNew ,setIsOpenNew] = useState(false)
-  const [nome           ,setNome     ] = useState<string>('')
-  const [descricao      ,setDescricao] = useState<string>('')
-  const [subArea        ,setSubArea  ] = useState<boolean>(false)
-  const [areaPai        ,setAreaPai  ] = useState<string>('')
-  const [id             , setId      ] = useState<string>('')
-  const [area           , setArea    ] = useState([])
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [nome, setNome] = useState<string>('')
+  const [descricao, setDescricao] = useState<string>('')
+  const [subArea, setSubArea] = useState<boolean>(false)
+  const [areaPai, setAreaPai] = useState<string>('')
+  const [id, setId] = useState<string>('')
+  const [area, setArea] = useState([])
 
   function openModal() {
     setIsOpen(true)

@@ -136,14 +136,13 @@ export const ContainerForm = styled.form`
       filter: brightness(0.9);
     }
   }
-  
-  .border{
+
+  .border {
     border-bottom: 2px solid #0000007d;
-    margin-bottom: 10px
- 
+    margin-bottom: 10px;
   }
 
-  .btn-actions{
+  .btn-actions {
     display: block;
     margin: 5px auto 20px auto;
     width: 50px;
@@ -151,25 +150,22 @@ export const ContainerForm = styled.form`
     position: relative;
 
     svg {
-      position:absolute;
-      left:0;
-      right:0;
-      margin-left:auto;
-      margin-right:auto;
-      top:0;
-      bottom:0;
-      margin-top:auto;
-      margin-bottom:auto;
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      top: 0;
+      bottom: 0;
+      margin-top: auto;
+      margin-bottom: auto;
     }
-
-    
   }
 
-  .btn-trash{
+  .btn-trash {
     background-color: red;
   }
 `
-
 
 export const divCheck = styled.div`
   display: flex;

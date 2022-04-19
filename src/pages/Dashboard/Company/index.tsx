@@ -11,17 +11,17 @@ export default function Company() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
 
-  const [cnpj       , setCnpj       ] = useState<string>("")
-  const [id         , setId         ] = useState<string>("")
-  const [cnac       , setCnac       ] = useState<string>("")
-  const [nome       , setNome       ] = useState<string>("")
-  const [razaoSocial, setRazaoSocial] = useState<string>("")
-  const [cep        , setCep        ] = useState<string>("")
-  const [logradouro , setLogradouro ] = useState<string>("")
-  const [allEmpresa , setAllEmpresa ] = useState<any[]>([])
-  const [empresaEdit, setEmpresaEdit ] = useState<any>({})
-  const [inscricaoEstadual, setInscricaoEstadual] = useState<string>("")
-  const [inscricaoMunicipal, setInscricaoMunicipal] = useState<string>("")
+  const [cnpj , setCnpj ] = useState<string>('')
+  const [id , setId ] = useState<string>('')
+  const [cnac , setCnac ] = useState<string>('')
+  const [nome , setNome ] = useState<string>('')
+  const [razaoSocial, setRazaoSocial] = useState<string>('')
+  const [cep , setCep ] = useState<string>('')
+  const [logradouro, setLogradouro] = useState<string>('')
+  const [allEmpresa, setAllEmpresa] = useState<any[]>([])
+  const [empresaEdit, setEmpresaEdit] = useState<any>({})
+  const [inscricaoEstadual, setInscricaoEstadual] = useState<string>('')
+  const [inscricaoMunicipal, setInscricaoMunicipal] = useState<string>('')
   function openModal() {
     setIsOpen(true)
   }
@@ -39,78 +39,76 @@ export default function Company() {
   }
 
   /*
-  
-  IMPORTANT OBS.: This plataform works as Multi-Tenant so a admin can only see its own employees,
-  HE CANNOT SEE ANY OTHER EMPLOYEE INSTEAD OF ITS OWN! 
 
-  */ 
+  IMPORTANT OBS.: This plataform works as Multi-Tenant so a admin can only see its own employees,
+  HE CANNOT SEE ANY OTHER EMPLOYEE INSTEAD OF ITS OWN!
+
+  */
 
   /*
-  
-    IT CREATES A ENTERPRISE WITH ADMIN's TENANTID 
-  
+
+    IT CREATES A ENTERPRISE WITH ADMIN's TENANTID
+
   */
-    async function handleLoaderEmpresa(){
-      const empresaCadastradas = await empresa.loadEmpresas();
-      console.log(empresaCadastradas);
-      setAllEmpresa(empresaCadastradas);
+  async function handleLoaderEmpresa() {
+    const empresaCadastradas = await empresa.loadEmpresas()
+      console.log(empresaCadastradas)
+      setAllEmpresa(empresaCadastradas)
     }
-    useEffect(
-      () => {
-        handleLoaderEmpresa()
-      },[]
-    )
+  useEffect(
+    () => {
+      handleLoaderEmpresa()
+    }, [],
+  )
 
-    async function cadastrarEmpresa() {
-      let data = {
-        user: id,
-        nome: nome,
-        cnpj: cnpj,
-        cnac: cnac,
-        razaoSocial: razaoSocial,
-        cep: cep,
-        logradouro: logradouro,
-        inscricaoEstadual: inscricaoEstadual,
-        inscricaoMunicipal: inscricaoMunicipal
-      }
+  async function cadastrarEmpresa() {
+    let data = {
+      user: id,
+      nome: nome,
+      cnpj: cnpj,
+      cnac: cnac,
+      razaoSocial: razaoSocial,
+      cep: cep,
+      logradouro: logradouro,
+      inscricaoEstadual: inscricaoEstadual,
+      inscricaoMunicipal: inscricaoMunicipal,
+    }
 
-      //alert(data.cnpj);
+    // alert(data.cnpj);
 
-      let isCreated =  await empresa.cadastrarEmpresa(data)
+    let isCreated = await empresa.cadastrarEmpresa(data)
 
-      if(!isCreated) return;
+    if (!isCreated) return
 
       closeModalNew()
-      await handleLoaderEmpresa()
-      
+    await handleLoaderEmpresa()
+  }
+
+  async function updateEmpresas(empresaId: string) {
+    let data = {
+      nome: nome,
+      cnpj: cnpj,
+      cnac: cnac,
+      razaoSocial: razaoSocial,
+      cep: cep,
+      logradouro: logradouro,
+      inscricaoEstadual: inscricaoEstadual,
+      inscricaoMunicipal: inscricaoMunicipal,
+      user: id,
     }
 
-    async function updateEmpresas(empresaId: string){
-      let data = {
-        nome: nome,
-        cnpj: cnpj,
-        cnac: cnac,
-        razaoSocial: razaoSocial,
-        cep: cep,
-        logradouro: logradouro,
-        inscricaoEstadual: inscricaoEstadual,
-        inscricaoMunicipal: inscricaoMunicipal,
-        user: id
-      }
+    let updateEmpresas = await empresa.changeEmpresa(empresaId, data)
 
-      let updateEmpresas = await empresa.changeEmpresa(empresaId, data)
+    if (updateEmpresas) closeModal()
 
-      if(updateEmpresas) closeModal()
-
-      await handleLoaderEmpresa();
+    await handleLoaderEmpresa()
     }
 
-    async function deleteEmpresa(empresaId: string){
-      await empresa.deleteEmpresa(empresaId)
-      await handleLoaderEmpresa()
-
+  async function deleteEmpresa(empresaId: string) {
+    await empresa.deleteEmpresa(empresaId)
+    await handleLoaderEmpresa()
     }
-    
+
   return (
     <>
       <S.Body>
@@ -132,72 +130,101 @@ export default function Company() {
               <td>Nome fantasia</td>
               <td>CNAE</td>
             </S.TrTitle>
-            {allEmpresa.map(
-              (empresa) => (
-                <S.TrSecond>
-                  <td>{empresa.cnpj}</td>
-                  <td>{empresa.razaoSocial}</td>
-                  <td>{empresa.nome}</td>
-                  <td>{empresa.cnac}</td>
-                  <td>
-
-                  <button onClick={() => {openModal()
-                    setEmpresaEdit(empresa)
-                  }}>
+            {allEmpresa.map((empresa) => (
+              <S.TrSecond>
+                <td>{empresa.cnpj}</td>
+                <td>{empresa.razaoSocial}</td>
+                <td>{empresa.nome}</td>
+                <td>{empresa.cnac}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      openModal()
+                      setEmpresaEdit(empresa)
+                    }}
+                  >
                     <FiEdit size={18} />
-                  </button> 
-                  </td>
-                  <td>
-                    <button onClick={()=>deleteEmpresa(empresa.id)}>
-                      <FiTrash size={18} />
-                    </button>
-                  </td>
-                </S.TrSecond>
-              )
-            )}
-            
+                  </button>
+                </td>
+                <td>
+                  <button onClick={() => deleteEmpresa(empresa.id)}>
+                    <FiTrash size={18} />
+                  </button>
+                </td>
+              </S.TrSecond>
+            ))}
           </S.Table>
         </S.Container>
       </S.Body>
 
-          <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          overlayClassName='react-modal-overlay'
-          className='react-modal-content'
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModal}
         >
-          <button
-            className='react-modal-close'
-            type='button'
-            onClick={closeModal}
-          >
-            <FiX />
-          </button>
-          <S.ContainerForm
-          onSubmit={
-            (e: any)=>{
-              e.preventDefault()
-              updateEmpresas(empresaEdit.id)
-            }
-          }
-          >
-            <h2>Editar Empresa</h2>
-          
-            <input type='text' defaultValue={empresaEdit?.cnpj} onChange={(e)=> setCnpj(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.razaoSocial} onChange={(e)=> setRazaoSocial(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.nome} onChange={(e)=> setNome(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.inscricaoEstadual} onChange={(e)=> setInscricaoEstadual(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.inscricaoMunicipal} onChange={(e)=> setInscricaoMunicipal(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.cnac} onChange={(e)=> setCnac(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.cep} onChange={(e)=> setCep(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.logradouro} onChange={(e)=> setLogradouro(e.target.value)} />
-            <button type="submit">Enviar</button>
-          </S.ContainerForm>
-         
+          <FiX />
+        </button>
+        <S.ContainerForm
+          onSubmit={(e: any) => {
+            e.preventDefault()
+            updateEmpresas(empresaEdit.id)
+          }}
+        >
+          <h2>Editar Empresa</h2>
+
+
+            type='text'
+            defaultValue={empresaEdit?.cnpj}
+            onChange={(e) => setCnpj(e.target.value)}
+          />
+          <input
+            type='text'
+            defaultValue={empresaEdit?.razaoSocial}
+            onChange={(e) => setRazaoSocial(e.target.value)}
+          />
+          <input
+            type='text'
+            defaultValue={empresaEdit?.nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+          <input
+            type='text'
+            defaultValue={empresaEdit?.inscricaoEstadual}
+            onChange={(e) => setInscricaoEstadual(e.target.value)}
+          />
+          <input
+            type='text'
+            defaultValue={empresaEdit?.inscricaoMunicipal}
+            onChange={(e) => setInscricaoMunicipal(e.target.value)}
+          />
+          <input
+            type='text'
+            defaultValue={empresaEdit?.cnac}
+            onChange={(e) => setCnac(e.target.value)}
+          />
+          <input
+            type='text'
+            defaultValue={empresaEdit?.cep}
+            onChange={(e) => setCep(e.target.value)}
+          />
+          <input
+            type='text'
+            defaultValue={empresaEdit?.logradouro}
+            onChange={(e) => setLogradouro(e.target.value)}
+          />
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+
         </Modal>
-        
-    
-      
+
+
+
 
       <Modal
         isOpen={modalIsOpenNew}
@@ -214,20 +241,52 @@ export default function Company() {
         </button>
 
         <S.ContainerForm
-          onSubmit={(e)=>{cadastrarEmpresa()
+          onSubmit={(e) => { cadastrarEmpresa()
             e.preventDefault()
           }}
         >
           <h2>Cadastrar empresa</h2>
 
-          <input type='number' placeholder='CNPJ' onChange={(e) => setCnpj(e.target.value)}/>
-          <input type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
-          <input type='text' placeholder='Nome fantasia' onChange={(e) => setNome(e.target.value)}/>
-          <input type='text' placeholder='Inscrição Estadual' onChange={(e) => setInscricaoEstadual(e.target.value)}/>
-          <input type='text' placeholder='Inscrição Municipal' onChange={(e) => setInscricaoMunicipal(e.target.value)}/>
-          <input type='text' placeholder='CNAE'  onChange={(e) => setCnac(e.target.value)}/>
-          <input type='text' placeholder='CEP*' onChange={(e) => setCep(e.target.value)}/>
-          <input type='text' placeholder='Logradouro' onChange={(e) => setLogradouro(e.target.value)}/>
+          <input
+            type='number'
+            placeholder='CNPJ'
+            onChange={(e) => setCnpj(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Razão Social'
+            onChange={(e) => setRazaoSocial(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Nome fantasia'
+            onChange={(e) => setNome(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Inscrição Estadual'
+            onChange={(e) => setInscricaoEstadual(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Inscrição Municipal'
+            onChange={(e) => setInscricaoMunicipal(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='CNAE'
+            onChange={(e) => setCnac(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='CEP*'
+            onChange={(e) => setCep(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Logradouro'
+            onChange={(e) => setLogradouro(e.target.value)}
+          />
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>

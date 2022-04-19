@@ -8,13 +8,12 @@ import escolaridade from 'service/escolaridade/escolaridade'
 import { fullName } from 'service/api'
 
 export default function Education() {
-  const [modalIsOpen   , setIsOpen    ] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew ] = useState(false)
-  const [nome          , setNome      ] = useState<string>("")
-  const [desc          , setDesc      ] = useState<string>("")
-  const [id            , setId        ] = useState<string>("")
-  const [education     , setEducation ] = useState<any[]>([])
-    
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [nome, setNome] = useState<string>('')
+  const [desc, setDesc] = useState<string>('')
+  const [id, setId] = useState<string>('')
+  const [education, setEducation] = useState<any[]>([])
 
   function openModal() {
     setIsOpen(true)
@@ -33,50 +32,43 @@ export default function Education() {
   }
 
   async function handleLoadEducation() {
-    let allEducation = await escolaridade.list()
+    const allEducation = await escolaridade.list()
 
     setEducation(allEducation)
   }
 
-  async function handleCreate(){
-    let data = {
-      nome: nome    ,
-      descricao: desc
+  async function handleCreate() {
+    const data = {
+      nome: nome,
+      descricao: desc,
     }
 
-    let isCreated = await escolaridade.create(data)
+    const isCreated = await escolaridade.create(data)
 
-    if(isCreated) closeModalNew()
+    if (isCreated) closeModalNew()
     await handleLoadEducation()
-
   }
 
-  async function handleUpdate(id: string){
-    let data = {
-      nome: nome    ,
-      descricao: desc
+  async function handleUpdate(id: string) {
+    const data = {
+      nome: nome,
+      descricao: desc,
     }
 
-    let isUpdated = await escolaridade.update(id, data)
+    const isUpdated = await escolaridade.update(id, data)
 
-    if(isUpdated) closeModal()
+    if (isUpdated) closeModal()
     await handleLoadEducation()
-
   }
 
+  useEffect(() => {
+    handleLoadEducation()
+  }, [])
 
-  useEffect(
-    () => {
-      handleLoadEducation() 
-    }, []
-  )
-
-
-  async function handleDelete(id: string){
+  async function handleDelete(id: string) {
     await escolaridade.delete(id)
 
     handleLoadEducation()
-    
   }
   return (
     <>
@@ -93,41 +85,34 @@ export default function Education() {
           </S.FlexButtons>
 
           <S.Table>
-
             <S.TrTitle>
               <td>Nome da escolaridade</td>
               <td></td>
             </S.TrTitle>
 
-            {
-            education.map(
-              (education) => (
-              <S.TrSecond
-                key={education.id}
-              >
+            {education.map((education) => (
+              <S.TrSecond key={education.id}>
                 <td>{education.nome}</td>
                 <td>
-                  <button onClick={() => {
-                    setId(education.id)
-                    setNome(education.nome)
-                    setDesc(education.descricao)
-                    openModal()
-                    }}>
+                  <button
+                    onClick={() => {
+                      setId(education.id)
+                      setNome(education.nome)
+                      setDesc(education.descricao)
+                      openModal()
+                    }}
+                  >
                     <FiEdit size={18} />
                   </button>
                 </td>
                 <td>
-                  <button
-                  onClick={() => handleDelete(education.id)}
-                  >
+                  <button onClick={() => handleDelete(education.id)}>
                     <FiTrash size={18} />
                   </button>
                 </td>
-              </S.TrSecond> )
-              )
-              }
-
-            </S.Table>
+              </S.TrSecond>
+            ))}
+          </S.Table>
         </S.Container>
       </S.Body>
 
@@ -146,12 +131,11 @@ export default function Education() {
         </button>
 
         <S.ContainerForm
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleUpdate(id)
-        }}
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleUpdate(id)
+          }}
         >
-
           <h2>Editar escolaridade</h2>
           <input
             type='text'
@@ -166,13 +150,8 @@ export default function Education() {
             placeholder='Descrição da escolaridade'
             required
           />
-          
-          <button
-            type='submit'
-          >
-            Enviar
-          </button>
 
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
@@ -191,10 +170,10 @@ export default function Education() {
         </button>
 
         <S.ContainerForm
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleCreate()
-        }}
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate()
+          }}
         >
           <h2>Cadastrar escolaridade</h2>
 
@@ -212,11 +191,7 @@ export default function Education() {
             required
           />
 
-          <button
-            type='submit'
-          >
-            Enviar
-          </button>
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
     </>

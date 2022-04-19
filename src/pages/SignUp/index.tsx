@@ -31,15 +31,20 @@ export default function SignUp() {
   } = useForm<FormData>()
 
   async function onSubmit(data: FormData) {
-    console.log("data")
+    console.log('data')
     console.log(data)
     console.log(data)
 
-    let singUpDone = await user.cadastro(data.fullName, data.email, data.password, data.role)
+    const singUpDone = await user.cadastro(
+      data.fullName,
+      data.email,
+      data.password,
+      data.role,
+    )
 
     console.log(singUpDone)
 
-    if(!singUpDone) return toast.error("...")
+    if (!singUpDone) return toast.error('...')
 
     navigate('/dashboard', { replace: true })
   }
