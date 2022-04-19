@@ -99,7 +99,7 @@ const Sidebar = () => {
                   </MenuItem>
 
         
-                  <MenuItem>
+                  <MenuItem>  
                     <Link to='/escolaridade'>Escolaridade</Link>
                   </MenuItem>
 
@@ -112,6 +112,9 @@ const Sidebar = () => {
                     <Link to='/habilidades'>Habilidades</Link>
                   </MenuItem>
         
+                  <MenuItem>  
+                    <Link to='/plano-de-carreira'>Plano de Carreira</Link>
+                  </MenuItem>
 
                   <MenuItem>
                     <Link to='/profissionais'>Profissionais</Link>
