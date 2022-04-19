@@ -13,23 +13,28 @@ import cargos from 'service/cargos/cargos'
 
 export default function Career() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [allCareer, setAllCareer] = useState<any>([])
-  const [nome, setNome] = useState<string>('')
-  const [descricao, setDescricao] = useState<string>('')
+  const [modalIsOpen   , setIsOpen   ] = useState(false)
+  const [allCareer     , setAllCareer] = useState<any>([])
+  const [nome          , setNome     ] = useState<string>('')
+  const [descricao     , setDescricao] = useState<string>('')
 
-  const [cargo, setCargo] = useState<string>('')
+  const [cargo    , setCargo    ] = useState<string>('')
   const [allCargos, setAllCargos] = useState<any>([])
 
-  // const [hasNiveis, setHasNiveis] = useState<boolean>(false)
   const [allNiveis, setNiveis] = useState<iNiveis[]>([])
-
+  const [index, setIndex] = useState<number>(0)
+  
+  // const [hasNiveis, setHasNiveis] = useState<boolean>(false)
   // const [dependentes, setDependentes] = useState<iDependent[]>([
   //   { nome: '', cpf: '', rg: '', dataNasc: '' },
   // ])
-
   // const [allPositions, setAllPositions] = useState<iCargo[]>([])
-  const [index, setIndex] = useState<number>(0)
+
+  /* 
+==========================================================================================================
+                                  SUBCRUD IN THE PAGE
+==========================================================================================================
+*/
 
   const addFormFields = () => {
     // @ts-ignore
@@ -45,8 +50,8 @@ export default function Career() {
 
   const handleChangeNiveis = (i: number, e: any) => {
     console.log('e')
-    // console.log(i)
     console.log(e.target.value)
+    // console.log(i)
     const newFormValues = [...allNiveis]
     // console.log(newFormValues)
     // @ts-ignore
@@ -55,16 +60,11 @@ export default function Career() {
     setNiveis(newFormValues)
   }
 
-  // const handleChangeNiveis2 = (i: number, e: any) => {
-  //   console.log('e')
-  //   const newFormValues = [...allNiveis]
-  //   console.log(newFormValues)
-  //   console.log(e)
-  //   newFormValues[i].cargo = e
-  //   console.log(e)
-  //   setNiveis(newFormValues)
-  // }
-
+/* 
+==========================================================================================================
+                                              MODALS
+==========================================================================================================
+*/
   function openModal() {
     setIsOpen(true)
   }
@@ -82,6 +82,12 @@ export default function Career() {
     setIsOpenNew(false)
   }
 
+/* 
+==========================================================================================================
+                                              CRUD
+==========================================================================================================
+*/
+
   async function handleCreateCareer() {
     const data = {
       nome: nome,
@@ -94,7 +100,8 @@ export default function Career() {
 
     const isCreated = await planoCarreira.create(data)
 
-    if (isCreated) closeModalNew()
+    if (!isCreated) return;
+    closeModalNew()
     await handleLoadCareer()
   }
 
@@ -102,20 +109,18 @@ export default function Career() {
     const carreira = await planoCarreira.list()
     setAllCareer(carreira)
   }
-
+  
   async function handleLoadCargos() {
     const cargo = await cargos.list()
     setAllCargos(cargo)
-    console.log(allCargos)
   }
 
   useEffect(() => {
     handleLoadCareer()
+
+    handleLoadCargos()
   }, [])
 
-  // useEffect(() => {
-  //   handleLoadCargos()
-  // }, [])
   return (
     <>
       <S.Body>
@@ -157,6 +162,12 @@ export default function Career() {
         </S.Container>
       </S.Body>
 
+{/* 
+==========================================================================================================
+                                              Edit
+==========================================================================================================
+*/}
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -187,6 +198,11 @@ export default function Career() {
         </S.ContainerForm>
       </Modal>
 
+{/* 
+==========================================================================================================
+                                            Create
+==========================================================================================================
+*/}
       <Modal
         isOpen={modalIsOpenNew}
         onRequestClose={closeModalNew}
@@ -254,12 +270,16 @@ export default function Career() {
                       // setCargo(e.target.value)
                       console.log(e.target.value)
                       // @ts-ignore
-                      handleChangeNiveis(index, 'select' + e)
+                      handleChangeNiveis(index, e)
                     }}
                     placeholder='Nome do cargo'
                     value={cargo}
                     name='cargo'
+                    id="cargo"
                   >
+                    <S.OptionsPai hidden>
+                      --- Selecione ---                      
+                      </S.OptionsPai>
                     {allCargos.map((value: any, i: any) => (
                       <S.OptionsPai key={i} value={value.id}>
                         {value.nome}
