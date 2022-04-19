@@ -12,13 +12,14 @@ import planoCarreira from 'service/planoCarreira/planoCarreira'
 import cargos from 'service/cargos/cargos'
 
 export default function Career() {
-  const [modalIsOpenNew, setIsOpenNew   ] = useState(false)
-  const [modalIsOpen   , setIsOpen      ] = useState(false)
-  const [allCareer     , setAllCareer   ] = useState<any>([])
-  const [nome          , setNome        ] = useState<string>('')
-  const [descricao     , setDescricao   ] = useState<string>('')
-  const [cargo         , setCargo       ] = useState<string>('')
-  const [allCargos     , setAllCargos   ] = useState<any>([])
+  const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpen   , setIsOpen   ] = useState(false)
+  const [allCareer     , setAllCareer] = useState<any>([])
+  const [nome          , setNome     ] = useState<string>('')
+  const [descricao     , setDescricao] = useState<string>('')
+  const [cargo         , setCargo    ] = useState<string>('')
+  const [allCargos     , setAllCargos] = useState<any>([])
+
   const [allNiveis     , setAllNiveis   ] = useState<iNiveis[]>([])
   const [allNiveisNew  , setAllNiveisNew] = useState<iNiveis[]>([])
 
@@ -148,21 +149,31 @@ export default function Career() {
                 <td>Niveis</td>
                 <td></td>
               </S.TrTitle>
-              <S.TrSecond>
-                  <td>carrer.nome</td>
-                  <td>carrer.descricao</td>
-                  <td>carrer.nivel.lenght</td>
+              {
+              allCareer.map(
+              (carrer: any) => (
+                <S.TrSecond>
+                  <td>{carrer?.nome}</td>
+                  <td>{carrer?.descricao}</td>
+                  <td>{carrer?.nivel?.lenght}</td>
                   <td>
-                  <button onClick={openModal}>
-                    <FiEdit size={18} />
-                  </button>
-                </td>
-                <td>
-                  <button>
-                    <FiTrash size={18} />
-                  </button>
-                </td>
-              </S.TrSecond>
+                    <button onClick={() => {
+                      openModal()
+                      // setAllNiveis(carrer.nivel)
+                      }}>
+                      <FiEdit size={18} />
+                    </button>
+                  </td>
+                  <td>
+                    <button>
+                      <FiTrash size={18} />
+                    </button>
+                  </td>
+                </S.TrSecond>
+                
+              )
+              )
+              }
             </S.Table>
           )}{' '}
           {allCareer.length === 0 && <p>Não há dados</p>}
