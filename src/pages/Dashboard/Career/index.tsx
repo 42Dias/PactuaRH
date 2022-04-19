@@ -11,7 +11,7 @@ import { iCargo, iNiveis } from 'types'
 import planoCarreira from 'service/planoCarreira/planoCarreira'
 import cargos from 'service/cargos/cargos'
 
-export default function Professionals() {
+export default function Career() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [allCareer, setAllCareer] = useState<any>([])
