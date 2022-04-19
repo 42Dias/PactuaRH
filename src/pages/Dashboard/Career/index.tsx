@@ -62,6 +62,31 @@ export default function Career() {
     setAllNiveis(newFormValues)
   }
 
+
+  const addFormFieldsNew = () => {
+    // @ts-ignore
+    setAllNiveisNew([...allNiveisNew, { nome: '', descricao: '', cargo: [], nivel: 0 }])
+  }
+
+  const removeFormFieldsNew = (i: number) => {
+    console.log(allNiveisNew[i])
+    const newFormValues = [...allNiveisNew]
+    newFormValues.splice(i, 1)
+    setAllNiveisNew(newFormValues)
+  }
+
+  const handleChangeNiveisNew = (i: number, e: any) => {
+    console.log('e')
+    console.log(e.target.value)
+    // console.log(i)
+    const newFormValues = [...allNiveisNew]
+    // console.log(newFormValues)
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
+    console.log(newFormValues)
+    setAllNiveisNew(newFormValues)
+  }
+
 /* 
 ==========================================================================================================
                                               MODALS
@@ -177,7 +202,7 @@ export default function Career() {
                     <button onClick={() => {
                       openModal()
                       setSelectedCareer(carrer)
-                      // setAllNiveis(carrer.nivel)
+                      setAllNiveis(carrer.nivel)
                       }}>
                       <FiEdit size={18} />
                     </button>
@@ -257,6 +282,7 @@ export default function Career() {
                     type='text'
                     placeholder='Nome do Nivel'
                     name='nome'
+                    defaultValue={e.nome}
                     onChange={(e) => handleChangeNiveis(index, e)}
                   />
 
@@ -264,6 +290,7 @@ export default function Career() {
                     type='text'
                     placeholder='Descrição'
                     name='descricao'
+                    defaultValue={e.descricao}
                     onChange={(e) => handleChangeNiveis(index, e)}
                   />
 
@@ -271,6 +298,7 @@ export default function Career() {
                     type='number'
                     placeholder='Nivel'
                     name='nivel'
+                    defaultValue={e.nivel}
                     onChange={(e) => handleChangeNiveis(index, e)}
                   />
 
@@ -304,6 +332,8 @@ export default function Career() {
               ))}
             </>
           )}
+          
+          {/*
           <button
             type='button'
             className='btn-actions'
@@ -311,6 +341,77 @@ export default function Career() {
           >
             <FiPlus />
           </button>
+          */}
+
+          {
+            <>
+              {allNiveisNew.map((e: any, index: any) => (
+                <div className='border'>
+                  <br />
+                  <hr />
+                  <br />
+                  <input
+                    type='text'
+                    placeholder='Nome do Nivel'
+                    name='nome'
+                    defaultValue={e.nome}
+                    onChange={(e) => handleChangeNiveisNew(index, e)}
+                  />
+
+                  <input
+                    type='text'
+                    placeholder='Descrição'
+                    name='descricao'
+                    defaultValue={e.descricao}
+                    onChange={(e) => handleChangeNiveisNew(index, e)}
+                  />
+
+                  <input
+                    type='number'
+                    placeholder='Nivel'
+                    name='nivel'
+                    defaultValue={e.nivel}
+                    onChange={(e) => handleChangeNiveisNew(index, e)}
+                  />
+
+                  <S.SelectPai
+                    onChange={(e) => {
+                      // setCargo(e.target.value)
+                      console.log(e.target.value)
+                      // @ts-ignore
+                      handleChangeNiveisNew(index, e)
+                    }}
+                    placeholder='Nome do cargo'
+                    value={cargo}
+                    name='cargo'
+                    id="cargo"
+                  >
+                    {allCargos.map((value: any, i: any) => (
+                      <S.OptionsPai key={i} value={value.id}>
+                        {value.nome}
+                      </S.OptionsPai>
+                    ))}
+                  </S.SelectPai>
+
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeFormFieldsNew(index)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              ))}
+            </>
+          }
+          <button
+            type='button'
+            className='btn-actions'
+            onClick={() => addFormFieldsNew()}
+          >
+            <FiPlus />
+          </button>
+
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
