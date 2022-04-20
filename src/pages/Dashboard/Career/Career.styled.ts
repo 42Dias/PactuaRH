@@ -168,9 +168,10 @@ export const ContainerForm = styled.form`
 
   }
   .border{
+    align-items: baseline;  
     width: 100%;
     display: flex;
-    align-items: center;
+    // align-items: center;
     flex-direction: column;
 
     select {
@@ -178,12 +179,17 @@ export const ContainerForm = styled.form`
     }
     
     .return {
+      align-items: baseline;
       display: flex;
       align-items: center;
       width: 100%;
       margin-bottom: 20px;  
       button {
         height: 4rem;
+      }
+
+      .select-without-margin{
+        margin-bottom: 0;
       }
     }
     
