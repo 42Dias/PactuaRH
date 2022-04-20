@@ -80,6 +80,13 @@ export const TrSecond = styled.tr`
 `
 
 export const ContainerForm = styled.form`
+
+  label {
+    display: block;
+    margin: 20px 0;
+  }
+
+
   h2 {
     margin-bottom: 2rem;
     font-size: 1.5rem;
@@ -179,9 +186,12 @@ export const ContainerForm = styled.form`
         height: 4rem;
       }
     }
+    
 
-  .btn-trash {
-    background-color: red;
+  .btn-trash{
+    background-color: #EA1C24;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
 
