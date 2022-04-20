@@ -86,6 +86,10 @@ export const ContainerForm = styled.form`
     margin: 20px 0;
   }
 
+  .select-without-margin{
+    margin-bottom: 0;
+  }
+
 
   h2 {
     margin-bottom: 2rem;
@@ -188,9 +192,6 @@ export const ContainerForm = styled.form`
         height: 4rem;
       }
 
-      .select-without-margin{
-        margin-bottom: 0;
-      }
     }
     
 
