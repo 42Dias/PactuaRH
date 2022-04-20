@@ -140,14 +140,9 @@ export const ContainerForm = styled.form`
     }
   }
 
-  .border {
-    border-bottom: 2px solid #0000007d;
-    margin-bottom: 10px;
-  }
-
   .btn-actions {
     display: block;
-    margin: 5px auto 20px auto;
+    // margin: 5px auto 20px auto;
     width: 50px;
     height: 50px;
     position: relative;
@@ -163,11 +158,34 @@ export const ContainerForm = styled.form`
       margin-top: auto;
       margin-bottom: auto;
     }
+
   }
+  .border{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    select {
+      margin-top: 1.5rem;
+    }
+    
+    .return {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 20px;  
+      button {
+        height: 4rem;
+      }
+    }
 
   .btn-trash {
     background-color: red;
   }
+
+
+  
 `
 export const divCheck = styled.div`
   display: flex;
