@@ -286,67 +286,67 @@ export default function Career() {
             defaultValue={selectedCareer?.descricao}
           />
 
-          {allNiveis.length > 0 && (
-            <>
-              {allNiveis.map((e: any, index: any) => (
-                <div className='border'>
-                  <br />
-                  <hr />
-                  <br />
-                  <input
-                    type='text'
-                    placeholder='Nome do Nivel'
-                    name='nome'
-                    defaultValue={e.nome}
-                    onChange={(e) => handleChangeNiveis(index, e)}
-                  />
-
-                  <input
-                    type='text'
-                    placeholder='Descrição'
-                    name='descricao'
-                    defaultValue={e.descricao}
-                    onChange={(e) => handleChangeNiveis(index, e)}
-                  />
-
-                  <input
-                    type='number'
-                    placeholder='Nivel'
-                    name='nivel'
-                    defaultValue={e.nivel}
-                    onChange={(e) => handleChangeNiveis(index, e)}
-                  />
-
-                  <S.SelectPai
-                    onChange={(e) => {
-                      // setCargo(e.target.value)
-                      console.log(e.target.value)
-                      // @ts-ignore
-                      handleChangeNiveis(index, e)
-                    }}
-                    placeholder='Nome do cargo'
-                    value={cargo}
-                    name='cargo'
-                    id="cargo"
-                  >
-                    {allCargos.map((value: any, i: any) => (
-                      <S.OptionsPai key={i} value={value.id}>
-                        {value.nome}
-                      </S.OptionsPai>
-                    ))}
-                  </S.SelectPai>
-
-                  <button
-                    className='btn-actions btn-trash'
-                    type='button'
-                    onClick={() => removeFormFields(index)}
-                  >
-                    <FiTrash />
-                  </button>
-                </div>
-              ))}
-            </>
-          )}
+          <div className="border">
+            {allNiveis.length > 0 && (
+              <>
+                {allNiveis.map((e: any, index: any) => (
+                  <div className='border'>
+                    <br />
+                    <hr />
+                    <br />
+                    <input
+                      type='text'
+                      placeholder='Nome do Nivel'
+                      name='nome'
+                      defaultValue={e.nome}
+                      onChange={(e) => handleChangeNiveis(index, e)}
+                    />
+                    <input
+                      type='text'
+                      placeholder='Descrição'
+                      name='descricao'
+                      defaultValue={e.descricao}
+                      onChange={(e) => handleChangeNiveis(index, e)}
+                    />
+                    <input
+                      type='number'
+                      placeholder='Nivel'
+                      name='nivel'
+                      defaultValue={e.nivel}
+                      onChange={(e) => handleChangeNiveis(index, e)}
+                    />
+                    <div className="return">
+                      <S.SelectPai
+                        onChange={(e) => {
+                          // setCargo(e.target.value)
+                          console.log(e.target.value)
+                          // @ts-ignore
+                          handleChangeNiveis(index, e)
+                        }}
+                        placeholder='Nome do cargo'
+                        value={cargo}
+                        name='cargo'
+                        id="cargo"
+                      >
+                        {allCargos.map((value: any, i: any) => (
+                          <S.OptionsPai key={i} value={value.id}>
+                            {value.nome}
+                          </S.OptionsPai>
+                        ))}
+                      </S.SelectPai>
+                      <button
+                        className='btn-actions btn-trash'
+                        type='button'
+                        onClick={() => removeFormFields(index)}
+                      >
+                        <FiTrash />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
 
           {/*
           <button
