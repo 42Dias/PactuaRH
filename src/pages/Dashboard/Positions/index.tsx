@@ -27,11 +27,7 @@ export default function Positions() {
     formState: { errors },
   } = useForm<any>()
 
-
-
-  // const { allCargos } = useCargos()
-
-  
+  // const { allCargos } = useCargos()  
   
   const [allCargos    , setAllCargos    ] = useState<iCargo[]>([])
   const [allAreas     , setAllAreas     ] = useState<iData[]>([])
@@ -836,11 +832,13 @@ export default function Positions() {
         >
           <h2>Cadastrar Cargo</h2>
 
+          <label htmlFor="">Nome</label>
           <input
           type='text' placeholder='Nome'
           {...register('nome')}
           />
-          
+
+          <label htmlFor="">Descrição</label>
           <input
           type='text' placeholder='Descrição'
           {...register('desc')}
@@ -851,6 +849,7 @@ export default function Positions() {
           // onChange={() => console.log(register)}
           {...register('descOfc')}
           /> */}
+          <label htmlFor="">Liderança</label>
           <select
             placeholder='Liderança'
             {...register('lideranca')}
@@ -861,7 +860,7 @@ export default function Positions() {
 
           </select>
 
-
+          <label htmlFor="">Código de ocupação</label>
           <select
           {...register('ocupationCodeBr')}
           >
@@ -869,12 +868,16 @@ export default function Positions() {
               Código Brasileiro de Ocupações
             </option>
           </select>
+
+          <label htmlFor="">Código de ocupação conforme IR</label>
           <select
           {...register('ocupationCodeIR')}>
             <option>
               Código de Ocupação conforme IR
             </option>
           </select>
+
+          <label htmlFor="">Aréa</label>
           <select
           {...register('areaId')}
           >
@@ -889,6 +892,8 @@ export default function Positions() {
             )}
             
           </select>
+
+          <label htmlFor="">Cargos liderados</label>
           <select
           {...register('cargoLiderId')}
           >
@@ -903,6 +908,8 @@ export default function Positions() {
             )
             }
           </select>
+
+          <label htmlFor="">Habilidade</label>
           <select
           {...register('habilidadeId')}
           >
@@ -918,11 +925,13 @@ export default function Positions() {
             }
           </select>
 
+          <label style={{ marginBottom: '5px', }} htmlFor="">Habilidades</label>
+          <div className="border">
           {
           skills.map(
             (skill, index) => (
-              <div className="border">
-                <select
+              <div className="return">
+              <select
                 onChange={(e) => handleChangeSkills(index, e.target.value)}
                 >
                   <option hidden >Habilidades</option>
@@ -943,20 +952,20 @@ export default function Positions() {
                 >
                   <FiTrash/>
                 </button>
+
+                <button
+                  type='button'
+                  className='btn-actions'
+                  onClick={() => addSkills()}
+                  >
+                  <FiPlus size={20} />
+                </button>
               </div>
+              )
             )
-          )
           }
-
-          <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addSkills()}
-          >
-            <FiPlus size={20} />
-          </button>
-
-
+          
+          </div>
 
           {/* <select
           {...register('desejavelId')}
@@ -974,11 +983,12 @@ export default function Positions() {
             }
 
           </select> */}
-
+        <label style={{ marginBottom: '5px', }} htmlFor="">Desejaveis</label>
+        <div className="border">
         {
           wanted.map(
             (skill, index) => (
-              <div className="border">
+              <div className="return">
                 <select
                 onChange={(e) => handleChangeWanted(index, e.target.value)}
                 >
@@ -1000,24 +1010,26 @@ export default function Positions() {
                 >
                   <FiTrash/>
                 </button>
+
+                <button
+                type='button'
+                className='btn-actions'
+                onClick={() => addWanted()}
+                >
+                  <FiPlus size={20} />
+                </button>
               </div>
             )
           )
           }
+        </div>
 
-          <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addWanted()}
-          >
-            <FiPlus size={20} />
-          </button>
-
-          
+        <label style={{ marginBottom: '5px', }} htmlFor="">Funções</label>
+        <div className="border">  
         {
           functions.map(
             (skill, index) => (
-              <div className="border">
+              <div className="return">
                 <select
                 onChange={(e) => handleChangeFunctions(index, e.target.value)}
                 >
@@ -1039,19 +1051,19 @@ export default function Positions() {
                 >
                   <FiTrash/>
                 </button>
+
+                <button
+                  type='button'
+                  className='btn-actions'
+                  onClick={() => addFunctions()}
+                >
+                  <FiPlus size={20} />
+                </button>
               </div>
             )
           )
           }
-
-          <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addFunctions()}
-          >
-            <FiPlus size={20} />
-          </button>
-
+        </div>
 
         
         {/* 
@@ -1063,10 +1075,12 @@ export default function Positions() {
           <FiPlus size={20} />
         </button> */}
 
-        {  
-        educations.map(
+
+        <label style={{ marginBottom: '5px', }} htmlFor="">Escolaridade</label>
+        <div className="border">
+        {educations.map(
           (education, index) => (
-            <div className="border">
+            <div className="return">
               <select
               onChange={(e) => handleChangeEducations(index, e.target.value)}
               >
@@ -1088,18 +1102,19 @@ export default function Positions() {
               >
                 <FiTrash/>
               </button>
+
+              <button
+                type='button'
+                className='btn-actions'
+                onClick={() => addEducations()}
+              >
+                <FiPlus size={20} />
+              </button>
             </div>
           )
          )
         }
-
-          <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addEducations()}
-          >
-            <FiPlus size={20} />
-          </button>
+        </div>
 
           
           {/* <select

@@ -77,6 +77,12 @@ export const TrSecond = styled.tr`
 `
 
 export const ContainerForm = styled.form`
+
+  label {
+    display: block;
+    margin: 20px 0;
+  }
+
   h2 {
     margin-bottom: 2rem;
     font-size: 1.5rem;
@@ -92,11 +98,11 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
+
     &::placeholder {
       color: #747474;
     }
     & + input {
-      margin-top: 1rem;
     }
   }
 
@@ -109,14 +115,13 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
-    margin-top: 1rem;
 
     &::placeholder {
       color: #747474;
     }
-    & + input {
+    /* & + input {
       margin-top: 1rem;
-    }
+    } */
   }
 
   .button {
@@ -155,14 +160,7 @@ export const ContainerForm = styled.form`
     }
   }
 
-  .border{
-    border-bottom: 2px solid #0000007d;
-    margin-bottom: 10px
-  }
-
   .btn-actions{
-    display: block;
-    margin: 5px auto 20px auto;
     width: 50px;
     height: 50px;
     position: relative;
@@ -178,15 +176,32 @@ export const ContainerForm = styled.form`
       margin-top:auto;
       margin-bottom:auto;
     }
-
-    
   }
 
   .btn-trash{
-    background-color: red;
+    background-color: #EA1C24;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
+  .border{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 
+    select {
+      margin-top: 1.5rem;
+    }
+    
+    .return {
+      display: flex;
+      align-items: center;
+      width: 100%;  
+      button {
+        height: 4rem;
+      }
+    }
+  }
 
 `
 
