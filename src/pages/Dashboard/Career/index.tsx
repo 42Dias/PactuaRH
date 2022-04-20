@@ -10,6 +10,7 @@ import { iCargo, iNiveis } from 'types'
 
 import planoCarreira from 'service/planoCarreira/planoCarreira'
 import cargos from 'service/cargos/cargos'
+import planoDeCarreiraNivel from 'service/planoCarreiraNiveis/planoCarreiraNiveis'
 
 export default function Career() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -170,6 +171,10 @@ export default function Career() {
                                             Associated Tables
 ==========================================================================================================
 */ 
+  async function handleDeleteNivel(id: string) {
+    const isDeleted = await planoDeCarreiraNivel.delete(id)
+    console.log(isDeleted)
+  }
   async function handleLoadCargos() {
     const cargo = await cargos.list()
     setAllCargos(cargo)
@@ -292,14 +297,14 @@ export default function Career() {
           <div className="border">
             {allNiveis.length > 0 && (
               <>
-                {allNiveis.map((e: any, index: any) => (
+                {allNiveis.map((nivel: any, index: any) => (
                   <div className='border'>
                     <label htmlFor="">Nome do Nivel</label>
                     <input
                       type='text'
                       placeholder='Nome do Nivel'
                       name='nome'
-                      defaultValue={e.nome}
+                      defaultValue={nivel.nome}
                       onChange={(e) => handleChangeNiveis(index, e)}
                     />
 
@@ -309,7 +314,7 @@ export default function Career() {
                       type='text'
                       placeholder='Descrição'
                       name='descricao'
-                      defaultValue={e.descricao}
+                      defaultValue={nivel.descricao}
                       onChange={(e) => handleChangeNiveis(index, e)}
                     />
 
@@ -318,7 +323,7 @@ export default function Career() {
                       type='number'
                       placeholder='Nível'
                       name='nivel'
-                      defaultValue={e.nivel}
+                      defaultValue={nivel.nivel}
                       onChange={(e) => handleChangeNiveis(index, e)}
                     />
                     <label
@@ -349,7 +354,10 @@ export default function Career() {
                       <button
                         className='btn-actions btn-trash'
                         type='button'
-                        onClick={() => removeFormFields(index)}
+                        onClick={() => {
+                          handleDeleteNivel(nivel.id)
+                          removeFormFields(index)
+                        }}
                       >
                         <FiTrash />
                       </button>
@@ -381,9 +389,8 @@ export default function Career() {
             <>
               {allNiveisNew.map((e: any, index: any) => (
                 <div className='border'>
-                  <br />
-                  <hr />
-                  <br />
+                  
+                  <label htmlFor="">Nome do Nivel</label>
                   <input
                     type='text'
                     placeholder='Nome do Nivel'
@@ -392,6 +399,7 @@ export default function Career() {
                     onChange={(e) => handleChangeNiveisNew(index, e)}
                   />
 
+                  <label htmlFor="">Descrição</label>
                   <input
                     type='text'
                     placeholder='Descrição'
@@ -400,6 +408,7 @@ export default function Career() {
                     onChange={(e) => handleChangeNiveisNew(index, e)}
                   />
 
+                  <label htmlFor="">Nível</label>
                   <input
                     type='number'
                     placeholder='Nivel'
@@ -408,6 +417,12 @@ export default function Career() {
                     onChange={(e) => handleChangeNiveisNew(index, e)}
                   />
 
+                  <label
+                    htmlFor=""
+                    className='select-without-margin'
+                    >
+                      Nome do Cargo
+                    </label>
                   <div className="return">
                     <S.SelectPai
                       onChange={(e) => {
