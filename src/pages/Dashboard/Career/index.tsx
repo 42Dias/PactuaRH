@@ -272,6 +272,7 @@ export default function Career() {
         >
           <h2>Editar Plano de carreira</h2>
 
+          <label htmlFor="">Nome</label>
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
@@ -279,6 +280,7 @@ export default function Career() {
             defaultValue={selectedCareer?.nome}
           />
 
+        <label htmlFor="">Descrição</label>
           <input
             type='text'
             onChange={(e) => setDescricao(e.target.value)}
@@ -286,14 +288,13 @@ export default function Career() {
             defaultValue={selectedCareer?.descricao}
           />
 
+        <label style={{ marginBottom: '5px', }} htmlFor="">Níveis</label>
           <div className="border">
             {allNiveis.length > 0 && (
               <>
                 {allNiveis.map((e: any, index: any) => (
                   <div className='border'>
-                    <br />
-                    <hr />
-                    <br />
+                    <label htmlFor="">Nome do Nivel</label>
                     <input
                       type='text'
                       placeholder='Nome do Nivel'
@@ -301,6 +302,9 @@ export default function Career() {
                       defaultValue={e.nome}
                       onChange={(e) => handleChangeNiveis(index, e)}
                     />
+
+                    <label htmlFor="">Descrição</label>
+
                     <input
                       type='text'
                       placeholder='Descrição'
@@ -308,13 +312,21 @@ export default function Career() {
                       defaultValue={e.descricao}
                       onChange={(e) => handleChangeNiveis(index, e)}
                     />
+
+                    <label htmlFor="">Nível</label>
                     <input
                       type='number'
-                      placeholder='Nivel'
+                      placeholder='Nível'
                       name='nivel'
                       defaultValue={e.nivel}
                       onChange={(e) => handleChangeNiveis(index, e)}
                     />
+                    <label
+                    htmlFor=""
+                    className='select-without-margin'
+                    >
+                      Nome do Cargo
+                    </label>
                     <div className="return">
                       <S.SelectPai
                         onChange={(e) => {
@@ -341,6 +353,13 @@ export default function Career() {
                       >
                         <FiTrash />
                       </button>
+                      <button
+                      type='button'
+                      className='btn-actions'
+                      onClick={() => addFormFieldsNew()}
+                    >
+                      <FiPlus />
+                    </button>
                     </div>
                   </div>
                 ))}
@@ -389,43 +408,44 @@ export default function Career() {
                     onChange={(e) => handleChangeNiveisNew(index, e)}
                   />
 
-                  <S.SelectPai
-                    onChange={(e) => {
-                      // setCargo(e.target.value)
-                      console.log(e.target.value)
-                      // @ts-ignore
-                      handleChangeNiveisNew(index, e)
-                    }}
-                    placeholder='Nome do cargo'
-                    value={cargo}
-                    name='cargo'
-                    id="cargo"
-                  >
-                    {allCargos.map((value: any, i: any) => (
-                      <S.OptionsPai key={i} value={value.id}>
-                        {value.nome}
-                      </S.OptionsPai>
-                    ))}
-                  </S.SelectPai>
-
-                  <button
-                    className='btn-actions btn-trash'
-                    type='button'
-                    onClick={() => removeFormFieldsNew(index)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <S.SelectPai
+                      onChange={(e) => {
+                        // setCargo(e.target.value)
+                        console.log(e.target.value)
+                        // @ts-ignore
+                        handleChangeNiveisNew(index, e)
+                      }}
+                      placeholder='Nome do cargo'
+                      value={cargo}
+                      name='cargo'
+                      id="cargo"
+                    >
+                      {allCargos.map((value: any, i: any) => (
+                        <S.OptionsPai key={i} value={value.id}>
+                          {value.nome}
+                        </S.OptionsPai>
+                      ))}
+                    </S.SelectPai>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFieldsNew(index)}
+                    >
+                      <FiTrash />
+                    </button>
+                    <button
+                      type='button'
+                      className='btn-actions'
+                      onClick={() => addFormFieldsNew()}
+                    >
+                      <FiPlus />
+                    </button>
+                  </div>
                 </div>
               ))}
             </>
           }
-          <button
-            type='button'
-            className='btn-actions'
-            onClick={() => addFormFieldsNew()}
-          >
-            <FiPlus />
-          </button>
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
