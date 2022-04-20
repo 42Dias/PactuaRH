@@ -80,6 +80,17 @@ export const TrSecond = styled.tr`
 `
 
 export const ContainerForm = styled.form`
+
+  label {
+    display: block;
+    margin: 20px 0;
+  }
+
+  .select-without-margin{
+    margin-bottom: 0;
+  }
+
+
   h2 {
     margin-bottom: 2rem;
     font-size: 1.5rem;
@@ -143,8 +154,13 @@ export const ContainerForm = styled.form`
 
   .btn-actions {
     display: block;
+<<<<<<< HEAD
     margin: 10px auto;
     width: 100%;
+=======
+    // margin: 5px auto 20px auto;
+    width: 50px;
+>>>>>>> c2cf2d43e9f114d0d23c21c5c3a6ed256ac55b72
     height: 50px;
     position: relative;
     background-color: #000;
@@ -160,11 +176,40 @@ export const ContainerForm = styled.form`
       margin-top: auto;
       margin-bottom: auto;
     }
+
+  }
+  .border{
+    align-items: baseline;  
+    width: 100%;
+    display: flex;
+    // align-items: center;
+    flex-direction: column;
+
+    select {
+      margin-top: 1.5rem;
+    }
+    
+    .return {
+      align-items: baseline;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 20px;  
+      button {
+        height: 4rem;
+      }
+
+    }
+    
+
+  .btn-trash{
+    background-color: #EA1C24;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
-  .btn-trash {
-    background-color: red;
-  }
+
+  
 `
 export const divCheck = styled.div`
   display: flex;
