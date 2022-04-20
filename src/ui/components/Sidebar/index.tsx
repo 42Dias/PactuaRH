@@ -132,7 +132,9 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/avaliacao-geral'>Geral</Link>
                   </MenuItem>
-                  <MenuItem>Individual</MenuItem>
+                  <MenuItem>
+                    <Link to='/avaliacao-individual'> Individual</Link> 
+                 </MenuItem>
                   <MenuItem>Recuperação</MenuItem>
                   <MenuItem>Desenvolvimento</MenuItem>
                   <MenuItem>

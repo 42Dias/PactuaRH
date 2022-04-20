@@ -21,6 +21,7 @@ import Area from 'pages/Dashboard/Area'
 import Box from 'pages/Dashboard/9Box'
 import CostCenter from 'pages/Dashboard/costCenter'
 import Career from 'pages/Dashboard/Career'
+import IndividualReport from 'pages/Dashboard/IndividualReport'
 
 const RoutesApp = () => {
   return (
@@ -47,6 +48,7 @@ const RoutesApp = () => {
         {/*  */}
         <Route path='/planos' element={<Plans />} />
         <Route path='/desempenho' element={<Performance />} />
+        <Route path='/avaliacao-individual' element={<IndividualReport />} />
         <Route path='/avaliacao-geral' element={<GeneralEvaluation />} />
         <Route path='/relatorio-9box' element={<Box />} />
       </Routes>
