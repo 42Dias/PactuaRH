@@ -88,15 +88,13 @@ export const ContainerForm = styled.form`
     width: 100%;
     height: 4rem;
     font-size: 1rem;
+    margin: 10px 0;
     font-weight: 400;
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
     &::placeholder {
       color: #747474;
-    }
-    & + input {
-      margin-top: 1rem;
     }
   }
 
@@ -106,16 +104,13 @@ export const ContainerForm = styled.form`
     height: 4rem;
     font-size: 1rem;
     font-weight: 400;
+    margin: 10px 0;
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
-    margin-top: 1rem;
 
     &::placeholder {
       color: #747474;
-    }
-    & + input {
-      margin-top: 1rem;
     }
   }
 

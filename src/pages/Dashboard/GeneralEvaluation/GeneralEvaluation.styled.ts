@@ -101,6 +101,7 @@ export const ContainerForm = styled.form`
   }
   input {
     padding: 0 1.5rem;
+    margin: 10px 0;
     width: 100%;
     height: 4rem;
     font-size: 1rem;
@@ -110,9 +111,6 @@ export const ContainerForm = styled.form`
     border-radius: 0.25rem;
     &::placeholder {
       color: #747474;
-    }
-    & + input {
-      margin-top: 1rem;
     }
   }
   select {
@@ -128,9 +126,7 @@ export const ContainerForm = styled.form`
     &::placeholder {
       color: #747474;
     }
-    & + input {
-      margin-top: 1rem;
-    }
+    margin: 10px 0;
   }
   button {
     margin-top: 1.5rem;

@@ -178,12 +178,14 @@ export default function CostCenter() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
+
           <input
             type='text'
             placeholder='Descrição'
             defaultValue={descricao}
             onChange={(e) => setDescricao(e.target.value)}
           />
+
           <S.Select
             placeholder='Cargo'
             id='cargo'
@@ -224,17 +226,21 @@ export default function CostCenter() {
         >
           <h2>Cadastrar Centro de Custos</h2>
 
+          <label htmlFor="">Nome do custo</label>
           <input
             type='text'
             placeholder='Nome'
             onChange={(e) => setNome(e.target.value)}
           />
+
+          <label htmlFor="">Descrição</label>
           <input
             type='text'
             placeholder='Descrição'
             onChange={(e) => setDescricao(e.target.value)}
           />
 
+          <label htmlFor="">Cargo</label>
           <S.Select
             placeholder='Cargo'
             id='cargo'

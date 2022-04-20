@@ -168,10 +168,11 @@ export default function Skills() {
         >
           <h2>Cadastrar habilidades</h2>
 
+          <label htmlFor="">Nome da habilidade</label>
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome do habilidades'
+            placeholder='Nome da habilidade'
             required
           />
 

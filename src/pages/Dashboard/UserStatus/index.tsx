@@ -25,6 +25,7 @@ export default function UserStatus() {
   function closeModalNew() {
     setIsOpenNew(false)
   }
+
   return (
     <>
       <S.Body>
@@ -160,64 +161,74 @@ export default function UserStatus() {
         <S.ContainerForm>
           <h2>Cadastrar status do usuário</h2>
 
+          <label htmlFor="">Data da damissão</label>
           <InputMask mask='99/99/9999' placeholder='Data da damissão' />
 
+          <label htmlFor="">Situação</label>
           <select name='' id=''>
-            <option hidden>Situação</option>
             <option value=''>Ativo</option>
             <option value=''>Demitido</option>
             <option value=''>Afastado</option>
           </select>
 
+          <label htmlFor="">Motivo da demissão</label>
           <select name='' id=''>
-            <option hidden>Motivo da demissão</option>
             <option value=''>Justa causa</option>
             <option value=''>Sem justa causa</option>
             <option value=''>Pediu demissão</option>
           </select>
 
+          <label htmlFor="">Tipo de remuneração</label>
           <select name='' id=''>
-            <option hidden>Tipo de remuneração</option>
             <option value=''>Mensalista</option>
             <option value=''>Horista</option>
             <option value=''>PJ</option>
           </select>
 
+          <label htmlFor="">Sálario</label>
           <InputMask type='number' mask='R$' placeholder='Sálario' />
 
+          <label htmlFor="">Reajuste salario</label>
           <select name='' id=''>
-            <option hidden>Reajuste salario</option>
             <option value=''>Promoção</option>
             <option value=''>Mérito</option>
             <option value=''>CCT</option>
           </select>
 
+          <label htmlFor="">Data CCT</label>
           <InputMask mask='99/99/9999' placeholder='Data CCT' />
 
+          <label htmlFor="">Sindicato</label>
           <input type='text' placeholder='Sindicato' />
 
+          <label htmlFor="">Vale transporte</label>
           <select name='' id=''>
-            <option hidden>Vale transporte</option>
             <option value=''>Sim</option>
             <option value=''>Não</option>
           </select>
 
+          <label htmlFor="">Valor</label>
           <input type='number' placeholder='Valor' />
 
+          <label htmlFor="">Valor do VR</label>
           <input type='number' placeholder='Valor do VR' />
 
+          <label htmlFor="">Assistência médica</label>
           <select name='' id=''>
-            <option hidden>Assistência médica</option>
             <option value=''>Sim</option>
             <option value=''>Não</option>
           </select>
 
+          <label htmlFor="">Valor da AM</label>
           <input type='number' placeholder='Valor da AM' />
 
+          <label htmlFor="">Banco</label>
           <input type='text' placeholder='Banco' />
 
+          <label htmlFor="">Agência</label>
           <input type='number' placeholder='Agência' />
 
+          <label htmlFor="">Conta</label>
           <input type='number' placeholder='Conta' />
 
           <button>Enviar</button>

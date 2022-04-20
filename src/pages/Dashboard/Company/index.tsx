@@ -196,9 +196,6 @@ export default function Company() {
          
         </Modal>
         
-    
-      
-
       <Modal
         isOpen={modalIsOpenNew}
         onRequestClose={closeModalNew}
@@ -220,13 +217,21 @@ export default function Company() {
         >
           <h2>Cadastrar empresa</h2>
 
+          <label htmlFor="">CNPJ</label>
           <input type='number' placeholder='CNPJ' onChange={(e) => setCnpj(e.target.value)}/>
+          <label htmlFor="">Razão social</label>
           <input type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
+          <label htmlFor="">Nome fantasia</label>
           <input type='text' placeholder='Nome fantasia' onChange={(e) => setNome(e.target.value)}/>
+          <label htmlFor="">Inscrição social</label>
           <input type='text' placeholder='Inscrição Estadual' onChange={(e) => setInscricaoEstadual(e.target.value)}/>
+          <label htmlFor="">Inscrição municipal</label>
           <input type='text' placeholder='Inscrição Municipal' onChange={(e) => setInscricaoMunicipal(e.target.value)}/>
+          <label htmlFor="">CNAE</label>
           <input type='text' placeholder='CNAE'  onChange={(e) => setCnac(e.target.value)}/>
+          <label htmlFor="">CEP</label>
           <input type='text' placeholder='CEP*' onChange={(e) => setCep(e.target.value)}/>
+          <label htmlFor="">Logradouro</label>
           <input type='text' placeholder='Logradouro' onChange={(e) => setLogradouro(e.target.value)}/>
 
           <button type='submit'>Enviar</button>

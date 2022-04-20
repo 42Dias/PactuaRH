@@ -87,6 +87,7 @@ export const ContainerForm = styled.form`
   }
 
   input {
+    margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
     height: 4rem;
@@ -140,17 +141,13 @@ export const ContainerForm = styled.form`
     }
   }
 
-  .border {
-    border-bottom: 2px solid #0000007d;
-    margin-bottom: 10px;
-  }
-
   .btn-actions {
     display: block;
-    margin: 5px auto 20px auto;
-    width: 50px;
+    margin: 10px auto;
+    width: 100%;
     height: 50px;
     position: relative;
+    background-color: #000;
 
     svg {
       position: absolute;

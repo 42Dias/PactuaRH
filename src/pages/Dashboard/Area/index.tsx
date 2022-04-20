@@ -223,7 +223,8 @@ export default function Area() {
           }}
         >
           <h2>Cadastrar área</h2>
-
+          
+          <label htmlFor="">Nome da área</label>
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
@@ -231,6 +232,7 @@ export default function Area() {
             required
           />
 
+          <label htmlFor="">Descrição da área</label>
           <input
             type='text'
             onChange={(e) => setDescricao(e.target.value)}

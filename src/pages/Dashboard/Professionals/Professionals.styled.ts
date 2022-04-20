@@ -92,15 +92,14 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
+    margin: 10px 0;
     &::placeholder {
       color: #747474;
-    }
-    & + input {
-      margin-top: 1rem;
     }
   }
 
   select {
+    margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
     height: 4rem;
@@ -109,13 +108,9 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
-    margin-top: 1rem;
 
     &::placeholder {
       color: #747474;
-    }
-    & + input {
-      margin-top: 1rem;
     }
   }
 
@@ -138,9 +133,8 @@ export const ContainerForm = styled.form`
   }
   
   .border{
-    border-bottom: 2px solid #0000007d;
-    margin-bottom: 10px
- 
+    /* border-bottom: 2px solid #0000007d; */
+    margin-bottom: 10px;
   }
 
   .btn-actions{

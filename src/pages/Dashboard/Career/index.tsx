@@ -270,7 +270,7 @@ export default function Career() {
             handleUpdateCareer()
           }}
         >
-          <h2>Editar Plano de carreira</h2>
+          <h2>Editar plano de carreira</h2>
 
           <input
             type='text'
@@ -456,34 +456,43 @@ export default function Career() {
             handleCreateCareer()
           }}
         >
-          <h2>Cadastrar Plano de carreira</h2>
+          <h2>Cadastrar plano de carreira</h2>
 
+          <label htmlFor="">Nome</label>
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome'
           />
 
-          <input
+          <label htmlFor="">Descrição</label>
+          <input  
             type='text'
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
           />
 
+          <button
+            type='button'
+            className='btn-actions'
+            onClick={() => addFormFields()}
+          >
+            <FiPlus />
+          </button>
+
           {allNiveis.length > 0 && (
             <>
               {allNiveis.map((e: any, index: any) => (
                 <div className='border'>
-                  <br />
-                  <hr />
-                  <br />
+                  <label htmlFor="">Nome do nível</label>
                   <input
                     type='text'
-                    placeholder='Nome do Nivel'
+                    placeholder='Nome do nível'
                     name='nome'
                     onChange={(e) => handleChangeNiveis(index, e)}
                   />
 
+                  <label htmlFor="">Descrição</label>
                   <input
                     type='text'
                     placeholder='Descrição'
@@ -491,6 +500,7 @@ export default function Career() {
                     onChange={(e) => handleChangeNiveis(index, e)}
                   />
 
+                  <label htmlFor="">Nível</label>
                   <input
                     type='number'
                     placeholder='Nivel'
@@ -498,6 +508,7 @@ export default function Career() {
                     onChange={(e) => handleChangeNiveis(index, e)}
                   />
 
+                  <label htmlFor="">Nome do cargo</label>
                   <S.SelectPai
                     onChange={(e) => {
                       // setCargo(e.target.value)
@@ -528,13 +539,7 @@ export default function Career() {
               ))}
             </>
           )}
-          <button
-            type='button'
-            className='btn-actions'
-            onClick={() => addFormFields()}
-          >
-            <FiPlus />
-          </button>
+
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
