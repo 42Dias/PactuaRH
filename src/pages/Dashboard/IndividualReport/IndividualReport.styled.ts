@@ -130,7 +130,7 @@ export const Button = styled.div`
   flex-direction: column;
 
   button {
-
+    margin:25px 85px;
     background: #000;
     border: 0;
     width: 150px;
