@@ -44,21 +44,15 @@ export default function Career() {
   }
 
   const removeFormFields = (i: number) => {
-    console.log(allNiveis[i])
     const newFormValues = [...allNiveis]
     newFormValues.splice(i, 1)
     setAllNiveis(newFormValues)
   }
 
   const handleChangeNiveis = (i: number, e: any) => {
-    console.log('e')
-    console.log(e.target.value)
-    // console.log(i)
     const newFormValues = [...allNiveis]
-    // console.log(newFormValues)
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
-    console.log(newFormValues)
     setAllNiveis(newFormValues)
   }
 
@@ -69,21 +63,15 @@ export default function Career() {
   }
 
   const removeFormFieldsNew = (i: number) => {
-    console.log(allNiveisNew[i])
     const newFormValues = [...allNiveisNew]
     newFormValues.splice(i, 1)
     setAllNiveisNew(newFormValues)
   }
 
   const handleChangeNiveisNew = (i: number, e: any) => {
-    console.log('e')
-    console.log(e.target.value)
-    // console.log(i)
     const newFormValues = [...allNiveisNew]
-    // console.log(newFormValues)
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
-    console.log(newFormValues)
     setAllNiveisNew(newFormValues)
   }
 
@@ -133,19 +121,20 @@ export default function Career() {
   }
 
   async function handleUpdateCareer(){
+      let id = selectedCareer?.id
+
       const data = {
         nome: nome,
         descricao: descricao,
         niveis: allNiveis,
+        niveisNew: allNiveisNew
       }
 
-      console.log('data')
-      console.log(data)
-
-      const isUpdated = await planoCarreira.update(selectedCareer?.id ,data)
+      const isUpdated = await planoCarreira.update(id ,data)
 
       if (!isUpdated) return;
-      closeModalNew()
+
+      closeModal()
       await handleLoadCareer()
 
   }
@@ -162,6 +151,19 @@ export default function Career() {
     setAllCareer(carreira)
   }
   
+ /* 
+==========================================================================================================
+                                      Handle Edit Function
+==========================================================================================================
+*/ 
+  async function handleSetCarrerEditValues(carrer: any){
+    
+    setAllNiveis(carrer.nivel)
+    setSelectedCareer(carrer)
+    setNome(carrer.nome)
+    setDescricao(carrer.descricao)
+
+  }
   
  /* 
 ==========================================================================================================
@@ -206,12 +208,12 @@ export default function Career() {
                 <S.TrSecond>
                   <td>{carrer?.nome}</td>
                   <td>{carrer?.descricao}</td>
-                  <td>{carrer?.nivel?.lenght}</td>
+                  <td>{carrer?.nivel?.length}</td>
                   <td>
                     <button onClick={() => {
                       openModal()
-                      setSelectedCareer(carrer)
-                      setAllNiveis(carrer.nivel)
+                      handleSetCarrerEditValues(carrer)
+
                       }}>
                       <FiEdit size={18} />
                     </button>
