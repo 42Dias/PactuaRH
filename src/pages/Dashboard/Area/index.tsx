@@ -161,6 +161,13 @@ export default function Area() {
             onChange={(e) => setNome(e.target.value)}
           />
 
+          <input
+            type='text'
+            placeholder='Descrição'
+            defaultValue={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
+
           <S.divCheck>
             {subArea ? (
               <S.Checkbox

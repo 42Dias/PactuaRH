@@ -36,6 +36,7 @@ export default function Professionals() {
   const [selectedProfessional, setSelectedProfessional] = useState<any>()
 
   const [id, setId] = useState<string>('')
+  const [descricao, setDescricao] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [nascimento, setNascimento] = useState<string>('')
   const [genero, setGenero] = useState<string>('')
@@ -120,6 +121,7 @@ export default function Professionals() {
         emails: [email],
         roles: ['user'],
         email: email,
+        descricao: descricao,
         fullName: nome,
         firstName: nome.split(' ')[0],
         estadoCivilcivil: estadoCivil,
@@ -139,6 +141,7 @@ export default function Professionals() {
       nome: nome || userSelected?.fullname,
       cpf: cpf,
       rg: rg,
+      descricao: descricao,
       userId: '',
       dataNas: nascimento,
       nomeMae: nomeMae,
@@ -180,6 +183,7 @@ export default function Professionals() {
     const data = {
       nome: nome || selectedProfessional?.nome,
       cpf: cpf || selectedProfessional?.cpf,
+      descricao: descricao || selectedProfessional?.descricao,
       rg: rg || selectedProfessional?.rg,
       userId: '' || selectedProfessional?.userId,
       dataNas: nascimento || selectedProfessional?.dataNas,
@@ -322,6 +326,7 @@ export default function Professionals() {
               <td>CPF</td>
               <td>RG</td>
               <td>Cargo</td>
+              <td>Descrição</td>
             </S.TrTitle>
             {profissionals.map((value: any, index) => (
               <S.TrSecond key={index}>
@@ -329,6 +334,7 @@ export default function Professionals() {
                 <td>{value.cpf}</td>
                 <td>{value.rg}</td>
                 <td>{value.cargo.nome}</td>
+                <td>{value.descricao}</td>
                 <td>
                   <button
                     onClick={() => {
@@ -404,6 +410,7 @@ export default function Professionals() {
             placeholder='Seu CPF'
             defaultValue={selectedProfessional?.cpf}
           />
+
           <InputMask
             required
             // defaultValue={userSelected?.rg}
@@ -411,6 +418,13 @@ export default function Professionals() {
             mask='99.999.999-9'
             placeholder='Seu RG'
             defaultValue={selectedProfessional?.rg}
+          />
+
+          <input
+            required
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
+            defaultValue={selectedProfessional?.descricao}
           />
 
           <input
@@ -761,6 +775,12 @@ export default function Professionals() {
             value={rg}
           />
 
+          <input
+            type='text'
+            defaultValue={userSelected?.descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
+          />
           {/* <InputMask
             mask='99/99/9999'
             placeholder='Data de nascimento'

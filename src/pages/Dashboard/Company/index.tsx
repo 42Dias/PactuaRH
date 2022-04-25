@@ -70,8 +70,8 @@ export default function Company() {
         razaoSocial: razaoSocial,
         cep: cep,
         logradouro: logradouro,
+        inscricaoMunicipal: inscricaoMunicipal,
         inscricaoEstadual: inscricaoEstadual,
-        inscricaoMunicipal: inscricaoMunicipal
       }
 
       //alert(data.cnpj);
@@ -147,6 +147,7 @@ export default function Company() {
                     <FiEdit size={18} />
                   </button> 
                   </td>
+                  
                   <td>
                     <button onClick={()=>deleteEmpresa(empresa.id)}>
                       <FiTrash size={18} />
@@ -220,7 +221,7 @@ export default function Company() {
         >
           <h2>Cadastrar empresa</h2>
 
-          <input type='number' placeholder='CNPJ' onChange={(e) => setCnpj(e.target.value)}/>
+          <input type='text' placeholder='CNPJ' onChange={(e) => setCnpj(e.target.value)}/>
           <input type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
           <input type='text' placeholder='Nome fantasia' onChange={(e) => setNome(e.target.value)}/>
           <input type='text' placeholder='Inscrição Estadual' onChange={(e) => setInscricaoEstadual(e.target.value)}/>

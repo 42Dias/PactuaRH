@@ -96,7 +96,7 @@ export default function Education() {
 
             <S.TrTitle>
               <td>Nome da escolaridade</td>
-              <td></td>
+              <td>Descrição</td>
             </S.TrTitle>
 
             {
@@ -106,6 +106,7 @@ export default function Education() {
                 key={education.id}
               >
                 <td>{education.nome}</td>
+                <td>{education.descricao}</td>
                 <td>
                   <button onClick={() => {
                     setId(education.id)

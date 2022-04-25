@@ -12,6 +12,7 @@ export default function FunctionsPage() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [allFuncoes, setAllFuncoes] = useState([])
   const [nome, setNome] = useState<string>('')
+  const [descricao, setDescricao] = useState<string>('')
   const [funcaoEdit, setFuncaoEdit] = useState<any>({})
 
   async function getAllFuncoes() {
@@ -42,6 +43,7 @@ export default function FunctionsPage() {
   async function createFuncao() {
     const data = {
       nome: nome,
+      descricao: descricao,
     }
     console.log(data)
     console.log(data.nome)
@@ -56,6 +58,7 @@ export default function FunctionsPage() {
   async function updateFuncao(id: string) {
     const data = {
       nome: nome,
+      descricao: descricao,
     }
     console.log(data)
     console.log(data.nome)
@@ -90,11 +93,13 @@ export default function FunctionsPage() {
             <S.Table>
               <S.TrTitle>
                 <td>Função</td>
+                <td>Descrição</td>
               </S.TrTitle>
 
               {allFuncoes.map((funcao: any, index) => (
                 <S.TrSecond key={index}>
                   <td>{funcao.nome}</td>
+                  <td>{funcao.descricao}</td>
                   <td>
                     <button
                       onClick={() => {
@@ -151,6 +156,13 @@ export default function FunctionsPage() {
             defaultValue={funcaoEdit?.nome}
             onChange={(e) => setNome(e.target.value)}
           />
+
+          <input
+            type='text'
+            placeholder='Função'
+            defaultValue={funcaoEdit?.descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
           {/* <input type='text' placeholder='Mão de obra' />
           <select>
             <option>Trabalho em equipe?</option>
@@ -190,6 +202,12 @@ export default function FunctionsPage() {
             type='text'
             placeholder='Função'
             onChange={(e) => setNome(e.target.value)}
+          />
+
+          <input
+            type='text'
+            placeholder='Descrção'
+            onChange={(e) => setDescricao(e.target.value)}
           />
           {/* <input type='text' placeholder='Mão de obra' />
           <select>

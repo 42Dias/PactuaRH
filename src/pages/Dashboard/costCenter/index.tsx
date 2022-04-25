@@ -126,10 +126,9 @@ export default function CostCenter() {
                   <td>
                     <button
                       onClick={() => {
-                        setId(c.id)
                         setNome(c.nome)
                         setDescricao(c.descricao)
-                        setCargo(c.cargos[0].nome)
+                        //setCargo(c.cargos[0].nome)
                         openModal()
                       }}
                     >

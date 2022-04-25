@@ -11,6 +11,7 @@ export default function Skills() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [nome, setNome] = useState<string>('')
   const [id, setId] = useState<string>('')
+  const [descricao, setDescricao] = useState<string>('')
   const [skills, setSkills] = useState<any[]>([])
 
   function openModal() {
@@ -38,6 +39,7 @@ export default function Skills() {
   async function handleCreate() {
     const data = {
       nome: nome,
+      descricao: descricao,
     }
 
     const isCreated = await habilidades.create(data)
@@ -49,6 +51,7 @@ export default function Skills() {
   async function handleUpdate(id: string) {
     const data = {
       nome: nome,
+      descricao: descricao,
     }
 
     const isUpdated = await habilidades.update(id, data)
@@ -83,17 +86,19 @@ export default function Skills() {
             <S.Table>
               <S.TrTitle>
                 <td>Nome do habilidades</td>
-                <td></td>
+                <td>Descrição</td>
               </S.TrTitle>
 
               {skills.map((skills) => (
                 <S.TrSecond>
                   <td>{skills.nome}</td>
+                  <td>{skills.descricao}</td>
                   <td>
                     <button
                       onClick={() => {
                         setId(skills.id)
                         setNome(skills.nome)
+                        setDescricao(skills.descricao)
                         openModal()
                       }}
                     >
@@ -142,6 +147,13 @@ export default function Skills() {
             onChange={(e) => setNome(e.target.value)}
           />
 
+          <input
+            type='text'
+            placeholder='Descrição'
+            defaultValue={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
+
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
@@ -172,6 +184,12 @@ export default function Skills() {
             type='text'
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome do habilidades'
+            required
+          />
+          <input
+            type='text'
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
             required
           />
 

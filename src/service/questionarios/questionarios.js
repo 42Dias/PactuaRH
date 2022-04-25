@@ -33,7 +33,7 @@ export default class questionarios {
     const mensagemOk = 'Usuário alterado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
-
+    console.log(data)
     const responseData = response.data
 
     return responseData

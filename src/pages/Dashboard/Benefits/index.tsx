@@ -11,6 +11,7 @@ export default function Benefits() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [nome, setNome] = useState<string>('')
+  const [descricao, setDescricao] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [benefits, setBenefits] = useState<any[]>([])
 
@@ -39,6 +40,7 @@ export default function Benefits() {
   async function handleCreate() {
     const data = {
       nome: nome,
+      descricao: descricao,
     }
 
     const isCreated = await beneficio.create(data)
@@ -50,6 +52,7 @@ export default function Benefits() {
   async function handleUpdate(id: string) {
     const data = {
       nome: nome,
+      descricao: descricao,
     }
 
     const isUpdated = await beneficio.update(id, data)
@@ -83,12 +86,13 @@ export default function Benefits() {
           <S.Table>
             <S.TrTitle>
               <td>Nome do benefício</td>
-              <td></td>
+              <td>Descrição</td>
             </S.TrTitle>
 
             {benefits.map((benefit) => (
               <S.TrSecond>
                 <td>{benefit.nome}</td>
+                <td>{benefit.descricao}</td>
                 <td>
                   <button
                     onClick={() => {
@@ -138,6 +142,12 @@ export default function Benefits() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
+           <input
+            type='text'
+            placeholder='Descrição'
+            defaultValue={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
@@ -169,6 +179,12 @@ export default function Benefits() {
             type='text'
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome do benefício'
+            required
+          />
+          <input
+            type='text'
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
             required
           />
 
