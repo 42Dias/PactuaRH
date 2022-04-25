@@ -48,7 +48,6 @@ export default function Education() {
 
     if(isCreated) closeModalNew()
     await handleLoadEducation()
-
   }
 
   async function handleUpdate(id: string){
@@ -64,13 +63,11 @@ export default function Education() {
 
   }
 
-
   useEffect(
     () => {
       handleLoadEducation() 
     }, []
   )
-
 
   async function handleDelete(id: string){
     await escolaridade.delete(id)
@@ -199,6 +196,7 @@ export default function Education() {
         >
           <h2>Cadastrar escolaridade</h2>
 
+          <label htmlFor="">Nome da escolaridade</label>
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
@@ -206,6 +204,7 @@ export default function Education() {
             required
           />
 
+          <label htmlFor="">Descrição da escolaridade</label>
           <input
             type='text'
             onChange={(e) => setDesc(e.target.value)}

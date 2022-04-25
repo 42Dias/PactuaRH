@@ -80,6 +80,17 @@ export const TrSecond = styled.tr`
 `
 
 export const ContainerForm = styled.form`
+
+  label {
+    display: block;
+    margin: 20px 0;
+  }
+
+  .select-without-margin{
+    margin-bottom: 0;
+  }
+
+
   h2 {
     margin-bottom: 2rem;
     font-size: 1.5rem;
@@ -87,6 +98,7 @@ export const ContainerForm = styled.form`
   }
 
   input {
+    margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
     height: 4rem;
@@ -142,10 +154,16 @@ export const ContainerForm = styled.form`
 
   .btn-actions {
     display: block;
+<<<<<<< HEAD
+    margin: 10px auto;
+    width: 100%;
+=======
     // margin: 5px auto 20px auto;
     width: 50px;
+>>>>>>> c2cf2d43e9f114d0d23c21c5c3a6ed256ac55b72
     height: 50px;
     position: relative;
+    background-color: #000;
 
     svg {
       position: absolute;
@@ -161,9 +179,10 @@ export const ContainerForm = styled.form`
 
   }
   .border{
+    align-items: baseline;  
     width: 100%;
     display: flex;
-    align-items: center;
+    // align-items: center;
     flex-direction: column;
 
     select {
@@ -171,6 +190,7 @@ export const ContainerForm = styled.form`
     }
     
     .return {
+      align-items: baseline;
       display: flex;
       align-items: center;
       width: 100%;
@@ -178,10 +198,14 @@ export const ContainerForm = styled.form`
       button {
         height: 4rem;
       }
-    }
 
-  .btn-trash {
-    background-color: red;
+    }
+    
+
+  .btn-trash{
+    background-color: #EA1C24;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
 

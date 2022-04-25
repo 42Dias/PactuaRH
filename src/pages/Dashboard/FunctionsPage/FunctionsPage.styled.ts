@@ -84,6 +84,7 @@ export const ContainerForm = styled.form`
   }
 
   input {
+    margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
     height: 4rem;

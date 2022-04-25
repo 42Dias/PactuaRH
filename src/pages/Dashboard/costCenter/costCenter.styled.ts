@@ -75,7 +75,9 @@ export const ContainerForm = styled.form`
     font-size: 1.5rem;
     color: var(--text-title);
   }
+
   input {
+    margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
     height: 4rem;
@@ -92,6 +94,7 @@ export const ContainerForm = styled.form`
     }
   }
   select {
+    margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
     height: 4rem;
@@ -100,7 +103,6 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
-    margin-top: 1rem;
     &::placeholder {
       color: #747474;
     }

@@ -195,11 +195,14 @@ export default function Questionnaires() {
         >
           <h2>Cadastrar questionário</h2>
 
+          <label htmlFor="">Nome</label>
           <input
             type='text'
             placeholder='Nome'
             onChange={(e) => setNome(e.target.value)}
           />
+
+          <label htmlFor="">Tipo de resposta</label>
           <input
             type='text'
             placeholder='Tipo de resposta'
@@ -232,22 +235,26 @@ export default function Questionnaires() {
 
         <S.ContainerForm>
           <h2>Pergunta</h2>
-
+          
+          <label htmlFor="">Pergunta</label>
           <input type='text' placeholder='Pergunta' />
+
+          <label htmlFor="">Tipo de resposta esperada</label>
           <select>
-            <option>Tipo de resposta esperada</option>
             <option>Texto</option>
             <option>Sim/Não</option>
           </select>
+
+          <label htmlFor="">Tem pergunta adicional para sim?</label>
           <select>
-            <option>Tem pergunta adicional para sim?</option>
-            <option>Sim</option>
             <option>Não</option>
+            <option>Sim</option>
           </select>
+
+          <label htmlFor="">Tem pergunta adicional para não?</label>
           <select>
-            <option>Tem pergunta adicional para não?</option>
-            <option>Sim</option>
             <option>Não</option>
+            <option>Sim</option>
           </select>
 
           <button>Enviar</button>

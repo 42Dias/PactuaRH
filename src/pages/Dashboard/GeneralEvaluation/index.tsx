@@ -182,60 +182,64 @@ export default function GeneralEvaluation() {
                 <S.ContainerForm>
                   <h2>Cadastrar Avaliação Geral</h2>
         
+                  <label htmlFor="">Nome do colaborador</label>
                   <input type='text' placeholder='Nome do colaborador' />
+
+                  <label htmlFor="">O colaborador costuma apresentar iniciativa?</label>
                   <select name='' id=''>
-                        <option hidden> O colaborador costuma apresentar iniciativa?</option>
+                    <option value=''>Nunca</option>
+                    <option value=''>Raramente</option>
+                    <option value=''>Frequentemente</option>
+                    <option value=''>Sempre</option>
+                  </select>
+
+                  <label htmlFor="">Ele é engajado e procura atingir as metas?</label>
+                  <select name='' id=''>
+                      <option value=''>Nunca</option>
+                      <option value=''>Raramente</option>
+                      <option value=''>Frequentemente</option>
+                      <option value=''>Sempre</option>
+                  </select>
+
+                  <label htmlFor="">Ele é organizado em suas atividades diárias?</label>
+                  <select name='' id=''>
+                      <option value=''>Nunca</option>
+                      <option value=''>Raramente</option>
+                      <option value=''>Frequentemente</option>
+                      <option value=''>Sempre</option>
+                  </select>
+
+                  <label htmlFor="">Ele se adapta aos novos clientes e desafios?</label>
+                  <select name='' id=''>
+                      <option value=''>Nunca</option>
+                      <option value=''>Raramente</option>
+                      <option value=''>Frequentemente</option>
+                      <option value=''>Sempre</option>
+                  </select>
+
+                    <label htmlFor="">Ele interage bem com seus colegas de equipe?</label>
+                    <select name='' id=''>
                         <option value=''>Nunca</option>
                         <option value=''>Raramente</option>
                         <option value=''>Frequentemente</option>
                         <option value=''>Sempre</option>
                     </select>
 
+                    <label htmlFor="">Ele demonstra aptidões para liderar?</label>
                     <select name='' id=''>
-                        <option hidden>Ele é engajado e procura atingir as metas?</option>
-                        <option value=''>Nunca</option>
-                        <option value=''>Raramente</option>
-                        <option value=''>Frequentemente</option>
-                        <option value=''>Sempre</option>
-                    </select>
-                    <select name='' id=''>
-                        <option hidden> Ele é organizado em suas atividades diárias?</option>
                         <option value=''>Nunca</option>
                         <option value=''>Raramente</option>
                         <option value=''>Frequentemente</option>
                         <option value=''>Sempre</option>
                     </select>
 
+                    <label htmlFor="">Tem a competência necessária para o que faz?</label>
                     <select name='' id=''>
-                        <option hidden> Ele se adapta aos novos clientes e desafios?</option>
                         <option value=''>Nunca</option>
                         <option value=''>Raramente</option>
                         <option value=''>Frequentemente</option>
                         <option value=''>Sempre</option>
                     </select>
-                    <select name='' id=''>
-                        <option hidden> Ele interage bem com seus colegas de equipe? </option>
-                        <option value=''>Nunca</option>
-                        <option value=''>Raramente</option>
-                        <option value=''>Frequentemente</option>
-                        <option value=''>Sempre</option>
-                    </select>
-
-                    <select name='' id=''>
-                        <option hidden>Ele demonstra aptidões para liderar?</option>
-                        <option value=''>Nunca</option>
-                        <option value=''>Raramente</option>
-                        <option value=''>Frequentemente</option>
-                        <option value=''>Sempre</option>
-                    </select>
-                    <select name='' id=''>
-                        <option hidden> Tem a competência necessária para o que faz?</option>
-                        <option value=''>Nunca</option>
-                        <option value=''>Raramente</option>
-                        <option value=''>Frequentemente</option>
-                        <option value=''>Sempre</option>
-                    </select>
-
                   
                   <button>Enviar</button>
                 </S.ContainerForm>

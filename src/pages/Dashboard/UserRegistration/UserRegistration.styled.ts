@@ -118,11 +118,9 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
+    margin: 10px 0;
     &::placeholder {
       color: #747474;
-    }
-    & + input {
-      margin-top: 1rem;
     }
   }
 
@@ -135,13 +133,10 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
-    margin-top: 1rem;
+    margin: 10px 0;
 
     &::placeholder {
       color: #747474;
-    }
-    & + input {
-      margin-top: 1rem;
     }
   }
 

@@ -753,6 +753,7 @@ export default function Professionals() {
             ))}
           </select>
 
+          <label htmlFor="">Nome completo</label>
           <input
             type='text'
             defaultValue={userSelected?.fullName}
@@ -760,6 +761,7 @@ export default function Professionals() {
             placeholder='Nome'
           />
 
+          <label htmlFor="">CPF</label>
           <InputMask
             // defaultValue={userSelected?.cpf}
             onChange={(e) => setCpf(e.target.value)}
@@ -767,6 +769,8 @@ export default function Professionals() {
             placeholder='Seu CPF'
             value={cpf}
           />
+
+          <label htmlFor="">RG</label>
           <InputMask
             // defaultValue={userSelected?.rg}
             onChange={(e) => setRg(e.target.value)}
@@ -788,6 +792,7 @@ export default function Professionals() {
             onChange={(e) => setNascimento(e.target.value)}
           /> */}
 
+          <label htmlFor="">Data de nascimento</label>
           <input
             type='date'
             placeholder='Data de nascimento'
@@ -795,6 +800,8 @@ export default function Professionals() {
             onChange={(e) => setNascimento(e.target.value)}
           />
 
+
+          <label htmlFor="">Nome da mãe</label>
           {/* These are not saved in user data */}
           <input
             type='text'
@@ -803,6 +810,7 @@ export default function Professionals() {
             onChange={(e) => setNomeMae(e.target.value)}
           />
 
+          <label htmlFor="">Seu telefone</label>
           <InputMask
             className='masked-input'
             type='text'
@@ -812,6 +820,7 @@ export default function Professionals() {
             onChange={(e) => setTelefone(e.target.value)}
           />
 
+          <label htmlFor="">Telefone 2</label>
           <InputMask
             className='masked-input'
             type='text'
@@ -824,7 +833,9 @@ export default function Professionals() {
 
           ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
 
+
           */}
+          <label htmlFor="">Cargo</label>
           <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
             <option hidden>Cargo</option>
             {allPositions.map((position) => (
@@ -842,6 +853,7 @@ export default function Professionals() {
           />
           */}
 
+          <label htmlFor="">CEP</label>
           <input
             type='text'
             placeholder='CEP*'
@@ -850,6 +862,7 @@ export default function Professionals() {
             onBlur={(ev) => handleChangeCep(ev.target.value)}
           />
 
+          <label htmlFor="">Cidade</label>
           <input
             type='text'
             placeholder='Cidade*'
@@ -857,18 +870,23 @@ export default function Professionals() {
             onChange={(e) => setCidade(e.target.value)}
           />
 
+          <label htmlFor="">Bairro</label>
           <input
             type='text'
             placeholder='Bairro*'
             value={bairro}
             onChange={(e) => setBairro(e.target.value)}
           />
+
+          <label htmlFor="">Logradouro</label>
           <input
             type='text'
             placeholder='Logradouro*'
             value={logradouro}
             onChange={(e) => setLogradouro(e.target.value)}
           />
+
+          <label htmlFor="">Número</label>
           <input
             type='text'
             placeholder='Número*'
@@ -876,13 +894,16 @@ export default function Professionals() {
             onChange={(e) => setNumero(e.target.value)}
           />
 
+
           {!userSelected && (
             <>
+              <label htmlFor="">Email</label>
               <input
                 type='text'
                 placeholder='Email'
                 onChange={(e) => setEmail(e.target.value)}
               />
+              <label htmlFor="">Gênero</label>
               <select name='' id='' onChange={(e) => setGenero(e.target.value)}>
                 <option hidden>Gênero</option>
                 <option value='Mulher'>Mulher</option>
@@ -891,6 +912,8 @@ export default function Professionals() {
                   Prefiro não responder
                 </option>
               </select>
+
+              <label htmlFor="">Estado civil</label>
               <select
                 name=''
                 id=''
@@ -917,12 +940,15 @@ export default function Professionals() {
             <>
               {dependentes.map((e, index) => (
                 <div className='border'>
+                  <label htmlFor="">Nome do Dependente</label>
                   <input
                     type='text'
                     placeholder='Nome do Dependente'
                     name='nome'
                     onChange={(e) => handleChangeDependente(index, e)}
                   />
+
+                  <label htmlFor="">CPF do Dependente</label>
                   <InputMask
                     name='cpf'
                     mask='999.999.999-99'
@@ -939,12 +965,16 @@ export default function Professionals() {
                       checkCPF(clearedCpf)
                     }}
                   />
+
+                  <label htmlFor="">RG do dependente</label>
                   <InputMask
                     name='rg'
                     mask='99.999.999-9'
                     placeholder='RG do Dependente'
                     onChange={(e) => handleChangeDependente(index, e)}
                   />
+
+                  <label htmlFor="">Data de Nascimento do Dependente</label>
                   <input
                     name='dataNas'
                     type='date'

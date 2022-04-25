@@ -265,18 +265,21 @@ export default function UserRegistration() {
         >
           <h2>Novo usuário</h2>
 
+          <label htmlFor="">Email</label>
           <input
             type='text'
             placeholder='Email'
             onChange={(e) =>  setEmail(e.target.value)}
           />
 
+          <label htmlFor="">Seu nome completo</label>
           <input
             type='text'
             placeholder='Seu nome completo'
             onChange={(e) =>  setNome(e.target.value)}
           />
 
+          <label htmlFor="">Data de nascimento</label>
           <InputMask
             mask='99/99/9999'
             placeholder='Data de nascimento'
@@ -284,37 +287,39 @@ export default function UserRegistration() {
             onChange={(e) =>  setNascimento(e.target.value)}
           />
 
+          <label htmlFor="">Gênero</label>
           <select
             name=''
             id=''
             onChange={(e) =>  setGenero(e.target.value)}
           >
-            <option hidden>Gênero</option>
             <option value='Mulher'>Mulher</option>
             <option value='Homem'>Homem</option>
             <option value='Prefiro não responder'>Prefiro não responder</option>
           </select>
 
+          <label htmlFor="">Estado civil</label>
           <select
             name=''
             id=''
             onChange={(e) =>  setEstado(e.target.value)}
           >
-            <option hidden>Estado civil</option>
             <option value='Solteiro(a)'>Solteiro(a)</option>
             <option value='Casado(a)'>Casado(a)</option>
             <option value='Viúvo(a)'>Viúvo(a)</option>
           </select>
 
-
+          <label htmlFor="">CPF</label>
           <InputMask
-          onChange={(e) =>  setCpf(e.target.value)}
-          mask='999.999.999-99' placeholder='CPF'
-        />
-        <InputMask
-          onChange={(e) =>  setRg(e.target.value)}
-          mask='99.999.999-9' placeholder='RG' 
-        />
+            onChange={(e) =>  setCpf(e.target.value)}
+            mask='999.999.999-99' placeholder='CPF'
+          />
+
+          <label htmlFor="">RG</label>
+          <InputMask
+            onChange={(e) =>  setRg(e.target.value)}
+            mask='99.999.999-9' placeholder='RG' 
+          />
 
           <button
           type='submit'
