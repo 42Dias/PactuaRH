@@ -25,6 +25,19 @@ export default function Company() {
   const [empresaEdit, setEmpresaEdit ] = useState<any>({})
   const [inscricaoEstadual, setInscricaoEstadual] = useState<string>("")
   const [inscricaoMunicipal, setInscricaoMunicipal] = useState<string>("")
+
+  function clearFields(){
+    setCnpj("")
+    setCnac("")
+    setNome("")
+    setRazaoSocial("")
+    setCep("")
+    setLogradouro("")
+    setEmpresaEdit("")
+    setInscricaoEstadual("")
+    setInscricaoMunicipal("")
+  }
+
   function openModal() {
     setIsOpen(true)
   }
@@ -35,11 +48,16 @@ export default function Company() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
+
+    clearFields()
   }
 
 
   function closeModal() {
     setIsOpen(false)
+
+    clearFields()
+
   }
 
   function openModalNew() {
@@ -48,6 +66,8 @@ export default function Company() {
 
   function closeModalNew() {
     setIsOpenNew(false)
+
+    clearFields()
   }
 
   /*
@@ -122,7 +142,59 @@ export default function Company() {
       await handleLoaderEmpresa()
 
     }
-    
+  
+    async function handleFilterEmpresa(){
+
+      console.log("oujbnbojfdnbfnjbnfkdjnbkjdfnbndfbndfbkjfgjk")
+      let filter = ''
+  
+      if (nome){
+        console.log("tem nome")
+        if(filter.length != 0 ) filter += '&'
+        filter += `filter%5Bnome%5D=${nome}`
+      }
+
+      if (cnpj) {
+        console.log("tem cnpj")
+        if (filter.length != 0) filter += '&'
+        filter += `filter%5Bcnpj%5D=${cnpj}`
+      }
+      if (cnac) {
+        console.log("tem cnac")
+        if (filter.length != 0) filter += '&'
+        filter += `filter%5Bcnac%5D=${cnac}`
+      }
+      if (razaoSocial) {
+        console.log("tem razaoSocial")
+        if (filter.length != 0) filter += '&'
+        filter += `filter%5BrazaoSocial%5D=${razaoSocial}`
+      }
+      if (logradouro) {
+        console.log("tem logradouro")
+        if (filter.length != 0) filter += '&'
+        filter += `filter%5Blogradouro%5D=${logradouro}`
+      }
+      if (inscricaoEstadual) {
+        console.log("tem inscricaoEstadual")
+        if (filter.length != 0) filter += '&'
+        filter += `filter%5BinscricaoEstadual%5D=${inscricaoEstadual}`
+      }
+
+      if (inscricaoMunicipal) {
+        console.log("tem inscricaoMunicipal")
+        if (filter.length != 0) filter += '&'
+        filter += `filter%5BinscricaoMunicipal%5D=${inscricaoMunicipal}`
+      }
+  
+      let empresaFilted = await empresa.listWithManyFilters(filter)
+  
+      setAllEmpresa(empresaFilted)
+      console.log(empresaFilted)
+  
+      closeModalFilter()
+    }
+      
+
   return (
     <>
       <S.Body>
@@ -282,28 +354,77 @@ export default function Company() {
         </button>
 
         <S.ContainerForm
-          onSubmit={(e)=>{cadastrarEmpresa()
+          onSubmit={(e)=>{
             e.preventDefault()
+            handleFilterEmpresa()
           }}
         >
           <h2>Cadastrar empresa</h2>
 
-          <label htmlFor="">CNPJ</label>
-          <input type='number' placeholder='CNPJ' onChange={(e) => setCnpj(e.target.value)}/>
-          <label htmlFor="">Razão social</label>
-          <input type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
-          <label htmlFor="">Nome fantasia</label>
-          <input type='text' placeholder='Nome fantasia' onChange={(e) => setNome(e.target.value)}/>
-          <label htmlFor="">Inscrição social</label>
-          <input type='text' placeholder='Inscrição Estadual' onChange={(e) => setInscricaoEstadual(e.target.value)}/>
-          <label htmlFor="">Inscrição municipal</label>
-          <input type='text' placeholder='Inscrição Municipal' onChange={(e) => setInscricaoMunicipal(e.target.value)}/>
-          <label htmlFor="">CNAE</label>
-          <input type='text' placeholder='CNAE'  onChange={(e) => setCnac(e.target.value)}/>
-          <label htmlFor="">CEP</label>
-          <input type='text' placeholder='CEP*' onChange={(e) => setCep(e.target.value)}/>
-          <label htmlFor="">Logradouro</label>
-          <input type='text' placeholder='Logradouro' onChange={(e) => setLogradouro(e.target.value)}/>
+          
+          <label 
+          htmlFor="">CNPJ</label>
+          <input 
+          type='number'
+          placeholder='CNPJ'
+          onChange={(e) => setCnpj(e.target.value)}
+          />
+          
+          <label 
+          htmlFor="">Razão social</label>
+          <input 
+          type='text'
+          placeholder='Razão Social' 
+          onChange={(e) => setRazaoSocial(e.target.value)}
+          />
+          
+          <label 
+          htmlFor="">Nome fantasia</label>
+          <input 
+          type='text'
+          placeholder='Nome fantasia'
+          onChange={(e) => setNome(e.target.value)}
+          />
+          
+          <label 
+          htmlFor="">Inscrição social</label>
+          <input 
+          type='text'
+          placeholder='Inscrição Estadual'
+          onChange={(e) => setInscricaoEstadual(e.target.value)}
+          />
+          
+          <label 
+          htmlFor="">Inscrição municipal</label>
+          <input 
+          type='text'
+          placeholder='Inscrição Municipal'
+          onChange={(e) => setInscricaoMunicipal(e.target.value)}
+          />
+          
+          <label 
+          htmlFor="">CNAE</label>
+          <input 
+          type='text'
+          placeholder='CNAE' 
+          onChange={(e) => setCnac(e.target.value)}
+          />
+          
+          <label 
+          htmlFor="">CEP</label>
+          <input 
+          type='text'
+          placeholder='CEP*'
+          onChange={(e) => setCep(e.target.value)}
+          />
+          
+          <label 
+          htmlFor="">Logradouro</label>
+          <input 
+          type='text'
+          placeholder='Logradouro'
+          onChange={(e) => setLogradouro(e.target.value)}
+          />
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
