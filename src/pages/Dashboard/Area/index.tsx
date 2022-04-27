@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import areas from 'service/area/area'
 import { fullName } from 'service/api'
+//@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Area() {
@@ -16,6 +17,14 @@ export default function Area() {
   const [descricao      ,setDescricao] = useState<string>('')
   const [subArea        ,setSubArea  ] = useState<boolean>(false)
   const [areaPai        ,setAreaPai  ] = useState<string>('')
+
+
+  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
+  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
+  const [subAreaFilter        ,setSubAreaFilter  ] = useState<boolean>(false)
+  const [areaPaiFilter        ,setAreaPaiFilter  ] = useState<string>('')
+
+
   const [id             , setId      ] = useState<string>('')
   const [area           , setArea    ] = useState([])
 
@@ -45,6 +54,10 @@ export default function Area() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
+
+    setNomeFilter('')
+    setDescricaoFilter('')
+    setAreaPaiFilter('')
   }
 
   async function handleLoadArea() {
@@ -89,6 +102,48 @@ export default function Area() {
 
     handleLoadArea()
   }
+
+/* 
+==========================================================================================================
+                                            Filters
+==========================================================================================================
+*/ 
+
+  async function handleFilterArea(){
+    let filter = ''
+
+    if (nomeFilter){
+      console.log("tem nome")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bnome%5D=${nomeFilter}`
+    }
+    if (descricaoFilter){
+      console.log("tem desc")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bdescricao%5D=${descricaoFilter}`
+      
+    }
+    if (subAreaFilter){
+      console.log("tem sub")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5BsubArea%5D=${subArea}`
+    }
+    if (areaPaiFilter){
+      console.log("tem pai")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5BareaPai%5D=${areaPaiFilter}`
+    }
+
+    let areaFilted = await areas.listWithManyFilters(filter)
+
+    setArea(areaFilted)
+
+    closeModalFilter()
+  }
+
   return (
     <>
       <S.Body>
@@ -321,45 +376,47 @@ export default function Area() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreate()
+            handleFilterArea()
           }}
         >
           <h2>Filtros</h2>
           
           <label htmlFor="">Nome da área</label>
-          {/* <input
+          <input
             type='text'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setNomeFilter(e.target.value)}
             placeholder='Nome da área'
-            required
-          /> */}
+          />
 
+          {/*
           <select>
             <option>oi</option>
           </select>
+          */}
 
           <label htmlFor="">Descrição da área</label>
           <input
             type='text'
-            onChange={(e) => setDescricao(e.target.value)}
+            onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
-            required
           />
+
+          {/*
           <S.divCheck>
             <S.Checkbox
               type='checkbox'
               placeholder='Sub-Área?'
               id='subarea'
               checked={!!subArea}
-              onChange={(e) => setSubArea(e.target.checked)}
+              onChange={(e) => setSubAreaFilter(e.target.checked)}
             />
             <S.Label htmlFor='subarea'>Sub-Área</S.Label>
           </S.divCheck>
-          {subArea === true && (
+          */}
             <S.SelectPai
               onChange={(e) => {
-                setAreaPai(e.target.value)
-                console.log(area)
+                setAreaPaiFilter(e.target.value)
+                console.log(areaPaiFilter)
               }}
               placeholder='Nome da área pai'
               value={areaPai}
@@ -370,7 +427,6 @@ export default function Area() {
                 </S.OptionsPai>
               ))}
             </S.SelectPai>
-          )}
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
