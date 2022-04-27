@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import areas from 'service/area/area'
 import { fullName } from 'service/api'
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Area() {
   const [modalIsOpen    ,setIsOpen   ] = useState(false)
@@ -107,14 +108,21 @@ export default function Area() {
               </button>
             </div>
 
-            <button>
+            <ReactHTMLTableToExcel
+              table="area"
+              filename="Pactua Área Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
+          </S.FlexButtons> 
+           {/*<button>
               Exportar para excel
               <FiFilePlus size={18} />
             </button>
-          </S.FlexButtons>
+          </S.FlexButtons>*/}
 
           {area.length > 0 && (
-            <S.Table>
+            <S.Table id="area">
               <S.TrTitle>
                 <td>Nome do área</td>
                 <td>Descrição</td>
