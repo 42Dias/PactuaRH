@@ -29,13 +29,22 @@ export const Body = styled.body`
 
 export const FlexButtons = styled.div`
   display: flex;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+
+    button + button {
+      margin-left: 20px;
+    }
+  }
 
   margin: 40px 0;
 
   button {
     background: #000;
     border: 0;
-    width: 120px;
+    width: 180px;
     height: 48px;
     border-radius: 5px;
     color: white;
@@ -154,13 +163,8 @@ export const ContainerForm = styled.form`
 
   .btn-actions {
     display: block;
-<<<<<<< HEAD
     margin: 10px auto;
     width: 100%;
-=======
-    // margin: 5px auto 20px auto;
-    width: 50px;
->>>>>>> c2cf2d43e9f114d0d23c21c5c3a6ed256ac55b72
     height: 50px;
     position: relative;
     background-color: #000;

@@ -1,6 +1,6 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './UserRegistration.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
@@ -15,6 +15,7 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 export default function UserRegistration() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
 
   const [nome      , setNome      ] = useState<string>("")
   const [email     , setEmail     ] = useState<string>("")
@@ -27,6 +28,13 @@ export default function UserRegistration() {
   const [userEdit  , setUserEdit  ] = useState<any>({})
 
   
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
+  }
   
   function openModal() {
     setIsOpen(true)
@@ -123,19 +131,29 @@ export default function UserRegistration() {
         <S.Container>
           <S.FlexButtons>
             {/* This button toggles a modal to create a newUser */}
-            <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
-            </button>
+            <div>
+              <button onClick={openModalNew}>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button 
+             
+              onClick={openModalFilter}>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+
+              <Link to='/status-de-usuario'>
+                Status <FiEye size={18} color='#fff' />
+              </Link>
+            </div>
+
             <ReactHTMLTableToExcel
-              table="usuario"
-              filename="Pactua Cadastrar Usuário Excel"
+              table="benefits"
+              filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
-           />
-          {/* Is it necessary? */}
-            <Link to='/status-de-usuario'>
-              Status <FiEye size={18} color='#fff' />
-            </Link>
+            />
+            
           </S.FlexButtons>
 
           <S.Table id="usuario">
@@ -273,6 +291,95 @@ export default function UserRegistration() {
           }
         >
           <h2>Novo usuário</h2>
+
+          <label htmlFor="">Email</label>
+          <input
+            type='text'
+            placeholder='Email'
+            onChange={(e) =>  setEmail(e.target.value)}
+          />
+
+          <label htmlFor="">Seu nome completo</label>
+          <input
+            type='text'
+            placeholder='Seu nome completo'
+            onChange={(e) =>  setNome(e.target.value)}
+          />
+
+          <label htmlFor="">Data de nascimento</label>
+          <InputMask
+            mask='99/99/9999'
+            placeholder='Data de nascimento'
+
+            onChange={(e) =>  setNascimento(e.target.value)}
+          />
+
+          <label htmlFor="">Gênero</label>
+          <select
+            name=''
+            id=''
+            onChange={(e) =>  setGenero(e.target.value)}
+          >
+            <option value='Mulher'>Mulher</option>
+            <option value='Homem'>Homem</option>
+            <option value='Prefiro não responder'>Prefiro não responder</option>
+          </select>
+
+          <label htmlFor="">Estado civil</label>
+          <select
+            name=''
+            id=''
+            onChange={(e) =>  setEstado(e.target.value)}
+          >
+            <option value='Solteiro(a)'>Solteiro(a)</option>
+            <option value='Casado(a)'>Casado(a)</option>
+            <option value='Viúvo(a)'>Viúvo(a)</option>
+          </select>
+
+          <label htmlFor="">CPF</label>
+          <InputMask
+            onChange={(e) =>  setCpf(e.target.value)}
+            mask='999.999.999-99' placeholder='CPF'
+          />
+
+          <label htmlFor="">RG</label>
+          <InputMask
+            onChange={(e) =>  setRg(e.target.value)}
+            mask='99.999.999-9' placeholder='RG' 
+          />
+
+          <button
+          type='submit'
+          >
+            Enviar
+          </button>
+        </S.ContainerForm>
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={
+            (e: any) => {
+            e.preventDefault()
+            // e.target.reset()
+            createUser()
+            }
+          }
+        >
+          <h2>Filtros</h2>
 
           <label htmlFor="">Email</label>
           <input

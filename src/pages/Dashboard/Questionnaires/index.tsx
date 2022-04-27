@@ -1,6 +1,6 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Questionnaires.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
@@ -12,6 +12,8 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 export default function Questionnaires() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+
   const [modalIsOpenQuestion, setIsOpenQuestion] = useState(false)
   const [questionario, setQuestionario] = useState([])
   const [id, setId] = useState('')
@@ -20,6 +22,14 @@ export default function Questionnaires() {
 
   function openModal() {
     setIsOpen(true)
+  }
+
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
   }
 
   function closeModal() {
@@ -95,15 +105,24 @@ export default function Questionnaires() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
-            <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
-            </button>
+            <div>
+              <button onClick={openModalNew}>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button 
+             
+              onClick={openModalFilter}>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+            </div>
+
             <ReactHTMLTableToExcel
-              table="questionarios"
-              filename="Pactua Questionários Excel"
+              table="benefits"
+              filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
-           />
+            />
           </S.FlexButtons>
           {questionario.length > 0 && (
             <S.Table id="questionarios">
@@ -202,6 +221,52 @@ export default function Questionnaires() {
           }}
         >
           <h2>Cadastrar questionário</h2>
+
+          <label htmlFor="">Nome</label>
+          <input
+            type='text'
+            placeholder='Nome'
+            onChange={(e) => setNome(e.target.value)}
+          />
+
+          <label htmlFor="">Tipo de resposta</label>
+          <input
+            type='text'
+            placeholder='Tipo de resposta'
+            onChange={(e) => setTipoResposta(e.target.value)}
+          />
+
+          <S.ContainerBntFlex>
+            <button type='submit'>Enviar</button>
+            <button onClick={openModalQuestion}>
+              <FiPlus />
+              Pergunta
+            </button>
+          </S.ContainerBntFlex>
+        </S.ContainerForm>
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate()
+          }}
+        >
+          <h2>Filtros</h2>
 
           <label htmlFor="">Nome</label>
           <input
