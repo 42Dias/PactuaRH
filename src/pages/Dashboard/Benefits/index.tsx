@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import beneficio from 'service/beneficio/beneficio'
 import { fullName } from 'service/api'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+
 
 export default function Benefits() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -81,9 +84,15 @@ export default function Benefits() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            <ReactHTMLTableToExcel
+              table="benefits"
+              filename="Pactua Benefícios Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
 
-          <S.Table>
+          <S.Table id="benefits">
             <S.TrTitle>
               <td>Nome do benefício</td>
               <td>Descrição</td>
@@ -112,6 +121,8 @@ export default function Benefits() {
               </S.TrSecond>
             ))}
           </S.Table>
+
+       
         </S.Container>
       </S.Body>
 
