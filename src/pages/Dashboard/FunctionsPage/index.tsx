@@ -98,8 +98,8 @@ export default function FunctionsPage() {
           </S.FlexButtons>
           {allFuncoes.length > 0 && (
             // eslint-disable-next-line react/jsx-key
-            <S.Table>
-              <S.TrTitle id="funcao">
+            <S.Table id="funcao">
+              <S.TrTitle>
                 <td>Função</td>
                 <td>Descrição</td>
               </S.TrTitle>
