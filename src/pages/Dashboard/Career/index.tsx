@@ -11,6 +11,8 @@ import { iCargo, iNiveis } from 'types'
 import planoCarreira from 'service/planoCarreira/planoCarreira'
 import cargos from 'service/cargos/cargos'
 import planoDeCarreiraNivel from 'service/planoCarreiraNiveis/planoCarreiraNiveis'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 export default function Career() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -198,9 +200,15 @@ export default function Career() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            <ReactHTMLTableToExcel
+              table="carreira"
+              filename="Pactua Plano de Carreira Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
           {allCareer.length > 0 && (
-            <S.Table>
+            <S.Table id="carreira">
               <S.TrTitle>
                 <td>Nome</td>
                 <td>Descrição</td>

@@ -11,15 +11,10 @@ export const Title = styled.h2`
   font-size: 24px;
   background: white;
   padding: 20px 0;
-<<<<<<< HEAD
-  @media(max-width: 800px){
-    margin-left: 9%;
-=======
 
   @media (max-width: 550px) {
     position: relative;
     left: 37px;
->>>>>>> 7a4fcc31774fcc89b9171c595ec5546e1cd0fe94
   }
 `
 

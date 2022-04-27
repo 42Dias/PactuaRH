@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import { fullName } from 'service/api'
 import questionarios from 'service/questionarios/questionarios'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 export default function Questionnaires() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -96,9 +98,15 @@ export default function Questionnaires() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            <ReactHTMLTableToExcel
+              table="questionarios"
+              filename="Pactua Questionários Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
           {questionario.length > 0 && (
-            <S.Table>
+            <S.Table id="questionarios">
               <S.TrTitle>
                 <td>Nome</td>
                 <td>Tipo de resposta</td>

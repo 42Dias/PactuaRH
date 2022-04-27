@@ -2,7 +2,7 @@
 
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Positions.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
@@ -14,6 +14,8 @@ import funcoes from 'service/funcoes/funcoes'
 import escolaridade from 'service/escolaridade/escolaridade'
 import areas from 'service/area/area'
 import habilidades from 'service/habilidades/habilidades'
+//@ts-ignore  
+import ReactHTMLTableToExcel from 'react-html-table-to-excel' 
 
 import { iCargo, iData } from '../../../types'
 import { useForm } from 'react-hook-form'
@@ -43,6 +45,7 @@ export default function Positions() {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
   // const [cargos, setCargos] = useState()
 
   function openModal() {
@@ -59,6 +62,14 @@ export default function Positions() {
 
   function closeModalNew() {
     setIsOpenNew(false)
+  }
+
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
   }
 
   async function handleLoadArea() {
@@ -374,13 +385,28 @@ export default function Positions() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
-            <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
-            </button>
+            <div>
+              <button onClick={openModalNew}>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button 
+             
+              onClick={openModalFilter}>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+            </div>
+
+            <ReactHTMLTableToExcel
+              table="benefits"
+              filename="Pactua Benefícios Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+            />
           </S.FlexButtons>
           {/* TABELA */}
           {allCargos.length > 0 && (
-            <S.Table>
+            <S.Table id="cargos">
               <S.TrTitle>
                 <td>Descrição</td>
                 <td>CBO</td>
@@ -1194,6 +1220,286 @@ export default function Positions() {
           type='submit'
           className='button'
           value="Enviar"
+          />
+          
+        </S.ContainerForm>
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={handleSubmit(handleCreatePosition)}
+        >
+          <h2>Filtros</h2>
+
+          <label htmlFor="">Nome</label>
+          <input
+          type='text' placeholder='Nome'
+          {...register('nome')}
+          />
+
+          <label htmlFor="">Descrição</label>
+          <input
+          type='text' placeholder='Descrição'
+          {...register('desc')}
+          />
+
+          <label htmlFor="">Liderança</label>
+          <select
+            placeholder='Liderança'
+            {...register('lideranca')}
+            >
+          <option hidden> Liderança </option>
+          <option value={"true"}> Sim  </option>
+          <option value={"false"}> Não </option>
+
+          </select>
+
+          <label htmlFor="">Código de ocupação</label>
+          <select
+          {...register('ocupationCodeBr')}
+          >
+            <option>
+              Código Brasileiro de Ocupações
+            </option>
+          </select>
+
+          <label htmlFor="">Código de ocupação conforme IR</label>
+          <select
+          {...register('ocupationCodeIR')}>
+            <option>
+              Código de Ocupação conforme IR
+            </option>
+          </select>
+
+          <label htmlFor="">Aréa</label>
+          <select
+          {...register('areaId')}
+          >
+            <option hidden >Área</option>
+            {
+            allAreas.map(
+              (area) => (
+                <option key={area.id} value={area.id}>
+                  {area.nome}
+                </option>
+              )
+            )}
+            
+          </select>
+
+          <label htmlFor="">Cargos liderados</label>
+          <select
+          {...register('cargoLiderId')}
+          >
+            <option hidden>Cargos Liderados</option>
+            {
+            allCargos.map(
+              (cargo) => (
+                <option key={cargo.id} value={cargo.id}>
+                  {cargo.nome}
+                </option>
+              )
+            )
+            }
+          </select>
+
+          <label htmlFor="">Habilidade</label>
+          <select
+          {...register('habilidadeId')}
+          >
+            <option hidden >Habilidade</option>
+            {
+              allSkills.map(
+                (skill) => (
+                  <option key={skill.id} value={skill.id}>
+                    {skill.nome}
+                  </option>
+                )
+              )
+            }
+          </select>
+
+          <label style={{ marginBottom: '5px', }} htmlFor="">Habilidades</label>
+          <div className="border">
+          {
+          skills.map(
+            (skill, index) => (
+              <div className="return">
+              <select
+                onChange={(e) => handleChangeSkills(index, e.target.value)}
+                >
+                  <option hidden >Habilidades</option>
+                  {
+                    allSkills.map(
+                      (skill) => (
+                        <option key={skill.id} value={skill.id}>
+                          {skill.nome}
+                        </option>
+                      )
+                    )
+                  }
+                </select>
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeSkills(index)}
+                >
+                  <FiTrash/>
+                </button>
+
+                <button
+                  type='button'
+                  className='btn-actions'
+                  onClick={() => addSkills()}
+                  >
+                  <FiPlus size={20} />
+                </button>
+              </div>
+              )
+            )
+          }
+          
+          </div>
+
+        <label style={{ marginBottom: '5px', }} htmlFor="">Desejaveis</label>
+        <div className="border">
+        {
+          wanted.map(
+            (skill, index) => (
+              <div className="return">
+                <select
+                onChange={(e) => handleChangeWanted(index, e.target.value)}
+                >
+                  <option hidden >Desejaveis</option>
+                  {
+                    allSkills.map(
+                      (skill) => (
+                        <option key={skill.id} value={skill.id}>
+                          {skill.nome}
+                        </option>
+                      )
+                    )
+                  }
+                </select>
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeWanted(index)}
+                >
+                  <FiTrash/>
+                </button>
+
+                <button
+                type='button'
+                className='btn-actions'
+                onClick={() => addWanted()}
+                >
+                  <FiPlus size={20} />
+                </button>
+              </div>
+            )
+          )
+          }
+        </div>
+
+        <label style={{ marginBottom: '5px', }} htmlFor="">Funções</label>
+        <div className="border">  
+        {
+          functions.map(
+            (skill, index) => (
+              <div className="return">
+                <select
+                onChange={(e) => handleChangeFunctions(index, e.target.value)}
+                >
+                  <option hidden >Funções</option>
+                  {
+                    allFunctions.map(
+                      (afunction) => (
+                        <option key={afunction.id} value={afunction.id}>
+                          {afunction.nome}
+                        </option>
+                      )
+                    )
+                  }
+                </select>
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeFunctions(index)}
+                >
+                  <FiTrash/>
+                </button>
+
+                <button
+                  type='button'
+                  className='btn-actions'
+                  onClick={() => addFunctions()}
+                >
+                  <FiPlus size={20} />
+                </button>
+              </div>
+            )
+          )
+          }
+        </div>
+
+        <label style={{ marginBottom: '5px', }} htmlFor="">Escolaridade</label>
+        <div className="border">
+        {educations.map(
+          (education, index) => (
+            <div className="return">
+              <select
+              onChange={(e) => handleChangeEducations(index, e.target.value)}
+              >
+                <option hidden >Escolaridade</option>
+                {
+                  allEducations.map(
+                    (education) => (
+                      <option key={education.id} value={education.id}>
+                        {education.nome}
+                      </option>
+                    )
+                  )
+                }
+              </select>
+              <button
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeEducations(index)}
+              >
+                <FiTrash/>
+              </button>
+
+              <button
+                type='button'
+                className='btn-actions'
+                onClick={() => addEducations()}
+              >
+                <FiPlus size={20} />
+              </button>
+            </div>
+          )
+         )
+        }
+        </div>
+
+          <input
+            type='submit'
+            className='button'
+            value="Enviar"
           />
           
         </S.ContainerForm>

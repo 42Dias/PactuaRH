@@ -100,14 +100,14 @@ export default function Skills() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
-              filename="Pactua Benefícios Excel"
+              table="skills"
+              filename="Pactua Habilidades Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
           </S.FlexButtons>
 
-            <S.Table>
+            <S.Table id="skills">
               <S.TrTitle>
                 <td>Nome do habilidades</td>
                 <td>Descrição</td>

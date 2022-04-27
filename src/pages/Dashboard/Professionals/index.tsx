@@ -18,6 +18,9 @@ import { isNullOrUndefined } from 'util'
 //import moment from 'moment'
 import profissional from 'service/profissional/profissional'
 import dependente from 'service/dependente/dependente'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+
 
 export default function Professionals() {
   interface iDependent {
@@ -318,9 +321,15 @@ export default function Professionals() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            <ReactHTMLTableToExcel
+              table="profissionais"
+              filename="Pactua Profissionais Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
 
-          <S.Table>
+          <S.Table id="profissionais">
             <S.TrTitle>
               <td>Nome</td>
               <td>CPF</td>

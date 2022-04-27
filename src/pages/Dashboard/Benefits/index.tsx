@@ -18,12 +18,23 @@ export default function Benefits() {
   const [descricao, setDescricao] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [benefits, setBenefits] = useState<any[]>([])
+  const [subArea        ,setSubArea  ] = useState<boolean>(false)
+  const [areaPai        ,setAreaPai  ] = useState<string>('')
+  
+
+  const [area           , setArea    ] = useState([])
+  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
+  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
+  const [subAreaFilter        ,setSubAreaFilter  ] = useState<boolean>(false)
+  const [areaPaiFilter        ,setAreaPaiFilter  ] = useState<string>('')
 
   function openModal() {
     setIsOpen(true)
   }
 
   function closeModal() {
+    setSubArea(false)
+    setAreaPai('')
     setIsOpen(false)
   }
 
@@ -32,6 +43,8 @@ export default function Benefits() {
   }
 
   function closeModalNew() {
+    setSubArea(false)
+    setAreaPai('')
     setIsOpenNew(false)
   }
 
@@ -71,6 +84,9 @@ export default function Benefits() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
+     setNomeFilter('')
+    setDescricaoFilter('')
+    setAreaPaiFilter('')
   }
 
   useEffect(() => {
@@ -81,6 +97,34 @@ export default function Benefits() {
 
     handleLoadBenefits()
   }
+
+  async function handleFilterArea(){
+
+    console.log("oujbnbojfdnbfnjbnfkdjnbkjdfnbndfbndfbkjfgjk")
+    let filter = ''
+
+    if (nomeFilter){
+      console.log("tem nome")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bnome%5D=${nomeFilter}`
+    }
+    if (descricaoFilter){
+      console.log("tem desc")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bdescricao%5D=${descricaoFilter}`
+      
+    }
+  
+
+    let beneficioFilted = await beneficio.listWithManyFilters(filter)
+
+    setBenefits(beneficioFilted)
+    console.log(beneficioFilted)
+
+    closeModalFilter()
+  }
+  
   return (
     <>
       <S.Body>
@@ -94,7 +138,9 @@ export default function Benefits() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button onClick={openModalFilter}>
+              <button 
+             
+              onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
@@ -237,7 +283,7 @@ export default function Benefits() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreate()
+            handleFilterArea()
           }}
         >
           <h2>Filtros</h2>
@@ -245,15 +291,15 @@ export default function Benefits() {
           <label htmlFor="">Nome do benefício</label>
           <input
             type='text'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setNomeFilter(e.target.value)}
             placeholder='Nome do benefício'
-            required
+      
           />
           <input
             type='text'
-            onChange={(e) => setDescricao(e.target.value)}
+            onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
-            required
+            
           />
 
           <button type='submit'>Enviar</button>

@@ -1,15 +1,18 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Company.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import empresa from 'service/empresa/empresaCadastros'
 import { fullName, id } from 'service/api'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Company() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
 
   const [cnpj       , setCnpj       ] = useState<string>("")
   const [id         , setId         ] = useState<string>("")
@@ -25,6 +28,15 @@ export default function Company() {
   function openModal() {
     setIsOpen(true)
   }
+
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
+  }
+
 
   function closeModal() {
     setIsOpen(false)
@@ -120,12 +132,27 @@ export default function Company() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
+            <div>
             <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
-            </button>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button 
+             
+              onClick={openModalFilter}>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+            </div>
+
+            <ReactHTMLTableToExcel
+              table="empresa"
+              filename="Pactua Benefícios Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+            />
           </S.FlexButtons>
 
-          <S.Table>
+          <S.Table id="empresa">
             <S.TrTitle>
               <td>CNPJ</td>
               <td>Razão Social</td>
@@ -207,6 +234,49 @@ export default function Company() {
           className='react-modal-close'
           type='button'
           onClick={closeModalNew}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={(e)=>{cadastrarEmpresa()
+            e.preventDefault()
+          }}
+        >
+          <h2>Cadastrar empresa</h2>
+
+          <label htmlFor="">CNPJ</label>
+          <input type='number' placeholder='CNPJ' onChange={(e) => setCnpj(e.target.value)}/>
+          <label htmlFor="">Razão social</label>
+          <input type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
+          <label htmlFor="">Nome fantasia</label>
+          <input type='text' placeholder='Nome fantasia' onChange={(e) => setNome(e.target.value)}/>
+          <label htmlFor="">Inscrição social</label>
+          <input type='text' placeholder='Inscrição Estadual' onChange={(e) => setInscricaoEstadual(e.target.value)}/>
+          <label htmlFor="">Inscrição municipal</label>
+          <input type='text' placeholder='Inscrição Municipal' onChange={(e) => setInscricaoMunicipal(e.target.value)}/>
+          <label htmlFor="">CNAE</label>
+          <input type='text' placeholder='CNAE'  onChange={(e) => setCnac(e.target.value)}/>
+          <label htmlFor="">CEP</label>
+          <input type='text' placeholder='CEP*' onChange={(e) => setCep(e.target.value)}/>
+          <label htmlFor="">Logradouro</label>
+          <input type='text' placeholder='Logradouro' onChange={(e) => setLogradouro(e.target.value)}/>
+
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+      </Modal>
+
+      
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
         >
           <FiX />
         </button>

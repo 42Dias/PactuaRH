@@ -9,6 +9,9 @@ import user from 'service/user/user'
 import { fullName, id } from 'service/api'
 // import { randomUUID } from 'crypto'
 
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+
 export default function UserRegistration() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -123,13 +126,19 @@ export default function UserRegistration() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            <ReactHTMLTableToExcel
+              table="usuario"
+              filename="Pactua Cadastrar Usuário Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           {/* Is it necessary? */}
             <Link to='/status-de-usuario'>
               Status <FiEye size={18} color='#fff' />
             </Link>
           </S.FlexButtons>
 
-          <S.Table>
+          <S.Table id="usuario">
             <S.TrTitle>
               <td>Nome</td>
               <td>Gênero</td>

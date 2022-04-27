@@ -26,11 +26,23 @@ export const Body = styled.body`
 
 export const FlexButtons = styled.div`
   display: flex;
-  margin: 40px 0;
-  button {
-    background: #000;
-    border: 0;
-    width: 120px;
+
+  justify-content: space-between;
+
+div {
+  display: flex;
+
+  button + button {
+    margin-left: 20px;
+  }
+}
+
+margin: 40px 0;
+
+button {
+  background: #000;
+  border: 0;
+  width: 180px;
     height: 48px;
     border-radius: 5px;
     color: white;
