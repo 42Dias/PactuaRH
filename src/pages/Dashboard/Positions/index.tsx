@@ -14,6 +14,8 @@ import funcoes from 'service/funcoes/funcoes'
 import escolaridade from 'service/escolaridade/escolaridade'
 import areas from 'service/area/area'
 import habilidades from 'service/habilidades/habilidades'
+//@ts-ignore  
+import ReactHTMLTableToExcel from 'react-html-table-to-excel' 
 
 import { iCargo, iData } from '../../../types'
 import { useForm } from 'react-hook-form'
@@ -377,10 +379,18 @@ export default function Positions() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+           
+            <ReactHTMLTableToExcel
+              table="cargos"
+              filename="Pactua Cargos Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
+
           </S.FlexButtons>
           {/* TABELA */}
           {allCargos.length > 0 && (
-            <S.Table>
+            <S.Table id="cargos">
               <S.TrTitle>
                 <td>Descrição</td>
                 <td>CBO</td>

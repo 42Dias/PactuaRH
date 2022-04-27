@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import escolaridade from 'service/escolaridade/escolaridade'
 import { fullName } from 'service/api'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Education() {
   const [modalIsOpen   , setIsOpen    ] = useState(false)
@@ -87,9 +89,15 @@ export default function Education() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            <ReactHTMLTableToExcel
+              table="escolaridade"
+              filename="Pactua Escolaridade Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
 
-          <S.Table>
+          <S.Table id="escolaridade">
 
             <S.TrTitle>
               <td>Nome da escolaridade</td>

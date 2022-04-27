@@ -81,6 +81,7 @@ export default function Benefits() {
 
     handleLoadBenefits()
   }
+  
   return (
     <>
       <S.Body>
@@ -94,7 +95,9 @@ export default function Benefits() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button onClick={openModalFilter}>
+              <button 
+             
+              onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>

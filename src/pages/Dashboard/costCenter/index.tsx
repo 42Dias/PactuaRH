@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom'
 import { fullName } from 'service/api'
 import centroCustos from 'service/centroCustos/centroCustos'
 import cargos from 'service/cargos/cargos'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function CostCenter() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -98,10 +100,17 @@ export default function CostCenter() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            
+            <ReactHTMLTableToExcel
+              table="centroCustos"
+              filename="Pactua Centro de Custos Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
 
           {cost.length > 0 && (
-            <S.Table>
+            <S.Table id="centroCustos">
               <S.TrTitle>
                 <td>Nome</td>
                 <td>Descrição</td>
