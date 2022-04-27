@@ -92,6 +92,10 @@ export const TrTitle = styled.tr`
     padding: 20px;
     font-weight: bold;
   }
+  @media(max-width: 800px){
+    width: 0%;
+    background-color: green;
+  }
   
 `
 
