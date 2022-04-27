@@ -219,6 +219,46 @@ export default function Benefits() {
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
+
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate()
+          }}
+        >
+          <h2>Filtros</h2>
+
+          <label htmlFor="">Nome do benefício</label>
+          <input
+            type='text'
+            onChange={(e) => setNome(e.target.value)}
+            placeholder='Nome do benefício'
+            required
+          />
+          <input
+            type='text'
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
+            required
+          />
+
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+      </Modal>
     </>
   )
 }
