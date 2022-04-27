@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Career.styled'
 import { useEffect, useState } from 'react'
 // import profissional from 'service/profissional/profissional'
@@ -17,6 +17,7 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 export default function Career() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpen   , setIsOpen   ] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
   const [allCareer     , setAllCareer] = useState<any>([])
   const [nome          , setNome     ] = useState<string>('')
   const [descricao     , setDescricao] = useState<string>('')
@@ -40,6 +41,14 @@ export default function Career() {
                                   SUBCRUD IN THE PAGE
 ==========================================================================================================
 */
+
+function openModalFilter() {
+  setIsOpenFilter(true)
+}
+
+function closeModalFilter() {
+  setIsOpenFilter(false)
+}
 
   const addFormFields = () => {
     // @ts-ignore
@@ -197,15 +206,24 @@ export default function Career() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
-            <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
-            </button>
+            <div>
+              <button onClick={openModalNew}>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button 
+             
+              onClick={openModalFilter}>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+            </div>
+
             <ReactHTMLTableToExcel
-              table="carreira"
-              filename="Pactua Plano de Carreira Excel"
+              table="benefits"
+              filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
-           />
+            />
           </S.FlexButtons>
           {allCareer.length > 0 && (
             <S.Table id="carreira">
@@ -500,6 +518,114 @@ export default function Career() {
           }}
         >
           <h2>Cadastrar plano de carreira</h2>
+
+          <label htmlFor="">Nome</label>
+          <input
+            type='text'
+            onChange={(e) => setNome(e.target.value)}
+            placeholder='Nome'
+          />
+
+          <label htmlFor="">Descrição</label>
+          <input  
+            type='text'
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
+          />
+
+          <button
+            type='button'
+            className='btn-actions'
+            onClick={() => addFormFields()}
+          >
+            <FiPlus />
+          </button>
+
+          {allNiveis.length > 0 && (
+            <>
+              {allNiveis.map((e: any, index: any) => (
+                <div className='border'>
+                  <label htmlFor="">Nome do nível</label>
+                  <input
+                    type='text'
+                    placeholder='Nome do nível'
+                    name='nome'
+                    onChange={(e) => handleChangeNiveis(index, e)}
+                  />
+
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type='text'
+                    placeholder='Descrição'
+                    name='descricao'
+                    onChange={(e) => handleChangeNiveis(index, e)}
+                  />
+
+                  <label htmlFor="">Nível</label>
+                  <input
+                    type='number'
+                    placeholder='Nivel'
+                    name='nivel'
+                    onChange={(e) => handleChangeNiveis(index, e)}
+                  />
+
+                  <label htmlFor="">Nome do cargo</label>
+                  <S.SelectPai
+                    onChange={(e) => {
+                      // setCargo(e.target.value)
+                      console.log(e.target.value)
+                      // @ts-ignore
+                      handleChangeNiveis(index, e)
+                    }}
+                    placeholder='Nome do cargo'
+                    value={cargo}
+                    name='cargo'
+                    id="cargo"
+                  >
+                    {allCargos.map((value: any, i: any) => (
+                      <S.OptionsPai key={i} value={value.id}>
+                        {value.nome}
+                      </S.OptionsPai>
+                    ))}
+                  </S.SelectPai>
+
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeFormFields(index)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
+
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreateCareer()
+          }}
+        >
+          <h2>Filtros</h2>
 
           <label htmlFor="">Nome</label>
           <input

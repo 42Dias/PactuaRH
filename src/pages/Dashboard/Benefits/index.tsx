@@ -28,6 +28,17 @@ export default function Benefits() {
   const [subAreaFilter        ,setSubAreaFilter  ] = useState<boolean>(false)
   const [areaPaiFilter        ,setAreaPaiFilter  ] = useState<string>('')
 
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
+     setNomeFilter('')
+    setDescricaoFilter('')
+    setAreaPaiFilter('')
+  }
+  
   function openModal() {
     setIsOpen(true)
   }
@@ -76,17 +87,6 @@ export default function Benefits() {
 
     if (isUpdated) closeModal()
     await handleLoadBenefits()
-  }
-  
-  function openModalFilter() {
-    setIsOpenFilter(true)
-  }
-
-  function closeModalFilter() {
-    setIsOpenFilter(false)
-     setNomeFilter('')
-    setDescricaoFilter('')
-    setAreaPaiFilter('')
   }
 
   useEffect(() => {
