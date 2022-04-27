@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import funcoes from 'service/funcoes/funcoes'
 import { fullName } from 'service/api'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function FunctionsPage() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -87,11 +89,17 @@ export default function FunctionsPage() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            <ReactHTMLTableToExcel
+              table="funcao"
+              filename="Pactua Funções Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
           {allFuncoes.length > 0 && (
             // eslint-disable-next-line react/jsx-key
             <S.Table>
-              <S.TrTitle>
+              <S.TrTitle id="funcao">
                 <td>Função</td>
                 <td>Descrição</td>
               </S.TrTitle>

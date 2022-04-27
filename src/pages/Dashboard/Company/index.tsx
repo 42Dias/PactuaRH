@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import empresa from 'service/empresa/empresaCadastros'
 import { fullName, id } from 'service/api'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Company() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -123,9 +125,16 @@ export default function Company() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            
+            <ReactHTMLTableToExcel
+              table="empresa"
+              filename="Pactua Cadastro da Empresa Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
 
-          <S.Table>
+          <S.Table id="empresa">
             <S.TrTitle>
               <td>CNPJ</td>
               <td>Razão Social</td>
