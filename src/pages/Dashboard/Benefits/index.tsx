@@ -84,7 +84,7 @@ export default function Benefits() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
-    setNomeFilter('')
+     setNomeFilter('')
     setDescricaoFilter('')
     setAreaPaiFilter('')
   }
@@ -291,7 +291,7 @@ export default function Benefits() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreate()
+            handleFilterArea()
           }}
         >
           <h2>Filtros</h2>
@@ -301,13 +301,13 @@ export default function Benefits() {
             type='text'
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome do benefício'
-            required
+      
           />
           <input
             type='text'
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
-            required
+            
           />
 
           <button type='submit'>Enviar</button>
