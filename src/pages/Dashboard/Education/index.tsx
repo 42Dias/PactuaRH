@@ -17,6 +17,15 @@ export default function Education() {
   const [desc          , setDesc      ] = useState<string>("")
   const [id            , setId        ] = useState<string>("")
   const [education     , setEducation ] = useState<any[]>([])
+
+
+
+
+  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
+  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
+
+
+
     
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -24,6 +33,8 @@ export default function Education() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
+    setNomeFilter("")
+    setDescricaoFilter("")
   }
   
 
@@ -85,6 +96,35 @@ export default function Education() {
 
     handleLoadEducation()
     
+  }
+  /* 
+==========================================================================================================
+                                            Filters
+==========================================================================================================
+*/ 
+
+  async function handleFilterEducation(){
+    let filter = ''
+
+    if (nomeFilter){
+      console.log("tem nome")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bnome%5D=${nomeFilter}`
+    }
+    if (descricaoFilter){
+      console.log("tem desc")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bdescricao%5D=${descricaoFilter}`
+      
+    }
+
+    let areaFilted = await escolaridade.listWithManyFilters(filter)
+    
+
+    setEducation(areaFilted)
+
+    closeModalFilter()
   }
   return (
     <>
@@ -263,7 +303,7 @@ export default function Education() {
         <S.ContainerForm
         onSubmit={(e) => {
           e.preventDefault()
-          handleCreate()
+          handleFilterEducation()
         }}
         >
           <h2>Filtros</h2>
@@ -271,17 +311,15 @@ export default function Education() {
           <label htmlFor="">Nome da escolaridade</label>
           <input
             type='text'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setNomeFilter(e.target.value)}
             placeholder='Nome da escolaridade'
-            required
           />
 
           <label htmlFor="">Descrição da escolaridade</label>
           <input
             type='text'
-            onChange={(e) => setDesc(e.target.value)}
+            onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição da escolaridade'
-            required
           />
 
           <button
