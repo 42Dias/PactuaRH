@@ -43,6 +43,13 @@ export default function Positions() {
   const [educations   , setEducations   ] = useState([ "" ])
   const [cargoSelected, setCargoSelected] = useState<iCargo>()
 
+
+  const [skillsSelected       , setSkillsSelected       ] = useState( "" )
+  const [wantedSelected       , setWantedSelected       ] = useState( "" )
+  const [functionsSelected    , setFunctionsSelected    ] = useState( "" )
+  const [educationsSelected   , setEducationsSelected   ] = useState( "" )
+
+
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
@@ -246,10 +253,10 @@ export default function Positions() {
     
     //Clears all data used
     reset(rawData)
-    setSkills( [ ] )
-    setWanted( [ ] )
-    setFunctions([ ] )
-    setEducations([ ] )
+    setSkills(    [ "" ] )
+    setWanted(    [ "" ] )
+    setFunctions( [ "" ] )
+    setEducations([ "" ] )
 
   }
 
@@ -277,10 +284,10 @@ export default function Positions() {
     
     //Clears all data used
     reset(rawData)
-    setSkills( [ ] )
-    setWanted( [ ] )
-    setFunctions([ ] )
-    setEducations([ ] )
+    setSkills(    [ "" ] )
+    setWanted(    [ "" ] )
+    setFunctions( [ "" ] )
+    setEducations([ "" ] )
   }
 
   async function handleDeletePosition(id: string){
@@ -372,6 +379,100 @@ export default function Positions() {
     handleSetWanted(cargo)
     handleSetFunctions(cargo)
     handleSetEducations(cargo)
+
+  }
+
+
+/*
+  ==================================================
+                   Filter Function
+  ==================================================
+*/
+  async function handleFilterPosition(rawData: any){
+    let data = {
+      nome: rawData.nome,
+      descricao: rawData.desc,
+      area: rawData.areaId,
+      lideranca: rawData.lideranca == 'true',
+      // ecolaridade: rawData.id,
+
+      cargosLiderados: [ rawData.cargoLiderId ],
+      // Estes 4 são tabelas separadas aaaaaaaa, como listas n:m 
+      desejaveis: wanted,
+      funcoes:    functions,
+      habilidades: skills,
+      ecolaridade: educations,
+    }  
+
+    //Clears all data used
+    reset(rawData)
+    setSkills( [ ] )
+    setWanted( [ ] )
+    setFunctions([ ] )
+    setEducations([ ] )
+
+    let filter = '';
+
+    if (rawData.nome){
+      console.log("tem nome")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bnome%5D=${rawData.nome}`
+    }
+    if (rawData.desc){
+      console.log("tem desc")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bdescricao%5D=${rawData.desc}`
+      
+    }
+    if (rawData.areaId){
+      console.log("tem areaId")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Barea%5D=${rawData.areaId}`
+    }
+    if (rawData.lideranca){
+      console.log("tem pai")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Blideranca%5D=${true}`
+    }
+
+    // if (skillsSelected) {
+    //   console.log("tem pai")
+
+    //   if (filter.length != 0) filter += '&'
+    //   filter += `filter%5Blideranca%5D=${skillsSelected}`
+    // }
+    // if (wantedSelected) {
+    //   console.log("tem pai")
+
+    //   if (filter.length != 0) filter += '&'
+    //   filter += `filter%5Blideranca%5D=${wantedSelected}`
+    // }
+    // if (functionsSelected) {
+    //   console.log("tem pai")
+
+    //   if (filter.length != 0) filter += '&'
+    //   filter += `filter%5Blideranca%5D=${functionsSelected}`
+    // }
+    if (educationsSelected) {
+
+      console.log("Bjhbfakjdbvjbsdkjb")
+      console.log("tem pai")
+
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Becolaridade%5D=${educationsSelected}`
+    }
+
+
+    let areaFilted = await cargos.listWithManyFilters(filter)
+
+    setAllCargos(areaFilted)
+
+    closeModalFilter()
+
+
 
   }
 
@@ -1240,7 +1341,7 @@ export default function Positions() {
         </button>
 
         <S.ContainerForm
-          onSubmit={handleSubmit(handleCreatePosition)}
+          onSubmit={handleSubmit(handleFilterPosition)}
         >
           <h2>Filtros</h2>
 
@@ -1334,12 +1435,9 @@ export default function Positions() {
 
           <label style={{ marginBottom: '5px', }} htmlFor="">Habilidades</label>
           <div className="border">
-          {
-          skills.map(
-            (skill, index) => (
               <div className="return">
               <select
-                onChange={(e) => handleChangeSkills(index, e.target.value)}
+                onChange={(e) => setSkillsSelected(e.target.value)}
                 >
                   <option hidden >Habilidades</option>
                   {
@@ -1352,36 +1450,15 @@ export default function Positions() {
                     )
                   }
                 </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeSkills(index)}
-                >
-                  <FiTrash/>
-                </button>
-
-                <button
-                  type='button'
-                  className='btn-actions'
-                  onClick={() => addSkills()}
-                  >
-                  <FiPlus size={20} />
-                </button>
               </div>
-              )
-            )
-          }
           
           </div>
 
         <label style={{ marginBottom: '5px', }} htmlFor="">Desejaveis</label>
         <div className="border">
-        {
-          wanted.map(
-            (skill, index) => (
               <div className="return">
                 <select
-                onChange={(e) => handleChangeWanted(index, e.target.value)}
+                onChange={(e) => setWantedSelected(e.target.value)}
                 >
                   <option hidden >Desejaveis</option>
                   {
@@ -1394,75 +1471,34 @@ export default function Positions() {
                     )
                   }
                 </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeWanted(index)}
-                >
-                  <FiTrash/>
-                </button>
-
-                <button
-                type='button'
-                className='btn-actions'
-                onClick={() => addWanted()}
-                >
-                  <FiPlus size={20} />
-                </button>
               </div>
-            )
-          )
-          }
         </div>
 
         <label style={{ marginBottom: '5px', }} htmlFor="">Funções</label>
         <div className="border">  
-        {
-          functions.map(
-            (skill, index) => (
-              <div className="return">
-                <select
-                onChange={(e) => handleChangeFunctions(index, e.target.value)}
-                >
-                  <option hidden >Funções</option>
-                  {
-                    allFunctions.map(
-                      (afunction) => (
-                        <option key={afunction.id} value={afunction.id}>
-                          {afunction.nome}
-                        </option>
-                      )
+            <div className="return">
+              <select
+                onChange={(e) => setFunctionsSelected(e.target.value)}
+              >
+                <option hidden >Funções</option>
+                {
+                  allFunctions.map(
+                    (afunction) => (
+                      <option key={afunction.id} value={afunction.id}>
+                        {afunction.nome}
+                      </option>
                     )
-                  }
-                </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeFunctions(index)}
-                >
-                  <FiTrash/>
-                </button>
-
-                <button
-                  type='button'
-                  className='btn-actions'
-                  onClick={() => addFunctions()}
-                >
-                  <FiPlus size={20} />
-                </button>
-              </div>
-            )
-          )
-          }
+                  )
+                }
+              </select>
+            </div>
         </div>
 
         <label style={{ marginBottom: '5px', }} htmlFor="">Escolaridade</label>
         <div className="border">
-        {educations.map(
-          (education, index) => (
             <div className="return">
               <select
-              onChange={(e) => handleChangeEducations(index, e.target.value)}
+                onChange={(e) => setEducationsSelected(e.target.value)}
               >
                 <option hidden >Escolaridade</option>
                 {
@@ -1475,26 +1511,8 @@ export default function Positions() {
                   )
                 }
               </select>
-              <button
-                className='btn-actions btn-trash'
-                type='button'
-                onClick={() => removeEducations(index)}
-              >
-                <FiTrash/>
-              </button>
-
-              <button
-                type='button'
-                className='btn-actions'
-                onClick={() => addEducations()}
-              >
-                <FiPlus size={20} />
-              </button>
             </div>
-          )
-         )
-        }
-        </div>
+          </div>
 
           <input
             type='submit'
