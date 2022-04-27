@@ -1,6 +1,6 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Benefits.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
@@ -13,6 +13,7 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 export default function Benefits() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
   const [nome, setNome] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
   const [id, setId] = useState<string>('')
@@ -63,6 +64,14 @@ export default function Benefits() {
     if (isUpdated) closeModal()
     await handleLoadBenefits()
   }
+  
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
+  }
 
   useEffect(() => {
     handleLoadBenefits()
@@ -81,15 +90,22 @@ export default function Benefits() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
-            <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
-            </button>
+            <div>
+              <button onClick={openModalNew}>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button onClick={openModalFilter}>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+            </div>
+
             <ReactHTMLTableToExcel
               table="benefits"
               filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
-           />
+            />
           </S.FlexButtons>
 
           <S.Table id="benefits">
