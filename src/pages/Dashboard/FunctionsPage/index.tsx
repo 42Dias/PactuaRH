@@ -83,7 +83,7 @@ export default function FunctionsPage() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
-     setNomeFilter('')
+    setNomeFilter('')
     setDescricaoFilter('')
     setAreaPaiFilter('')
   }
@@ -254,6 +254,58 @@ export default function FunctionsPage() {
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
+
+
+
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={(e: any) => {
+            e.preventDefault()
+            // e.target.reset()
+            createFuncao()
+          }}
+        >
+          <h2>Filtrar Função</h2>
+
+          <label htmlFor="">Nome da função</label>
+          <input
+            type='text'
+            placeholder='Função'
+            onChange={(e) => setNome(e.target.value)}
+          />
+
+          <input
+            type='text'
+            placeholder='Descrção'
+            onChange={(e) => setDescricao(e.target.value)}
+          />
+          {/* <input type='text' placeholder='Mão de obra' />
+          <select>
+            <option>Trabalho em equipe?</option>
+            <option>Sim</option>
+            <option>Não</option>
+          </select>
+          <input type='text' placeholder='Grau de instrução' />
+          <input type='text' placeholder='Requisito da função' /> */}
+
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+      </Modal>
+
+
     </>
   )
 }
