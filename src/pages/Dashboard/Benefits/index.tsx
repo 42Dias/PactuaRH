@@ -99,6 +99,8 @@ export default function Benefits() {
   }
 
   async function handleFilterArea(){
+
+    console.log("oujbnbojfdnbfnjbnfkdjnbkjdfnbndfbndfbkjfgjk")
     let filter = ''
 
     if (nomeFilter){
@@ -108,18 +110,7 @@ export default function Benefits() {
     }
     if (descricaoFilter){
       console.log("tem desc")
-      if (subAreaFilter){
-        console.log("tem sub")
-  
-        if(filter.length != 0 ) filter += '&'
-        filter += `filter%5BsubArea%5D=${subArea}`
-      }
-      if (areaPaiFilter){
-        console.log("tem pai")
-  
-        if(filter.length != 0 ) filter += '&'
-        filter += `filter%5BareaPai%5D=${areaPaiFilter}`
-      }
+
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
       
@@ -128,7 +119,8 @@ export default function Benefits() {
 
     let beneficioFilted = await beneficio.listWithManyFilters(filter)
 
-    setArea(beneficioFilted)
+    setBenefits(beneficioFilted)
+    console.log(beneficioFilted)
 
     closeModalFilter()
   }
@@ -299,13 +291,13 @@ export default function Benefits() {
           <label htmlFor="">Nome do benefício</label>
           <input
             type='text'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setNomeFilter(e.target.value)}
             placeholder='Nome do benefício'
       
           />
           <input
             type='text'
-            onChange={(e) => setDescricao(e.target.value)}
+            onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
             
           />
