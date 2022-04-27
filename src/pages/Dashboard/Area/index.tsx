@@ -10,6 +10,7 @@ import { fullName } from 'service/api'
 export default function Area() {
   const [modalIsOpen    ,setIsOpen   ] = useState(false)
   const [modalIsOpenNew ,setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
   const [nome           ,setNome     ] = useState<string>('')
   const [descricao      ,setDescricao] = useState<string>('')
   const [subArea        ,setSubArea  ] = useState<boolean>(false)
@@ -35,6 +36,14 @@ export default function Area() {
     setSubArea(false)
     setAreaPai('')
     setIsOpenNew(false)
+  }
+
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
   }
 
   async function handleLoadArea() {
@@ -92,7 +101,7 @@ export default function Area() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button>
+              <button onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
@@ -249,6 +258,77 @@ export default function Area() {
             placeholder='Nome da área'
             required
           />
+
+          <label htmlFor="">Descrição da área</label>
+          <input
+            type='text'
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
+            required
+          />
+          <S.divCheck>
+            <S.Checkbox
+              type='checkbox'
+              placeholder='Sub-Área?'
+              id='subarea'
+              checked={!!subArea}
+              onChange={(e) => setSubArea(e.target.checked)}
+            />
+            <S.Label htmlFor='subarea'>Sub-Área</S.Label>
+          </S.divCheck>
+          {subArea === true && (
+            <S.SelectPai
+              onChange={(e) => {
+                setAreaPai(e.target.value)
+                console.log(area)
+              }}
+              placeholder='Nome da área pai'
+              value={areaPai}
+            >
+              {area.map((value: any, index) => (
+                <S.OptionsPai key={index} value={value.id}>
+                  {value.nome}
+                </S.OptionsPai>
+              ))}
+            </S.SelectPai>
+          )}
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate()
+          }}
+        >
+          <h2>Filtros</h2>
+          
+          <label htmlFor="">Nome da área</label>
+          {/* <input
+            type='text'
+            onChange={(e) => setNome(e.target.value)}
+            placeholder='Nome da área'
+            required
+          /> */}
+
+          <select>
+            <option>oi</option>
+          </select>
 
           <label htmlFor="">Descrição da área</label>
           <input
