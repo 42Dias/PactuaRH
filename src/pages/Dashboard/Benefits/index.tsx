@@ -18,12 +18,23 @@ export default function Benefits() {
   const [descricao, setDescricao] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [benefits, setBenefits] = useState<any[]>([])
+  const [subArea        ,setSubArea  ] = useState<boolean>(false)
+  const [areaPai        ,setAreaPai  ] = useState<string>('')
+  
+
+  const [area           , setArea    ] = useState([])
+  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
+  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
+  const [subAreaFilter        ,setSubAreaFilter  ] = useState<boolean>(false)
+  const [areaPaiFilter        ,setAreaPaiFilter  ] = useState<string>('')
 
   function openModal() {
     setIsOpen(true)
   }
 
   function closeModal() {
+    setSubArea(false)
+    setAreaPai('')
     setIsOpen(false)
   }
 
@@ -32,6 +43,8 @@ export default function Benefits() {
   }
 
   function closeModalNew() {
+    setSubArea(false)
+    setAreaPai('')
     setIsOpenNew(false)
   }
 
@@ -71,6 +84,9 @@ export default function Benefits() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
+    setNomeFilter('')
+    setDescricaoFilter('')
+    setAreaPaiFilter('')
   }
 
   useEffect(() => {
@@ -80,6 +96,41 @@ export default function Benefits() {
     await beneficio.delete(id)
 
     handleLoadBenefits()
+  }
+
+  async function handleFilterArea(){
+    let filter = ''
+
+    if (nomeFilter){
+      console.log("tem nome")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bnome%5D=${nomeFilter}`
+    }
+    if (descricaoFilter){
+      console.log("tem desc")
+      if (subAreaFilter){
+        console.log("tem sub")
+  
+        if(filter.length != 0 ) filter += '&'
+        filter += `filter%5BsubArea%5D=${subArea}`
+      }
+      if (areaPaiFilter){
+        console.log("tem pai")
+  
+        if(filter.length != 0 ) filter += '&'
+        filter += `filter%5BareaPai%5D=${areaPaiFilter}`
+      }
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bdescricao%5D=${descricaoFilter}`
+      
+    }
+  
+
+    let beneficioFilted = await beneficio.listWithManyFilters(filter)
+
+    setArea(beneficioFilted)
+
+    closeModalFilter()
   }
   
   return (
