@@ -1,6 +1,6 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilePlus, FiFilter } from 'react-icons/fi'
 import * as S from './Area.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
@@ -88,8 +88,19 @@ export default function Area() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
-            <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
+            <div>
+              <button onClick={openModalNew}>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+            </div>
+
+            <button>
+              Exportar para excel
+              <FiFilePlus size={18} />
             </button>
           </S.FlexButtons>
 

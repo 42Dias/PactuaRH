@@ -11,6 +11,11 @@ export const Title = styled.h2`
   font-size: 24px;
   background: white;
   padding: 20px 0;
+
+  @media (max-width: 550px) {
+    position: relative;
+    left: 37px;
+  }
 `
 
 export const Container = styled.div`
@@ -40,6 +45,13 @@ export const ContainerCall = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  @media (max-width: 550px) {
+    height: 100%;
+    flex-direction: column;
+    position: relative;
+    left: 37px;
+  }
+
   padding: 50px;
 
   p {
@@ -63,6 +75,12 @@ export const ContainerCall = styled.div`
     width: 370px;
     height: 306px;
   }
+
+  @media (max-width: 550px) {
+    img {
+      width: 100%;
+    }
+  }
 `
 
 export const GridDetails = styled.div`
@@ -72,6 +90,11 @@ export const GridDetails = styled.div`
 
   @media (max-width: 895px) {
     grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 550px) {
+    position: relative;
+    left: 37px;
   }
 `
 
@@ -114,6 +137,11 @@ export const DetailsUser = styled.div`
   margin: 0 0 20px 0;
   @media (max-width: 940px) {
     text-align: center;
+  }
+
+  @media (max-width: 550px) {
+    position: relative;
+    left: 37px;
   }
 `
 
