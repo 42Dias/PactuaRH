@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import areas from 'service/area/area'
 import { fullName } from 'service/api'
+// @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Area() {
