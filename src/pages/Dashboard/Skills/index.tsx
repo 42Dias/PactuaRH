@@ -1,14 +1,17 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Skills.styled'
 import { useEffect, useState } from 'react'
 import habilidades from 'service/habilidades/habilidades'
 import { fullName } from 'service/api'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Skills() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
   const [nome, setNome] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
@@ -59,6 +62,15 @@ export default function Skills() {
     if (isUpdated) closeModal()
     await handleLoadSkills()
   }
+
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
+  }
+
   useEffect(() => {
     handleLoadSkills()
   }, [])
@@ -77,12 +89,24 @@ export default function Skills() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
-            <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
-            </button>
+          <div>
+              <button onClick={openModalNew}>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button onClick={openModalFilter}>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+            </div>
+
+            <ReactHTMLTableToExcel
+              table="benefits"
+              filename="Pactua Benefícios Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+            />
           </S.FlexButtons>
 
-          {skills.length > 0 && (
             <S.Table>
               <S.TrTitle>
                 <td>Nome do habilidades</td>
@@ -113,9 +137,9 @@ export default function Skills() {
                 </S.TrSecond>
               ))}
             </S.Table>
-          )}
+          
 
-          {skills.length === 0 && <p>Não há dados</p>}
+          {skills.length === 0}
         </S.Container>
       </S.Body>
 
@@ -185,6 +209,45 @@ export default function Skills() {
             type='text'
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome da habilidade'
+            required
+          />
+          <input
+            type='text'
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
+            required
+          />
+
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+      </Modal>
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate()
+          }}
+        >
+          <h2>Filtros</h2>
+
+          <label htmlFor="">Habilidade</label>
+          <input
+            type='text'
+            onChange={(e) => setNome(e.target.value)}
+            placeholder='Nome do benefício'
             required
           />
           <input
