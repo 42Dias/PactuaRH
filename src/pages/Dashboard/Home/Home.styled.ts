@@ -11,12 +11,15 @@ export const Title = styled.h2`
   font-size: 24px;
   background: white;
   padding: 20px 0;
+  @media(max-width: 800px){
+    margin-left: 9%;
+  }
 `
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-
+ 
   max-width: 980px;
   margin: 0 auto;
 
@@ -28,7 +31,7 @@ export const Container = styled.div`
 export const ContainerCall = styled.div`
   width: 100%;
   height: 239px;
-
+  
   margin: 40px 0;
 
   background-color: #000;
@@ -71,6 +74,7 @@ export const GridDetails = styled.div`
   gap: 50px;
 
   @media (max-width: 895px) {
+    
     grid-template-columns: 1fr;
   }
 `
@@ -82,7 +86,7 @@ export const ContentUsers = styled.div`
   overflow-y: auto;
 
   margin: 0 0 20px 0;
-
+  
   /* width */
   ::-webkit-scrollbar {
     width: 10px;
@@ -114,6 +118,8 @@ export const DetailsUser = styled.div`
   margin: 0 0 20px 0;
   @media (max-width: 940px) {
     text-align: center;
+    padding-left: 15%;
+    margin-left: 5%;
   }
 `
 
@@ -157,10 +163,11 @@ export const Content = styled.div`
   }
 
   @media (max-width: 800px) {
+    padding-left: 10%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
+    
     text-align: center;
 
     button {
@@ -205,6 +212,7 @@ export const TextDetails = styled.div`
   align-items: center;
   font-size: 14px;
   margin-top: 6px;
+  
   p {
     color: ${theme.colors.textSecondary};
     margin-left: 10px;

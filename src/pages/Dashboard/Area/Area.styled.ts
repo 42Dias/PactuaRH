@@ -9,7 +9,8 @@ export const Container = styled.div`
   margin: 0 auto;
 
   @media (max-width: 970px) {
-    padding: 0 12%;
+    padding: 0 2%;
+    
   }
 `
 
@@ -17,6 +18,10 @@ export const Title = styled.h2`
   font-size: 24px;
   background: white;
   padding: 20px 0;
+  @media(max-width: 800px){
+    padding-left: 10%;
+  }
+ 
 `
 
 export const Body = styled.body`
@@ -45,6 +50,9 @@ export const FlexButtons = styled.div`
       margin-left: 10px;
     }
   }
+  @media(max-width: 800px){
+    padding-left: 10%;
+  }
 `
 
 export const divCheck = styled.div`
@@ -69,17 +77,22 @@ export const OptionsPai = styled.option``
 
 export const Table = styled.table`
   /* width: 100%; */
-  background: white;
+  background: blue;
   border-radius: 5px;
+  @media(max-width: 800px){
+    margin-left: 20%;
+  }
 `
 
 export const TrTitle = styled.tr`
   margin: 50px 0 !important;
   height: 53px;
+  
   td {
     padding: 20px;
     font-weight: bold;
   }
+  
 `
 
 export const TrSecond = styled.tr`
@@ -93,6 +106,10 @@ export const TrSecond = styled.tr`
   button {
     background: transparent;
     border: 0;
+  }
+  @media(max-width: 800px){
+    padding-left: 50%;
+    background-color: yellow;
   }
 `
 
