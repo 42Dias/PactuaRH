@@ -1,6 +1,6 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './FunctionsPage.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
@@ -12,10 +12,15 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 export default function FunctionsPage() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
   const [allFuncoes, setAllFuncoes] = useState([])
   const [nome, setNome] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
   const [funcaoEdit, setFuncaoEdit] = useState<any>({})
+  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
+  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
+  const [subAreaFilter        ,setSubAreaFilter  ] = useState<boolean>(false)
+  const [areaPaiFilter        ,setAreaPaiFilter  ] = useState<string>('')
 
   async function getAllFuncoes() {
     const funcao = await funcoes.list()
@@ -72,6 +77,17 @@ export default function FunctionsPage() {
     getAllFuncoes()
   }
 
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
+
+  function closeModalFilter() {
+    setIsOpenFilter(false)
+     setNomeFilter('')
+    setDescricaoFilter('')
+    setAreaPaiFilter('')
+  }
+
   async function deleteFuncao(id: string) {
     const isDelete = await funcoes.delete(id)
     getAllFuncoes()
@@ -85,19 +101,27 @@ export default function FunctionsPage() {
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
-          <S.FlexButtons>
-            <button onClick={openModalNew}>
-              Novo <FiPlus size={18} color='#fff' />
-            </button>
+        <S.FlexButtons>
+            <div>
+              <button onClick={openModalNew}>
+                Novo <FiPlus size={18} color='#fff' />
+              </button>
+              <button 
+             
+              onClick={openModalFilter}>
+                Filtros
+                <FiFilter size={18} />
+              </button>
+            </div>
+
             <ReactHTMLTableToExcel
-              table="funcao"
-              filename="Pactua Funções Excel"
+              table="benefits"
+              filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
-           />
+            />
           </S.FlexButtons>
-          {allFuncoes.length > 0 && (
-            // eslint-disable-next-line react/jsx-key
+      
             <S.Table id="funcao">
               <S.TrTitle>
                 <td>Função</td>
@@ -130,8 +154,8 @@ export default function FunctionsPage() {
                 </S.TrSecond>
               ))}
             </S.Table>
-          )}
-          {allFuncoes.length === 0 && <p>Não há funções cadastradas!</p>}
+  
+          {allFuncoes.length === 0 }
         </S.Container>
       </S.Body>
 
