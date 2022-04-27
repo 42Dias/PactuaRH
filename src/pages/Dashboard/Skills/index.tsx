@@ -5,6 +5,8 @@ import * as S from './Skills.styled'
 import { useEffect, useState } from 'react'
 import habilidades from 'service/habilidades/habilidades'
 import { fullName } from 'service/api'
+//@ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 export default function Skills() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -80,10 +82,16 @@ export default function Skills() {
             <button onClick={openModalNew}>
               Novo <FiPlus size={18} color='#fff' />
             </button>
+            <ReactHTMLTableToExcel
+              table="habilidades"
+              filename="Pactua Habilidades Excel"
+              sheet="Sheet"
+              buttonText="Exportar para excel"
+           />
           </S.FlexButtons>
 
           {skills.length > 0 && (
-            <S.Table>
+            <S.Table id="habilidades">
               <S.TrTitle>
                 <td>Nome do habilidades</td>
                 <td>Descrição</td>
