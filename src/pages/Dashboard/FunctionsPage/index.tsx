@@ -6,21 +6,21 @@ import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 import funcoes from 'service/funcoes/funcoes'
 import { fullName } from 'service/api'
-//@ts-ignore
+// @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function FunctionsPage() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+  const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
   const [allFuncoes, setAllFuncoes] = useState([])
   const [nome, setNome] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
   const [funcaoEdit, setFuncaoEdit] = useState<any>({})
-  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
-  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
-  const [subAreaFilter        ,setSubAreaFilter  ] = useState<boolean>(false)
-  const [areaPaiFilter        ,setAreaPaiFilter  ] = useState<string>('')
+  const [nomeFilter, setNomeFilter] = useState<string>('')
+  const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+  const [subAreaFilter, setSubAreaFilter] = useState<boolean>(false)
+  const [areaPaiFilter, setAreaPaiFilter] = useState<string>('')
 
   async function getAllFuncoes() {
     const funcao = await funcoes.list()
@@ -93,6 +93,27 @@ export default function FunctionsPage() {
     getAllFuncoes()
   }
 
+  async function handleFilterFunctions() {
+    let filter = ''
+
+    if (nomeFilter) {
+      console.log('tem nome')
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bnome%5D=${nomeFilter}`
+    }
+    if (descricaoFilter) {
+      console.log('tem desc')
+
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bdescricao%5D=${descricaoFilter}`
+    }
+
+    const functionsFilted = await funcoes.listWithManyFilters(filter)
+    setAllFuncoes(functionsFilted)
+
+    closeModalFilter()
+  }
+
   return (
     <>
       <S.Body>
@@ -106,8 +127,8 @@ export default function FunctionsPage() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button 
-             
+              <button
+
               onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
@@ -115,13 +136,13 @@ export default function FunctionsPage() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
+              table="funcao"
               filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
           </S.FlexButtons>
-      
+
             <S.Table id="funcao">
               <S.TrTitle>
                 <td>Função</td>
@@ -154,7 +175,7 @@ export default function FunctionsPage() {
                 </S.TrSecond>
               ))}
             </S.Table>
-  
+
           {allFuncoes.length === 0 }
         </S.Container>
       </S.Body>
@@ -255,8 +276,6 @@ export default function FunctionsPage() {
         </S.ContainerForm>
       </Modal>
 
-
-
       <Modal
         isOpen={modalIsOpenFilter}
         onRequestClose={closeModalFilter}
@@ -275,7 +294,7 @@ export default function FunctionsPage() {
           onSubmit={(e: any) => {
             e.preventDefault()
             // e.target.reset()
-            createFuncao()
+            handleFilterFunctions()
           }}
         >
           <h2>Filtrar Função</h2>
@@ -284,13 +303,13 @@ export default function FunctionsPage() {
           <input
             type='text'
             placeholder='Função'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setNomeFilter(e.target.value)}
           />
 
           <input
             type='text'
-            placeholder='Descrção'
-            onChange={(e) => setDescricao(e.target.value)}
+            placeholder='Descrição'
+            onChange={(e) => setDescricaoFilter(e.target.value)}
           />
           {/* <input type='text' placeholder='Mão de obra' />
           <select>
@@ -304,7 +323,6 @@ export default function FunctionsPage() {
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
-
 
     </>
   )

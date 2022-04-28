@@ -218,7 +218,7 @@ export default function Company() {
 
             <ReactHTMLTableToExcel
               table="empresa"
-              filename="Pactua Benefícios Excel"
+              filename="Pactua Empresa Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />

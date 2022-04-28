@@ -319,6 +319,103 @@ export default function Professionals() {
   useEffect(() => {
     handleLoadProfessionals()
   }, [])
+
+
+
+ /* 
+==========================================================================================================
+                                            Filter
+==========================================================================================================
+*/ 
+
+async function handleFilterProfessionals(){
+
+  let filter = ''
+
+  if (nome){
+    console.log("tem nome")
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5Bnome%5D=${nome}`
+  }
+  if (cpf){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5Bcpf%5D=${cpf}`
+    
+  }
+
+  if (rg){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5Brg%5D=${rg}`
+    
+  }
+
+  if (nascimento){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5BdataNasc%5D=${nascimento}`
+    
+  }
+
+  if (nomeMae){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5BnomeMae%5D=${nomeMae}`
+  
+  }
+
+  if (cep){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5Bcep%5D=${cep}`
+    
+  }
+
+  if (estadoCivil){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5BestadoCivil%5D=${estadoCivil}`
+    
+  }
+
+  if (email){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5Bemail%5D=${email}`
+    
+  }
+
+  if (cidade){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5Bcidade%5D=${cidade}`
+    
+  }
+  if (cargo){
+    console.log("tem desc")
+
+    if(filter.length != 0 ) filter += '&'
+    filter += `filter%5Bcargo%5D=${cargo}`
+    
+  }
+
+
+  let professionalsFiltered = await profissional.listWithManyFilters(filter)
+
+  setProfissionals(professionalsFiltered)
+  console.log(professionalsFiltered)
+
+  closeModalFilter()
+}
   return (
     <>
       <S.Body>
@@ -341,8 +438,8 @@ export default function Professionals() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
-              filename="Pactua Benefícios Excel"
+              table="profissionais"
+              filename="Pactua Profissionais Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
@@ -354,7 +451,6 @@ export default function Professionals() {
               <td>CPF</td>
               <td>RG</td>
               <td>Cargo</td>
-              <td>Descrição</td>
             </S.TrTitle>
             {profissionals.map((value: any, index) => (
               <S.TrSecond key={index}>
@@ -362,7 +458,6 @@ export default function Professionals() {
                 <td>{value.cpf}</td>
                 <td>{value.rg}</td>
                 <td>{value.cargo.nome}</td>
-                <td>{value.descricao}</td>
                 <td>
                   <button
                     onClick={() => {
@@ -871,15 +966,6 @@ export default function Professionals() {
             ))}
           </select>
 
-          {/* This is not necesssary anymore */}
-          {/*
-          <input
-            type='text'
-            placeholder='Benefícios'
-            value={beneficios}
-            onChange={(e) => setBeneficios(e.target.value)}
-          />
-          */}
 
           <label htmlFor="">CEP</label>
           <input
@@ -1049,47 +1135,14 @@ export default function Professionals() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreateProfessional()
+            handleFilterProfessionals()
           }}
         >
           <h2>Filtros</h2>
 
-          <h4>Selecione um profissional</h4>
-          <select
-            onChange={(e) => {
-              const userIndex: number = parseInt(e.target.value)
+          
 
-              // if the index is selected as new it clears the present data
-              if (isNaN(userIndex)) {
-                setUserSelected({})
-                setCpf('')
-                setRg('')
-                setNascimento('')
-                setNome('')
-              }
-
-              const newUserSelected = allUsers[userIndex]
-              setUserSelected(newUserSelected)
-
-              // Sets the setState values 'cause defaultValue does not work
-              // console.log("newUserSelected.fullName")
-              // console.log(newUserSelected.fullName)
-              setNome(newUserSelected.fullName)
-              setCpf(newUserSelected.cpf)
-              setRg(newUserSelected.rg)
-              setNascimento(newUserSelected.aniversario)
-            }}
-            placeholder='Usuário Cadastrado'
-          >
-            <option value={''}>Novo</option>
-
-            {allUsers.map((user, i) => (
-              <option value={i}>
-                {user.fullName} | {user.cpf}
-              </option>
-            ))}
-          </select>
-
+          
           <label htmlFor="">Nome completo</label>
           <input
             type='text'
@@ -1100,7 +1153,6 @@ export default function Professionals() {
 
           <label htmlFor="">CPF</label>
           <InputMask
-            // defaultValue={userSelected?.cpf}
             onChange={(e) => setCpf(e.target.value)}
             mask='999.999.999-99'
             placeholder='Seu CPF'
@@ -1109,25 +1161,11 @@ export default function Professionals() {
 
           <label htmlFor="">RG</label>
           <InputMask
-            // defaultValue={userSelected?.rg}
             onChange={(e) => setRg(e.target.value)}
             mask='99.999.999-9'
             placeholder='Seu RG'
             value={rg}
           />
-
-          <input
-            type='text'
-            defaultValue={userSelected?.descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-            placeholder='Descrição'
-          />
-          {/* <InputMask
-            mask='99/99/9999'
-            placeholder='Data de nascimento'
-            value={nascimento}
-            onChange={(e) => setNascimento(e.target.value)}
-          /> */}
 
           <label htmlFor="">Data de nascimento</label>
           <input
@@ -1139,7 +1177,6 @@ export default function Professionals() {
 
 
           <label htmlFor="">Nome da mãe</label>
-          {/* These are not saved in user data */}
           <input
             type='text'
             placeholder='Nome da mãe'
@@ -1147,31 +1184,6 @@ export default function Professionals() {
             onChange={(e) => setNomeMae(e.target.value)}
           />
 
-          <label htmlFor="">Seu telefone</label>
-          <InputMask
-            className='masked-input'
-            type='text'
-            name='phoneNumber'
-            mask='(99) 99999-9999'
-            placeholder='Telefone'
-            onChange={(e) => setTelefone(e.target.value)}
-          />
-
-          <label htmlFor="">Telefone 2</label>
-          <InputMask
-            className='masked-input'
-            type='text'
-            name='phoneNumber'
-            mask='(99) 99999-9999'
-            placeholder='Telefone 2'
-            onChange={(e) => setTelefone2(e.target.value)}
-          />
-          {/*
-
-          ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
-
-
-          */}
           <label htmlFor="">Cargo</label>
           <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
             <option hidden>Cargo</option>
@@ -1180,15 +1192,6 @@ export default function Professionals() {
             ))}
           </select>
 
-          {/* This is not necesssary anymore */}
-          {/*
-          <input
-            type='text'
-            placeholder='Benefícios'
-            value={beneficios}
-            onChange={(e) => setBeneficios(e.target.value)}
-          />
-          */}
 
           <label htmlFor="">CEP</label>
           <input
@@ -1214,128 +1217,6 @@ export default function Professionals() {
             value={bairro}
             onChange={(e) => setBairro(e.target.value)}
           />
-
-          <label htmlFor="">Logradouro</label>
-          <input
-            type='text'
-            placeholder='Logradouro*'
-            value={logradouro}
-            onChange={(e) => setLogradouro(e.target.value)}
-          />
-
-          <label htmlFor="">Número</label>
-          <input
-            type='text'
-            placeholder='Número*'
-            value={numero}
-            onChange={(e) => setNumero(e.target.value)}
-          />
-
-
-          {!userSelected && (
-            <>
-              <label htmlFor="">Email</label>
-              <input
-                type='text'
-                placeholder='Email'
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <label htmlFor="">Gênero</label>
-              <select name='' id='' onChange={(e) => setGenero(e.target.value)}>
-                <option hidden>Gênero</option>
-                <option value='Mulher'>Mulher</option>
-                <option value='Homem'>Homem</option>
-                <option value='Prefiro não responder'>
-                  Prefiro não responder
-                </option>
-              </select>
-
-              <label htmlFor="">Estado civil</label>
-              <select
-                name=''
-                id=''
-                onChange={(e) => setEstadoCivil(e.target.value)}
-              >
-                <option hidden>Estado civil</option>
-                <option value='Solteiro(a)'>Solteiro(a)</option>
-                <option value='Casado(a)'>Casado(a)</option>
-                <option value='Viúvo(a)'>Viúvo(a)</option>
-              </select>
-            </>
-          )}
-
-          <S.divCheck>
-            <Checkbox
-              type='checkbox'
-              placeholder='Sub-Área?'
-              defaultChecked={hasDependente}
-              onChange={() => setHasDependente(!hasDependente)}
-            />
-            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
-          </S.divCheck>
-          {hasDependente && (
-            <>
-              {dependentes.map((e, index) => (
-                <div className='border'>
-                  <label htmlFor="">Nome do Dependente</label>
-                  <input
-                    type='text'
-                    placeholder='Nome do Dependente'
-                    name='nome'
-                    onChange={(e) => handleChangeDependente(index, e)}
-                  />
-
-                  <label htmlFor="">CPF do Dependente</label>
-                  <InputMask
-                    name='cpf'
-                    mask='999.999.999-99'
-                    placeholder='CPF do Dependente'
-                    onChange={(e) => {
-                      handleChangeDependente(index, e)
-
-                      const cpfWithLetters = e.target.value
-                      const clearedCpf = cpfWithLetters.replace(/\D/g, '')
-
-                      // console.log(clearedCpf)
-                      if (clearedCpf.length != 11) return
-
-                      checkCPF(clearedCpf)
-                    }}
-                  />
-
-                  <label htmlFor="">RG do dependente</label>
-                  <InputMask
-                    name='rg'
-                    mask='99.999.999-9'
-                    placeholder='RG do Dependente'
-                    onChange={(e) => handleChangeDependente(index, e)}
-                  />
-
-                  <label htmlFor="">Data de Nascimento do Dependente</label>
-                  <input
-                    name='dataNas'
-                    type='date'
-                    placeholder='Data de Nascimento do Dependente'
-                    onChange={(e) => handleChangeDependente(index, e)}
-                  />
-                  <button
-                    className='btn-actions btn-trash'
-                    type='button'
-                    onClick={() => removeFormFields(index)}
-                  >
-                    <FiTrash />
-                  </button>
-                </div>
-              ))}
-              <button
-                type='button'
-                className='btn-actions'
-                onClick={() => addFormFields()}
-              >
-                <FiPlus />
-              </button>
-            </>
-          )}
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>

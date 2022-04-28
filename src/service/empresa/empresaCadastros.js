@@ -124,4 +124,17 @@ export default class empresa{
     return response;
     
   }
+
+  //==========================================================================================================
+  static async listWithManyFilters(filters){
+    let response = await api.get(`empresa?${filters}`)
+      .catch(() => {
+        servidorErrorMessage()
+      })
+
+      let responseData = response.data.rows
+
+      return responseData
+    
+}
 }

@@ -118,8 +118,8 @@ export default function Questionnaires() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
-              filename="Pactua Benefícios Excel"
+              table="questionarios"
+              filename="Pactua Questionario Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
