@@ -8,6 +8,10 @@ import empresa from 'service/empresa/empresaCadastros'
 import { fullName, id } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import { toast } from 'react-toastify'
+
+import checkCNPJ from '../../../utils/checkCNPJ'
+
 
 export default function Company() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -193,7 +197,21 @@ export default function Company() {
   
       closeModalFilter()
     }
-      
+  // 
+  function handleChangeCnpj(cnpjEntered: string){
+    console.log(cnpjEntered)
+    setCnpj(cnpjEntered)
+
+    let cnpjCleanered = cnpjEntered.replace(/[^\d]+/g,'')
+
+    console.log(cnpjCleanered.length != 14)
+
+    if(cnpjCleanered.length != 14) return;
+
+    let isValid = checkCNPJ(cnpjEntered)
+    if(!isValid) toast.error(" CNPJ Inválido")
+    else toast.success("CNPJ Válido")
+  }
 
   return (
     <>
@@ -283,14 +301,57 @@ export default function Company() {
           >
             <h2>Editar Empresa</h2>
           
-            <input type='text' defaultValue={empresaEdit?.cnpj} onChange={(e)=> setCnpj(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.razaoSocial} onChange={(e)=> setRazaoSocial(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.nome} onChange={(e)=> setNome(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.inscricaoEstadual} onChange={(e)=> setInscricaoEstadual(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.inscricaoMunicipal} onChange={(e)=> setInscricaoMunicipal(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.cnac} onChange={(e)=> setCnac(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.cep} onChange={(e)=> setCep(e.target.value)} />
-            <input type='text' defaultValue={empresaEdit?.logradouro} onChange={(e)=> setLogradouro(e.target.value)} />
+            <InputMask
+            required
+            defaultValue={empresaEdit?.cnpj}
+            mask="99.999.999/9999-99"  
+            placeholder='CNPJ'
+            onChange={(e) => handleChangeCnpj(e.target.value)
+            }
+            />
+             
+            <input
+            type='text'
+            defaultValue={empresaEdit?.razaoSocial}
+            onChange={(e)=> setRazaoSocial(e.target.value)}
+             />
+             
+            <input
+            type='text'
+            defaultValue={empresaEdit?.nome}
+            onChange={(e)=> setNome(e.target.value)}
+             />
+             
+            <input
+            type='text'
+            defaultValue={empresaEdit?.inscricaoEstadual}
+            onChange={(e)=> setInscricaoEstadual(e.target.value)}
+             />
+             
+            <input
+            type='text'
+            defaultValue={empresaEdit?.inscricaoMunicipal}
+            onChange={(e)=> setInscricaoMunicipal(e.target.value)}
+             />
+             
+            <input
+            type='text'
+            defaultValue={empresaEdit?.cnac}
+            onChange={(e)=> setCnac(e.target.value)}
+             />
+             
+            <input
+            type='text'
+            defaultValue={empresaEdit?.cep}
+            onChange={(e)=> setCep(e.target.value)}
+             />
+             
+            <input
+            type='text'
+            defaultValue={empresaEdit?.logradouro}
+            onChange={(e)=> setLogradouro(e.target.value)}
+             />
+             
             <button type="submit">Enviar</button>
           </S.ContainerForm>
          
@@ -318,21 +379,61 @@ export default function Company() {
           <h2>Cadastrar empresa</h2>
 
           <label htmlFor="">CNPJ</label>
-          <input type='number' placeholder='CNPJ' onChange={(e) => setCnpj(e.target.value)}/>
-          <label htmlFor="">Razão social</label>
-          <input type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
-          <label htmlFor="">Nome fantasia</label>
-          <input type='text' placeholder='Nome fantasia' onChange={(e) => setNome(e.target.value)}/>
-          <label htmlFor="">Inscrição social</label>
-          <input type='text' placeholder='Inscrição Estadual' onChange={(e) => setInscricaoEstadual(e.target.value)}/>
-          <label htmlFor="">Inscrição municipal</label>
-          <input type='text' placeholder='Inscrição Municipal' onChange={(e) => setInscricaoMunicipal(e.target.value)}/>
-          <label htmlFor="">CNAE</label>
-          <input type='text' placeholder='CNAE'  onChange={(e) => setCnac(e.target.value)}/>
-          <label htmlFor="">CEP</label>
-          <input type='text' placeholder='CEP*' onChange={(e) => setCep(e.target.value)}/>
-          <label htmlFor="">Logradouro</label>
-          <input type='text' placeholder='Logradouro' onChange={(e) => setLogradouro(e.target.value)}/>
+
+          <InputMask
+          required
+          mask="99.999.999/9999-99"  
+          placeholder='CNPJ'
+          onChange={(e) => handleChangeCnpj(e.target.value)}
+          />
+
+          <label
+          htmlFor="">Razão social</label>
+          <input
+          type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
+
+          <label
+          htmlFor="">Nome fantasia</label>
+          <input
+          type='text'
+          placeholder='Nome fantasia'
+          onChange={(e) => setNome(e.target.value)}/>
+
+          <label
+          htmlFor="">Inscrição social</label>
+          <input
+          type='text'
+          placeholder='Inscrição Estadual'
+          onChange={(e) => setInscricaoEstadual(e.target.value)}/>
+
+          <label
+          htmlFor="">Inscrição municipal</label>
+          <input
+          type='text'
+          placeholder='Inscrição Municipal'
+          onChange={(e) => setInscricaoMunicipal(e.target.value)}/>
+
+          <label
+          htmlFor="">CNAE</label>
+          <input
+          type='text' 
+          placeholder='CNAE'
+          onChange={(e) => setCnac(e.target.value)}/>
+
+          <label
+          htmlFor="">CEP</label>
+          <input
+          type='text'
+          placeholder='CEP*' 
+          onChange={(e) => setCep(e.target.value)}/>
+          
+          <label
+          htmlFor="">Logradouro</label>
+          <input
+          type='text'
+          placeholder='Logradouro'
+          onChange={(e) => setLogradouro(e.target.value)}/>
+
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
@@ -364,10 +465,12 @@ export default function Company() {
           
           <label 
           htmlFor="">CNPJ</label>
-          <input 
-          type='number'
+          <InputMask
+          // required
+          mask="99.999.999/9999-99"  
+          // type='number'
           placeholder='CNPJ'
-          onChange={(e) => setCnpj(e.target.value)}
+          onChange={(e) => handleChangeCnpj(e.target.value)}
           />
           
           <label 
