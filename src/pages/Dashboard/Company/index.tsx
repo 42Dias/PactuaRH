@@ -149,7 +149,6 @@ export default function Company() {
   
     async function handleFilterEmpresa(){
 
-      console.log("oujbnbojfdnbfnjbnfkdjnbkjdfnbndfbndfbkjfgjk")
       let filter = ''
   
       if (nome){
@@ -322,7 +321,9 @@ export default function Company() {
             onChange={(e)=> setNome(e.target.value)}
              />
              
-            <input
+            <InputMask
+            required
+            mask="999.999.999.999" 
             type='text'
             defaultValue={empresaEdit?.inscricaoEstadual}
             onChange={(e)=> setInscricaoEstadual(e.target.value)}
@@ -400,8 +401,9 @@ export default function Company() {
           onChange={(e) => setNome(e.target.value)}/>
 
           <label
-          htmlFor="">Inscrição social</label>
-          <input
+          htmlFor="">Inscrição Estadual</label>
+          <InputMask
+          mask="999.999.999.999" 
           type='text'
           placeholder='Inscrição Estadual'
           onChange={(e) => setInscricaoEstadual(e.target.value)}/>
@@ -466,7 +468,7 @@ export default function Company() {
           <label 
           htmlFor="">CNPJ</label>
           <InputMask
-          // required
+          required
           mask="99.999.999/9999-99"  
           // type='number'
           placeholder='CNPJ'
@@ -490,9 +492,10 @@ export default function Company() {
           />
           
           <label 
-          htmlFor="">Inscrição social</label>
-          <input 
-          type='text'
+          htmlFor="">Inscrição Estadual</label>
+          <InputMask
+          required
+          mask="999.999.999.999" 
           placeholder='Inscrição Estadual'
           onChange={(e) => setInscricaoEstadual(e.target.value)}
           />
