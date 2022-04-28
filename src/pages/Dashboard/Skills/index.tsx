@@ -16,7 +16,7 @@ export default function Skills() {
   const [nome, setNome] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
-  const [skills, setSkills] = useState<string>('')
+  const [skills, setSkills] = useState<any[]>([{}])
   const [area           , setArea    ] = useState([])
   const [skillsFilter           ,setSkillsFilter     ] = useState<string>('')
   const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
@@ -102,7 +102,7 @@ export default function Skills() {
 
     let habilidadesFilted = await habilidades.listWithManyFilters(filter)
 
-    setArea(habilidadesFilted)
+    setSkills(habilidadesFilted)
 
     //setHabilidades(habilidadesFilted)
 
