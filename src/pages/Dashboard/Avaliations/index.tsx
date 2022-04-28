@@ -149,7 +149,7 @@ export default function Avaliations() {
 
             <ReactHTMLTableToExcel
               table="avaliations"
-              filename="Pactua Benefícios Excel"
+              filename="Pactua Avaliações Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
@@ -157,7 +157,7 @@ export default function Avaliations() {
 
           <S.Table id="avaliations">
             <S.TrTitle>
-              <td>Nome do benefício</td>
+              <td>Nome do Avaliação</td>
               <td>Descrição</td>
             </S.TrTitle>
 
@@ -209,10 +209,10 @@ export default function Avaliations() {
             handleUpdate(id)
           }}
         >
-          <h2>Editar benefício</h2>
+          <h2>Editar Avaliação</h2>
           <input
             type='text'
-            placeholder='Nome do benefício'
+            placeholder='Nome do Avaliação'
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
@@ -247,13 +247,13 @@ export default function Avaliations() {
             handleCreate()
           }}
         >
-          <h2>Cadastrar benefício</h2>
+          <h2>Cadastrar Avaliação</h2>
 
-          <label htmlFor="">Nome do benefício</label>
+          <label htmlFor="">Nome do Avaliação</label>
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome do benefício'
+            placeholder='Nome do Avaliação'
             required
           />
           <input
@@ -289,11 +289,11 @@ export default function Avaliations() {
         >
           <h2>Filtros</h2>
 
-          <label htmlFor="">Nome do benefício</label>
+          <label htmlFor="">Nome do Avaliação</label>
           <input
             type='text'
             onChange={(e) => setNomeFilter(e.target.value)}
-            placeholder='Nome do benefício'
+            placeholder='Nome do Avaliação'
       
           />
           <input
