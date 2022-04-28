@@ -29,6 +29,9 @@ export default function Career() {
 
   const [selectedCareer, setSelectedCareer] = useState<iNiveis>()
   const [index, setIndex] = useState<number>(0)
+
+  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
+  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
   
   // const [hasNiveis, setHasNiveis] = useState<boolean>(false)
   // const [dependentes, setDependentes] = useState<iDependent[]>([
@@ -197,6 +200,39 @@ function closeModalFilter() {
     handleLoadCargos()
   }, [])
 
+
+ /* 
+==========================================================================================================
+                                            Filter
+==========================================================================================================
+*/ 
+
+  async function handleFilterArea(){
+
+    console.log("oujbnbojfdnbfnjbnfkdjnbkjdfnbndfbndfbkjfgjk")
+    let filter = ''
+
+    if (nomeFilter){
+      console.log("tem nome")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bnome%5D=${nomeFilter}`
+    }
+    if (descricaoFilter){
+      console.log("tem desc")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bdescricao%5D=${descricaoFilter}`
+      
+    }
+  
+
+    let carreFiltered = await planoCarreira.listWithManyFilters(filter)
+
+    setAllCareer(carreFiltered)
+    console.log(carreFiltered)
+
+    closeModalFilter()
+  }
   return (
     <>
       <S.Body>
@@ -219,8 +255,8 @@ function closeModalFilter() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
-              filename="Pactua Benefícios Excel"
+              table="carreira"
+              filename="Pactua Plano de Carreira Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
@@ -622,7 +658,7 @@ function closeModalFilter() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreateCareer()
+            handleFilterArea()
           }}
         >
           <h2>Filtros</h2>
@@ -630,85 +666,16 @@ function closeModalFilter() {
           <label htmlFor="">Nome</label>
           <input
             type='text'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setNomeFilter(e.target.value)}
             placeholder='Nome'
           />
 
           <label htmlFor="">Descrição</label>
           <input  
             type='text'
-            onChange={(e) => setDescricao(e.target.value)}
+            onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
           />
-
-          <button
-            type='button'
-            className='btn-actions'
-            onClick={() => addFormFields()}
-          >
-            <FiPlus />
-          </button>
-
-          {allNiveis.length > 0 && (
-            <>
-              {allNiveis.map((e: any, index: any) => (
-                <div className='border'>
-                  <label htmlFor="">Nome do nível</label>
-                  <input
-                    type='text'
-                    placeholder='Nome do nível'
-                    name='nome'
-                    onChange={(e) => handleChangeNiveis(index, e)}
-                  />
-
-                  <label htmlFor="">Descrição</label>
-                  <input
-                    type='text'
-                    placeholder='Descrição'
-                    name='descricao'
-                    onChange={(e) => handleChangeNiveis(index, e)}
-                  />
-
-                  <label htmlFor="">Nível</label>
-                  <input
-                    type='number'
-                    placeholder='Nivel'
-                    name='nivel'
-                    onChange={(e) => handleChangeNiveis(index, e)}
-                  />
-
-                  <label htmlFor="">Nome do cargo</label>
-                  <S.SelectPai
-                    onChange={(e) => {
-                      // setCargo(e.target.value)
-                      console.log(e.target.value)
-                      // @ts-ignore
-                      handleChangeNiveis(index, e)
-                    }}
-                    placeholder='Nome do cargo'
-                    value={cargo}
-                    name='cargo'
-                    id="cargo"
-                  >
-                    {allCargos.map((value: any, i: any) => (
-                      <S.OptionsPai key={i} value={value.id}>
-                        {value.nome}
-                      </S.OptionsPai>
-                    ))}
-                  </S.SelectPai>
-
-                  <button
-                    className='btn-actions btn-trash'
-                    type='button'
-                    onClick={() => removeFormFields(index)}
-                  >
-                    <FiTrash />
-                  </button>
-                </div>
-              ))}
-            </>
-          )}
-
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
