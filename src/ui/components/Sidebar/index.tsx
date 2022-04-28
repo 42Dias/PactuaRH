@@ -75,6 +75,10 @@ const Sidebar = () => {
                   <Link to='/dashboard'>Inicío</Link>
                 </MenuItem>
                 <SubMenu title='Cadastros' icon={<FiEdit />}>
+        
+                  <MenuItem>
+                    <Link to='/avaliacoes'>Avaliações</Link>
+                  </MenuItem>
 
                   <MenuItem>
                     <Link to='/area'>Área</Link>
@@ -87,7 +91,10 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/cargos'>Cargos</Link>
                   </MenuItem>
-                  
+
+                  <MenuItem>
+                    <Link to='/checkpoints'>Checkpoints</Link>
+                  </MenuItem>
 
                   <MenuItem>
                     <Link to='/centroCustos'>Centro de Custos</Link>
@@ -118,6 +125,14 @@ const Sidebar = () => {
 
                   <MenuItem>
                     <Link to='/profissionais'>Profissionais</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/pdi'>Pdi</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/pri'>Pri</Link>
                   </MenuItem>
 
                   <MenuItem>Relatórios*</MenuItem>
