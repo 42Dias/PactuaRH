@@ -62,7 +62,7 @@ export default class funcoes {
 
   static async listWithFilter(filter, value) {
     const response = await api
-      .get(`user?filter%5B${filter}%5D=${value}`)
+      .get(`funcao?filter%5B${filter}%5D=${value}`)
       .catch(() => {
         servidorErrorMessage()
       })
@@ -73,7 +73,7 @@ export default class funcoes {
   }
 
   static async listWithManyFilters(filters) {
-    const response = await api.get(`user?${filters}`).catch(() => {
+    const response = await api.get(`funcao?${filters}`).catch(() => {
       servidorErrorMessage()
     })
 
@@ -84,7 +84,7 @@ export default class funcoes {
 
   static async find(id) {
     const response = await api
-      .get(`user/${id}`)
+      .get(`funcao/${id}`)
 
       .catch(() => {
         servidorErrorMessage()
@@ -109,7 +109,7 @@ export default class funcoes {
       })
   }
 
-  static async loadUser(token) {
+  static async loadfuncao(token) {
     const response = await axios({
       method: 'get',
       url: `${ip}:${porta}/api/auth/me`,
