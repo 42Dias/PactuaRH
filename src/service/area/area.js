@@ -10,8 +10,6 @@ export default class areas {
         data,
       })
 
-      console.log(response)
-
       .catch(() => {
         servidorErrorMessage()
       })
