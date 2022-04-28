@@ -86,7 +86,7 @@ export const OptionsPai = styled.option``
 
 export const Table = styled.table`
   /* width: 100%; */
-  background: blue;
+  background: white;
   border-radius: 5px;
   @media(max-width: 800px){
     margin-left: 20%;
@@ -103,7 +103,6 @@ export const TrTitle = styled.tr`
   }
   @media(max-width: 800px){
     width: 0%;
-    background-color: green;
   }
   
 `
@@ -122,7 +121,7 @@ export const TrSecond = styled.tr`
   }
   @media(max-width: 800px){
     padding-left: 50%;
-    background-color: yellow;
+    /* background-color: yellow; */
   }
 `
 
