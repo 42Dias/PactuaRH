@@ -22,6 +22,7 @@ import Box from 'pages/Dashboard/9Box'
 import CostCenter from 'pages/Dashboard/costCenter'
 import Career from 'pages/Dashboard/Career'
 import Avaliations from 'pages/Dashboard/Avaliations'
+import Pdi from 'pages/Dashboard/Pdi'
 
 const RoutesApp = () => {
   return (
@@ -49,7 +50,8 @@ const RoutesApp = () => {
         <Route path='/avaliacao-geral'     element={<GeneralEvaluation />}/>
         <Route path='/relatorio-9box'      element={<Box />}              />
         <Route path='/plano-de-carreira'   element={<Career />}           />
-        <Route path='/avaliacoes'   element={<Avaliations />}           />
+        <Route path='/avaliacoes'          element={<Avaliations />}      />
+        <Route path='/pdi'                 element={<Pdi />}              />
       </Routes>
     </BrowserRouter>
     </>

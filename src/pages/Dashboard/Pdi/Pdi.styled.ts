@@ -9,8 +9,7 @@ export const Container = styled.div`
   margin: 0 auto;
 
   @media (max-width: 970px) {
-    padding: 0 2%;
-    
+    padding: 0 12%;
   }
 `
 
@@ -18,10 +17,6 @@ export const Title = styled.h2`
   font-size: 24px;
   background: white;
   padding: 20px 0;
-  @media(max-width: 800px){
-    padding-left: 10%;
-  }
- 
 `
 
 export const Body = styled.body`
@@ -59,52 +54,21 @@ export const FlexButtons = styled.div`
       margin-left: 10px;
     }
   }
-  @media(max-width: 800px){
-    padding-left: 10%;
-  }
 `
-
-export const divCheck = styled.div`
-  display: flex;
-  justify-content: start;
-  align-items: center;
-`
-
-export const Checkbox = styled.input`
-  width: 18px !important;
-  background: white;
-`
-
-export const Label = styled.label`
-  font-size: 16px;
-  margin-left: 5px;
-`
-
-export const SelectPai = styled.select``
-
-export const OptionsPai = styled.option``
 
 export const Table = styled.table`
   /* width: 100%; */
   background: white;
   border-radius: 5px;
-  @media(max-width: 800px){
-    margin-left: 20%;
-  }
 `
 
 export const TrTitle = styled.tr`
   margin: 50px 0 !important;
   height: 53px;
-  
   td {
     padding: 20px;
     font-weight: bold;
   }
-  @media(max-width: 800px){
-    width: 0%;
-  }
-  
 `
 
 export const TrSecond = styled.tr`
@@ -118,10 +82,6 @@ export const TrSecond = styled.tr`
   button {
     background: transparent;
     border: 0;
-  }
-  @media(max-width: 800px){
-    padding-left: 50%;
-    /* background-color: yellow; */
   }
 `
 

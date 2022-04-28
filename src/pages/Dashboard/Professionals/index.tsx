@@ -307,7 +307,8 @@ export default function Professionals() {
   // ============================== Handle Subcrud Dependents
   async function handleRemoveDependent(id?: string) {
     await dependente.delete(id)
-  } // ============================== UseEffects
+  }
+  // ============================== UseEffects
 
   useEffect(() => {
     handleLoadPosition()

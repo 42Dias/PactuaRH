@@ -177,7 +177,7 @@ export default function Area() {
           </S.FlexButtons>*/}
 
           {area.length > 0 && (
-            <S.Table id="area">
+            <S.Table>
               <S.TrTitle>
                 <td>Nome do área</td>
                 <td>Descrição</td>

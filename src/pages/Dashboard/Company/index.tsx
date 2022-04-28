@@ -210,7 +210,7 @@ export default function Company() {
 
     let isValid = checkCNPJ(cnpjEntered)
     if(!isValid) toast.error(" CNPJ Inválido")
-    else toast.success("CNPJ Válido")
+    else toast.success("CNPJ Válido") 
   }
 
   return (
