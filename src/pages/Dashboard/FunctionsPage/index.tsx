@@ -115,7 +115,7 @@ export default function FunctionsPage() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
+              table="funcao"
               filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
