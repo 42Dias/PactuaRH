@@ -12,10 +12,14 @@ export default function Skills() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+  
   const [nome, setNome] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
-  const [skills, setSkills] = useState<any[]>([])
+  const [skills, setSkills] = useState<string>('')
+  const [area           , setArea    ] = useState([])
+  const [skillsFilter           ,setSkillsFilter     ] = useState<string>('')
+  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
 
   function openModal() {
     setIsOpen(true)
@@ -69,11 +73,41 @@ export default function Skills() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
+    setSkillsFilter('')
+    setDescricaoFilter('')
   }
 
   useEffect(() => {
     handleLoadSkills()
   }, [])
+
+
+  async function handleFilterArea() {
+
+    let filter = ''
+
+    if (skillsFilter){
+      console.log("tem nome")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bnome%5D=${skillsFilter}`
+    }
+    if (descricaoFilter){
+      console.log("tem desc")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bdescricao%5D=${descricaoFilter}`
+      
+    }
+  
+
+    let habilidadesFilted = await habilidades.listWithManyFilters(filter)
+
+    setArea(habilidadesFilted)
+
+    //setHabilidades(habilidadesFilted)
+
+    closeModalFilter()
+  }
 
   async function handleDelete(id: string) {
     await habilidades.delete(id)
@@ -113,7 +147,7 @@ export default function Skills() {
                 <td>Descrição</td>
               </S.TrTitle>
 
-              {skills.map((skills) => (
+            {skills.map((skills) => (
                 <S.TrSecond>
                   <td>{skills.nome}</td>
                   <td>{skills.descricao}</td>
@@ -238,7 +272,7 @@ export default function Skills() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreate()
+            handleFilterArea()
           }}
         >
           <h2>Filtros</h2>
@@ -246,15 +280,13 @@ export default function Skills() {
           <label htmlFor="">Habilidade</label>
           <input
             type='text'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setSkillsFilter(e.target.value)}
             placeholder='Nome do benefício'
-            required
           />
           <input
             type='text'
-            onChange={(e) => setDescricao(e.target.value)}
+            onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
-            required
           />
 
           <button type='submit'>Enviar</button>
