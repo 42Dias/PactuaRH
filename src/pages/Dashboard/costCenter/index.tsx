@@ -119,8 +119,8 @@ export default function CostCenter() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
-              filename="Pactua Benefícios Excel"
+              table="centroCustos"
+              filename="Pactua Centro De Custos Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
