@@ -389,27 +389,12 @@ export default function Positions() {
   ==================================================
 */
   async function handleFilterPosition(rawData: any){
-    let data = {
-      nome: rawData.nome,
-      descricao: rawData.desc,
-      area: rawData.areaId,
-      lideranca: rawData.lideranca == 'true',
-      // ecolaridade: rawData.id,
 
-      cargosLiderados: [ rawData.cargoLiderId ],
-      // Estes 4 são tabelas separadas aaaaaaaa, como listas n:m 
-      desejaveis: wanted,
-      funcoes:    functions,
-      habilidades: skills,
-      ecolaridade: educations,
-    }  
-
-    //Clears all data used
-    reset(rawData)
-    setSkills( [ ] )
-    setWanted( [ ] )
-    setFunctions([ ] )
-    setEducations([ ] )
+    // reset(rawData)
+    // setSkills( [ ] )
+    // setWanted( [ ] )
+    // setFunctions([ ] )
+    // setEducations([ ] )
 
     let filter = '';
 
@@ -425,37 +410,26 @@ export default function Positions() {
       filter += `filter%5Bdescricao%5D=${rawData.desc}`
       
     }
-    if (rawData.areaId){
+    if (rawData.areaId != "Área"){
       console.log("tem areaId")
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Barea%5D=${rawData.areaId}`
     }
-    if (rawData.lideranca){
+    if (rawData.lideranca == "true"){
       console.log("tem pai")
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Blideranca%5D=${true}`
     }
+    if (rawData.habilidadeId){
+      console.log("tem pai")
 
-    // if (skillsSelected) {
-    //   console.log("tem pai")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bhabilidade%5D=${rawData.habilidadeId}`
+    }
+    
 
-    //   if (filter.length != 0) filter += '&'
-    //   filter += `filter%5Blideranca%5D=${skillsSelected}`
-    // }
-    // if (wantedSelected) {
-    //   console.log("tem pai")
-
-    //   if (filter.length != 0) filter += '&'
-    //   filter += `filter%5Blideranca%5D=${wantedSelected}`
-    // }
-    // if (functionsSelected) {
-    //   console.log("tem pai")
-
-    //   if (filter.length != 0) filter += '&'
-    //   filter += `filter%5Blideranca%5D=${functionsSelected}`
-    // }
     if (educationsSelected) {
 
       console.log("Bjhbfakjdbvjbsdkjb")
@@ -1400,7 +1374,7 @@ export default function Positions() {
             )}
             
           </select>
-
+          {/*
           <label htmlFor="">Cargos liderados</label>
           <select
           {...register('cargoLiderId')}
@@ -1433,7 +1407,7 @@ export default function Positions() {
             }
           </select>
 
-          <label style={{ marginBottom: '5px', }} htmlFor="">Habilidades</label>
+           <label style={{ marginBottom: '5px', }} htmlFor="">Habilidades</label>
           <div className="border">
               <div className="return">
               <select
@@ -1512,7 +1486,7 @@ export default function Positions() {
                 }
               </select>
             </div>
-          </div>
+          </div> */}
 
           <input
             type='submit'
