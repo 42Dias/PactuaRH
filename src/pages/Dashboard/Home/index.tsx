@@ -10,7 +10,8 @@ const avatar = require('./../../../assets/avatar.png')
 
 export default function Home() {
   function checkLogin(){
-    // if(!Email) window.location.reload()
+    if(!Email) window.location.reload()
+
   }
 
   useEffect(
