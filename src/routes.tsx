@@ -23,6 +23,7 @@ import CostCenter from 'pages/Dashboard/costCenter'
 import Career from 'pages/Dashboard/Career'
 import Avaliations from 'pages/Dashboard/Avaliations'
 import Pdi from 'pages/Dashboard/Pdi'
+import Checkpoints from 'pages/Dashboard/Checkpoints'
 
 const RoutesApp = () => {
   return (
@@ -52,6 +53,7 @@ const RoutesApp = () => {
         <Route path='/plano-de-carreira'   element={<Career />}           />
         <Route path='/avaliacoes'          element={<Avaliations />}      />
         <Route path='/pdi'                 element={<Pdi />}              />
+        <Route path='/checkpoints'         element={<Checkpoints />}      />
       </Routes>
     </BrowserRouter>
     </>
