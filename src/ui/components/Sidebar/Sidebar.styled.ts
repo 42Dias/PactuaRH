@@ -91,6 +91,11 @@ export const Container = styled.div`
     color: white;
   }
 
+  .open .react-slidedown{
+    height: 60vh !important;
+    overflow: scroll;
+  }
+
   /* @media only screen and (max-width: 720px) {
     html {
       overflow: hidden;
