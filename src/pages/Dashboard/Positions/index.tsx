@@ -499,8 +499,8 @@ export default function Positions() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
-              filename="Pactua Benefícios Excel"
+              table="cargos"
+              filename="Pactua Cargos Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
