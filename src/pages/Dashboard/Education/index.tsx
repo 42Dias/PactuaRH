@@ -148,7 +148,7 @@ export default function Education() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
+              table="escolaridade"
               filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
