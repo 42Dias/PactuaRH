@@ -14,7 +14,7 @@ export default class centroCustos {
 
     console.log(response)
 
-    const mensagemOk = 'Área criada com sucesso!'
+    const mensagemOk = 'Centro de Custos criado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -31,7 +31,7 @@ export default class centroCustos {
       .catch(() => {
         servidorErrorMessage()
       })
-    const mensagemOk = 'Área alterada com sucesso!'
+    const mensagemOk = 'Centro de Custos alterado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 

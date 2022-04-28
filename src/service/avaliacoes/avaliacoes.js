@@ -19,7 +19,7 @@ export default class avaliacoes{
         servidorErrorMessage()
       })
 
-      let mensagemOk = 'Benefício criado com sucesso!'
+      let mensagemOk = 'Avaliação criada com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -37,7 +37,7 @@ export default class avaliacoes{
       })
 
 
-      let mensagemOk = 'Benefício alterado com sucesso!'
+      let mensagemOk = 'Avaliação alterada com sucesso!'
       let mensagemNaoOK = 'Revise seus dados :('
       responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
