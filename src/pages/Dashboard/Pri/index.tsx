@@ -358,6 +358,42 @@ export default function Pri() {
             placeholder='Descrição da pri'
             required
           />
+
+          {
+            priItems.length > 0 && <h3>Pdi Itens</h3>
+          }
+          {
+            priItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                  />
+
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => removeFormFields(i, priItems, setPriItems)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+
+
           <S.ContainerBntFlex>
             <button type='button' onClick={() => addFormFields(priItems, setPriItems)}>
               <FiPlus />
