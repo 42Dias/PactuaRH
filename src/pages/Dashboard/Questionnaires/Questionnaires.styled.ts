@@ -70,6 +70,25 @@ export const TrTitle = styled.tr`
     font-weight: bold;
   }
 `
+export const SelectPai = styled.select``
+
+export const OptionsPai = styled.option``
+
+export const divCheck = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`
+
+export const Checkbox = styled.input`
+  width: 18px !important;
+  background: white;
+`
+
+export const Label = styled.label`
+  font-size: 16px;
+  margin-left: 5px;
+`
 
 export const TrSecond = styled.tr`
   height: 53px;
