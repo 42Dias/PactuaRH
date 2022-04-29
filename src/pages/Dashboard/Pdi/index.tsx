@@ -17,7 +17,9 @@ export default function Pdi() {
   const [desc, setDesc] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [pdi, setPdi] = useState<any[]>([])
+
   const [pdiItems, setPdiItems] = useState<any[]>([])
+  const [pdiItemsNew, setPdiItemsNew] = useState<any[]>([])
 
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
@@ -58,6 +60,7 @@ export default function Pdi() {
     const data = {
       nome: nome,
       descricao: desc,
+      pdiItems: pdiItems,
     }
 
     const isCreated = await pdiService.create(data)
@@ -70,6 +73,8 @@ export default function Pdi() {
     const data = {
       nome: nome,
       descricao: desc,
+      pdiItems: pdiItems,
+      pdiItemsNew: pdiItemsNew,
     }
 
     const isUpdated = await pdiService.update(id, data)
@@ -187,8 +192,6 @@ export default function Pdi() {
                   <button>
                     <FiArrowRight size={18} />
                   </button>
-
-
                 </td>
                 <td>
                   <button
@@ -196,6 +199,7 @@ export default function Pdi() {
                       setId(pdi.id)
                       setNome(pdi.nome)
                       setDesc(pdi.descricao)
+                      // setPdiItems(pdi.items)
                       openModal()
                     }}
                   >
@@ -282,8 +286,41 @@ export default function Pdi() {
               )
             )
           }
+
+          {
+            pdiItemsNew.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    onChange={(e) => handleChangeState(i, e, pdiItemsNew, setPdiItemsNew)}
+                  />
+
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    onChange={(e) => handleChangeState(i, e, pdiItemsNew, setPdiItemsNew)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => removeFormFields(i, pdiItemsNew, setPdiItemsNew)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+
+
           <S.ContainerBntFlex>
-            <button type='button' onClick={() => addFormFields(pdiItems, setPdiItems)}>
+            <button type='button' onClick={() => addFormFields(pdiItemsNew, setPdiItemsNew)}>
               <FiPlus />
             </button>
             <button type='submit'>Enviar</button>
