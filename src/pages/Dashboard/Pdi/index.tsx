@@ -1,6 +1,6 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEdit, FiTrash, FiX, FiFilter,FiArrowRight } from 'react-icons/fi'
+import { FiPlus, FiEdit, FiTrash, FiX, FiFilter, FiArrowRight } from 'react-icons/fi'
 import * as S from './Pdi.styled'
 import { useEffect, useState } from 'react'
 import pdiService from 'service/pdi/pdi'
@@ -17,6 +17,7 @@ export default function Pdi() {
   const [desc, setDesc] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [pdi, setPdi] = useState<any[]>([])
+  const [pdiItems, setPdiItems] = useState<any[]>([])
 
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
@@ -86,11 +87,41 @@ export default function Pdi() {
 
     handleLoadPdi()
   }
+
   /*
-==========================================================================================================
-                                            Filters
-==========================================================================================================
-*/
+   =====================================================================================================
+                                   Handle Change Screen elements 
+   =====================================================================================================
+   */
+  const addFormFields = (state: any[], setState: (value: any) => void) => {
+    // @ts-ignore
+    setState([...state, {}])
+  }
+
+  const handleChangeState = (i: number, e: any, state: any[], setState: (value: any) => void) => {
+    console.log("e.target.value")
+    console.log(e.target.value)
+
+    const newFormValues = [...state]
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
+
+    setState(newFormValues)
+  }
+
+  const removeFormFields = (i: number, state: any[], setState: (value: any) => void) => {
+
+    const newFormValues = [...state]
+    newFormValues.splice(i, 1)
+    setState(newFormValues)
+  }
+
+
+  /*
+  ==========================================================================================================
+                                              Filters
+  ==========================================================================================================
+  */
 
   async function handleFilterPdi() {
     let filter = ''
@@ -149,16 +180,16 @@ export default function Pdi() {
 
             {pdi.map((pdi) => (
               <S.TrSecond key={pdi.id}>
-  
+
                 <td>{pdi.nome}</td>
                 <td>{pdi.descricao}</td>
-                <td> 
+                <td>
                   <button>
-                  <FiArrowRight size={18}  />
-                     </button>
-                   
-                    
-                  </td>
+                    <FiArrowRight size={18} />
+                  </button>
+
+
+                </td>
                 <td>
                   <button
                     onClick={() => {
@@ -203,12 +234,14 @@ export default function Pdi() {
           }}
         >
           <h2>Editar pdi</h2>
+          <label htmlFor="">Nome</label>
           <input
             type='text'
             placeholder='Nome da pdi'
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
+          <label htmlFor="">Nome</label>
           <input
             type='text'
             onChange={(e) => setDesc(e.target.value)}
@@ -216,8 +249,47 @@ export default function Pdi() {
             placeholder='Descrição da pdi'
             required
           />
+          {
+            pdiItems.length > 0 && <h3>Pdi Itens</h3>
+          }
+          {
+            pdiItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
+                  />
 
-          <button type='submit'>Enviar</button>
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => removeFormFields(i, pdiItems, setPdiItems)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+          <S.ContainerBntFlex>
+            <button type='button' onClick={() => addFormFields(pdiItems, setPdiItems)}>
+              <FiPlus />
+            </button>
+            <button type='submit'>Enviar</button>
+          </S.ContainerBntFlex>
+
+          {/* <button type='submit'>Enviar</button> */}
         </S.ContainerForm>
       </Modal>
 
@@ -259,7 +331,47 @@ export default function Pdi() {
             required
           />
 
-          <button type='submit'>Enviar</button>
+          {
+            pdiItems.length > 0 && <h3>Pdi Itens</h3>
+          }
+          {
+            pdiItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
+                  />
+
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => removeFormFields(i, pdiItems, setPdiItems)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+          <S.ContainerBntFlex>
+            <button type='button' onClick={() => addFormFields(pdiItems, setPdiItems)}>
+              <FiPlus />
+            </button>
+            <button type='submit'>Enviar</button>
+          </S.ContainerBntFlex>
+
+          {/* <button type='submit'>Enviar</button> */}
         </S.ContainerForm>
       </Modal>
 
