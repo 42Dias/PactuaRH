@@ -17,6 +17,10 @@ export default function Pri() {
   const [id, setId] = useState<string>('')
   const [pri, setPri] = useState<any[]>([])
 
+  const [priItems, setPriItems] = useState<any[]>([])
+  const [priItemsNew, setPriItemsNew] = useState<any[]>([])
+
+
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
 
@@ -56,6 +60,7 @@ export default function Pri() {
     const data = {
       nome: nome,
       descricao: desc,
+      priItems: priItems,
     }
 
     const isCreated = await priService.create(data)
@@ -68,6 +73,8 @@ export default function Pri() {
     const data = {
       nome: nome,
       descricao: desc,
+      priItems: priItems,
+      priItemsNew: priItemsNew,
     }
 
     const isUpdated = await priService.update(id, data)
@@ -85,11 +92,42 @@ export default function Pri() {
 
     handleLoadPri()
   }
+
+
   /*
-==========================================================================================================
-                                            Filters
-==========================================================================================================
-*/
+   =====================================================================================================
+                                   Handle Change Screen elements 
+   =====================================================================================================
+   */
+  const addFormFields = (state: any[], setState: (value: any) => void) => {
+    // @ts-ignore
+    setState([...state, {}])
+  }
+
+  const handleChangeState = (i: number, e: any, state: any[], setState: (value: any) => void) => {
+    console.log("e.target.value")
+    console.log(e.target.value)
+
+    const newFormValues = [...state]
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
+
+    setState(newFormValues)
+  }
+
+  const removeFormFields = (i: number, state: any[], setState: (value: any) => void) => {
+
+    const newFormValues = [...state]
+    newFormValues.splice(i, 1)
+    setState(newFormValues)
+  }
+
+
+  /*
+  ==========================================================================================================
+                                              Filters
+  ==========================================================================================================
+  */
 
   async function handleFilterPri() {
     let filter = ''
@@ -208,7 +246,78 @@ export default function Pri() {
             required
           />
 
-          <button type='submit'>Enviar</button>
+          {
+            priItems.length > 0 && <h3>Pdi Itens</h3>
+          }
+          {
+            priItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                  />
+
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => removeFormFields(i, priItems, setPriItems)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+
+          {
+            priItemsNew.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    onChange={(e) => handleChangeState(i, e, priItemsNew, setPriItemsNew)}
+                  />
+
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    onChange={(e) => handleChangeState(i, e, priItemsNew, setPriItemsNew)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => removeFormFields(i, priItemsNew, setPriItemsNew)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+
+          <S.ContainerBntFlex>
+            <button type='button' onClick={() => addFormFields(priItemsNew, setPriItemsNew)}>
+              <FiPlus />
+            </button>
+            <button type='submit'>Enviar</button>
+          </S.ContainerBntFlex>
+
         </S.ContainerForm>
       </Modal>
 
@@ -249,8 +358,13 @@ export default function Pri() {
             placeholder='Descrição da pri'
             required
           />
+          <S.ContainerBntFlex>
+            <button type='button' onClick={() => addFormFields(priItems, setPriItems)}>
+              <FiPlus />
+            </button>
+            <button type='submit'>Enviar</button>
+          </S.ContainerBntFlex>
 
-          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
