@@ -55,7 +55,18 @@ export default function Questionnaires() {
   }
   const addFormFieldsNew = () => {
     // @ts-ignore
-    setAllQuestoesNew([...AllQuestoesNew, {}])
+    setAllQuestoesNew([
+      // @ts-ignore
+      ...allQuestoesNew,
+      // @ts-ignore
+      {
+        nome: '',
+        pergunta: '',
+        tipoDeResposta: '',
+        obrigatorio: false,
+        tipo: '',
+      },
+    ])
   }
 
   const handleChangeQuestoesNew = (i: number, e: any) => {
@@ -316,7 +327,8 @@ export default function Questionnaires() {
                   />
 
                   <S.divCheck>
-                    {obrigatorio ? (
+                    {obrigatorio
+? (
                       <S.Checkbox
                         type='checkbox'
                         placeholder='Obrigatório?'
@@ -324,14 +336,15 @@ export default function Questionnaires() {
                         checked={true}
                         onChange={(e) => setObrigatorio(e.target.checked)}
                       />
-                        ) : (
+                    )
+: (
                       <S.Checkbox
                         type='checkbox'
                         placeholder='Obrigatório?'
                         id='obrigatorio'
                         onChange={(e) => setObrigatorio(e.target.checked)}
                       />
-                        )}
+                    )}
                     <S.Label htmlFor='obrigatorio'>Obrigatório?</S.Label>
                   </S.divCheck>
 
@@ -354,13 +367,13 @@ export default function Questionnaires() {
                 </div>
               ))}
 
-              <button type='button' onClick={addFormFields}>
+              {/* <button type='button' onClick={addFormFields}>
                 <FiPlus />
-              </button>
+              </button> */}
             </>
           )}
 
-          {allQuestoes.length > 0 && (
+          {allQuestoesNew.length > 0 && (
             <>
               {allQuestoesNew.map((e: any, index: any) => (
                 <div className='border'>
@@ -394,7 +407,8 @@ export default function Questionnaires() {
                   />
 
                   <S.divCheck>
-                    {obrigatorio ? (
+                    {obrigatorio
+? (
                       <S.Checkbox
                         type='checkbox'
                         placeholder='Obrigatório?'
@@ -402,14 +416,15 @@ export default function Questionnaires() {
                         checked={true}
                         onChange={(e) => setObrigatorio(e.target.checked)}
                       />
-                        ) : (
+                    )
+: (
                       <S.Checkbox
                         type='checkbox'
                         placeholder='Obrigatório?'
                         id='obrigatorio'
                         onChange={(e) => setObrigatorio(e.target.checked)}
                       />
-                        )}
+                    )}
                     <S.Label htmlFor='obrigatorio'>Obrigatório?</S.Label>
                   </S.divCheck>
 
@@ -431,14 +446,13 @@ export default function Questionnaires() {
                   </button>
                 </div>
               ))}
-
-              <button type='button' onClick={addFormFields}>
-                <FiPlus />
-              </button>
             </>
           )}
 
           <S.ContainerBntFlex>
+            <button type='button' onClick={addFormFieldsNew}>
+              <FiPlus />
+            </button>
             <button type='submit'>Enviar</button>
           </S.ContainerBntFlex>
         </S.ContainerForm>
@@ -513,7 +527,8 @@ export default function Questionnaires() {
                   />
 
                   <S.divCheck>
-                    {obrigatorio ? (
+                    {obrigatorio
+? (
                       <S.Checkbox
                         type='checkbox'
                         placeholder='Obrigatório?'
@@ -521,22 +536,23 @@ export default function Questionnaires() {
                         checked={true}
                         onChange={(e) => setObrigatorio(e.target.checked)}
                       />
-                        ) : (
+                    )
+: (
                       <S.Checkbox
                         type='checkbox'
                         placeholder='Obrigatório?'
                         id='obrigatorio'
                         onChange={(e) => setObrigatorio(e.target.checked)}
                       />
-                        )}
+                    )}
                     <S.Label htmlFor='obrigatorio'>Obrigatório?</S.Label>
                   </S.divCheck>
 
                   <label htmlFor=''>Tipo</label>
                   <input
                     type='text'
-                    placeholder='Tipo de Resposta'
-                    name='tipoDeResposta'
+                    placeholder='Tipo'
+                    name='tipo'
                     onChange={(e) => handleChangeQuestoes(index, e)}
                   />
 
