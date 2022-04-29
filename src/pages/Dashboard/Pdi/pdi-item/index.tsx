@@ -5,11 +5,10 @@ import * as S from './Pdi.styled'
 import { useEffect, useState } from 'react'
 import pdiService from 'service/pdi/pdi'
 import { fullName } from 'service/api'
-import Link from "react-router-dom";
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
-export default function Pdi() {
+export default function PdiItem() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
@@ -143,22 +142,24 @@ export default function Pdi() {
 
           <S.Table id='pdi'>
             <S.TrTitle>
+              <td>Usuário</td>
+              <td>RH</td>
               <td>Nome da pdi</td>
               <td>Descrição</td>
             </S.TrTitle>
 
             {pdi.map((pdi) => (
               <S.TrSecond key={pdi.id}>
-  
+                <td>
+                  <input type="checkbox" />
+                </td>
+                <td>
+                  <input type="checkbox" />
+                </td>
                 <td>{pdi.nome}</td>
                 <td>{pdi.descricao}</td>
-                <td> 
-                  <button>
-                  <FiArrowRight size={18}  />
-                     </button>
-                   
-                    
-                  </td>
+
+                <td> <FiArrowRight size={18} /></td>
                 <td>
                   <button
                     onClick={() => {
