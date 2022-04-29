@@ -1,27 +1,89 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
+import { FiPlus, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Questionnaires.styled'
 import { useEffect, useState } from 'react'
-import InputMask from 'react-input-mask'
 import { fullName } from 'service/api'
 import questionarios from 'service/questionarios/questionarios'
-//@ts-ignore
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+// @ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import { iQuestoes } from 'types'
 
 export default function Questionnaires() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+  const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
 
   const [modalIsOpenQuestion, setIsOpenQuestion] = useState(false)
   const [questionario, setQuestionario] = useState([])
   const [id, setId] = useState('')
   const [nome, setNome] = useState('')
-  const [tipoResposta, setTipoResposta] = useState('')
+  // const [tipoResposta, setTipoResposta] = useState('')
+  const [allQuestoes, setAllQuestoes] = useState<iQuestoes[]>([])
+  const [allQuestoesNew, setAllQuestoesNew] = useState<iQuestoes[]>([])
+  const [selectedQuestao, setSelectedQuestao] = useState<iQuestoes>()
+
+  const [obrigatorio, setObrigatorio] = useState<boolean>(false)
+
+  const addFormFields = () => {
+    // @ts-ignore
+    setAllQuestoes([
+      // @ts-ignore
+      ...allQuestoes,
+      // @ts-ignore
+      {
+        nome: '',
+        pergunta: '',
+        tipoDeResposta: '',
+        obrigatorio: false,
+        tipo: '',
+      },
+    ])
+  }
+
+  const removeFormFields = (i: number) => {
+    const newFormValues = [...allQuestoes]
+    newFormValues.splice(i, 1)
+    setAllQuestoes(newFormValues)
+  }
+
+  const handleChangeQuestoes = (i: number, e: any) => {
+    const newFormValues = [...allQuestoes]
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
+    setAllQuestoes(newFormValues)
+  }
+  const addFormFieldsNew = () => {
+    // @ts-ignore
+    setAllQuestoesNew([...AllQuestoesNew, {}])
+  }
+
+  const handleChangeQuestoesNew = (i: number, e: any) => {
+    const newFormValues = [...allQuestoesNew]
+
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
+
+    // console.log(newFormValues)
+    setAllQuestoesNew(newFormValues)
+  }
+
+  const removeFormFieldsNew = (i: number) => {
+    // console.log(dependentesNew[i])
+    const newFormValues = [...allQuestoesNew]
+    newFormValues.splice(i, 1)
+    setAllQuestoesNew(newFormValues)
+  }
+
+  async function handleSetQuestionarioEditValues(questionario: any) {
+    setAllQuestoes(questionario.perguntas)
+    setSelectedQuestao(questionario)
+    setNome(questionario.nome)
+  }
 
   function openModal() {
     setIsOpen(true)
+    console.log(selectedQuestao)
   }
 
   function openModalFilter() {
@@ -35,7 +97,26 @@ export default function Questionnaires() {
   function closeModal() {
     setIsOpen(false)
     setNome('')
-    setTipoResposta('')
+    setAllQuestoes([
+      // @ts-ignore
+      {
+        nome: '',
+        pergunta: '',
+        tipoDeResposta: '',
+        obrigatorio: false,
+        tipo: '',
+      },
+    ])
+    setAllQuestoesNew([
+      // @ts-ignore
+      {
+        nome: '',
+        pergunta: '',
+        tipoDeResposta: '',
+        obrigatorio: false,
+        tipo: '',
+      },
+    ])
   }
 
   function openModalNew() {
@@ -45,17 +126,17 @@ export default function Questionnaires() {
   function closeModalNew() {
     setIsOpenNew(false)
     setNome('')
-    setTipoResposta('')
+    // setTipoResposta('')
   }
 
-  function openModalQuestion() {
-    setIsOpenQuestion(true)
-    setIsOpenNew(false)
-  }
+  // function openModalQuestion() {
+  //   setIsOpenQuestion(true)
+  //   setIsOpenNew(false)
+  // }
 
-  function closeModalQuestion() {
-    setIsOpenQuestion(false)
-  }
+  // function closeModalQuestion() {
+  //   setIsOpenQuestion(false)
+  // }
 
   async function handleLoadQuestionario() {
     const allQuestionario = await questionarios.list()
@@ -66,7 +147,8 @@ export default function Questionnaires() {
   async function handleCreate() {
     const data = {
       nome: nome,
-      tipoResposta: tipoResposta,
+      // tipoResposta: tipoResposta,
+      perguntas: allQuestoes,
     }
 
     const isCreated = await questionarios.create(data)
@@ -75,15 +157,19 @@ export default function Questionnaires() {
     await handleLoadQuestionario()
   }
 
-  async function handleUpdate(id: string) {
+  async function handleUpdate() {
+    const id = selectedQuestao?.id
     const data = {
       nome: nome,
-      tipoResposta: tipoResposta,
+      // tipoResposta: tipoResposta,
+      perguntas: allQuestoes,
+      perguntasNew: allQuestoesNew,
     }
 
     const isUpdated = await questionarios.update(id, data)
 
     if (isUpdated) closeModal()
+
     await handleLoadQuestionario()
   }
 
@@ -109,38 +195,34 @@ export default function Questionnaires() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button 
-             
-              onClick={openModalFilter}>
+              <button onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
             </div>
 
             <ReactHTMLTableToExcel
-              table="questionarios"
-              filename="Pactua Questionario Excel"
-              sheet="Sheet"
-              buttonText="Exportar para excel"
+              table='questionarios'
+              filename='Pactua Questionario Excel'
+              sheet='Sheet'
+              buttonText='Exportar para excel'
             />
           </S.FlexButtons>
           {questionario.length > 0 && (
-            <S.Table id="questionarios">
+            <S.Table id='questionarios'>
               <S.TrTitle>
                 <td>Nome</td>
-                <td>Tipo de resposta</td>
+                {/* <td>Tipo de resposta</td> */}
               </S.TrTitle>
 
               {questionario.map((value: any, index) => (
                 <S.TrSecond key={index}>
                   <td>{value.nome}</td>
-                  <td>{value.tipoResposta}</td>
+                  {/* <td>{value.tipoResposta}</td> */}
                   <td>
                     <button
                       onClick={() => {
-                        setId(value.id)
-                        setNome(value.nome)
-                        setTipoResposta(value.tipoResposta)
+                        handleSetQuestionarioEditValues(value)
                         openModal()
                       }}
                     >
@@ -161,6 +243,7 @@ export default function Questionnaires() {
         </S.Container>
       </S.Body>
 
+      {/* EDIT */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -178,28 +261,190 @@ export default function Questionnaires() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleUpdate(id)
+            handleUpdate()
           }}
         >
-          <h2>Editar Questionario</h2>
+          <h2>Editar questionário</h2>
+
+          <label htmlFor=''>Nome</label>
 
           <input
             type='text'
             placeholder='Nome'
-            defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
-          />
-          <input
-            type='text'
-            placeholder='Tipo de reposta'
-            defaultValue={tipoResposta}
-            onChange={(e) => setTipoResposta(e.target.value)}
+            defaultValue={selectedQuestao?.nome}
           />
 
-          <button type='submit'>Enviar</button>
+          {/* <label htmlFor=''>Tipo de resposta</label>
+          <input
+            type='text'
+            placeholder='Tipo de resposta'
+            onChange={(e) => setTipoResposta(e.target.value)}
+          /> */}
+
+          {allQuestoes.length > 0 && (
+            <>
+              {allQuestoes.map((e: any, index: any) => (
+                <div className='border'>
+                  <br />
+                  <br />
+                  <label htmlFor=''>Nome da questão</label>
+                  <input
+                    type='text'
+                    placeholder='Nome da questão'
+                    name='nome'
+                    defaultValue={e.nome}
+                    onChange={(e) => handleChangeQuestoes(index, e)}
+                  />
+
+                  <label htmlFor=''>Pergunta</label>
+                  <input
+                    type='text'
+                    placeholder='Pergunta'
+                    name='pergunta'
+                    defaultValue={e.pergunta}
+                    onChange={(e) => handleChangeQuestoes(index, e)}
+                  />
+
+                  <label htmlFor=''>Tipo de resposta</label>
+                  <input
+                    type='text'
+                    placeholder='Tipo de Resposta'
+                    name='tipoDeResposta'
+                    defaultValue={e.tipoDeResposta}
+                    onChange={(e) => handleChangeQuestoes(index, e)}
+                  />
+
+                  <S.divCheck>
+                    {obrigatorio ? (
+                      <S.Checkbox
+                        type='checkbox'
+                        placeholder='Obrigatório?'
+                        id='obrigatorio'
+                        checked={true}
+                        onChange={(e) => setObrigatorio(e.target.checked)}
+                      />
+                        ) : (
+                      <S.Checkbox
+                        type='checkbox'
+                        placeholder='Obrigatório?'
+                        id='obrigatorio'
+                        onChange={(e) => setObrigatorio(e.target.checked)}
+                      />
+                        )}
+                    <S.Label htmlFor='obrigatorio'>Obrigatório?</S.Label>
+                  </S.divCheck>
+
+                  <label htmlFor=''>Tipo</label>
+                  <input
+                    type='text'
+                    placeholder='Tipo'
+                    name='tipo'
+                    defaultValue={e.tipo}
+                    onChange={(e) => handleChangeQuestoes(index, e)}
+                  />
+
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeFormFields(index)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              ))}
+
+              <button type='button' onClick={addFormFields}>
+                <FiPlus />
+              </button>
+            </>
+          )}
+
+          {allQuestoes.length > 0 && (
+            <>
+              {allQuestoesNew.map((e: any, index: any) => (
+                <div className='border'>
+                  <br />
+                  <br />
+                  <label htmlFor=''>Nome da questão</label>
+                  <input
+                    type='text'
+                    placeholder='Nome da questão'
+                    name='nome'
+                    defaultValue={e.nome}
+                    onChange={(e) => handleChangeQuestoesNew(index, e)}
+                  />
+
+                  <label htmlFor=''>Pergunta</label>
+                  <input
+                    type='text'
+                    placeholder='Pergunta'
+                    name='pergunta'
+                    defaultValue={e.pergunta}
+                    onChange={(e) => handleChangeQuestoesNew(index, e)}
+                  />
+
+                  <label htmlFor=''>Tipo de resposta</label>
+                  <input
+                    type='text'
+                    placeholder='Tipo de Resposta'
+                    name='tipoDeResposta'
+                    defaultValue={e.tipoDeResposta}
+                    onChange={(e) => handleChangeQuestoesNew(index, e)}
+                  />
+
+                  <S.divCheck>
+                    {obrigatorio ? (
+                      <S.Checkbox
+                        type='checkbox'
+                        placeholder='Obrigatório?'
+                        id='obrigatorio'
+                        checked={true}
+                        onChange={(e) => setObrigatorio(e.target.checked)}
+                      />
+                        ) : (
+                      <S.Checkbox
+                        type='checkbox'
+                        placeholder='Obrigatório?'
+                        id='obrigatorio'
+                        onChange={(e) => setObrigatorio(e.target.checked)}
+                      />
+                        )}
+                    <S.Label htmlFor='obrigatorio'>Obrigatório?</S.Label>
+                  </S.divCheck>
+
+                  <label htmlFor=''>Tipo</label>
+                  <input
+                    type='text'
+                    placeholder='Tipo'
+                    name='tipo'
+                    defaultValue={e.tipo}
+                    onChange={(e) => handleChangeQuestoesNew(index, e)}
+                  />
+
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeFormFieldsNew(index)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              ))}
+
+              <button type='button' onClick={addFormFields}>
+                <FiPlus />
+              </button>
+            </>
+          )}
+
+          <S.ContainerBntFlex>
+            <button type='submit'>Enviar</button>
+          </S.ContainerBntFlex>
         </S.ContainerForm>
       </Modal>
 
+      {/* CREATE */}
       <Modal
         isOpen={modalIsOpenNew}
         onRequestClose={closeModalNew}
@@ -222,26 +467,96 @@ export default function Questionnaires() {
         >
           <h2>Cadastrar questionário</h2>
 
-          <label htmlFor="">Nome</label>
+          <label htmlFor=''>Nome</label>
+
           <input
             type='text'
             placeholder='Nome'
             onChange={(e) => setNome(e.target.value)}
           />
 
-          <label htmlFor="">Tipo de resposta</label>
+          {/* <label htmlFor=''>Tipo de resposta</label>
           <input
             type='text'
             placeholder='Tipo de resposta'
             onChange={(e) => setTipoResposta(e.target.value)}
-          />
+          /> */}
+
+          {allQuestoes.length > 0 && (
+            <>
+              {allQuestoes.map((e: any, index: any) => (
+                <div className='border'>
+                  <br />
+                  <br />
+                  <label htmlFor=''>Nome da questão</label>
+                  <input
+                    type='text'
+                    placeholder='Nome da questão'
+                    name='nome'
+                    onChange={(e) => handleChangeQuestoes(index, e)}
+                  />
+
+                  <label htmlFor=''>Pergunta</label>
+                  <input
+                    type='text'
+                    placeholder='Pergunta'
+                    name='pergunta'
+                    onChange={(e) => handleChangeQuestoes(index, e)}
+                  />
+
+                  <label htmlFor=''>Tipo de resposta</label>
+                  <input
+                    type='text'
+                    placeholder='Tipo de Resposta'
+                    name='tipoDeResposta'
+                    onChange={(e) => handleChangeQuestoes(index, e)}
+                  />
+
+                  <S.divCheck>
+                    {obrigatorio ? (
+                      <S.Checkbox
+                        type='checkbox'
+                        placeholder='Obrigatório?'
+                        id='obrigatorio'
+                        checked={true}
+                        onChange={(e) => setObrigatorio(e.target.checked)}
+                      />
+                        ) : (
+                      <S.Checkbox
+                        type='checkbox'
+                        placeholder='Obrigatório?'
+                        id='obrigatorio'
+                        onChange={(e) => setObrigatorio(e.target.checked)}
+                      />
+                        )}
+                    <S.Label htmlFor='obrigatorio'>Obrigatório?</S.Label>
+                  </S.divCheck>
+
+                  <label htmlFor=''>Tipo</label>
+                  <input
+                    type='text'
+                    placeholder='Tipo de Resposta'
+                    name='tipoDeResposta'
+                    onChange={(e) => handleChangeQuestoes(index, e)}
+                  />
+
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeFormFields(index)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
 
           <S.ContainerBntFlex>
-            <button type='submit'>Enviar</button>
-            <button onClick={openModalQuestion}>
+            <button type='button' onClick={addFormFields}>
               <FiPlus />
-              Pergunta
             </button>
+            <button type='submit'>Enviar</button>
           </S.ContainerBntFlex>
         </S.ContainerForm>
       </Modal>
@@ -268,31 +583,24 @@ export default function Questionnaires() {
         >
           <h2>Filtros</h2>
 
-          <label htmlFor="">Nome</label>
+          <label htmlFor=''>Nome</label>
           <input
             type='text'
             placeholder='Nome'
             onChange={(e) => setNome(e.target.value)}
           />
 
-          <label htmlFor="">Tipo de resposta</label>
+          {/* <label htmlFor=''>Tipo de resposta</label>
           <input
             type='text'
             placeholder='Tipo de resposta'
             onChange={(e) => setTipoResposta(e.target.value)}
-          />
-
-          <S.ContainerBntFlex>
-            <button type='submit'>Enviar</button>
-            <button onClick={openModalQuestion}>
-              <FiPlus />
-              Pergunta
-            </button>
-          </S.ContainerBntFlex>
+          /> */}
+          <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
-      <Modal
+      {/* <Modal
         isOpen={modalIsOpenQuestion}
         onRequestClose={closeModalQuestion}
         overlayClassName='react-modal-overlay'
@@ -308,7 +616,7 @@ export default function Questionnaires() {
 
         <S.ContainerForm>
           <h2>Pergunta</h2>
-          
+
           <label htmlFor="">Pergunta</label>
           <input type='text' placeholder='Pergunta' />
 
@@ -332,7 +640,7 @@ export default function Questionnaires() {
 
           <button>Enviar</button>
         </S.ContainerForm>
-      </Modal>
+      </Modal> */}
     </>
   )
 }

@@ -29,3 +29,11 @@ export interface iNiveis extends iData {
   cargo: iData[]
   nivel: number
 }
+
+export interface iQuestoes extends iData {
+  nome: string
+  pergunta: string
+  tipoDeResposta: string
+  obrigatorio: boolean
+  tipo: string
+}
