@@ -14,7 +14,7 @@ export const semImagem =
 export const loadingGif = 'https://contribua.org/mb-static/images/loading.gif'
 
 // export const ip = 'http://localhost' // teste local
-export const ip = 'http://localhost' // servidor/
+export const ip = 'https://projetos.42dias.com.br' // servidor/
 
 export const porta = '8154' // teste local
 // export let porta = '8154' // servidor
