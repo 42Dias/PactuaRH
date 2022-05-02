@@ -23,9 +23,10 @@ import CostCenter from 'pages/Dashboard/costCenter'
 import Career from 'pages/Dashboard/Career'
 import Avaliations from 'pages/Dashboard/Avaliations'
 import Pdi from 'pages/Dashboard/Pdi'
-import PdiItem from 'pages/Dashboard/Pdi/pdi-item'
+import PdiItem from 'pages/Dashboard/PdiItem'
 import Checkpoints from 'pages/Dashboard/Checkpoints'
 import Pri from 'pages/Dashboard/Pri'
+import PriItem from 'pages/Dashboard/PriItem'
 
 const RoutesApp = () => {
   return (
@@ -55,7 +56,8 @@ const RoutesApp = () => {
         <Route path='/plano-de-carreira'   element={<Career />}           />
         <Route path='/avaliacoes'          element={<Avaliations />}      />
         <Route path='/pdi'                 element={<Pdi />}              />
-        <Route path='/pdi-item'                 element={<PdiItem />}              />
+        <Route path='/pdi-item/:id'        element={<PdiItem />}          />
+        <Route path='/pri-item/:id'        element={<PriItem />}          />
         <Route path='/pri'                 element={<Pri />}              />
         <Route path='/checkpoints'         element={<Checkpoints />}      />
       </Routes>
