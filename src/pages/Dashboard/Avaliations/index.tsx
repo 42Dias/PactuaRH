@@ -9,44 +9,62 @@ import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
+import stateHandler from 'utils/changeStatesHandlers'
+import cargos from 'service/cargos/cargos'
+import questionarios from 'service/questionarios/questionarios'
 
 export default function Avaliations() {
+  /*
+==========================================================================================================
+                                            STATES
+==========================================================================================================
+*/
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+  const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
   const [nome, setNome] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [avaliations, setAvaliations] = useState<any[]>([])
 
-  const [subArea        ,setSubArea  ] = useState<boolean>(false)
-  const [areaPai        ,setAreaPai  ] = useState<string>('')
-  
+  const [subArea, setSubArea] = useState<boolean>(false)
 
-  const [area           , setArea    ] = useState([])
-  const [nomeFilter     ,setNomeFilter     ] = useState<string>('')
-  const [descricaoFilter,setDescricaoFilter] = useState<string>('')
-  const [subAreaFilter  ,setSubAreaFilter  ] = useState<boolean>(false)
-  const [areaPaiFilter  ,setAreaPaiFilter  ] = useState<string>('')
+  const [selectedCargo, setSelectedCargo] = useState<any[]>([])
+  const [selectedQuestionario, setSelectedQuestionario] = useState<any[]>([])
 
+  const [allCargo, setAllCargo] = useState<any[]>([])
+  const [allQuestionario, setAllQuestionario] = useState<any[]>([])
+
+
+  const [area, setArea] = useState([])
+  const [nomeFilter, setNomeFilter] = useState<string>('')
+  const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+  const [subAreaFilter, setSubAreaFilter] = useState<boolean>(false)
+  const [areaPaiFilter, setAreaPaiFilter] = useState<string>('')
+
+
+  /*
+  ==========================================================================================================
+                                            Modal Functions
+  ==========================================================================================================
+  */
   function openModalFilter() {
     setIsOpenFilter(true)
   }
 
   function closeModalFilter() {
     setIsOpenFilter(false)
-     setNomeFilter('')
+    setNomeFilter('')
     setDescricaoFilter('')
     setAreaPaiFilter('')
   }
-  
+
   function openModal() {
     setIsOpen(true)
   }
 
   function closeModal() {
     setSubArea(false)
-    setAreaPai('')
     setIsOpen(false)
   }
 
@@ -56,10 +74,14 @@ export default function Avaliations() {
 
   function closeModalNew() {
     setSubArea(false)
-    setAreaPai('')
     setIsOpenNew(false)
   }
 
+  /*
+  ==========================================================================================================
+                                        Main Crud Functions
+  ==========================================================================================================
+  */
   async function handleLoadAvaliations() {
     const allAvaliations = await avaliacao.list()
 
@@ -70,6 +92,8 @@ export default function Avaliations() {
     const data = {
       nome: nome,
       descricao: descricao,
+      cargos: selectedCargo,
+      questionarios: selectedQuestionario,
     }
 
     const isCreated = await avaliacao.create(data)
@@ -90,33 +114,69 @@ export default function Avaliations() {
     await handleLoadAvaliations()
   }
 
-  useEffect(() => {
-    handleLoadAvaliations()
-  }, [])
   async function handleDelete(id: string) {
     await avaliacao.delete(id)
 
     handleLoadAvaliations()
   }
 
-  async function handleFilterArea(){
+  /*
+  ==========================================================================================================
+                                      Associated Tables Functions
+  ==========================================================================================================
+  */
 
-    console.log("oujbnbojfdnbfnjbnfkdjnbkjdfnbndfbndfbkjfgjk")
+  async function handleLoadCargos() {
+    const allCargos = await cargos.list()
+
+    setAllCargo(allCargos)
+
+  }
+
+  async function handleLoadQuestionarios() {
+    const allQuestionarios = await questionarios.list()
+
+    setAllQuestionario(allQuestionarios)
+  }
+
+
+
+
+
+  /*
+  ==========================================================================================================
+                                              useEffects
+  ==========================================================================================================
+  */
+
+  useEffect(() => {
+    handleLoadAvaliations()
+    handleLoadCargos()
+    handleLoadQuestionarios()
+  }, [])
+  /*
+  ==========================================================================================================
+                                              Filters
+  ==========================================================================================================
+  */
+  async function handleFilterArea() {
+
+
     let filter = ''
 
-    if (nomeFilter){
+    if (nomeFilter) {
       console.log("tem nome")
-      if(filter.length != 0 ) filter += '&'
+      if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
-    if (descricaoFilter){
+    if (descricaoFilter) {
       console.log("tem desc")
 
-      if(filter.length != 0 ) filter += '&'
+      if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
-      
+
     }
-  
+
 
     let avaliacaoFilted = await avaliacao.listWithManyFilters(filter)
 
@@ -125,7 +185,7 @@ export default function Avaliations() {
 
     closeModalFilter()
   }
-  
+
   return (
     <>
       <S.Body>
@@ -139,9 +199,9 @@ export default function Avaliations() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button 
-             
-              onClick={openModalFilter}>
+              <button
+
+                onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
@@ -185,7 +245,7 @@ export default function Avaliations() {
             ))}
           </S.Table>
 
-       
+
         </S.Container>
       </S.Body>
 
@@ -216,7 +276,7 @@ export default function Avaliations() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
-           <input
+          <input
             type='text'
             placeholder='Descrição'
             defaultValue={descricao}
@@ -263,6 +323,40 @@ export default function Avaliations() {
             required
           />
 
+          <h3>Cargos</h3>
+          {
+            selectedCargo.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <select
+                    name=""
+                    defaultValue={e.nome}
+                    onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedCargo, setSelectedCargo)}
+                  >
+                    { allCargo.map(
+                      e => (
+                        <option value={e.id}> { e.nome } </option>
+                      )
+                    ) }
+                  </select>
+
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => stateHandler.removeFormFields(i, selectedCargo, setSelectedCargo)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              )
+            )
+          }
+          <button type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
+            <FiPlus />
+          </button>
+
+
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
@@ -294,13 +388,13 @@ export default function Avaliations() {
             type='text'
             onChange={(e) => setNomeFilter(e.target.value)}
             placeholder='Nome do Avaliação'
-      
+
           />
           <input
             type='text'
             onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
-            
+
           />
 
           <button type='submit'>Enviar</button>
