@@ -117,7 +117,22 @@ export default function PdiItem() {
 
     handleLoadPdi()
   }
-  /*
+/*
+==========================================================================================================
+                                  Handle Update Avaliations
+==========================================================================================================
+*/
+
+  
+  async function handleUpdateAvaliation(objectKey: string, value: string, pri: any){
+    pri[objectKey] = value
+
+    let id = pri.id
+    const isUpdated = await pdiItemService.update(id, pri)
+    
+  }
+
+/*
 ==========================================================================================================
                                             Filters
 ==========================================================================================================
@@ -186,28 +201,36 @@ export default function PdiItem() {
             {pdi.map((pdi) => (
               <S.TrSecond key={pdi.idSelected}>
                 <td>
-                  <Select defaultValue="lucy" style={{ width: 120 }}>
-                      <Option value="ok"> 
-                        Ok <FiCheck/>
-                      </Option>
-                      <Option value="naoOk">
-                        Não Ok <FiX/>
-                      </Option>
-                      <Option value="duvida">
-                        Dúvida <AiFillQuestionCircle/>
-                      </Option>
-                    </Select>
-                </td>
-                <td>
-                  <Select defaultValue="lucy" style={{ width: 120 }}>
-                    <Option value="ok"> 
-                      Ok <FiCheck/>
+                  <Select
+                  defaultValue={pdi.avaliacaoUsuario}
+                  style={{ width: 120 }} 
+                  onChange={value => handleUpdateAvaliation("avaliacaoUsuario", value, pdi)}
+                  >
+                    <Option value="ok">
+                      Ok <FiCheck />
                     </Option>
                     <Option value="naoOk">
-                      Não Ok <FiX/>
+                      Não Ok <FiX />
                     </Option>
                     <Option value="duvida">
-                      Dúvida <AiFillQuestionCircle/>
+                      Dúvida <AiFillQuestionCircle />
+                    </Option>
+                  </Select>
+                </td>
+                <td>
+                  <Select
+                  defaultValue={pdi.avaliacaoRH}
+                  style={{ width: 120 }}
+                  onChange={value => handleUpdateAvaliation("avaliacaoRH", value, pdi)}
+                  >
+                    <Option value="ok">
+                      Ok <FiCheck />
+                    </Option>
+                    <Option value="naoOk">
+                      Não Ok <FiX />
+                    </Option>
+                    <Option value="duvida">
+                      Dúvida <AiFillQuestionCircle />
                     </Option>
                   </Select>
                 </td>
