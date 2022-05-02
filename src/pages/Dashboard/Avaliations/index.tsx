@@ -29,7 +29,7 @@ export default function Avaliations() {
 
   const [subArea, setSubArea] = useState<boolean>(false)
 
-  const [selectedCargo, setSelectedCargo] = useState<any[]>([])
+  const [selectedCargo,        setSelectedCargo       ] = useState<any[]>([])
   const [selectedQuestionario, setSelectedQuestionario] = useState<any[]>([])
 
   const [allCargo, setAllCargo] = useState<any[]>([])
@@ -95,6 +95,9 @@ export default function Avaliations() {
       cargos: selectedCargo,
       questionarios: selectedQuestionario,
     }
+
+    console.log("data")
+    console.log(data)
 
     const isCreated = await avaliacao.create(data)
 
@@ -334,6 +337,7 @@ export default function Avaliations() {
                     defaultValue={e.nome}
                     onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedCargo, setSelectedCargo)}
                   >
+                    <option hidden> Selecione </option>
                     { allCargo.map(
                       e => (
                         <option value={e.id}> { e.nome } </option>
@@ -353,6 +357,41 @@ export default function Avaliations() {
             )
           }
           <button type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
+            <FiPlus />
+          </button>
+
+
+          <h3>Questionarios</h3>
+          {
+            selectedQuestionario.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <select
+                    name=""
+                    defaultValue={e.nome}
+                    onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedQuestionario, setSelectedQuestionario)}
+                  >
+                    <option hidden> Selecione </option>
+                    { allQuestionario.map(
+                      e => (
+                        <option value={e.id}> { e.nome } </option>
+                      )
+                    ) }
+                  </select>
+
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => stateHandler.removeFormFields(i, selectedQuestionario, setSelectedQuestionario)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              )
+            )
+          }
+          <button type='button' onClick={() => stateHandler.addFormFields(selectedQuestionario, setSelectedQuestionario)}>
             <FiPlus />
           </button>
 
