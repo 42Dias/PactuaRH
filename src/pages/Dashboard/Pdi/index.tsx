@@ -189,9 +189,9 @@ export default function Pdi() {
                 <td>{pdi.nome}</td>
                 <td>{pdi.descricao}</td>
                 <td>
-                  <button>
+                  <a href={`/pdi-item/${pdi.id}`}>
                     <FiArrowRight size={18} />
-                  </button>
+                  </a>
                 </td>
                 <td>
                   <button
@@ -199,7 +199,7 @@ export default function Pdi() {
                       setId(pdi.id)
                       setNome(pdi.nome)
                       setDesc(pdi.descricao)
-                      // setPdiItems(pdi.items)
+                      setPdiItems(pdi.pdiItems)
                       openModal()
                     }}
                   >
@@ -264,6 +264,7 @@ export default function Pdi() {
                   <input
                     type="text"
                     name="nome"
+                    defaultValue={e.nome}
                     onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
                   />
 
@@ -271,6 +272,7 @@ export default function Pdi() {
                   <input
                     type="text"
                     name="descricao"
+                    defaultValue={e.descricao}
                     onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
                   />
                   <button
@@ -379,6 +381,7 @@ export default function Pdi() {
                   <input
                     type="text"
                     name="nome"
+                    defaultValue={e.nome}
                     onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
                   />
 
@@ -386,6 +389,7 @@ export default function Pdi() {
                   <input
                     type="text"
                     name="descricao"
+                    defaultValue={e.descricao}
                     onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
                   />
                   <button
