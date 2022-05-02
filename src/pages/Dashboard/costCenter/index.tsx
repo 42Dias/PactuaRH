@@ -20,6 +20,9 @@ export default function CostCenter() {
   const [cost, setCost] = useState<any[]>([])
   const [allCargos, setCargos] = useState<any[]>([])
   const [cargo, setCargo] = useState<string>('')
+   const [area           , setArea    ] = useState([])
+  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
+  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
 
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -90,6 +93,30 @@ export default function CostCenter() {
   useEffect(() => {
     handleLoadCostCenter()
   }, [])
+
+  async function handleFilterArea(){
+    let filter = ''
+
+    if (nomeFilter){
+      console.log("tem nome")
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bnome%5D=${nomeFilter}`
+    }
+    if (descricaoFilter){
+      console.log("tem desc")
+
+      if(filter.length != 0 ) filter += '&'
+      filter += `filter%5Bdescricao%5D=${descricaoFilter}`
+      
+    }
+   
+
+    let areaFilted = await centroCustos.listWithManyFilters(filter)
+
+    setArea(areaFilted)
+
+    closeModalFilter()
+  }
 
   async function handleDelete(id: string) {
     await centroCustos.delete(id)
@@ -303,7 +330,7 @@ export default function CostCenter() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreate()
+            handleFilterArea()
           }}
         >
           <h2>Filtros</h2>
@@ -312,17 +339,17 @@ export default function CostCenter() {
           <input
             type='text'
             placeholder='Nome'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setNomeFilter(e.target.value)}
           />
 
           <label htmlFor="">Descrição</label>
           <input
             type='text'
             placeholder='Descrição'
-            onChange={(e) => setDescricao(e.target.value)}
+            onChange={(e) => setDescricaoFilter(e.target.value)}
           />
 
-          <label htmlFor="">Cargo</label>
+{/*<label htmlFor="">Cargo</label>
           <S.Select
             placeholder='Cargo'
             id='cargo'
@@ -337,7 +364,8 @@ export default function CostCenter() {
                 {cg.nome}
               </S.Options>
             ))}
-          </S.Select>
+          </S.Select> */ }
+          
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>

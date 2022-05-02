@@ -462,13 +462,13 @@ export default function Company() {
             handleFilterEmpresa()
           }}
         >
-          <h2>Cadastrar empresa</h2>
+          <h2>Filtro</h2>
 
           
           <label 
           htmlFor="">CNPJ</label>
           <InputMask
-          required
+        
           mask="99.999.999/9999-99"  
           // type='number'
           placeholder='CNPJ'
@@ -494,7 +494,7 @@ export default function Company() {
           <label 
           htmlFor="">Inscrição Estadual</label>
           <InputMask
-          required
+        
           mask="999.999.999.999" 
           placeholder='Inscrição Estadual'
           onChange={(e) => setInscricaoEstadual(e.target.value)}
