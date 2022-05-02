@@ -122,6 +122,14 @@ export default function PriItem() {
 ==========================================================================================================
 */
 
+  async function handleUpdateAvaliation(objectKey: string, value: string, pri: any){
+    pri[objectKey] = value
+
+    let id = pri.id
+    const isUpdated = await priItemService.update(id, pri)
+    
+  }
+
 
 /*
 ==========================================================================================================
@@ -186,11 +194,14 @@ export default function PriItem() {
               <td>Nome da pdi</td>
               <td>Descrição</td>
             </S.TrTitle>
-
             {pdi.map((pdi) => (
               <S.TrSecond key={pdi.id}>
                 <td>
-                  <Select defaultValue="" style={{ width: 120 }}>
+                  <Select
+                    defaultValue={pdi.avaliacaoUsuario} 
+                    style={{ width: 120 }}
+                    onChange={value => handleUpdateAvaliation("avaliacaoUsuario", value, pdi)}
+                  >
                     <Option value="ok">
                       Ok <FiCheck />
                     </Option>
@@ -202,8 +213,13 @@ export default function PriItem() {
                     </Option>
                   </Select>
                 </td>
+
                 <td>
-                  <Select defaultValue="" style={{ width: 120 }}>
+                  <Select
+                    defaultValue={pdi.avaliacaoRH}
+                    style={{ width: 120 }}
+                    onChange={value => handleUpdateAvaliation("avaliacaoRH", value, pdi)}
+                    >
                     <Option value="ok">
                       Ok <FiCheck />
                     </Option>
