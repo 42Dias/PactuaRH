@@ -210,8 +210,8 @@ export default function Professionals() {
       numero: numero || selectedProfessional?.numero,
       telefone1: telefone || selectedProfessional?.telefone1,
       telefone2: telefone2 || selectedProfessional?.telefone2,
-      dependentes: dependentes || selectedProfessional?.dependentes,
       cargo: cargo || selectedProfessional?.cargo.id,
+      dependentes: dependentes || selectedProfessional?.dependentes,
       dependentesNew: dependentesNew,
     }
     const isUpdated = await profissional.update(id, data)

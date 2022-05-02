@@ -147,27 +147,3 @@ export const ContainerForm = styled.form`
     }
   }
 `
-
-
-
-
-
-export const ContainerBntFlex = styled.div`
-  display: flex;
-
-  button {
-    margin: 10px 1px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    svg {
-      margin-right: 10px;
-    }
-
-    :last-child {
-      background: transparent;
-      border: 1px solid black;
-      color: black;
-    }
-  }
-`

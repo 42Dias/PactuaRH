@@ -1,24 +1,48 @@
+import 'antd/dist/antd.css';
+
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEdit, FiTrash, FiX, FiFilter,FiArrowRight } from 'react-icons/fi'
+import { AiFillQuestionCircle } from 'react-icons/ai'
+
+
 import * as S from './Pdi.styled'
 import { useEffect, useState } from 'react'
-import pdiService from 'service/pdi/pdi'
+import pdiItemService from 'service/pdiItem/pdiItem'
 import { fullName } from 'service/api'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import { useParams } from 'react-router-dom'
+
+import { FiPlus, FiEdit, FiTrash, FiX, FiFilter,FiArrowRight, FiCheck } from 'react-icons/fi'
+import { Select } from 'antd'
+const { Option } = Select;
+
 
 export default function PdiItem() {
+/*
+==========================================================================================================
+                                        STATES
+==========================================================================================================
+*/
+
+  let { id }  = useParams();
+
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
   const [nome, setNome] = useState<string>('')
   const [desc, setDesc] = useState<string>('')
-  const [id, setId] = useState<string>('')
+  const [idSelected, setId] = useState<string>('')
   const [pdi, setPdi] = useState<any[]>([])
 
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+
+/*
+==========================================================================================================
+                                        MODAL FUNCTIONS
+==========================================================================================================
+*/
 
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -45,9 +69,16 @@ export default function PdiItem() {
   function closeModalNew() {
     setIsOpenNew(false)
   }
+/*
+==========================================================================================================
+                                        CRUD FUNCTIONS
+==========================================================================================================
+*/
 
   async function handleLoadPdi() {
-    const allPdi = await pdiService.list()
+    let idSelectedPath = window.location.pathname
+    let idSelected = idSelectedPath.replace('/pdi-item/', '')
+    const allPdi = await pdiItemService.listWithFilter('pdiId', idSelected)
 
     setPdi(allPdi)
   }
@@ -56,21 +87,22 @@ export default function PdiItem() {
     const data = {
       nome: nome,
       descricao: desc,
+      pdiId: id,
     }
 
-    const isCreated = await pdiService.create(data)
+    const isCreated = await pdiItemService.create(data)
 
     if (isCreated) closeModalNew()
     await handleLoadPdi()
   }
 
-  async function handleUpdate(id: string) {
+  async function handleUpdate(idSelected: string) {
     const data = {
       nome: nome,
       descricao: desc,
     }
 
-    const isUpdated = await pdiService.update(id, data)
+    const isUpdated = await pdiItemService.update(idSelected, data)
 
     if (isUpdated) closeModal()
     await handleLoadPdi()
@@ -80,19 +112,37 @@ export default function PdiItem() {
     handleLoadPdi()
   }, [])
 
-  async function handleDelete(id: string) {
-    await pdiService.delete(id)
+  async function handleDelete(idSelected: string) {
+    await pdiItemService.delete(idSelected)
 
     handleLoadPdi()
   }
-  /*
+/*
+==========================================================================================================
+                                  Handle Update Avaliations
+==========================================================================================================
+*/
+
+  
+  async function handleUpdateAvaliation(objectKey: string, value: string, pri: any){
+    pri[objectKey] = value
+
+    let id = pri.id
+    const isUpdated = await pdiItemService.update(id, pri)
+    
+  }
+
+/*
 ==========================================================================================================
                                             Filters
 ==========================================================================================================
 */
 
   async function handleFilterPdi() {
-    let filter = ''
+    let pdiId = id
+    let filter = `filter%5BpdiId%5D=${pdiId}`
+
+
 
     if (nomeFilter) {
       console.log('tem nome')
@@ -106,7 +156,7 @@ export default function PdiItem() {
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
     }
 
-    const areaFilted = await pdiService.listWithManyFilters(filter)
+    const areaFilted = await pdiItemService.listWithManyFilters(filter)
 
     setPdi(areaFilted)
 
@@ -134,7 +184,7 @@ export default function PdiItem() {
 
             <ReactHTMLTableToExcel
               table='pdi'
-              filename='Pactua PDI Excel'
+              filename='Pactua PDI Item Excel'
               sheet='Sheet'
               buttonText='Exportar para excel'
             />
@@ -149,17 +199,44 @@ export default function PdiItem() {
             </S.TrTitle>
 
             {pdi.map((pdi) => (
-              <S.TrSecond key={pdi.id}>
+              <S.TrSecond key={pdi.idSelected}>
                 <td>
-                  <input type="checkbox" />
+                  <Select
+                  defaultValue={pdi.avaliacaoUsuario}
+                  style={{ width: 120 }} 
+                  onChange={value => handleUpdateAvaliation("avaliacaoUsuario", value, pdi)}
+                  >
+                    <Option value="ok">
+                      Ok <FiCheck />
+                    </Option>
+                    <Option value="naoOk">
+                      Não Ok <FiX />
+                    </Option>
+                    <Option value="duvida">
+                      Dúvida <AiFillQuestionCircle />
+                    </Option>
+                  </Select>
                 </td>
                 <td>
-                  <input type="checkbox" />
+                  <Select
+                  defaultValue={pdi.avaliacaoRH}
+                  style={{ width: 120 }}
+                  onChange={value => handleUpdateAvaliation("avaliacaoRH", value, pdi)}
+                  >
+                    <Option value="ok">
+                      Ok <FiCheck />
+                    </Option>
+                    <Option value="naoOk">
+                      Não Ok <FiX />
+                    </Option>
+                    <Option value="duvida">
+                      Dúvida <AiFillQuestionCircle />
+                    </Option>
+                  </Select>
                 </td>
                 <td>{pdi.nome}</td>
                 <td>{pdi.descricao}</td>
 
-                <td> <FiArrowRight size={18} /></td>
                 <td>
                   <button
                     onClick={() => {
@@ -200,7 +277,7 @@ export default function PdiItem() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleUpdate(id)
+            handleUpdate(idSelected)
           }}
         >
           <h2>Editar pdi</h2>

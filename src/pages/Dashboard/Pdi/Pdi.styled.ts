@@ -11,6 +11,7 @@ export const Container = styled.div`
   @media (max-width: 970px) {
     padding: 0 12%;
   }
+
 `
 
 export const Title = styled.h2`
@@ -144,6 +145,32 @@ export const ContainerForm = styled.form`
 
     &:hover {
       filter: brightness(0.9);
+    }
+  }
+
+  .btn-trash{
+    background-color: red;
+  }
+`
+
+
+
+export const ContainerBntFlex = styled.div`
+  display: flex;
+
+  button {
+    margin: 10px 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      margin-right: 10px;
+    }
+
+    :last-child {
+      background: transparent;
+      border: 1px solid black;
+      color: black;
     }
   }
 `

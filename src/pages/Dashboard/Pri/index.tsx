@@ -1,21 +1,30 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
+import { FiPlus, FiEdit, FiTrash, FiX, FiFilter, FiArrowRight } from 'react-icons/fi'
 import * as S from './Pri.styled'
 import { useEffect, useState } from 'react'
-import priService from 'service/pri/pri'
+import priIService from 'service/pri/pri'
 import { fullName } from 'service/api'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Pri() {
+  // let { id }  = useParams();
+
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
   const [nome, setNome] = useState<string>('')
   const [desc, setDesc] = useState<string>('')
-  const [id, setId] = useState<string>('')
+  // const [id, setId] = useState<string>('')
+
+  const [idSelected, setId] = useState<string>('')
+
   const [pri, setPri] = useState<any[]>([])
+
+  const [priItems, setPriItems] = useState<any[]>([])
+  const [priItemsNew, setPriItemsNew] = useState<any[]>([])
+
 
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
@@ -47,7 +56,8 @@ export default function Pri() {
   }
 
   async function handleLoadPri() {
-    const allPri = await priService.list()
+    const allPri = await priIService.list()
+
 
     setPri(allPri)
   }
@@ -56,9 +66,10 @@ export default function Pri() {
     const data = {
       nome: nome,
       descricao: desc,
+      priItems: priItems,
     }
 
-    const isCreated = await priService.create(data)
+    const isCreated = await priIService.create(data)
 
     if (isCreated) closeModalNew()
     await handleLoadPri()
@@ -68,9 +79,11 @@ export default function Pri() {
     const data = {
       nome: nome,
       descricao: desc,
+      priItems: priItems,
+      priItemsNew: priItemsNew,
     }
 
-    const isUpdated = await priService.update(id, data)
+    const isUpdated = await priIService.update(id, data)
 
     if (isUpdated) closeModal()
     await handleLoadPri()
@@ -81,15 +94,46 @@ export default function Pri() {
   }, [])
 
   async function handleDelete(id: string) {
-    await priService.delete(id)
+    await priIService.delete(id)
 
     handleLoadPri()
   }
+
+
   /*
-==========================================================================================================
-                                            Filters
-==========================================================================================================
-*/
+   =====================================================================================================
+                                   Handle Change Screen elements 
+   =====================================================================================================
+   */
+  const addFormFields = (state: any[], setState: (value: any) => void) => {
+    // @ts-ignore
+    setState([...state, {}])
+  }
+
+  const handleChangeState = (i: number, e: any, state: any[], setState: (value: any) => void) => {
+    console.log("e.target.value")
+    console.log(e.target.value)
+
+    const newFormValues = [...state]
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
+
+    setState(newFormValues)
+  }
+
+  const removeFormFields = (i: number, state: any[], setState: (value: any) => void) => {
+
+    const newFormValues = [...state]
+    newFormValues.splice(i, 1)
+    setState(newFormValues)
+  }
+
+
+  /*
+  ==========================================================================================================
+                                              Filters
+  ==========================================================================================================
+  */
 
   async function handleFilterPri() {
     let filter = ''
@@ -106,7 +150,7 @@ export default function Pri() {
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
     }
 
-    const areaFilted = await priService.listWithManyFilters(filter)
+    const areaFilted = await priIService.listWithManyFilters(filter)
 
     setPri(areaFilted)
 
@@ -151,11 +195,17 @@ export default function Pri() {
                 <td>{pri.nome}</td>
                 <td>{pri.descricao}</td>
                 <td>
+                  <a href={`/pri-item/${pri.id}`}>  
+                    <FiArrowRight size={18} />
+                  </a>
+                </td>
+                <td>
                   <button
                     onClick={() => {
                       setId(pri.id)
                       setNome(pri.nome)
                       setDesc(pri.descricao)
+                      setPriItems(pri.priItems)
                       openModal()
                     }}
                   >
@@ -190,7 +240,7 @@ export default function Pri() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleUpdate(id)
+            handleUpdate(idSelected)
           }}
         >
           <h2>Editar pri</h2>
@@ -208,7 +258,81 @@ export default function Pri() {
             required
           />
 
-          <button type='submit'>Enviar</button>
+          {
+            priItems.length > 0 && <h3>Pdi Itens</h3>
+          }
+          {
+            priItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    defaultValue={e.nome}
+                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                  />
+
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    defaultValue={e.descricao}
+                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => {
+                      removeFormFields(i, priItems, setPriItems)
+                    }}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+
+          {
+            priItemsNew.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    onChange={(e) => handleChangeState(i, e, priItemsNew, setPriItemsNew)}
+                  />
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    onChange={(e) => handleChangeState(i, e, priItemsNew, setPriItemsNew)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => removeFormFields(i, priItemsNew, setPriItemsNew)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+
+          <S.ContainerBntFlex>
+            <button type='button' onClick={() => addFormFields(priItemsNew, setPriItemsNew)}>
+              <FiPlus />
+            </button>
+            <button type='submit'>Enviar</button>
+          </S.ContainerBntFlex>
+
         </S.ContainerForm>
       </Modal>
 
@@ -250,7 +374,48 @@ export default function Pri() {
             required
           />
 
-          <button type='submit'>Enviar</button>
+          {
+            priItems.length > 0 && <h3>Pdi Itens</h3>
+          }
+          {
+            priItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <input
+                    type="text"
+                    name="nome"
+                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                  />
+
+                  <label htmlFor="">Descrição</label>
+                  <input
+                    type="text"
+                    name="descricao"
+                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                  />
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => removeFormFields(i, priItems, setPriItems)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+
+
+              )
+            )
+          }
+
+
+          <S.ContainerBntFlex>
+            <button type='button' onClick={() => addFormFields(priItems, setPriItems)}>
+              <FiPlus />
+            </button>
+            <button type='submit'>Enviar</button>
+          </S.ContainerBntFlex>
+
         </S.ContainerForm>
       </Modal>
 
