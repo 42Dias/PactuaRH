@@ -9,7 +9,7 @@ export default class stateHandler{
     setState([...state, {}])
   }
     
-  static handleChangeState(i, e, state, setState ){
+  static handleChangeStateOfObject(i, e, state, setState ){
     console.log("e.target.value")
     console.log(e.target.value)
 
@@ -18,6 +18,21 @@ export default class stateHandler{
     newFormValues[i][e.target.name] = e.target.value
 
     setState(newFormValues)
+
+    console.log(newFormValues)
+  }
+
+  static handleChangeStateOfArray(i, e, state, setState ){
+    console.log("e.target.value")
+    console.log(e.target.value)
+
+    const newFormValues = [...state]
+    // @ts-ignore
+    newFormValues[i] = e.target.value
+
+    setState(newFormValues)
+
+    console.log(newFormValues)
   }
     
   static removeFormFields(i, state, setState){
