@@ -195,7 +195,7 @@ export default function Pri() {
                 <td>{pri.nome}</td>
                 <td>{pri.descricao}</td>
                 <td>
-                  <a href={`/pri-item/${pri.id}`}>  
+                  <a href={`/pri-item/${pri.id}`} className="black-color">  
                     <FiArrowRight size={18} />
                   </a>
                 </td>

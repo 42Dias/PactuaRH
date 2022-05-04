@@ -83,6 +83,11 @@ export const TrSecond = styled.tr`
     background: transparent;
     border: 0;
   }
+
+
+  .black-color{
+    color: var(--text-title) !important;
+  }
 `
 
 export const ContainerForm = styled.form`

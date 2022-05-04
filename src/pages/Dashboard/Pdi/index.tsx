@@ -189,7 +189,7 @@ export default function Pdi() {
                 <td>{pdi.nome}</td>
                 <td>{pdi.descricao}</td>
                 <td>
-                  <a href={`/pdi-item/${pdi.id}`}>
+                  <a href={`/pdi-item/${pdi.id}`} className="black-color">
                     <FiArrowRight size={18} />
                   </a>
                 </td>
