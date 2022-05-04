@@ -8,6 +8,8 @@ import questionarios from 'service/questionarios/questionarios'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import { iQuestoes } from 'types'
+import { AiFillQuestionCircle } from 'react-icons/ai'
+import { SiBitcoinsv } from 'react-icons/si'
 
 export default function Questionnaires() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -223,13 +225,28 @@ export default function Questionnaires() {
             <S.Table id='questionarios'>
               <S.TrTitle>
                 <td>Nome</td>
-                {/* <td>Tipo de resposta</td> */}
+                <td>Score</td>
+                <td>Perguntas</td>
+                <td></td>
+                <td></td>
               </S.TrTitle>
+
 
               {questionario.map((value: any, index) => (
                 <S.TrSecond key={index}>
                   <td>{value.nome}</td>
-                  {/* <td>{value.tipoResposta}</td> */}
+
+                  <td>
+                    <a href={`/questionario-score/${value.id}`} className="anchor-icon" > 
+                       <SiBitcoinsv size={23} /> 
+                       </a>
+                    </td>
+                  <td>
+                    <a href={`/questionario-perguntas/${value.id}`} className="anchor-icon" > 
+                      <AiFillQuestionCircle size={23} />
+                      </a>
+                  </td>
+
                   <td>
                     <button
                       onClick={() => {
@@ -240,6 +257,7 @@ export default function Questionnaires() {
                       <FiEdit size={18} />
                     </button>
                   </td>
+
                   <td>
                     <button onClick={() => handleDelete(value.id)}>
                       <FiTrash size={18} />
