@@ -189,27 +189,27 @@ export default function PriItem() {
 
           <S.Table id='pdi'>
             <S.TrTitle>
+              <td>Nome da pri</td>
               <td>Usuário</td>
               <td>RH</td>
-              <td>Nome da pdi</td>
-              <td>Descrição</td>
             </S.TrTitle>
             {pdi.map((pdi) => (
               <S.TrSecond key={pdi.id}>
+                <td>{pdi.nome}</td>
                 <td>
                   <Select
                     defaultValue={pdi.avaliacaoUsuario} 
                     style={{ width: 120 }}
                     onChange={value => handleUpdateAvaliation("avaliacaoUsuario", value, pdi)}
                   >
-                    <Option value="ok">
-                      Ok <FiCheck />
+                    <Option value="feito">
+                    Feito <FiCheck />
                     </Option>
-                    <Option value="naoOk">
-                      Não Ok <FiX />
+                    <Option value="Naofeito">
+                      Não Feito <FiX />
                     </Option>
-                    <Option value="duvida">
-                      Dúvida <AiFillQuestionCircle />
+                    <Option value="emAndamento">
+                      Em Andamento <AiFillQuestionCircle />
                     </Option>
                   </Select>
                 </td>
@@ -220,19 +220,17 @@ export default function PriItem() {
                     style={{ width: 120 }}
                     onChange={value => handleUpdateAvaliation("avaliacaoRH", value, pdi)}
                     >
-                    <Option value="ok">
-                      Ok <FiCheck />
+                    <Option value="feito">
+                    Feito <FiCheck />
                     </Option>
-                    <Option value="naoOk">
-                      Não Ok <FiX />
+                    <Option value="Naofeito">
+                      Não Feito <FiX />
                     </Option>
-                    <Option value="duvida">
-                      Dúvida <AiFillQuestionCircle />
+                    <Option value="emAndamento">
+                      Em Andamento <AiFillQuestionCircle />
                     </Option>
                   </Select>
                 </td>
-                <td>{pdi.nome}</td>
-                <td>{pdi.descricao}</td>
                 <td>
                   <button
                     onClick={() => {
