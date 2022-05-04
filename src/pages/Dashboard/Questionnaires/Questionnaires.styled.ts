@@ -102,6 +102,14 @@ export const TrSecond = styled.tr`
     background: transparent;
     border: 0;
   }
+
+  .anchor-icon{
+    color: black;
+
+    display: flex;
+    justify-content: center;
+    width: 40%;
+  }
 `
 
 export const ContainerForm = styled.form`
