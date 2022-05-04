@@ -109,6 +109,8 @@ export default function Avaliations() {
     const data = {
       nome: nome,
       descricao: descricao,
+      cargos: selectedCargo,
+      questionarios: selectedQuestionario,  
     }
 
     const isUpdated = await avaliacao.update(id, data)
@@ -144,8 +146,6 @@ export default function Avaliations() {
 
 
 
-
-
   /*
   ==========================================================================================================
                                               useEffects
@@ -162,6 +162,7 @@ export default function Avaliations() {
                                               Filters
   ==========================================================================================================
   */
+
   async function handleFilterArea() {
 
 
@@ -187,6 +188,23 @@ export default function Avaliations() {
     console.log(avaliacaoFilted)
 
     closeModalFilter()
+  }
+  /*
+  ==========================================================================================================
+                                            Set just the id in a state
+  ==========================================================================================================
+  */
+  function setJustIdsOfArrayObject(arrayOfObjects: any[], setState: any){
+    if(!arrayOfObjects) return;
+    
+    setState([])
+
+    arrayOfObjects.map(
+      object => setState((prevData: any) => {
+        //@ts-ignore
+        return [...new Set( [ ...prevData, object.id  ] )]	
+       } )
+    )
   }
 
   return (
@@ -233,6 +251,12 @@ export default function Avaliations() {
                     onClick={() => {
                       setId(benefit.id)
                       setNome(benefit.nome)
+                      setDescricao(benefit.descricao)
+                      console.log(benefit?.cargo)
+                      console.log(benefit?.questionario)
+                      setJustIdsOfArrayObject(benefit?.cargo, setSelectedCargo)
+                      setJustIdsOfArrayObject(benefit?.questionario, setSelectedQuestionario)
+
                       openModal()
                     }}
                   >
@@ -285,6 +309,78 @@ export default function Avaliations() {
             defaultValue={descricao}
             onChange={(e) => setDescricao(e.target.value)}
           />
+
+          <h3>Cargos</h3>
+          {
+            selectedCargo.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor="">Nome</label>
+                  <select
+                    name=""
+                    defaultValue={e}
+                    onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedCargo, setSelectedCargo)}
+                  >
+                    <option hidden> Selecione </option>
+                    {allCargo.map(
+                      e => (
+                        <option value={e.id}> {e.nome} </option>
+                      )
+                    )}
+                  </select>
+
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => stateHandler.removeFormFields(i, selectedCargo, setSelectedCargo)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              )
+            )
+          }
+          <button type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
+            <FiPlus />
+          </button>
+
+
+          <h3>Questionarios</h3>
+          {
+            selectedQuestionario.map(
+              (e, i) => (
+                <div className="border">
+                  {/* {e} */}
+                  <label htmlFor="">Nome</label>
+                  <select
+                    name=""
+                    defaultValue={e}
+                    onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedQuestionario, setSelectedQuestionario)}
+                  >
+                    <option hidden> Selecione </option>
+                    {allQuestionario.map(
+                      e => (
+                        <option value={e.id}> {e.nome} </option>
+                      )
+                    )}
+                  </select>
+
+                  <button
+                    className='btn-actions'
+                    type='button'
+                    onClick={() => stateHandler.removeFormFields(i, selectedQuestionario, setSelectedQuestionario)}
+                  >
+                    <FiTrash />
+                  </button>
+                </div>
+              )
+            )
+          }
+          <button type='button' onClick={() => stateHandler.addFormFields(selectedQuestionario, setSelectedQuestionario)}>
+            <FiPlus />
+          </button>
+
+
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
