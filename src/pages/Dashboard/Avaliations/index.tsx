@@ -319,7 +319,6 @@ export default function Avaliations() {
             selectedCargo.map(
               (e, i) => (
                 <div className="border">
-                    <label htmlFor="">Nome</label>
                     <div className="return">
                     <select
                       name=""
@@ -358,7 +357,6 @@ export default function Avaliations() {
             selectedQuestionario.map(
               (e, i) => (
                 <div className="border">
-                  <label htmlFor="">Nome</label>
                   <div className="return">
                     <select
                       name=""
@@ -428,15 +426,11 @@ export default function Avaliations() {
 
           <div className="action-box">
             <h3>Cargos</h3>
-            <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
-              <FiPlus />
-            </button>
           </div>
           {
             selectedCargo.map(
               (e, i) => (
                 <div className="border">
-                  <label htmlFor="">Nome</label>
                   <div className="return">
                     <select
                       name=""
@@ -463,17 +457,18 @@ export default function Avaliations() {
             )
           }
 
+          <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
+            <FiPlus />
+          </button>
+
           <div className="action-box">
             <h3>Questionarios</h3>
-            <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedQuestionario, setSelectedQuestionario)}>
-              <FiPlus />
-            </button>
+
           </div>
           {
             selectedQuestionario.map(
               (e, i) => (
                 <div className="border">
-                  <label htmlFor="">Nome</label>
                   <div className="return">
                     <select
                       name=""
@@ -499,6 +494,9 @@ export default function Avaliations() {
               )
             )
           }
+          <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedQuestionario, setSelectedQuestionario)}>
+              <FiPlus />
+            </button> 
 
 
           <button type='submit'>Enviar</button>
