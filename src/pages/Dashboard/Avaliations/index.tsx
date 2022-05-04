@@ -311,9 +311,6 @@ export default function Avaliations() {
 
           <div className="action-box">
             <h3>Cargos</h3>
-            <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
-             <FiPlus />
-          </button>
           </div>
           {
             selectedCargo.map(
@@ -344,14 +341,14 @@ export default function Avaliations() {
               )
             )
           }
+          <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
+             <FiPlus />
+          </button>
           
 
 
           <div className="action-box">
             <h3>Questionarios</h3>
-            <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedQuestionario, setSelectedQuestionario)}>
-              <FiPlus />
-            </button>
           </div>
           {
             selectedQuestionario.map(
@@ -382,6 +379,9 @@ export default function Avaliations() {
               )
             )
           }
+          <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedQuestionario, setSelectedQuestionario)}>
+            <FiPlus />
+          </button>
 
 
 
