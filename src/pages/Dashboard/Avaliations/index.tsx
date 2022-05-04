@@ -303,82 +303,87 @@ export default function Avaliations() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
-          <input
-            type='text'
+          <textarea
             placeholder='Descrição'
             defaultValue={descricao}
             onChange={(e) => setDescricao(e.target.value)}
           />
 
-          <h3>Cargos</h3>
+          <div className="action-box">
+            <h3>Cargos</h3>
+            <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
+             <FiPlus />
+          </button>
+          </div>
           {
             selectedCargo.map(
               (e, i) => (
                 <div className="border">
-                  <label htmlFor="">Nome</label>
-                  <select
-                    name=""
-                    defaultValue={e}
-                    onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedCargo, setSelectedCargo)}
-                  >
-                    <option hidden> Selecione </option>
-                    {allCargo.map(
-                      e => (
-                        <option value={e.id}> {e.nome} </option>
-                      )
-                    )}
-                  </select>
-
-                  <button
-                    className='btn-actions'
-                    type='button'
-                    onClick={() => stateHandler.removeFormFields(i, selectedCargo, setSelectedCargo)}
-                  >
-                    <FiTrash />
-                  </button>
+                    <label htmlFor="">Nome</label>
+                    <div className="return">
+                    <select
+                      name=""
+                      defaultValue={e}
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedCargo, setSelectedCargo)}
+                    >
+                      <option hidden> Selecione </option>
+                      {allCargo.map(
+                        e => (
+                          <option value={e.id}> {e.nome} </option>
+                        )
+                      )}
+                    </select>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, selectedCargo, setSelectedCargo)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
               )
             )
           }
-          <button type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
-            <FiPlus />
-          </button>
+          
 
 
-          <h3>Questionarios</h3>
+          <div className="action-box">
+            <h3>Questionarios</h3>
+            <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedQuestionario, setSelectedQuestionario)}>
+              <FiPlus />
+            </button>
+          </div>
           {
             selectedQuestionario.map(
               (e, i) => (
                 <div className="border">
-                  {/* {e} */}
                   <label htmlFor="">Nome</label>
-                  <select
-                    name=""
-                    defaultValue={e}
-                    onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedQuestionario, setSelectedQuestionario)}
-                  >
-                    <option hidden> Selecione </option>
-                    {allQuestionario.map(
-                      e => (
-                        <option value={e.id}> {e.nome} </option>
-                      )
-                    )}
-                  </select>
-
-                  <button
-                    className='btn-actions'
-                    type='button'
-                    onClick={() => stateHandler.removeFormFields(i, selectedQuestionario, setSelectedQuestionario)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <select
+                      name=""
+                      defaultValue={e}
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedQuestionario, setSelectedQuestionario)}
+                    >
+                      <option hidden> Selecione </option>
+                      {allQuestionario.map(
+                        e => (
+                          <option value={e.id}> {e.nome} </option>
+                        )
+                      )}
+                    </select>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, selectedQuestionario, setSelectedQuestionario)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
               )
             )
           }
-          <button type='button' onClick={() => stateHandler.addFormFields(selectedQuestionario, setSelectedQuestionario)}>
-            <FiPlus />
-          </button>
 
 
 
