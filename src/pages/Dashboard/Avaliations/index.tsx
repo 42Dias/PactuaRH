@@ -415,8 +415,7 @@ export default function Avaliations() {
             placeholder='Nome do Avaliação'
             required
           />
-          <input
-            type='text'
+          <textarea
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
             required
