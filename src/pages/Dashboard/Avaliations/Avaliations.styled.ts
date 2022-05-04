@@ -146,4 +146,50 @@ export const ContainerForm = styled.form`
       filter: brightness(0.9);
     }
   }
+
+  .action-box{
+    display: flex;
+    align-items: center;
+    margin: 5% 0;
+    justify-content: space-between;
+
+    
+    h3{
+      margin: 0;
+    }
+
+    .btn-plus{
+      margin: 0;
+      height: 2.5rem;
+      width: 2.5rem;
+      padding: 0.6rem 0.2rem;
+    }
+  }
+
+  .return {
+    align-items: baseline;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    
+    select{
+      width: 85%;
+    }
+    
+    button {
+      width: 15%;
+      height: 4rem;
+    }
+
+  }
+    
+
+  .btn-trash{
+    background-color: #EA1C24;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 1rem !important;
+  }
+  
 `
