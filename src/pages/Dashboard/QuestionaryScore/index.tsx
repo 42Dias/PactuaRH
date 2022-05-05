@@ -4,23 +4,35 @@ import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './QuestionaryScore.styled'
 import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
-import beneficio from 'service/beneficio/beneficio'
+import questionario from 'service/questionarios/questionarios'
 import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import { useParams } from 'react-router-dom'
+import handleSetNumber from 'utils/handleSetNumber'
 
 
 export default function QuestionaryScore() {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const { id } = useParams()
+
+  const [modalIsOpen       , setIsOpen     ] = useState(false)
+  const [modalIsOpenNew    , setIsOpenNew  ] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
-  const [nome, setNome] = useState<string>('')
-  const [descricao, setDescricao] = useState<string>('')
-  const [id, setId] = useState<string>('')
-  const [benefits, setBenefits] = useState<any[]>([])
-  const [subArea        ,setSubArea  ] = useState<boolean>(false)
-  const [areaPai        ,setAreaPai  ] = useState<string>('')
   
+  const [nome      , setNome     ] = useState<string>('')
+  const [descricao , setDescricao] = useState<string>('')
+  const [de        , setDe       ] = useState<string>('')
+  const [ate       , setAte      ] = useState<string>('')
+  
+  const [selectedId, setId      ] = useState<string>('')
+  const [benefits  , setBenefits] = useState<any>({})
+  
+  const [benefitsSelected  , setBenefitsSelected  ] = useState<any>({})
+  const [formato           , setFormato           ] = useState('')
+  const [pontuacaoExcelente, setPontuacaoExcelente] = useState('')
+  const [pontuacaoBom      , setPontuacaoBom      ] = useState('')
+  const [pontuacaoRegular  , setPontuacaoRegular  ] = useState('')
+  const [pontuacaoRuim     , setPontuacaoRuim     ] = useState('')
 
   const [area           , setArea    ] = useState([])
   const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
@@ -34,7 +46,7 @@ export default function QuestionaryScore() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
-     setNomeFilter('')
+    setNomeFilter('')
     setDescricaoFilter('')
     setAreaPaiFilter('')
   }
@@ -44,8 +56,6 @@ export default function QuestionaryScore() {
   }
 
   function closeModal() {
-    setSubArea(false)
-    setAreaPai('')
     setIsOpen(false)
   }
 
@@ -54,36 +64,30 @@ export default function QuestionaryScore() {
   }
 
   function closeModalNew() {
-    setSubArea(false)
-    setAreaPai('')
     setIsOpenNew(false)
   }
 
   async function handleLoadBenefits() {
-    const allBenefits = await beneficio.list()
+    const newId  = window.location.pathname.replace('/questionario-score/', '')
+    const allBenefits = await questionario.find(newId)
+
+    console.log(allBenefits)
 
     setBenefits(allBenefits)
   }
 
-  async function handleCreate() {
+  async function handleUpdate(selectedId: string) {
     const data = {
-      nome: nome,
-      descricao: descricao,
+      de:        de,
+      ate:       ate,
+      formato:   formato,
+      pontuacaoExcelente: pontuacaoExcelente,
+      pontuacaoBom:       pontuacaoBom,
+      pontuacaoRegular:   pontuacaoRegular,
+      pontuacaoRuim:      pontuacaoRuim,
     }
 
-    const isCreated = await beneficio.create(data)
-
-    if (isCreated) closeModalNew()
-    await handleLoadBenefits()
-  }
-
-  async function handleUpdate(id: string) {
-    const data = {
-      nome: nome,
-      descricao: descricao,
-    }
-
-    const isUpdated = await beneficio.update(id, data)
+    const isUpdated = await questionario.update(id, data)
 
     if (isUpdated) closeModal()
     await handleLoadBenefits()
@@ -92,11 +96,6 @@ export default function QuestionaryScore() {
   useEffect(() => {
     handleLoadBenefits()
   }, [])
-  async function handleDelete(id: string) {
-    await beneficio.delete(id)
-
-    handleLoadBenefits()
-  }
 
   async function handleFilterArea(){
 
@@ -116,12 +115,23 @@ export default function QuestionaryScore() {
     }
   
 
-    let beneficioFilted = await beneficio.listWithManyFilters(filter)
+    let questionarioFilted = await questionario.listWithManyFilters(filter)
 
-    setBenefits(beneficioFilted)
-    console.log(beneficioFilted)
+    setBenefits(questionarioFilted)
+    console.log(questionarioFilted)
 
     closeModalFilter()
+  }
+
+  function handleSetValues(benefits: any){
+    setBenefitsSelected(benefits)
+    setFormato(benefits?.formato)
+    setDe(benefits?.de)
+    setAte(benefits?.ate)
+    setPontuacaoExcelente(benefits?.pontuacaoExcelente)
+    setPontuacaoBom(benefits?.pontuacaoBom)
+    setPontuacaoRegular(benefits?.pontuacaoRegular)
+    setPontuacaoRuim(benefits?.pontuacaoRuim)
   }
   
   return (
@@ -134,15 +144,21 @@ export default function QuestionaryScore() {
         <S.Container>
           <S.FlexButtons>
             <div>
+              {/*
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
+              */}
+
+              {/*
               <button 
              
               onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
+              */}
+
             </div>
 
             <ReactHTMLTableToExcel
@@ -155,19 +171,22 @@ export default function QuestionaryScore() {
 
           <S.Table id="benefits">
             <S.TrTitle>
-              <td>Nome do benefício</td>
-              <td>Descrição</td>
+              <td>pontuacao Excelente</td>
+              <td>pontuacao Bom</td>
+              <td>pontuacao Regular</td>
+              <td>pontuacao Ruim</td>
             </S.TrTitle>
 
-            {benefits.map((benefit) => (
               <S.TrSecond>
-                <td>{benefit.nome}</td>
-                <td>{benefit.descricao}</td>
+                <td>{benefits?.pontuacaoExcelente || "Não cadastrado"}</td>
+                <td>{benefits?.pontuacaoBom || "Não cadastrado"      }</td>
+                <td>{benefits?.pontuacaoRegular || "Não cadastrado"  }</td>
+                <td>{benefits?.pontuacaoRuim || "Não cadastrado"     }</td>
                 <td>
                   <button
                     onClick={() => {
-                      setId(benefit.id)
-                      setNome(benefit.nome)
+                      handleSetValues(benefits)
+                      setId(benefits?.id)
                       openModal()
                     }}
                   >
@@ -175,12 +194,11 @@ export default function QuestionaryScore() {
                   </button>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(benefit.id)}>
+                  {/* <button onClick={() => handleDelete(benefit.id)}>
                     <FiTrash size={18} />
-                  </button>
+                  </button> */}
                 </td>
               </S.TrSecond>
-            ))}
           </S.Table>
 
        
@@ -204,101 +222,67 @@ export default function QuestionaryScore() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleUpdate(id)
+            handleUpdate(selectedId)
           }}
         >
-          <h2>Editar benefício</h2>
+          <h2>Editar score</h2>
+
+          <label htmlFor="">Forma de Pontos</label>
+          <select
+            name=""
+            id=""
+            onChange={e => setFormato(e.target.value)}
+            value={formato}
+          >
+            <option value="porcentagem"> Porcentagem </option>
+            <option value="quantidade"> Quantidade  </option>
+          </select>
+
+          <label htmlFor="">De</label>
           <input
-            type='text'
-            placeholder='Nome do benefício'
-            defaultValue={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
-           <input
-            type='text'
-            placeholder='Descrição'
-            defaultValue={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-          />
-
-          <button type='submit'>Enviar</button>
-        </S.ContainerForm>
-      </Modal>
-
-      <Modal
-        isOpen={modalIsOpenNew}
-        onRequestClose={closeModalNew}
-        overlayClassName='react-modal-overlay'
-        className='react-modal-content'
-      >
-        <button
-          className='react-modal-close'
-          type='button'
-          onClick={closeModalNew}
-        >
-          <FiX />
-        </button>
-
-        <S.ContainerForm
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleCreate()
-          }}
-        >
-          <h2>Cadastrar benefício</h2>
-
-          <label htmlFor="">Nome do benefício</label>
-          <input
-            type='text'
-            onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome do benefício'
-            required
-          />
-          <input
-            type='text'
-            onChange={(e) => setDescricao(e.target.value)}
-            placeholder='Descrição'
-            required
+            type="text"
+            onChange={e => handleSetNumber(e.target.value, setDe)}
+            value={de}
           />
 
-          <button type='submit'>Enviar</button>
-        </S.ContainerForm>
-      </Modal>
-
-      <Modal
-        isOpen={modalIsOpenFilter}
-        onRequestClose={closeModalFilter}
-        overlayClassName='react-modal-overlay'
-        className='react-modal-content'
-      >
-        <button
-          className='react-modal-close'
-          type='button'
-          onClick={closeModalFilter}
-        >
-          <FiX />
-        </button>
-
-        <S.ContainerForm
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleFilterArea()
-          }}
-        >
-          <h2>Filtros</h2>
-
-          <label htmlFor="">Nome do benefício</label>
+          <label htmlFor="">Até</label>
           <input
-            type='text'
-            onChange={(e) => setNomeFilter(e.target.value)}
-            placeholder='Nome do benefício'
-      
+            type="text"
+            onChange={e => setAte(e.target.value)}
+            value={ate}
           />
+
+          <label htmlFor=""> Pontuação Excelente</label>
           <input
-            type='text'
-            onChange={(e) => setDescricaoFilter(e.target.value)}
-            placeholder='Descrição'
-            
+            type="text"
+            onChange={e => setPontuacaoExcelente(e.target.value)}
+            value={pontuacaoExcelente}
+
+          />
+
+
+          <label htmlFor=""> Pontuação Boa</label>
+          <input
+            type="text"
+            onChange={e => setPontuacaoBom(e.target.value)}
+            value={pontuacaoBom}
+          />
+
+          <label htmlFor=""> Pontuação Regular</label>
+          <input
+            type="text"
+            onChange={e => setPontuacaoRegular(e.target.value)}
+            value={pontuacaoRegular}
+
+          />
+
+
+          <label htmlFor=""> Pontuação Ruim</label>
+          <input
+            type="text"
+            onChange={e => setPontuacaoRuim(e.target.value)}
+            value={pontuacaoRuim}
+
           />
 
           <button type='submit'>Enviar</button>
