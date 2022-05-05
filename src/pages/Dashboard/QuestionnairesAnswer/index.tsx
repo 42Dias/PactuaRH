@@ -8,18 +8,20 @@ import questionariosResposta from 'service/questionarioResposta/questionarioResp
 import { fullName } from 'service/api'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import handleSetNumber from 'utils/handleSetNumber'
 
 export default function QuestionariosAnswer() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
   const [resposta, setResposta] = useState<string>('')
-  // const [desc, setDesc] = useState<string>('')
+  const [pontuacao, setPontuacao] = useState<string>('')
+
   const [id, setId] = useState<string>('')
   const [questionariosAnswer, setquestionariosAnswer] = useState<any[]>([])
 
   const [respostaFilter, setRespostaFilter] = useState<string>('')
-  // const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+  const [pontuacaoFilter, setPontuacaoFilter] = useState<string>('')
 
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -28,7 +30,8 @@ export default function QuestionariosAnswer() {
   function closeModalFilter() {
     setIsOpenFilter(false)
     setRespostaFilter('')
-    // setDescricaoFilter('')
+    setResposta('')
+    setPontuacao('')
   }
 
   function openModal() {
@@ -37,6 +40,8 @@ export default function QuestionariosAnswer() {
 
   function closeModal() {
     setIsOpen(false)
+    setResposta('')
+    setPontuacao('')
   }
 
   function openModalNew() {
@@ -45,6 +50,8 @@ export default function QuestionariosAnswer() {
 
   function closeModalNew() {
     setIsOpenNew(false)
+    setResposta('')
+    setPontuacao('')
   }
 
   async function handleLoadquestionariosAnswer() {
@@ -56,7 +63,7 @@ export default function QuestionariosAnswer() {
   async function handleCreate() {
     const data = {
       resposta: resposta,
-      // descricao: desc,
+      resultado: pontuacao,
     }
 
     const isCreated = await questionariosResposta.create(data)
@@ -68,7 +75,7 @@ export default function QuestionariosAnswer() {
   async function handleUpdate(id: string) {
     const data = {
       resposta: resposta,
-      // descricao: desc,
+      resultado: pontuacao,
     }
 
     const isUpdated = await questionariosResposta.update(id, data)
@@ -96,16 +103,13 @@ export default function QuestionariosAnswer() {
     let filter = ''
 
     if (respostaFilter) {
-      console.log('tem resposta')
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bresposta%5D=${respostaFilter}`
     }
-    // if (descricaoFilter) {
-    //   console.log('tem desc')
-
-    //   if (filter.length != 0) filter += '&'
-    //   filter += `filter%5Bdescricao%5D=${descricaoFilter}`
-    // }
+    if (pontuacaoFilter) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%resultado%5D=${pontuacaoFilter}`
+    }
 
     const areaFilted = await questionariosResposta.listWithManyFilters(filter)
 
@@ -133,29 +137,29 @@ export default function QuestionariosAnswer() {
             </div>
 
             <ReactHTMLTableToExcel
-              table='questionariosresposta'
-              filename='Pactua Benefícios Excel'
+              table='respostas'
+              filename='Respostas Excel'
               sheet='Sheet'
               buttonText='Exportar para excel'
             />
           </S.FlexButtons>
 
-          <S.Table id='questionariosresposta'>
+          <S.Table id='respostas'>
             <S.TrTitle>
-              <td>Resposta da questionariosresposta</td>
-              <td>Descrição</td>
+              <td>Respostas</td>
+              <td>Resultado</td>
             </S.TrTitle>
 
-            {questionariosAnswer.map((questionariosAnswer) => (
-              <S.TrSecond key={questionariosAnswer.id}>
-                <td>{questionariosAnswer.resposta}</td>
-                <td>{questionariosAnswer.descricao}</td>
+            {questionariosAnswer.map((value: any, key) => (
+              <S.TrSecond key={key}>
+                <td>{value.resposta}</td>
+                <td>{value.resultado}</td>
                 <td>
                   <button
                     onClick={() => {
-                      setId(questionariosAnswer.id)
-                      setResposta(questionariosAnswer.resposta)
-                      // setDesc(questionariosAnswer.descricao)
+                      setId(value.id)
+                      setResposta(value.resposta)
+                      setPontuacao(value.resultado)
                       openModal()
                     }}
                   >
@@ -163,7 +167,7 @@ export default function QuestionariosAnswer() {
                   </button>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(questionariosAnswer.id)}>
+                  <button onClick={() => handleDelete(value.id)}>
                     <FiTrash size={18} />
                   </button>
                 </td>
@@ -193,20 +197,20 @@ export default function QuestionariosAnswer() {
             handleUpdate(id)
           }}
         >
-          <h2>Editar questionariosresposta</h2>
+          <h2>Editar respostas</h2>
           <input
             type='text'
-            placeholder='Resposta da questionariosresposta'
+            placeholder='Respostas'
             defaultValue={resposta}
             onChange={(e) => setResposta(e.target.value)}
           />
-          {/* <input
+
+          <input
             type='text'
-            onChange={(e) => setDesc(e.target.value)}
-            defaultValue={desc}
-            placeholder='Descrição da questionariosresposta'
-            required
-          /> */}
+            onChange={(e) => setPontuacao(e.target.value)}
+            defaultValue={pontuacao}
+            placeholder='Pontuação'
+          />
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
@@ -232,23 +236,21 @@ export default function QuestionariosAnswer() {
             handleCreate()
           }}
         >
-          <h2>Cadastrar questionariosresposta</h2>
+          <h2>Cadastrar respostas</h2>
 
-          <label htmlFor=''>Resposta da questionariosresposta</label>
+          <label htmlFor=''>Resposta</label>
           <input
             type='text'
+            placeholder='Resposta'
+            defaultValue={resposta}
             onChange={(e) => setResposta(e.target.value)}
-            placeholder='Resposta da questionariosresposta'
-            required
           />
-
-          {/* <label htmlFor=''>Descrição da questionariosresposta</label>
           <input
             type='text'
-            onChange={(e) => setDesc(e.target.value)}
-            placeholder='Descrição da questionariosresposta'
-            required
-          /> */}
+            onChange={(e) => handleSetNumber(e.target.value, setPontuacao)}
+            value={pontuacao}
+            placeholder='Pontuação'
+          />
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
@@ -276,19 +278,19 @@ export default function QuestionariosAnswer() {
         >
           <h2>Filtros</h2>
 
-          <label htmlFor=''>Resposta da questionariosresposta</label>
+          <label htmlFor=''>Resposta</label>
           <input
             type='text'
             onChange={(e) => setRespostaFilter(e.target.value)}
-            placeholder='Resposta da questionariosresposta'
+            placeholder='Resposta'
           />
 
-          {/* <label htmlFor=''>Descrição da questionariosresposta</label>
+          <label htmlFor=''>Resultado</label>
           <input
             type='text'
-            onChange={(e) => setDescricaoFilter(e.target.value)}
-            placeholder='Descrição da questionariosresposta'
-          /> */}
+            onChange={(e) => setPontuacaoFilter(e.target.value)}
+            placeholder='Resultado'
+          />
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
