@@ -78,8 +78,9 @@ export default function QuestionaryQuestions() {
     const data = {
       nome: nome,
       descricao: descricao,
+      questionarioId: id,
     }
-
+    
     const isCreated = await questionarioItem.create(data)
 
     if (isCreated) closeModalNew()
@@ -198,7 +199,7 @@ export default function QuestionaryQuestions() {
                   </button>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(benefit.selectedId)}>
+                  <button onClick={() => handleDelete(benefit.id)}>
                     <FiTrash size={18} />
                   </button>
                 </td>
