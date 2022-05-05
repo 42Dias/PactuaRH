@@ -29,6 +29,7 @@ import Pri from 'pages/Dashboard/Pri'
 import PriItem from 'pages/Dashboard/PriItem'
 import QuestionaryScore from 'pages/Dashboard/QuestionaryScore'
 import QuestionaryQuestions from 'pages/Dashboard/QuestionaryQuestions'
+import QuestionariosAnswer from 'pages/Dashboard/QuestionnairesAnswer'
 
 const RoutesApp = () => {
   return (
@@ -63,6 +64,7 @@ const RoutesApp = () => {
         <Route path='/pri'                 element={<Pri />}              />
         <Route path='/checkpoints'         element={<Checkpoints />}      />
 
+        <Route path='/resposta/:id'               element={<QuestionariosAnswer />}   />
         <Route path='/questionario-perguntas/:id' element={<QuestionaryQuestions />}  />
         <Route path='/questionario-score/:id'     element={<QuestionaryScore />}      />
       </Routes>
