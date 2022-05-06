@@ -221,6 +221,8 @@ export default function Pri() {
                       setNome(pri.nome)
                       setDesc(pri.descricao)
                       setPriItems(pri.priItems)
+                      setProfissionalSelected(pri.profissionaisId)
+                      console.log(pri.profissionaisId)
                       openModal()
                     }}
                   >
@@ -272,6 +274,24 @@ export default function Pri() {
             placeholder='Descrição da pri'
             required
           />
+
+          <label htmlFor="">Colaborador</label>
+          <select
+            value={profissionalSelected}
+            onChange={(e) => {
+              const newUserSelected: string = e.target.value
+              setProfissionalSelected(newUserSelected)
+            }}
+            placeholder='PRI Cadastrado'
+          >
+            <option hidden>Selecione</option>
+
+            {allUsers.map((user, i) => (
+              <option value={user.id}>
+                {user.nome}
+              </option>
+            ))}
+          </select>
 
           {
             priItems.length > 0 && <h3>Pdi Itens</h3>
@@ -373,31 +393,6 @@ export default function Pri() {
         >
           <h2>Cadastrar pri</h2>
              <h4>PRI</h4>
-          <select
-            onChange={(e) => {
-              const userIndex: number = parseInt(e.target.value)
-              if (isNaN(userIndex)) {
-                setNome('')
-                setDesc('')
-                setPriItems([])
-                setProfissionalSelected({})
-              }
-
-              const newUserSelected = allUsers[userIndex]
-              setProfissionalSelected(newUserSelected)
-
-              
-            }}
-            placeholder='PRI Cadastrado'
-          >
-            <option value={''}>Novo</option>
-
-            {allUsers.map((user, i) => (
-              <option value={i}>
-                {user.nome} | {user.desc}
-              </option>
-            ))}
-          </select>
 
           <label htmlFor=''>Nome da pri</label>
           <input
@@ -414,6 +409,25 @@ export default function Pri() {
             placeholder='Descrição da pri'
             required
           />
+
+          <label htmlFor="">Colaborador</label>
+          <select
+          value={profissionalSelected}
+          onChange={(e) => {
+            const newUserSelected: string = e.target.value
+            setProfissionalSelected(newUserSelected)
+          }}
+
+            placeholder='PRI Cadastrado'
+          >
+            <option hidden>Selecione</option>
+
+            {allUsers.map((user, i) => (
+              <option value={user.id}>
+                {user.nome}
+              </option>
+            ))}
+          </select>
 
           {
             priItems.length > 0 && <h3>Pdi Itens</h3>
