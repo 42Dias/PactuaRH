@@ -5,6 +5,7 @@ import * as S from './Pri.styled'
 import { useEffect, useState } from 'react'
 import priIService from 'service/pri/pri'
 import { fullName } from 'service/api'
+import profissional from 'service/profissional/profissional'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
@@ -17,6 +18,7 @@ export default function Pri() {
   const [nome, setNome] = useState<string>('')
   const [desc, setDesc] = useState<string>('')
   // const [id, setId] = useState<string>('')
+  const [profissionalSelected, setProfissionalSelected] = useState<any>()
 
   const [idSelected, setId] = useState<string>('')
 
@@ -24,6 +26,7 @@ export default function Pri() {
 
   const [priItems, setPriItems] = useState<any[]>([])
   const [priItemsNew, setPriItemsNew] = useState<any[]>([])
+  const [allUsers, setAllUsers] = useState<any[]>([])
 
 
   const [nomeFilter, setNomeFilter] = useState<string>('')
@@ -67,6 +70,7 @@ export default function Pri() {
       nome: nome,
       descricao: desc,
       priItems: priItems,
+      profissionaisId: profissionalSelected,
     }
 
     const isCreated = await priIService.create(data)
@@ -81,8 +85,9 @@ export default function Pri() {
       descricao: desc,
       priItems: priItems,
       priItemsNew: priItemsNew,
+      profissionaisId: profissionalSelected,
     }
-
+    
     const isUpdated = await priIService.update(id, data)
 
     if (isUpdated) closeModal()
@@ -99,6 +104,16 @@ export default function Pri() {
     handleLoadPri()
   }
 
+  async function handleLoadUsers() {
+    const allProfissionals = await profissional.list()
+
+    setAllUsers(allProfissionals)
+  }
+
+  useEffect(() => {
+    handleLoadUsers()
+  }, [])
+ 
 
   /*
    =====================================================================================================
@@ -195,7 +210,7 @@ export default function Pri() {
                 <td>{pri.nome}</td>
                 <td>{pri.descricao}</td>
                 <td>
-                  <a href={`/pri-item/${pri.id}`} className="black-color">  
+                  <a href={`/pri-item/${pri.id}`}>  
                     <FiArrowRight size={18} />
                   </a>
                 </td>
@@ -357,6 +372,32 @@ export default function Pri() {
           }}
         >
           <h2>Cadastrar pri</h2>
+             <h4>PRI</h4>
+          <select
+            onChange={(e) => {
+              const userIndex: number = parseInt(e.target.value)
+              if (isNaN(userIndex)) {
+                setNome('')
+                setDesc('')
+                setPriItems([])
+                setProfissionalSelected({})
+              }
+
+              const newUserSelected = allUsers[userIndex]
+              setProfissionalSelected(newUserSelected)
+
+              
+            }}
+            placeholder='PRI Cadastrado'
+          >
+            <option value={''}>Novo</option>
+
+            {allUsers.map((user, i) => (
+              <option value={i}>
+                {user.nome} | {user.desc}
+              </option>
+            ))}
+          </select>
 
           <label htmlFor=''>Nome da pri</label>
           <input
