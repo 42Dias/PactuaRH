@@ -30,6 +30,7 @@ export default function PriItem() {
   const [idSelected, setId] = useState<string>('')
   const [nome, setNome] = useState<string>('')
   const [desc, setDesc] = useState<string>('')
+  const [atividade, setAtividade] = useState<string>('')
   // const [id, setId] = useState<string>('')
   const [pdi, setPdi] = useState<any[]>([])
 
@@ -87,6 +88,7 @@ export default function PriItem() {
       nome: nome,
       descricao: desc,
       priId: id,
+      atividade: atividade,
     }
 
     const isCreated = await priItemService.create(data)
@@ -99,6 +101,7 @@ export default function PriItem() {
     const data = {
       nome: nome,
       descricao: desc,
+      atividade: atividade
     }
 
     const isUpdated = await priItemService.update(id, data)
@@ -237,6 +240,7 @@ export default function PriItem() {
                       setId(pdi.id)
                       setNome(pdi.nome)
                       setDesc(pdi.descricao)
+                      setAtividade(pdi.atividade)
                       openModal()
                     }}
                   >
@@ -289,6 +293,14 @@ export default function PriItem() {
             required
           />
 
+
+          <textarea
+            onChange={(e) => setAtividade(e.target.value)}
+            defaultValue={atividade}
+            placeholder='atividade da pdi'
+            required
+          />
+
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
@@ -328,6 +340,13 @@ export default function PriItem() {
             type='text'
             onChange={(e) => setDesc(e.target.value)}
             placeholder='Descrição da pdi'
+            required
+          />
+            
+          <textarea
+            onChange={(e) => setAtividade(e.target.value)}
+            defaultValue={atividade}
+            placeholder='atividade da pdi'
             required
           />
 

@@ -34,6 +34,7 @@ export default function PdiItem() {
   const [desc, setDesc] = useState<string>('')
   const [idSelected, setId] = useState<string>('')
   const [pdi, setPdi] = useState<any[]>([])
+  const [atividade, setAtividade] = useState<string>('')
 
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
@@ -88,6 +89,7 @@ export default function PdiItem() {
       nome: nome,
       descricao: desc,
       pdiId: id,
+      atividade: atividade,
     }
 
     const isCreated = await pdiItemService.create(data)
@@ -100,6 +102,7 @@ export default function PdiItem() {
     const data = {
       nome: nome,
       descricao: desc,
+      atividade: atividade,
     }
 
     const isUpdated = await pdiItemService.update(idSelected, data)
@@ -293,6 +296,13 @@ export default function PdiItem() {
             required
           />
 
+        <textarea
+            onChange={(e) => setAtividade(e.target.value)}
+            defaultValue={atividade}
+            placeholder='atividade da pdi'
+            required
+          />
+
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
@@ -332,6 +342,13 @@ export default function PdiItem() {
             type='text'
             onChange={(e) => setDesc(e.target.value)}
             placeholder='Descrição da pdi'
+            required
+          />
+
+          <textarea
+            onChange={(e) => setAtividade(e.target.value)}
+            defaultValue={atividade}
+            placeholder='atividade da pdi'
             required
           />
 
