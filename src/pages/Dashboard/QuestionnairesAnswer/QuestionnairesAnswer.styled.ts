@@ -24,6 +24,10 @@ export const Body = styled.body`
   height: 100vh;
 `
 
+export const Select = styled.select``
+
+export const Options = styled.option``
+
 export const FlexButtons = styled.div`
   display: flex;
   justify-content: space-between;
