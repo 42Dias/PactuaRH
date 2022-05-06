@@ -8,6 +8,7 @@ import { fullName } from 'service/api'
 import Link from "react-router-dom";
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import profissional from 'service/profissional/profissional'
 
 export default function Pdi() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -17,12 +18,17 @@ export default function Pdi() {
   const [desc, setDesc] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [pdi, setPdi] = useState<any[]>([])
+  const [professionals, setProfessionals] = useState<any[]>([])
 
   const [pdiItems, setPdiItems] = useState<any[]>([])
   const [pdiItemsNew, setPdiItemsNew] = useState<any[]>([])
 
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+
+
+  const [allUsers, setAllUsers] = useState<any[]>([])
+  const [profissionalSelected, setProfissionalSelected] = useState<any>()
 
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -61,6 +67,7 @@ export default function Pdi() {
       nome: nome,
       descricao: desc,
       pdiItems: pdiItems,
+      profissionaisId: profissionalSelected,
     }
 
     const isCreated = await pdiService.create(data)
@@ -75,6 +82,7 @@ export default function Pdi() {
       descricao: desc,
       pdiItems: pdiItems,
       pdiItemsNew: pdiItemsNew,
+      profissionaisId: profissionalSelected,
     }
 
     const isUpdated = await pdiService.update(id, data)
@@ -82,16 +90,30 @@ export default function Pdi() {
     if (isUpdated) closeModal()
     await handleLoadPdi()
   }
-
-  useEffect(() => {
-    handleLoadPdi()
-  }, [])
-
+  
   async function handleDelete(id: string) {
     await pdiService.delete(id)
 
     handleLoadPdi()
   }
+
+  useEffect(() => {
+    handleLoadPdi()
+    handleLoadProfessionals() 
+  }, [])
+
+
+  /*
+  ==========================================================================================================
+                                            Sub Crud Item
+  ==========================================================================================================
+  */
+  async function handleLoadProfessionals() {
+    const allProfessionals = await profissional.list()
+
+    setAllUsers(allProfessionals)
+  }
+
 
   /*
    =====================================================================================================
@@ -200,6 +222,7 @@ export default function Pdi() {
                       setNome(pdi.nome)
                       setDesc(pdi.descricao)
                       setPdiItems(pdi.pdiItems)
+                      setProfissionalSelected(pdi.profissionaisId)
                       openModal()
                     }}
                   >
@@ -253,6 +276,25 @@ export default function Pdi() {
             placeholder='Descrição da pdi'
             required
           />
+
+          <label htmlFor="">Colaborador</label>
+          <select
+            value={profissionalSelected}
+            onChange={(e) => {
+              const newUserSelected: string = e.target.value
+              setProfissionalSelected(newUserSelected)
+            }}
+
+            placeholder='PRI Cadastrado'
+          >
+            <option hidden>Selecione</option>
+
+            {allUsers.map((user, i) => (
+              <option value={user.id}>
+                {user.nome}
+              </option>
+            ))}
+          </select>
           {
             pdiItems.length > 0 && <h3>Pdi Itens</h3>
           }
@@ -369,6 +411,24 @@ export default function Pdi() {
             placeholder='Descrição da pdi'
             required
           />
+
+          <select
+            value={profissionalSelected}
+            onChange={(e) => {
+              const newUserSelected: string = e.target.value
+              setProfissionalSelected(newUserSelected)
+            }}
+
+            placeholder='PRI Cadastrado'
+          >
+            <option hidden>Selecione</option>
+
+            {allUsers.map((user, i) => (
+              <option value={user.id}>
+                {user.nome}
+              </option>
+            ))}
+          </select>
 
           {
             pdiItems.length > 0 && <h3>Pdi Itens</h3>

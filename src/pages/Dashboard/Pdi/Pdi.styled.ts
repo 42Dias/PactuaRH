@@ -115,6 +115,25 @@ export const ContainerForm = styled.form`
     }
   }
 
+  textarea {
+    margin: 10px 0;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    height: 4rem;
+    font-size: 1rem;
+    font-weight: 400;
+    background: #e7e9ee;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.25rem;
+    &::placeholder {
+      color: #747474;
+    }
+    & + input {
+      margin-top: 1rem;
+    }
+  }
+
+
   select {
     padding: 0 1.5rem;
     width: 100%;
