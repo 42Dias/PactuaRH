@@ -244,6 +244,7 @@ export default function PdiItem() {
                       setId(pdi.id)
                       setNome(pdi.nome)
                       setDesc(pdi.descricao)
+                      setAtividade(pdi.atividade)
                       openModal()
                     }}
                   >
