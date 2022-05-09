@@ -23,6 +23,9 @@ export const Body = styled.body`
   width: 100vw;
   height: 100vh;
 `
+export const SelectPai = styled.select``
+
+export const OptionsPai = styled.option``
 
 export const FlexButtons = styled.div`
   display: flex;

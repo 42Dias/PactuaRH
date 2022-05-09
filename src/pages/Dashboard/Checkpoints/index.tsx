@@ -1,35 +1,45 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
+import { FiPlus, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Checkpoints.styled'
 import { useEffect, useState } from 'react'
-import InputMask from 'react-input-mask'
 import checkpoint from '../../../service/checkpoint/checkpoint'
 import { fullName } from 'service/api'
-//@ts-ignore
-import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
+import pdiService from 'service/pdi/pdi'
+import priIService from 'service/pri/pri'
+
+import avaliacoes from 'service/avaliacoes/avaliacoes'
+// @ts-ignore
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default function Checkpoints() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+  const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
 
   const [nome, setNome] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
-  const [date, setDate] = useState<string>('')
+
+  const [dataInicio, setDataInicio] = useState<string>('')
+  const [dataFim, setDataFim] = useState<string>('')
+
+  const [avaliation, setAvaliation] = useState<string>('')
+  const [pdi, setPdi] = useState<string>('')
+  const [pri, setPri] = useState<string>('')
+  const [status, setStatus] = useState<string>('')
+
+  const [allAvaliacao, setAllAvaliacao] = useState([])
+  const [allPdi, setAllPdi] = useState([])
+  const [allPri, setAllPri] = useState([])
+
   const [id, setId] = useState<string>('')
   const [checkpoints, setCheckpoints] = useState<any[]>([])
 
-  const [subArea        ,setSubArea  ] = useState<boolean>(false)
-  const [areaPai        ,setAreaPai  ] = useState<string>('')
-  
-
-  const [area           , setArea    ] = useState([])
-  const [nomeFilter     ,setNomeFilter     ] = useState<string>('')
-  const [descricaoFilter,setDescricaoFilter] = useState<string>('')
-  const [subAreaFilter  ,setSubAreaFilter  ] = useState<boolean>(false)
-  const [areaPaiFilter  ,setAreaPaiFilter  ] = useState<string>('')
+  const [nomeFilter, setNomeFilter] = useState<string>('')
+  const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+  const [dataInicioFilter, setDataInicioFilter] = useState<string>('')
+  const [dataFimFilter, setDataFimFilter] = useState<string>('')
 
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -37,18 +47,25 @@ export default function Checkpoints() {
 
   function closeModalFilter() {
     setIsOpenFilter(false)
-     setNomeFilter('')
+    setNomeFilter('')
     setDescricaoFilter('')
-    setAreaPaiFilter('')
+    setAvaliation('')
+    setPdi('')
+    setPri('')
   }
-  
+
   function openModal() {
     setIsOpen(true)
   }
 
   function closeModal() {
-    setSubArea(false)
-    setAreaPai('')
+    setNomeFilter('')
+    setDescricaoFilter('')
+    setAvaliation('')
+    setDataInicio('')
+    setDataFim('')
+    setPdi('')
+    setPri('')
     setIsOpen(false)
   }
 
@@ -57,8 +74,13 @@ export default function Checkpoints() {
   }
 
   function closeModalNew() {
-    setSubArea(false)
-    setAreaPai('')
+    setNomeFilter('')
+    setDescricaoFilter('')
+    setAvaliation('')
+    setDataInicio('')
+    setDataFim('')
+    setPdi('')
+    setPri('')
     setIsOpenNew(false)
   }
 
@@ -72,8 +94,15 @@ export default function Checkpoints() {
     const data = {
       nome: nome,
       descricao: descricao,
-      data: date,
+      dataInicio: new Date(dataInicio),
+      dataFim: new Date(dataFim),
+      avaliacao: avaliation,
+      PDI: pdi,
+      pri: pri,
+      status: status,
     }
+
+    console.log(data)
 
     const isCreated = await checkpoint.create(data)
 
@@ -85,7 +114,12 @@ export default function Checkpoints() {
     const data = {
       nome: nome,
       descricao: descricao,
-      data: date,
+      dataInicio: new Date(dataInicio),
+      dataFim: new Date(dataFim),
+      avaliacao: avaliation,
+      PDI: pdi,
+      pri: pri,
+      status: status,
     }
 
     const isUpdated = await checkpoint.update(id, data)
@@ -94,42 +128,66 @@ export default function Checkpoints() {
     await handleLoadCheckpoints()
   }
 
+  async function handleLoadPdi() {
+    const pdi = await pdiService.list()
+
+    setAllPdi(pdi)
+  }
+
+  async function handleLoadPri() {
+    const pri = await priIService.list()
+
+    setAllPri(pri)
+  }
+
+  async function handleLoadAvaliacao() {
+    const avaliacaoList = await avaliacoes.list()
+
+    setAllAvaliacao(avaliacaoList)
+  }
+
   useEffect(() => {
     handleLoadCheckpoints()
+    handleLoadPdi()
+    handleLoadPri()
+    handleLoadAvaliacao()
   }, [])
+
   async function handleDelete(id: string) {
     await checkpoint.delete(id)
 
     handleLoadCheckpoints()
   }
 
-  async function handleFilterArea(){
-
-    console.log("oujbnbojfdnbfnjbnfkdjnbkjdfnbndfbndfbkjfgjk")
+  async function handleFilterArea() {
     let filter = ''
 
-    if (nomeFilter){
-      console.log("tem nome")
-      if(filter.length != 0 ) filter += '&'
+    if (nomeFilter) {
+      if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
-    if (descricaoFilter){
-      console.log("tem desc")
-
-      if(filter.length != 0 ) filter += '&'
+    if (descricaoFilter) {
+      if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
-      
     }
-  
 
-    let checkpointFilted = await checkpoint.listWithManyFilters(filter)
+    if (dataInicioFilter) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5BdataInicio%5D=${dataInicioFilter}`
+    }
+
+    if (dataFimFilter) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5BdataFim%5D=${dataFimFilter}`
+    }
+
+    const checkpointFilted = await checkpoint.listWithManyFilters(filter)
 
     setCheckpoints(checkpointFilted)
-    console.log(checkpointFilted)
 
     closeModalFilter()
   }
-  
+
   return (
     <>
       <S.Body>
@@ -143,38 +201,45 @@ export default function Checkpoints() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button 
-             
-              onClick={openModalFilter}>
+              <button onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
             </div>
 
             <ReactHTMLTableToExcel
-              table="checkpoints"
-              filename="Pactua Checkpoints Excel"
-              sheet="Sheet"
-              buttonText="Exportar para excel"
+              table='checkpoints'
+              filename='Pactua Checkpoints Excel'
+              sheet='Sheet'
+              buttonText='Exportar para excel'
             />
           </S.FlexButtons>
 
-          <S.Table id="checkpoints">
+          <S.Table id='checkpoints'>
             <S.TrTitle>
               <td>Nome do Checkpoint</td>
               <td>Descrição</td>
+              <td>Data inicial</td>
+              <td>Data final</td>
             </S.TrTitle>
 
             {checkpoints.map((benefit) => (
               <S.TrSecond>
                 <td>{benefit.nome}</td>
                 <td>{benefit.descricao}</td>
+                <td>{benefit.dataInicio}</td>
+                <td>{benefit.dataFim}</td>
                 <td>
                   <button
                     onClick={() => {
                       setId(benefit.id)
                       setNome(benefit.nome)
-                      setDate(benefit.data)
+                      setDescricao(benefit.descricao)
+                      setDataInicio(benefit.dataInicio)
+                      setDataFim(benefit.dataFim)
+                      setAvaliation(benefit.avaliacao)
+                      setPdi(benefit.pdi)
+                      setPri(benefit.pri)
                       openModal()
                     }}
                   >
@@ -189,8 +254,6 @@ export default function Checkpoints() {
               </S.TrSecond>
             ))}
           </S.Table>
-
-       
         </S.Container>
       </S.Body>
 
@@ -221,20 +284,78 @@ export default function Checkpoints() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
-           <input
+          <input
             type='text'
             placeholder='Descrição'
             defaultValue={descricao}
             onChange={(e) => setDescricao(e.target.value)}
           />
 
-        <input
+          <input
             type='date'
-            placeholder='Data'
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            placeholder='Data inicial'
+            value={dataInicio}
+            onChange={(e) => setDataInicio(e.target.value)}
           />
-          
+
+          <input
+            type='date'
+            placeholder='Data Final'
+            value={dataFim}
+            onChange={(e) => setDataFim(e.target.value)}
+          />
+
+          <label htmlFor=''>Avaliação</label>
+          <S.SelectPai
+            onChange={(e) => {
+              setAvaliation(e.target.value)
+            }}
+            placeholder='Avaliação'
+            value={avaliation}
+          >
+            {allAvaliacao.map((value: any, index) => (
+              <S.OptionsPai key={index} value={value.id}>
+                {value.nome}
+              </S.OptionsPai>
+            ))}
+          </S.SelectPai>
+
+          <label htmlFor=''>PDI</label>
+          <S.SelectPai
+            onChange={(e) => {
+              setPdi(e.target.value)
+              console.log(e)
+            }}
+            placeholder='PDI'
+            value={pdi}
+          >
+            {allPdi.map((value: any, index) => (
+              <S.OptionsPai key={index} value={value.id}>
+                {value.nome}
+              </S.OptionsPai>
+            ))}
+          </S.SelectPai>
+          <label htmlFor=''>PRI</label>
+          <S.SelectPai
+            onChange={(e) => {
+              setPri(e.target.value)
+            }}
+            placeholder='PRI'
+            value={pri}
+          >
+            {allPri.map((value: any, index) => (
+              <S.OptionsPai key={index} value={value.id}>
+                {value.nome}
+              </S.OptionsPai>
+            ))}
+          </S.SelectPai>
+
+          <input
+            type='text'
+            placeholder='Status'
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          />
 
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
@@ -262,13 +383,15 @@ export default function Checkpoints() {
         >
           <h2>Cadastrar Checkpoint</h2>
 
-          <label htmlFor="">Nome do Checkpoint</label>
+          <label htmlFor=''>Nome do Checkpoint</label>
           <input
             type='text'
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome do Checkpoint'
             required
           />
+
+          <label htmlFor=''>Descrição</label>
           <input
             type='text'
             onChange={(e) => setDescricao(e.target.value)}
@@ -276,11 +399,74 @@ export default function Checkpoints() {
             required
           />
 
+          <label htmlFor=''>Data inicial</label>
           <input
             type='date'
-            placeholder='Data'
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            placeholder='Data inicial'
+            value={dataInicio}
+            onChange={(e) => setDataInicio(e.target.value)}
+          />
+
+          <label htmlFor=''>Data final</label>
+          <input
+            type='date'
+            placeholder='Data Final'
+            value={dataFim}
+            onChange={(e) => setDataFim(e.target.value)}
+          />
+
+          <label htmlFor=''>Avaliação</label>
+          <S.SelectPai
+            onChange={(e) => {
+              setAvaliation(e.target.value)
+            }}
+            placeholder='Avaliação'
+            value={avaliation}
+          >
+            <S.OptionsPai hidden>Selecione</S.OptionsPai>
+            {allAvaliacao.map((value: any, index) => (
+              <S.OptionsPai key={index} value={value.id}>
+                {value.nome}
+              </S.OptionsPai>
+            ))}
+          </S.SelectPai>
+
+          <label htmlFor=''>PDI</label>
+          <S.SelectPai
+            onChange={(e) => {
+              setPdi(e.target.value)
+            }}
+            placeholder='PDI'
+            defaultValue={pdi}
+          >
+            <S.OptionsPai hidden>Selecione</S.OptionsPai>
+            {allPdi.map((value: any, index) => (
+              <S.OptionsPai key={index} value={value.id}>
+                {value.nome}
+              </S.OptionsPai>
+            ))}
+          </S.SelectPai>
+          <label htmlFor=''>PRI</label>
+          <S.SelectPai
+            onChange={(e) => {
+              setPri(e.target.value)
+            }}
+            placeholder='PRI'
+            defaultValue={pri}
+          >
+            <S.OptionsPai hidden>Selecione</S.OptionsPai>
+            {allPri.map((value: any, index) => (
+              <S.OptionsPai key={index} value={value.id}>
+                {value.nome}
+              </S.OptionsPai>
+            ))}
+          </S.SelectPai>
+
+          <input
+            type='text'
+            placeholder='Status'
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
           />
 
           <button type='submit'>Enviar</button>
@@ -309,18 +495,28 @@ export default function Checkpoints() {
         >
           <h2>Filtros</h2>
 
-          <label htmlFor="">Nome do Checkpoint</label>
+          <label htmlFor=''>Nome do Checkpoint</label>
           <input
             type='text'
             onChange={(e) => setNomeFilter(e.target.value)}
             placeholder='Nome do Checkpoint'
-      
           />
           <input
             type='text'
             onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
-            
+          />
+
+          <input
+            type='date'
+            onChange={(e) => setDataInicioFilter(e.target.value)}
+            placeholder='Data inicial'
+          />
+
+          <input
+            type='date'
+            onChange={(e) => setDataFimFilter(e.target.value)}
+            placeholder='Data final'
           />
 
           <button type='submit'>Enviar</button>
