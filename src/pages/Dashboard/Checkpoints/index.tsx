@@ -12,6 +12,7 @@ import priIService from 'service/pri/pri'
 import avaliacoes from 'service/avaliacoes/avaliacoes'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import stateHandler from 'utils/changeStatesHandlers'
 
 export default function Checkpoints() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -41,6 +42,10 @@ export default function Checkpoints() {
   const [dataInicioFilter, setDataInicioFilter] = useState<string>('')
   const [dataFimFilter, setDataFimFilter] = useState<string>('')
 
+  const [priItems, setPriItems] = useState<any[]>([])
+  const [pdiItems, setPdiItems] = useState<any[]>([])
+  const [avaliations, setAvaliations] = useState<any[]>([])
+
   function openModalFilter() {
     setIsOpenFilter(true)
   }
@@ -61,11 +66,19 @@ export default function Checkpoints() {
   function closeModal() {
     setNomeFilter('')
     setDescricaoFilter('')
-    setAvaliation('')
     setDataInicio('')
     setDataFim('')
+    setAvaliation('')
     setPdi('')
     setPri('')
+
+
+    setAvaliations( [] )
+    setPdiItems( [] )
+    setPriItems( [] )
+
+
+
     setIsOpen(false)
   }
 
@@ -81,6 +94,12 @@ export default function Checkpoints() {
     setDataFim('')
     setPdi('')
     setPri('')
+
+    setAvaliations( [] )
+    setPdiItems( [] )
+    setPriItems( [] )
+
+    
     setIsOpenNew(false)
   }
 
@@ -96,9 +115,16 @@ export default function Checkpoints() {
       descricao: descricao,
       dataInicio: new Date(dataInicio),
       dataFim: new Date(dataFim),
-      avaliacao: avaliation,
-      PDI: pdi,
-      pri: pri,
+      
+      // avaliacao: avaliation,
+      // PDI: pdi,
+      // pri: pri,
+
+      avaliacao: avaliations,
+      PDI: pdiItems,
+      pri: priItems,
+
+
       status: status,
     }
 
@@ -116,9 +142,17 @@ export default function Checkpoints() {
       descricao: descricao,
       dataInicio: new Date(dataInicio),
       dataFim: new Date(dataFim),
-      avaliacao: avaliation,
-      PDI: pdi,
-      pri: pri,
+
+
+      // avaliacao: avaliation,
+      // PDI: pdi,
+      // pri: pri,
+
+      avaliacao: avaliations,
+      PDI: pdiItems,
+      pri: priItems,
+
+
       status: status,
     }
 
@@ -188,6 +222,13 @@ export default function Checkpoints() {
     closeModalFilter()
   }
 
+  function handleSetArrays(arrayOfObject: any){
+    stateHandler.setJustIdsOfArrayObject(arrayOfObject?.avaliacao, setAvaliations)
+    stateHandler.setJustIdsOfArrayObject(arrayOfObject?.PDI, setPdiItems)
+    stateHandler.setJustIdsOfArrayObject(arrayOfObject?.pri, setPriItems)
+
+  }
+
   return (
     <>
       <S.Body>
@@ -223,23 +264,24 @@ export default function Checkpoints() {
               <td>Data final</td>
             </S.TrTitle>
 
-            {checkpoints.map((benefit) => (
+            {checkpoints.map((checkpoint) => (
               <S.TrSecond>
-                <td>{benefit.nome}</td>
-                <td>{benefit.descricao}</td>
-                <td>{benefit.dataInicio}</td>
-                <td>{benefit.dataFim}</td>
+                <td>{checkpoint.nome}</td>
+                <td>{checkpoint.descricao}</td>
+                <td>{checkpoint.dataInicio}</td>
+                <td>{checkpoint.dataFim}</td>
                 <td>
                   <button
                     onClick={() => {
-                      setId(benefit.id)
-                      setNome(benefit.nome)
-                      setDescricao(benefit.descricao)
-                      setDataInicio(benefit.dataInicio)
-                      setDataFim(benefit.dataFim)
-                      setAvaliation(benefit.avaliacao)
-                      setPdi(benefit.pdi)
-                      setPri(benefit.pri)
+                      handleSetArrays(checkpoint)
+                      setId(checkpoint.id)
+                      setNome(checkpoint.nome)
+                      setDescricao(checkpoint.descricao)
+                      setDataInicio(checkpoint.dataInicio)
+                      setDataFim(checkpoint.dataFim)
+                      // setAvaliation(checkpoint.avaliacao)
+                      // setPdi(checkpoint.pdi)
+                      // setPri(checkpoint.pri)
                       openModal()
                     }}
                   >
@@ -247,7 +289,7 @@ export default function Checkpoints() {
                   </button>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(benefit.id)}>
+                  <button onClick={() => handleDelete(checkpoint.id)}>
                     <FiTrash size={18} />
                   </button>
                 </td>
@@ -278,12 +320,14 @@ export default function Checkpoints() {
           }}
         >
           <h2>Editar Checkpoint</h2>
+          <label htmlFor=''>Nome do Checkpoint</label>
           <input
             type='text'
             placeholder='Nome do Checkpoint'
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
+          <label htmlFor=''>Descrição</label>
           <input
             type='text'
             placeholder='Descrição'
@@ -291,6 +335,7 @@ export default function Checkpoints() {
             onChange={(e) => setDescricao(e.target.value)}
           />
 
+          <label htmlFor=''>Data inicial</label>
           <input
             type='date'
             placeholder='Data inicial'
@@ -298,6 +343,7 @@ export default function Checkpoints() {
             onChange={(e) => setDataInicio(e.target.value)}
           />
 
+          <label htmlFor=''>Data final</label>
           <input
             type='date'
             placeholder='Data Final'
@@ -305,6 +351,7 @@ export default function Checkpoints() {
             onChange={(e) => setDataFim(e.target.value)}
           />
 
+          {/*
           <label htmlFor=''>Avaliação</label>
           <S.SelectPai
             onChange={(e) => {
@@ -319,8 +366,9 @@ export default function Checkpoints() {
               </S.OptionsPai>
             ))}
           </S.SelectPai>
+          */}
 
-          <label htmlFor=''>PDI</label>
+          {/* <label htmlFor=''>PDI</label>
           <S.SelectPai
             onChange={(e) => {
               setPdi(e.target.value)
@@ -348,8 +396,120 @@ export default function Checkpoints() {
                 {value.nome}
               </S.OptionsPai>
             ))}
-          </S.SelectPai>
+          </S.SelectPai> */}
 
+
+          <label htmlFor=''>Avaliações</label>
+          {
+            avaliations.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor=''>Selecione a Avaliação</label>
+                  <div className="return">
+                    <S.SelectPai
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, avaliations, setAvaliations)}
+                      placeholder='Avaliação'
+                      defaultValue={e}
+                    >
+                      <S.OptionsPai hidden>Selecione</S.OptionsPai>
+                      {allAvaliacao.map((value: any, index) => (
+                        <S.OptionsPai key={index} value={value.id}>
+                          {value.nome}
+                        </S.OptionsPai>
+                      ))}
+                    </S.SelectPai>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, avaliations, setAvaliations)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          }
+
+          <button type='button' onClick={() => stateHandler.addFormFields(avaliations, setAvaliations)}>
+            <FiPlus />
+          </button>
+
+          <label htmlFor=''>PDI</label>
+          {
+            pdiItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor=''>Selecione a PDI</label>
+                  <div className="return">
+                    <S.SelectPai
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, pdiItems, setPdiItems)}
+                      placeholder='PdI'
+                      defaultValue={e}
+                    >
+                      <S.OptionsPai hidden>Selecione</S.OptionsPai>
+                      {allPdi.map((value: any, index) => (
+                        <S.OptionsPai key={index} value={value.id}>
+                          {value.nome}
+                        </S.OptionsPai>
+                      ))}
+                    </S.SelectPai>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, pdiItems, setPdiItems)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          }
+
+          <button type='button' onClick={() => stateHandler.addFormFields(pdiItems, setPdiItems)}>
+            <FiPlus />
+          </button>
+
+
+
+          <label htmlFor=''>PRI</label>
+          {
+            priItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor=''>Selecione a PRI</label>
+                  <div className="return">
+                    <S.SelectPai
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, priItems, setPriItems)}
+                      placeholder='PRI'
+                      defaultValue={e}
+                    >
+                      <S.OptionsPai hidden>Selecione</S.OptionsPai>
+                      {allPri.map((value: any, index) => (
+                        <S.OptionsPai key={index} value={value.id}>
+                          {value.nome}
+                        </S.OptionsPai>
+                      ))}
+                    </S.SelectPai>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, priItems, setPriItems)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          }
+
+          <button type='button' onClick={() => stateHandler.addFormFields(priItems, setPriItems)}>
+            <FiPlus />
+          </button>
+
+          <label htmlFor="">Status</label>
           <input
             type='text'
             placeholder='Status'
@@ -415,7 +575,7 @@ export default function Checkpoints() {
             onChange={(e) => setDataFim(e.target.value)}
           />
 
-          <label htmlFor=''>Avaliação</label>
+          {/* <label htmlFor=''>Avaliação</label>
           <S.SelectPai
             onChange={(e) => {
               setAvaliation(e.target.value)
@@ -429,8 +589,9 @@ export default function Checkpoints() {
                 {value.nome}
               </S.OptionsPai>
             ))}
-          </S.SelectPai>
+          </S.SelectPai> */}
 
+          {/*
           <label htmlFor=''>PDI</label>
           <S.SelectPai
             onChange={(e) => {
@@ -446,6 +607,9 @@ export default function Checkpoints() {
               </S.OptionsPai>
             ))}
           </S.SelectPai>
+          */}
+          
+          {/*
           <label htmlFor=''>PRI</label>
           <S.SelectPai
             onChange={(e) => {
@@ -461,6 +625,121 @@ export default function Checkpoints() {
               </S.OptionsPai>
             ))}
           </S.SelectPai>
+          */}
+
+          
+
+          <label htmlFor=''>Avaliações</label>
+          {
+            avaliations.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor=''>Selecione a Avaliação</label>
+                  <div className="return">
+                    <S.SelectPai
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, avaliations, setAvaliations)}
+                      placeholder='Avaliação'
+                      defaultValue={e}
+                    >
+                      <S.OptionsPai hidden>Selecione</S.OptionsPai>
+                      {allAvaliacao.map((value: any, index) => (
+                        <S.OptionsPai key={index} value={value.id}>
+                          {value.nome}
+                        </S.OptionsPai>
+                      ))}
+                    </S.SelectPai>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, avaliations, setAvaliations)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          }
+
+          <button type='button' onClick={() => stateHandler.addFormFields(avaliations, setAvaliations)}>
+            <FiPlus />
+          </button>
+
+          <label htmlFor=''>PDI</label>
+          {
+            pdiItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor=''>Selecione a PDI</label>
+                  <div className="return">
+                    <S.SelectPai
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, pdiItems, setPdiItems)}
+                      placeholder='PdI'
+                      defaultValue={e}
+                    >
+                      <S.OptionsPai hidden>Selecione</S.OptionsPai>
+                      {allPdi.map((value: any, index) => (
+                        <S.OptionsPai key={index} value={value.id}>
+                          {value.nome}
+                        </S.OptionsPai>
+                      ))}
+                    </S.SelectPai>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, pdiItems, setPdiItems)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          }
+
+          <button type='button' onClick={() => stateHandler.addFormFields(pdiItems, setPdiItems)}>
+            <FiPlus />
+          </button>
+
+
+
+          <label htmlFor=''>PRI</label>
+          {
+            priItems.map(
+              (e, i) => (
+                <div className="border">
+                  <label htmlFor=''>Selecione a PRI</label>
+                  <div className="return">
+                    <S.SelectPai
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, priItems, setPriItems)}
+                      placeholder='PRI'
+                      defaultValue={pri}
+                    >
+                      <S.OptionsPai hidden>Selecione</S.OptionsPai>
+                      {allPri.map((value: any, index) => (
+                        <S.OptionsPai key={index} value={value.id}>
+                          {value.nome}
+                        </S.OptionsPai>
+                      ))}
+                    </S.SelectPai>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, priItems, setPriItems)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          }
+
+          <button type='button' onClick={() => stateHandler.addFormFields(priItems, setPriItems)}>
+            <FiPlus />
+          </button>
+
+          <label htmlFor=''>Status</label>
 
           <input
             type='text'
