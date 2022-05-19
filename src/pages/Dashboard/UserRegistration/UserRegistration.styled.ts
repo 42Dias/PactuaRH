@@ -150,7 +150,7 @@ export const ContainerForm = styled.form`
   }
 
   button {
-    margin-top: 1.5rem;
+    margin-top: 20px !important;
     padding: 0 1.5rem;
     width: 100%;
     height: 4rem;
