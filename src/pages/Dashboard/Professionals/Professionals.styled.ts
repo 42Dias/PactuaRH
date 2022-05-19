@@ -148,7 +148,9 @@ export const ContainerForm = styled.form`
 
   .btn-actions{
     display: block;
+    /*
     margin: 5px auto 20px auto;
+    */
     width: 50px;
     height: 50px;
     position: relative;
@@ -168,9 +170,41 @@ export const ContainerForm = styled.form`
     
   }
 
-  .btn-trash{
-    background-color: red;
+  .btn-plus{
+    width: 100%
   }
+
+
+  .return {
+    align-items: baseline;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    
+    select{
+      width: 85%;
+    }
+
+    input{
+      width: 85%;
+    }
+    
+    button {
+      width: 15%;
+      height: 4rem;
+    }
+
+  }
+    
+
+  .btn-trash{
+    background-color: #EA1C24;
+    margin-top: 0 !important;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  
 `
 
 
