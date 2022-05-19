@@ -547,6 +547,8 @@ export default function Positions() {
         >
           <h2>Editar Cargo</h2>
 
+
+          <label htmlFor="">Nome</label>
           <input
           defaultValue={cargoSelected?.nome}
           type='text'
@@ -554,6 +556,7 @@ export default function Positions() {
           {...register('nome')}
           />
 
+          <label htmlFor="">Descrição</label>
           <input
           defaultValue={cargoSelected?.nome}
           type='text'
@@ -562,7 +565,7 @@ export default function Positions() {
           />
 
 
-
+        <label htmlFor="">Liderança</label>
         <select
           defaultValue={cargoSelected?.lideranca}
           placeholder='Liderança'
@@ -579,7 +582,7 @@ export default function Positions() {
           {...register('descOfc')}
           /> */}
 
-
+         <label htmlFor="">Código Brasileiro de Ocupações</label>
           <select
           defaultValue={cargoSelected?.cbo || "Não cadastrado"}
           {...register('ocupationCodeBr')}
@@ -589,6 +592,7 @@ export default function Positions() {
             </option>
           </select>
 
+          <label htmlFor="">Código de Ocupação conforme IR</label>
 
           <select
           defaultValue={cargoSelected?.ir || "Não cadastrado"}
@@ -597,6 +601,8 @@ export default function Positions() {
               Código de Ocupação conforme IR
             </option>
           </select>
+
+          <label htmlFor="">Área</label>
           <select
           defaultValue={cargoSelected?.area?.id}
           {...register('areaId')}
@@ -612,6 +618,8 @@ export default function Positions() {
             )}
             
           </select>
+
+          <label htmlFor="">Cargo Liderado</label>
           <select
           defaultValue={cargoSelected?.ir || "Não cadastrado"}
           // defaultValue={cargoSelected?.area?.id}
@@ -628,6 +636,8 @@ export default function Positions() {
             )
             }
           </select>
+
+          <label htmlFor="">Habilidade</label>
           <select
           {...register('habilidadeId')}
           >
@@ -642,34 +652,36 @@ export default function Positions() {
               )
             }
           </select>
+
+          <label htmlFor="">Habilidades</label>
           {
           skills.map(
             (skill, index) => (
               <div className="border">
-                Habilidades
-
-                <select
-                defaultValue={skills[index]}
-                onChange={(e) => handleChangeSkills(index, e.target.value)}
-                >
-                  <option hidden >Habilidades</option>
-                  {
-                    allSkills.map(
-                      (skill) => (
-                        <option key={skill.id} value={skill.id}>
-                          {skill.nome}
-                        </option>
+                <div className="return">
+                  <select
+                  defaultValue={skills[index]}
+                  onChange={(e) => handleChangeSkills(index, e.target.value)}
+                  >
+                    <option hidden >Habilidades</option>
+                    {
+                      allSkills.map(
+                        (skill) => (
+                          <option key={skill.id} value={skill.id}>
+                            {skill.nome}
+                          </option>
+                        )
                       )
-                    )
-                  }
-                </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeSkills(index)}
-                >
-                  <FiTrash/>
-                </button>
+                    }
+                  </select>
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeSkills(index)}
+                  >
+                    <FiTrash/>
+                  </button>
+                </div>  
               </div>
             )
           )
@@ -677,43 +689,41 @@ export default function Positions() {
 
           <button
           type='button'
-          className='btn-actions'
+          className='btn-actions btn-add'
           onClick={() => addSkills()}
           >
             <FiPlus size={20} />
           </button>
 
-
-          
+          <label htmlFor="">Desejaveis</label>
           {
           wanted.map(
             (skill, index) => (
               <div className="border">
-
-                Desejaveis
-
-                <select
-                defaultValue={wanted[index]}
-                onChange={(e) => handleChangeWanted(index, e.target.value)}
-                >
-                  <option hidden >Desejaveis</option>
-                  {
-                    allSkills.map(
-                      (skill) => (
-                        <option key={skill.id} value={skill.id}>
-                          {skill.nome}
-                        </option>
+                <div className="return">
+                  <select
+                  defaultValue={wanted[index]}
+                  onChange={(e) => handleChangeWanted(index, e.target.value)}
+                  >
+                    <option hidden >Desejaveis</option>
+                    {
+                      allSkills.map(
+                        (skill) => (
+                          <option key={skill.id} value={skill.id}>
+                            {skill.nome}
+                          </option>
+                        )
                       )
-                    )
-                  }
-                </select>
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeWanted(index)}
-                >
-                  <FiTrash/>
-                </button>
+                    }
+                  </select>
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeWanted(index)}
+                  >
+                    <FiTrash/>
+                  </button>
+                </div>
               </div>
             )
           )
@@ -721,28 +731,72 @@ export default function Positions() {
 
           <button
           type='button'
-          className='button btn-actions'
+          className='button btn-actions btn-add'
           onClick={() => addWanted()}
           >
             <FiPlus size={20} />
           </button>
 
+
+        <label htmlFor="">Funções</label>
         {
           functions.map(
             (skill, index) => (
               <div className="border">
-                Funções
+                <div className="return">
+                  <select
+                  defaultValue={functions[index]}
+                  onChange={(e) => handleChangeWanted(index, e.target.value)}
+                  >
+                    <option hidden >Funções</option>
+                    {
+                      allFunctions.map(
+                        (afunction) => (
+                          <option key={afunction.id} value={afunction.id}>
+                            {afunction.nome}
+                          </option>
+                        )
+                      )
+                    }
+                  </select>
+                  <button
+                    className='btn-actions btn-trash'
+                    type='button'
+                    onClick={() => removeFunctions(index)}
+                  >
+                    <FiTrash/>
+                  </button>
+                </div>
+              </div>
+            )
+          )
+          }
 
+          <button
+          type='button'
+          className='btn-actions btn-add'
+          onClick={() => addFunctions()}
+          >
+            <FiPlus size={20} />
+          </button>
+
+        <label htmlFor="">Escolaridade</label>
+
+        {  
+        educations.map(
+          (education, index) => (
+            <div className="border">
+              <div className="return">
                 <select
-                defaultValue={functions[index]}
-                onChange={(e) => handleChangeWanted(index, e.target.value)}
+                defaultValue={educations[index]}
+                onChange={(e) => handleChangeEducations(index, e.target.value)}
                 >
-                  <option hidden >Funções</option>
+                  <option hidden >Escolaridade</option>
                   {
-                    allFunctions.map(
-                      (afunction) => (
-                        <option key={afunction.id} value={afunction.id}>
-                          {afunction.nome}
+                    allEducations.map(
+                      (education) => (
+                        <option key={education.id} value={education.id}>
+                          {education.nome}
                         </option>
                       )
                     )
@@ -751,50 +805,11 @@ export default function Positions() {
                 <button
                   className='btn-actions btn-trash'
                   type='button'
-                  onClick={() => removeFunctions(index)}
+                  onClick={() => removeEducations(index)}
                 >
                   <FiTrash/>
                 </button>
               </div>
-            )
-          )
-          }
-
-          <button
-          type='button'
-          className='btn-actions'
-          onClick={() => addFunctions()}
-          >
-            <FiPlus size={20} />
-          </button>
-
-        {  
-        educations.map(
-          (education, index) => (
-            <div className="border">
-              Escolaridade
-              <select
-              defaultValue={educations[index]}
-              onChange={(e) => handleChangeEducations(index, e.target.value)}
-              >
-                <option hidden >Escolaridade</option>
-                {
-                  allEducations.map(
-                    (education) => (
-                      <option key={education.id} value={education.id}>
-                        {education.nome}
-                      </option>
-                    )
-                  )
-                }
-              </select>
-              <button
-                className='btn-actions btn-trash'
-                type='button'
-                onClick={() => removeEducations(index)}
-              >
-                <FiTrash/>
-              </button>
             </div>
           )
          )
@@ -802,7 +817,7 @@ export default function Positions() {
 
           <button
           type='button'
-          className='btn-actions'
+          className='btn-actions btn-add'
           onClick={() => addEducations()}
           >
             <FiPlus size={20} />
@@ -1054,17 +1069,18 @@ export default function Positions() {
                   <FiTrash/>
                 </button>
 
-                <button
-                  type='button'
-                  className='btn-actions'
-                  onClick={() => addSkills()}
-                  >
-                  <FiPlus size={20} />
-                </button>
               </div>
               )
             )
           }
+
+          <button
+            type='button'
+            className='btn-actions btn-add'
+            onClick={() => addSkills()}
+            >
+              <FiPlus size={20} />
+          </button>
           
           </div>
 
@@ -1112,18 +1128,19 @@ export default function Positions() {
                   <FiTrash/>
                 </button>
 
-                <button
-                type='button'
-                className='btn-actions'
-                onClick={() => addWanted()}
-                >
-                  <FiPlus size={20} />
-                </button>
               </div>
             )
           )
           }
         </div>
+
+        <button
+        type='button'
+        className='btn-actions btn-add'
+        onClick={() => addWanted()}
+        >
+          <FiPlus size={20} />
+        </button>
 
         <label style={{ marginBottom: '5px', }} htmlFor="">Funções</label>
         <div className="border">  
@@ -1153,19 +1170,19 @@ export default function Positions() {
                   <FiTrash/>
                 </button>
 
-                <button
-                  type='button'
-                  className='btn-actions'
-                  onClick={() => addFunctions()}
-                >
-                  <FiPlus size={20} />
-                </button>
               </div>
             )
           )
           }
         </div>
 
+      <button
+        type='button'
+        className='btn-actions btn-add'
+        onClick={() => addFunctions()}
+      >
+        <FiPlus size={20} />
+      </button>
         
         {/* 
         <button
@@ -1174,7 +1191,8 @@ export default function Positions() {
         onClick={() => addFunctions()}
         >
           <FiPlus size={20} />
-        </button> */}
+        </button>
+        */}
 
 
         <label style={{ marginBottom: '5px', }} htmlFor="">Escolaridade</label>
@@ -1204,92 +1222,20 @@ export default function Positions() {
                 <FiTrash/>
               </button>
 
-              <button
-                type='button'
-                className='btn-actions'
-                onClick={() => addEducations()}
-              >
-                <FiPlus size={20} />
-              </button>
             </div>
           )
          )
         }
         </div>
 
+        <button
+          type='button'
+          className='btn-actions btn-add'
+          onClick={() => addEducations()}
+        >
+          <FiPlus size={20} />
+        </button>
           
-          {/* <select
-          {...register('funcaoId')}
-          >
-            <option hidden>Funções</option>
-            {
-            allFunctions.map(
-              (afunction)=> (
-                <option key={afunction.id} value={afunction.id}>
-                  {afunction.nome}
-                </option>
-              )
-            )
-            }
-          </select> */}
-          {/* <select
-          
-          {...register('escolaridadeId')}
-          >
-            <option hidden >Escolaridade</option>
-            {
-            allEducations.map(
-              (education) => (
-                <option key={education.id} value={education.id}>
-                  {education.nome}
-                </option>
-              )
-            )
-            }
-          </select> */}
-          {/* <select>
-            <option>Questionario</option>
-          </select> */}
-
-          {/* This field does not exist in the table */}
-          {/* <input 
-          {...register('planoAdm', {
-              // required: true,
-            })}
-          type='text'
-          placeholder='Plano ADM'
-          /> */}
-
-          {/* No need  */}
-          {/* <input 
-          {...register('sugerida', {
-              required: true,
-            })}
-          type='text'
-          placeholder='Classe/Faixa sugerida'
-          />
-           */}
-          {/* This is what the table itself shows */}
-          {/* <input 
-          {...register('nivelHierarquico', {
-              required: true,
-            })}
-          type='text'
-          placeholder='Nível Hierárquico na empresa'
-          /> */}
-
-          {/*
-          This already exists in education
-          */}
-          {/* <input
-          {...register('grauInstrucao', {
-              required: true,
-            })}
-          type='text'
-          placeholder='Grau de instrução mínimo para o cargo'
-          /> */}
-
-
           <input
           // onClick={(e) => console.log(register)}
           type='submit'
