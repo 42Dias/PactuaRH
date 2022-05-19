@@ -11,6 +11,7 @@ export const Container = styled.div`
   @media (max-width: 970px) {
     padding: 0 12%;
   }
+
 `
 
 export const Title = styled.h2`
@@ -84,13 +85,18 @@ export const TrSecond = styled.tr`
     border: 0;
   }
 
-
   .black-color{
     color: var(--text-title) !important;
   }
 `
 
 export const ContainerForm = styled.form`
+
+  label {
+    display: block;
+    margin: 20px 0;
+  }
+
   h2 {
     margin-bottom: 2rem;
     font-size: 1.5rem;
@@ -98,7 +104,6 @@ export const ContainerForm = styled.form`
   }
 
   input {
-    margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
     height: 4rem;
@@ -107,11 +112,11 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
+
     &::placeholder {
       color: #747474;
     }
     & + input {
-      margin-top: 1rem;
     }
   }
 
@@ -124,13 +129,30 @@ export const ContainerForm = styled.form`
     background: #e7e9ee;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
-    margin-top: 1rem;
 
     &::placeholder {
       color: #747474;
     }
-    & + input {
+    /* & + input {
       margin-top: 1rem;
+    } */
+  }
+
+  .button {
+    margin-top: 1.5rem;
+    padding: 0 1.5rem;
+    width: 100%;
+    height: 4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: black;
+    border: 0;
+    border-radius: 0.25rem;
+    transition: filter 0.2s ease-in-out;
+
+    &:hover {
+      filter: brightness(0.9);
     }
   }
 
@@ -151,8 +173,67 @@ export const ContainerForm = styled.form`
       filter: brightness(0.9);
     }
   }
+
+  .btn-actions{
+    width: 50px;
+    height: 50px;
+    position: relative;
+
+    svg {
+      position:absolute;
+      left:0;
+      right:0;
+      margin-left:auto;
+      margin-right:auto;
+      top:0;
+      bottom:0;
+      margin-top:auto;
+      margin-bottom:auto;
+    }
+  }
+
+  .btn-add{
+    width: 100% !important; 
+  }
+
+  .btn-trash{
+    background-color: #EA1C24;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 15%;
+    margin-top:0;
+
+  }
+
+  .border{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    select {
+      margin-top: 1.5rem;
+    }
+    
+    .return {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      width: 100%;  
+      button {
+        height: 4rem;
+      }
+    }
+  }
+
 `
 
+
+
+export const divCheck = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`
 
 
 
@@ -168,11 +249,12 @@ export const ContainerBntFlex = styled.div`
     svg {
       margin-right: 10px;
     }
-
+    /*
     :last-child {
       background: transparent;
       border: 1px solid black;
       color: black;
     }
+    */
   }
 `
