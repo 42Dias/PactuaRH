@@ -211,7 +211,9 @@ export default function Pdi() {
                 <td>{pdi.nome}</td>
                 <td>{pdi.descricao}</td>
                 <td>
-                  <a href={`/pdi-item/${pdi.id}`} className="black-color">
+                  <a href={`/pdi-item/${pdi.id}`}
+                  className="black-color"
+                  >
                     <FiArrowRight size={18} />
                   </a>
                 </td>
@@ -296,7 +298,7 @@ export default function Pdi() {
             ))}
           </select>
           {
-            pdiItems.length > 0 && <h3>Pdi Itens</h3>
+            pdiItems.length > 0 && <label>Pdi Itens</label>
           }
           {
             pdiItems.map(
@@ -311,19 +313,21 @@ export default function Pdi() {
                   />
 
                   <label htmlFor="">Descrição</label>
-                  <input
-                    type="text"
-                    name="descricao"
-                    defaultValue={e.descricao}
-                    onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
-                  />
-                  <button
-                    className='btn-actions'
-                    type='button'
-                    onClick={() => removeFormFields(i, pdiItems, setPdiItems)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      type="text"
+                      name="descricao"
+                      defaultValue={e.descricao}
+                      onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, pdiItems, setPdiItems)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
 
 
@@ -343,18 +347,20 @@ export default function Pdi() {
                   />
 
                   <label htmlFor="">Descrição</label>
-                  <input
-                    type="text"
-                    name="descricao"
-                    onChange={(e) => handleChangeState(i, e, pdiItemsNew, setPdiItemsNew)}
-                  />
-                  <button
-                    className='btn-actions'
-                    type='button'
-                    onClick={() => removeFormFields(i, pdiItemsNew, setPdiItemsNew)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      type="text"
+                      name="descricao"
+                      onChange={(e) => handleChangeState(i, e, pdiItemsNew, setPdiItemsNew)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, pdiItemsNew, setPdiItemsNew)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
 
 
@@ -362,11 +368,11 @@ export default function Pdi() {
             )
           }
 
+          <button type='button' onClick={() => addFormFields(pdiItemsNew, setPdiItemsNew)}>
+            <FiPlus />
+          </button>
 
           <S.ContainerBntFlex>
-            <button type='button' onClick={() => addFormFields(pdiItemsNew, setPdiItemsNew)}>
-              <FiPlus />
-            </button>
             <button type='submit'>Enviar</button>
           </S.ContainerBntFlex>
 
@@ -412,6 +418,7 @@ export default function Pdi() {
             required
           />
 
+          <label htmlFor=''>Colaborador</label>
           <select
             value={profissionalSelected}
             onChange={(e) => {
@@ -419,7 +426,7 @@ export default function Pdi() {
               setProfissionalSelected(newUserSelected)
             }}
 
-            placeholder='PRI Cadastrado'
+            placeholder='Profissional Cadastrado'
           >
             <option hidden>Selecione</option>
 
@@ -431,7 +438,7 @@ export default function Pdi() {
           </select>
 
           {
-            pdiItems.length > 0 && <h3>Pdi Itens</h3>
+            pdiItems.length > 0 && <label>Pdi Itens</label>
           }
           {
             pdiItems.map(
@@ -446,29 +453,31 @@ export default function Pdi() {
                   />
 
                   <label htmlFor="">Descrição</label>
-                  <input
-                    type="text"
-                    name="descricao"
-                    defaultValue={e.descricao}
-                    onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
-                  />
-                  <button
-                    className='btn-actions'
-                    type='button'
-                    onClick={() => removeFormFields(i, pdiItems, setPdiItems)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      type="text"
+                      name="descricao"
+                      defaultValue={e.descricao}
+                      onChange={(e) => handleChangeState(i, e, pdiItems, setPdiItems)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, pdiItems, setPdiItems)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
-
-
               )
             )
           }
+          <button type='button' onClick={() => addFormFields(pdiItems, setPdiItems)}>
+            <FiPlus />
+          </button>
+
+
           <S.ContainerBntFlex>
-            <button type='button' onClick={() => addFormFields(pdiItems, setPdiItems)}>
-              <FiPlus />
-            </button>
             <button type='submit'>Enviar</button>
           </S.ContainerBntFlex>
 
