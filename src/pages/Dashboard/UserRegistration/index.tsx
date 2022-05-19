@@ -13,17 +13,28 @@ import { fullName, id } from 'service/api'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 export default function UserRegistration() {
+  const roles = [
+    {
+      value: "user",
+      nome:  "Usuário"
+    },
+    {
+      value: "admin",
+      nome:  "Administrador"
+    },
+    {
+      value: "empresa",
+      nome:  "Empresa"
+    },
+  ]
+
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
 
   const [nome      , setNome      ] = useState<string>("")
   const [email     , setEmail     ] = useState<string>("")
-  const [nascimento, setNascimento] = useState<string>("")
-  const [genero    , setGenero    ] = useState<string>("")
-  const [estado    , setEstado    ] = useState<string>("")
-  const [cpf       , setCpf       ] = useState<string>("")
-  const [rg        , setRg        ] = useState<string>("")
+  const [role      , setRole      ] = useState<string>("")
   const [allUsers  , setAllUsers  ] = useState<any[]>([])
   const [userEdit  , setUserEdit  ] = useState<any>({})
 
@@ -69,16 +80,11 @@ export default function UserRegistration() {
 
   async function createUser(){
     let data = {
-      emails: [email],
-      roles: ['user'],
+      emails: [ email ],
+      roles:  [ role  ],
       email: email,
       fullName: nome,
       firstName:  nome.split(' ')[0],
-      estadocivil: estado,
-      aniversario: nascimento,
-      cpf: cpf,
-      rg: rg,
-      gender: genero,
     }
 
     console.log("data")
@@ -97,11 +103,6 @@ export default function UserRegistration() {
     let data = {
       fullName: nome,
       firstName:  nome.split(' ')[0],
-      estadocivil: estado,
-      aniversario: nascimento,
-      cpf: cpf,
-      rg: rg,
-      gender: genero,
     }
 
     let updatedUser = await user.update(id, data)
@@ -117,6 +118,21 @@ export default function UserRegistration() {
 
 
     await getUsers()
+  }
+
+  function showUserRole(role: string){
+    switch(role){
+      case 'user'    : 
+       return 'Usuário'
+        
+      case 'admin'   : 
+       return 'Administrador'
+        
+      case 'empresa' : 
+       return 'Empresa'
+        
+    }
+
   }
 
 
@@ -159,19 +175,23 @@ export default function UserRegistration() {
           <S.Table id="usuario">
             <S.TrTitle>
               <td>Nome</td>
-              <td>Gênero</td>
-              <td>CPF</td>
-              <td>RG</td>
+              <td>Email</td>
+              <td>Role</td>
             </S.TrTitle>
 
             {
             allUsers.map(
               (user) => (
                 <S.TrSecond>
-              <td>{user.fullName || "Não cadastrado"}</td>
-              <td>{user.gender   || "Não cadastrado"}</td>
-              <td>{user.cpf      || "Não cadastrado"}</td>
-              <td>{user.rg       || "Não cadastrado"}</td>
+              <td>
+                {user.fullName || "Não cadastrado"}
+              </td>
+              <td>
+                {user.email    || "Não cadastrado"}
+              </td>
+              <td>
+                { showUserRole(user.tenants[0].roles[0])   || "Não cadastrado" }
+              </td>
               <td>
                 {/* Edits this user data */}
                 <button
@@ -233,32 +253,12 @@ export default function UserRegistration() {
           onChange={(e) =>  setNome(e.target.value)}
           />
 
-          <select
-          name=''
-          id=''
-          defaultValue={userEdit?.gender}
-          onChange={(e) =>  setGenero(e.target.value)}
-          >
-            <option value='Homem'>Homem</option>
-            <option value='Mulher'>Mulher</option>
-            <option value='Prefiro não responder'>Prefiro não responder</option>
-          </select>
-
-        <InputMask
-          defaultValue={userEdit?.cpf}
-          onChange={(e) =>  setCpf(e.target.value)}
-          mask='999.999.999-99' placeholder='Seu CPF'
-        />
-        <InputMask
-          defaultValue={userEdit?.rg}
-          onChange={(e) =>  setRg(e.target.value)}
-          mask='99.999.999-9' placeholder='Seu RG' 
-        />
+          
 
         <button
           type='submit'
           >
-            Enviiaar
+            Enviar
         </button>
 
         </S.ContainerForm>
@@ -292,13 +292,6 @@ export default function UserRegistration() {
         >
           <h2>Novo usuário</h2>
 
-          <label htmlFor="">Email</label>
-          <input
-            type='text'
-            placeholder='Email'
-            onChange={(e) =>  setEmail(e.target.value)}
-          />
-
           <label htmlFor="">Seu nome completo</label>
           <input
             type='text'
@@ -306,47 +299,36 @@ export default function UserRegistration() {
             onChange={(e) =>  setNome(e.target.value)}
           />
 
-          <label htmlFor="">Data de nascimento</label>
-          <InputMask
-            mask='99/99/9999'
-            placeholder='Data de nascimento'
 
-            onChange={(e) =>  setNascimento(e.target.value)}
+          <label htmlFor="">Email</label>
+          <input
+            type='text'
+            placeholder='Email'
+            onChange={(e) =>  setEmail(e.target.value)}
           />
 
-          <label htmlFor="">Gênero</label>
+
+          <label htmlFor="">Role</label>
           <select
-            name=''
-            id=''
-            onChange={(e) =>  setGenero(e.target.value)}
+          name="role"
+          id="role"
+          onChange={e => setRole(e.target.value)}
           >
-            <option value='Mulher'>Mulher</option>
-            <option value='Homem'>Homem</option>
-            <option value='Prefiro não responder'>Prefiro não responder</option>
+            <option hidden> Selecione </option>
+            {
+              roles.map(
+                (role) => (
+                  <option value={role.value}>
+                    {
+                      role.nome
+                    }
+                  </option>
+                )
+              )
+            }
           </select>
 
-          <label htmlFor="">Estado civil</label>
-          <select
-            name=''
-            id=''
-            onChange={(e) =>  setEstado(e.target.value)}
-          >
-            <option value='Solteiro(a)'>Solteiro(a)</option>
-            <option value='Casado(a)'>Casado(a)</option>
-            <option value='Viúvo(a)'>Viúvo(a)</option>
-          </select>
-
-          <label htmlFor="">CPF</label>
-          <InputMask
-            onChange={(e) =>  setCpf(e.target.value)}
-            mask='999.999.999-99' placeholder='CPF'
-          />
-
-          <label htmlFor="">RG</label>
-          <InputMask
-            onChange={(e) =>  setRg(e.target.value)}
-            mask='99.999.999-9' placeholder='RG' 
-          />
+          
 
           <button
           type='submit'
@@ -395,47 +377,7 @@ export default function UserRegistration() {
             onChange={(e) =>  setNome(e.target.value)}
           />
 
-          <label htmlFor="">Data de nascimento</label>
-          <InputMask
-            mask='99/99/9999'
-            placeholder='Data de nascimento'
-
-            onChange={(e) =>  setNascimento(e.target.value)}
-          />
-
-          <label htmlFor="">Gênero</label>
-          <select
-            name=''
-            id=''
-            onChange={(e) =>  setGenero(e.target.value)}
-          >
-            <option value='Mulher'>Mulher</option>
-            <option value='Homem'>Homem</option>
-            <option value='Prefiro não responder'>Prefiro não responder</option>
-          </select>
-
-          <label htmlFor="">Estado civil</label>
-          <select
-            name=''
-            id=''
-            onChange={(e) =>  setEstado(e.target.value)}
-          >
-            <option value='Solteiro(a)'>Solteiro(a)</option>
-            <option value='Casado(a)'>Casado(a)</option>
-            <option value='Viúvo(a)'>Viúvo(a)</option>
-          </select>
-
-          <label htmlFor="">CPF</label>
-          <InputMask
-            onChange={(e) =>  setCpf(e.target.value)}
-            mask='999.999.999-99' placeholder='CPF'
-          />
-
-          <label htmlFor="">RG</label>
-          <InputMask
-            onChange={(e) =>  setRg(e.target.value)}
-            mask='99.999.999-9' placeholder='RG' 
-          />
+          
 
           <button
           type='submit'
