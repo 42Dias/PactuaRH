@@ -41,4 +41,17 @@ export default class stateHandler{
     setState(newFormValues)
   }
 
+
+  static setJustIdsOfArrayObject(arrayOfObjects, setState){
+    if(!arrayOfObjects) return;
+    
+    setState([])
+
+    arrayOfObjects.map(
+      object => setState((prevData) => {
+        return [...new Set( [ ...prevData, object.id  ] )]	
+       } )
+    )
+  }
+
 }
