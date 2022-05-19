@@ -187,10 +187,15 @@ export const ContainerForm = styled.form`
     }
   }
 
+  .btn-add{
+    width: 100% !important; 
+  }
+
   .btn-trash{
     background-color: #EA1C24;
     margin-left: 5px;
     margin-right: 5px;
+    width: 15%;
   }
 
   .border{
