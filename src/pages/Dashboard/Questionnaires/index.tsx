@@ -11,7 +11,8 @@ import { iQuestoes } from 'types'
 import { AiFillQuestionCircle } from 'react-icons/ai'
 import { SiBitcoinsv } from 'react-icons/si'
 
-export default function Questionnaires() {
+export default function 
+Questionnaires() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
@@ -237,12 +238,12 @@ export default function Questionnaires() {
                   <td>{value.nome}</td>
 
                   <td>
-                    <a href={`/questionario-score/${value.id}`} className="anchor-icon" > 
+                    <a href={`/questionario-score/${value.id}`} className="black-color" > 
                        <SiBitcoinsv size={23} /> 
                        </a>
                     </td>
                   <td>
-                    <a href={`/questionario-perguntas/${value.id}`} className="anchor-icon" > 
+                    <a href={`/questionario-perguntas/${value.id}`} className="black-color" > 
                       <AiFillQuestionCircle size={23} />
                       </a>
                   </td>
@@ -367,21 +368,22 @@ export default function Questionnaires() {
                   </S.divCheck>
 
                   <label htmlFor=''>Tipo</label>
-                  <input
-                    type='text'
-                    placeholder='Tipo'
-                    name='tipo'
-                    defaultValue={e.tipo}
-                    onChange={(e) => handleChangeQuestoes(index, e)}
-                  />
-
-                  <button
-                    className='btn-actions btn-trash'
-                    type='button'
-                    onClick={() => removeFormFields(index)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      type='text'
+                      placeholder='Tipo'
+                      name='tipo'
+                      defaultValue={e.tipo}
+                      onChange={(e) => handleChangeQuestoes(index, e)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(index)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
               ))}
 
@@ -447,30 +449,32 @@ export default function Questionnaires() {
                   </S.divCheck>
 
                   <label htmlFor=''>Tipo</label>
-                  <input
-                    type='text'
-                    placeholder='Tipo'
-                    name='tipo'
-                    defaultValue={e.tipo}
-                    onChange={(e) => handleChangeQuestoesNew(index, e)}
-                  />
-
-                  <button
-                    className='btn-actions btn-trash'
-                    type='button'
-                    onClick={() => removeFormFieldsNew(index)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      type='text'
+                      placeholder='Tipo'
+                      name='tipo'
+                      defaultValue={e.tipo}
+                      onChange={(e) => handleChangeQuestoesNew(index, e)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFieldsNew(index)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
               ))}
             </>
           )}
 
+          <button type='button' onClick={addFormFieldsNew}>
+            <FiPlus />
+          </button>
+
           <S.ContainerBntFlex>
-            <button type='button' onClick={addFormFieldsNew}>
-              <FiPlus />
-            </button>
             <button type='submit'>Enviar</button>
           </S.ContainerBntFlex>
         </S.ContainerForm>
@@ -567,29 +571,31 @@ export default function Questionnaires() {
                   </S.divCheck>
 
                   <label htmlFor=''>Tipo</label>
-                  <input
-                    type='text'
-                    placeholder='Tipo'
-                    name='tipo'
-                    onChange={(e) => handleChangeQuestoes(index, e)}
-                  />
-
-                  <button
-                    className='btn-actions btn-trash'
-                    type='button'
-                    onClick={() => removeFormFields(index)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      type='text'
+                      placeholder='Tipo'
+                      name='tipo'
+                      onChange={(e) => handleChangeQuestoes(index, e)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(index)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
               ))}
             </>
           )}
 
+          <button type='button' onClick={addFormFields}>
+            <FiPlus />
+          </button>
+
           <S.ContainerBntFlex>
-            <button type='button' onClick={addFormFields}>
-              <FiPlus />
-            </button>
             <button type='submit'>Enviar</button>
           </S.ContainerBntFlex>
         </S.ContainerForm>
