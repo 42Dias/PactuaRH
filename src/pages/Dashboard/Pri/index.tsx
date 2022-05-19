@@ -210,7 +210,9 @@ export default function Pri() {
                 <td>{pri.nome}</td>
                 <td>{pri.descricao}</td>
                 <td>
-                  <a href={`/pri-item/${pri.id}`}>  
+                  <a href={`/pri-item/${pri.id}`}
+                  className="black-color" 
+                  >  
                     <FiArrowRight size={18} />
                   </a>
                 </td>
@@ -294,7 +296,7 @@ export default function Pri() {
           </select>
 
           {
-            priItems.length > 0 && <h3>Pdi Itens</h3>
+            priItems.length > 0 && <label>Pdi Itens</label>
           }
           {
             priItems.map(
@@ -316,7 +318,7 @@ export default function Pri() {
                     onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
                   />
                   <button
-                    className='btn-actions'
+                    className='btn-actions btn-trash'
                     type='button'
                     onClick={() => {
                       removeFormFields(i, priItems, setPriItems)
@@ -342,18 +344,20 @@ export default function Pri() {
                     onChange={(e) => handleChangeState(i, e, priItemsNew, setPriItemsNew)}
                   />
                   <label htmlFor="">Descrição</label>
-                  <input
-                    type="text"
-                    name="descricao"
-                    onChange={(e) => handleChangeState(i, e, priItemsNew, setPriItemsNew)}
-                  />
-                  <button
-                    className='btn-actions'
-                    type='button'
-                    onClick={() => removeFormFields(i, priItemsNew, setPriItemsNew)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      type="text"
+                      name="descricao"
+                      onChange={(e) => handleChangeState(i, e, priItemsNew, setPriItemsNew)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, priItemsNew, setPriItemsNew)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
 
 
@@ -361,10 +365,11 @@ export default function Pri() {
             )
           }
 
+          <button type='button' onClick={() => addFormFields(priItemsNew, setPriItemsNew)}>
+            <FiPlus />
+          </button>
+
           <S.ContainerBntFlex>
-            <button type='button' onClick={() => addFormFields(priItemsNew, setPriItemsNew)}>
-              <FiPlus />
-            </button>
             <button type='submit'>Enviar</button>
           </S.ContainerBntFlex>
 
@@ -430,7 +435,7 @@ export default function Pri() {
           </select>
 
           {
-            priItems.length > 0 && <h3>Pdi Itens</h3>
+            priItems.length > 0 && <label>Pdi Itens</label>
           }
           {
             priItems.map(
@@ -444,18 +449,20 @@ export default function Pri() {
                   />
 
                   <label htmlFor="">Descrição</label>
-                  <input
-                    type="text"
-                    name="descricao"
-                    onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
-                  />
-                  <button
-                    className='btn-actions'
-                    type='button'
-                    onClick={() => removeFormFields(i, priItems, setPriItems)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      type="text"
+                      name="descricao"
+                      onChange={(e) => handleChangeState(i, e, priItems, setPriItems)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, priItems, setPriItems)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
 
 
@@ -463,11 +470,12 @@ export default function Pri() {
             )
           }
 
+          <button type='button' onClick={() => addFormFields(priItems, setPriItems)}>
+            <FiPlus />
+          </button>
+
 
           <S.ContainerBntFlex>
-            <button type='button' onClick={() => addFormFields(priItems, setPriItems)}>
-              <FiPlus />
-            </button>
             <button type='submit'>Enviar</button>
           </S.ContainerBntFlex>
 
