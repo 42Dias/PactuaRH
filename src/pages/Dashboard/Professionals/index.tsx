@@ -62,7 +62,6 @@ export default function Professionals() {
   const [estadoCivil, setEstadoCivil] = useState<string>('')
   const [hasDependente, setHasDependente] = useState<boolean>(false)
   const [dependentes, setDependentes] = useState<iDependent[]>([
-    { nome: '', cpf: '', rg: '', dataNas: '' },
   ])
   const [dependentesNew, setDependentesNew] = useState<iDependent[]>([])
   // const [dependentesNew, setDependentesNew  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNas: '' } ])
@@ -71,6 +70,33 @@ export default function Professionals() {
 
   const [dependentsToDelete, setDependentsToDelete] = useState<iDependent[]>([])
   const [index, setIndex] = useState<number>(0)
+
+
+  function clearFields(){
+    setDependentes([])
+    setDependentesNew([])
+    setDescricao("")
+    setEmail("")
+    setNascimento("")
+    setGenero("")
+    setEstado("")
+    setNome("")
+    setRg("")
+    setCpf("")
+    setNomeMae("")
+    setBeneficios("")
+    setCargo("")
+    setCep("")
+    setLogradouro("")
+    setBairro("")
+    setNumero("")
+    setCidade("")
+    setTelefone("")
+    setTelefone2("")
+    setEstadoCivil("")
+    setHasDependente(false)
+
+  }
 
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -86,18 +112,15 @@ export default function Professionals() {
 
   function closeModal() {
     setIsOpen(false)
-    setHasDependente(false)
-    setDependentes([{ nome: '', cpf: '', rg: '', dataNas: '' }])
-    setDependentesNew([{ nome: '', cpf: '', rg: '', dataNas: '' }])
   }
 
   function openModalNew() {
-    setHasDependente(false)
+    clearFields()
     setIsOpenNew(true)
-    setDependentes([{ nome: '', cpf: '', rg: '', dataNas: '' }])
   }
 
   function closeModalNew() {
+    clearFields()
     setIsOpenNew(false)
   }
 
@@ -126,27 +149,6 @@ export default function Professionals() {
     setProfissionals(allProfissionals)
   }
   async function handleCreateProfessional() {
-    let createdUser
-
-    if (!userSelected) {
-      // if no user is selected it creates one with that data and use it to create the professional register
-      const data = {
-        emails: [email],
-        roles: ['user'],
-        email: email,
-        descricao: descricao,
-        fullName: nome,
-        firstName: nome.split(' ')[0],
-        estadoCivilcivil: estadoCivil,
-        aniversario: nascimento,
-        cpf: cpf,
-        rg: rg,
-        gender: genero,
-      }
-      createdUser = await user.createByEmpresa(data)
-
-      if (!createdUser) return
-    }
 
     if (userSelected) setEmail(userSelected.email)
 
@@ -155,11 +157,9 @@ export default function Professionals() {
       cpf: cpf,
       rg: rg,
       descricao: descricao,
-      userId: '',
-      dataNas: nascimento,
+      dataNasc: nascimento,
       nomeMae: nomeMae,
       cep: cep,
-      estadoCivil: estadoCivil,
       email: email,
       cidade: cidade,
       bairro: bairro,
@@ -170,19 +170,18 @@ export default function Professionals() {
       // complemento: complemento,
       dependentes: dependentes,
       cargo: cargo,
+      userId: userSelected.id,
+      genero: genero,
+      estado: estado,
+      estadoCivil: estadoCivil,
     }
-    if (userSelected) data.userId = userSelected.id
-    if (createdUser) data.userId = createdUser.id
-    // console.log("data")
-    // console.log(data)
+
 
     const isCreated = await profissional.create(data)
 
-    // console.log(isCreated)
-
     handleLoadProfessionals()
 
-    closeModalNew()
+    if(isCreated) closeModalNew()
   }
 
   async function handleDelete(id: string) {
@@ -199,7 +198,7 @@ export default function Professionals() {
       descricao: descricao || selectedProfessional?.descricao,
       rg: rg || selectedProfessional?.rg,
       userId: '' || selectedProfessional?.userId,
-      dataNas: nascimento || selectedProfessional?.dataNas,
+      dataNasc: nascimento || selectedProfessional?.dataNas,
       nomeMae: nomeMae || selectedProfessional?.nomeMae,
       cep: cep || selectedProfessional?.cep,
       estadoCivil: estadoCivil || selectedProfessional?.estadoCivil,
@@ -255,24 +254,7 @@ export default function Professionals() {
     i: number,
     e: React.FormEvent<HTMLInputElement>,
   ) => {
-    // console.log("bndjflnbdfknbdfnbjdfnbkjdfnbkjv,klmbojdfnfioudenbafo")
     const newFormValues = [...dependentesNew]
-
-    // @ts-ignore
-    // console.log(newFormValues[i])
-
-    // @ts-ignore
-    // console.log(newFormValues[i])
-
-    // @ts-ignore
-    // console.log(e.target.name)
-
-    // @ts-ignore
-    // console.log(newFormValues[i][e.target.name])
-
-    // @ts-ignore
-    // console.log(e.target.value)
-
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
 
@@ -416,6 +398,7 @@ async function handleFilterProfessionals(){
   console.log(professionalsFiltered)
 
   closeModalFilter()
+
 }
   return (
     <>
@@ -464,8 +447,9 @@ async function handleFilterProfessionals(){
                     onClick={() => {
                       setId(value.id)
                       setSelectedProfessional(value)
-                      // console.log(value)
+                      console.log(value)
                       setHasDependente(value.dependente.length >= 1)
+                      console.log(value.dependente.length >= 1)
                       setDependentes(value.dependente)
                       setCargo(value.cargo.id)
                       // console.log("value.cargo.id")
@@ -803,7 +787,7 @@ async function handleFilterProfessionals(){
               ))}
               <button
                 type='button'
-                className='btn-actions'
+                className='btn-actions btn-plus'
                 onClick={() => addFormFieldsNew()}
               >
                 <FiPlus />
@@ -846,33 +830,20 @@ async function handleFilterProfessionals(){
             onChange={(e) => {
               const userIndex: number = parseInt(e.target.value)
 
-              // if the index is selected as new it clears the present data
-              if (isNaN(userIndex)) {
-                setUserSelected({})
-                setCpf('')
-                setRg('')
-                setNascimento('')
-                setNome('')
-              }
 
               const newUserSelected = allUsers[userIndex]
               setUserSelected(newUserSelected)
-
-              // Sets the setState values 'cause defaultValue does not work
-              // console.log("newUserSelected.fullName")
-              // console.log(newUserSelected.fullName)
+              // (newUserSelected.fullName)
               setNome(newUserSelected.fullName)
-              setCpf(newUserSelected.cpf)
-              setRg(newUserSelected.rg)
-              setNascimento(newUserSelected.aniversario)
+              setEmail(newUserSelected.email)
             }}
             placeholder='Usuário Cadastrado'
           >
-            <option value={''}>Novo</option>
+            <option hidden>Selecione usuário</option>
 
             {allUsers.map((user, i) => (
               <option value={i}>
-                {user.fullName} | {user.cpf}
+                {user.fullName} | {user.email}
               </option>
             ))}
           </select>
@@ -1010,37 +981,54 @@ async function handleFilterProfessionals(){
           />
 
 
-          {!userSelected && (
-            <>
-              <label htmlFor="">Email</label>
-              <input
-                type='text'
-                placeholder='Email'
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <label htmlFor="">Gênero</label>
-              <select name='' id='' onChange={(e) => setGenero(e.target.value)}>
-                <option hidden>Gênero</option>
-                <option value='Mulher'>Mulher</option>
-                <option value='Homem'>Homem</option>
-                <option value='Prefiro não responder'>
-                  Prefiro não responder
-                </option>
-              </select>
+          <label htmlFor="">Email</label>
+          <input
+            type='text'
+            placeholder='Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label htmlFor="">Gênero</label>
+          <select name='' id=''
+          onChange={(e) => {
+            setGenero(e.target.value)
+            console.log(e.target.value)
+              
+          }
+            }>
+            <option hidden>Gênero</option>
+            <option value='Mulher'>
+              Mulher
+            </option>
+            <option value='Homem'>
+              Homem
+            </option>
+            <option value='Prefiro não responder'>
+              Prefiro não responder
+            </option>
+          </select>
 
-              <label htmlFor="">Estado civil</label>
-              <select
-                name=''
-                id=''
-                onChange={(e) => setEstadoCivil(e.target.value)}
-              >
-                <option hidden>Estado civil</option>
-                <option value='Solteiro(a)'>Solteiro(a)</option>
-                <option value='Casado(a)'>Casado(a)</option>
-                <option value='Viúvo(a)'>Viúvo(a)</option>
-              </select>
-            </>
-          )}
+          <label htmlFor="">Estado civil</label>
+          <select
+            name=''
+            id=''
+            onChange={(e) => setEstadoCivil(e.target.value)}
+          >
+            <option hidden>Estado civil</option>
+
+            <option value='Solteiro(a)'>
+              Solteiro(a)
+            </option>
+
+            <option value='Casado(a)'>
+              Casado(a)
+            </option>
+
+            <option value='Viúvo(a)'>
+              Viúvo(a)
+            </option>
+
+          </select>
 
           <S.divCheck>
             <Checkbox
@@ -1090,24 +1078,26 @@ async function handleFilterProfessionals(){
                   />
 
                   <label htmlFor="">Data de Nascimento do Dependente</label>
-                  <input
-                    name='dataNas'
-                    type='date'
-                    placeholder='Data de Nascimento do Dependente'
-                    onChange={(e) => handleChangeDependente(index, e)}
-                  />
-                  <button
-                    className='btn-actions btn-trash'
-                    type='button'
-                    onClick={() => removeFormFields(index)}
-                  >
-                    <FiTrash />
-                  </button>
+                  <div className="return">
+                    <input
+                      name='dataNas'
+                      type='date'
+                      placeholder='Data de Nascimento do Dependente'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(index)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
                 </div>
               ))}
               <button
                 type='button'
-                className='btn-actions'
+                className='btn-actions btn-plus'
                 onClick={() => addFormFields()}
               >
                 <FiPlus />
