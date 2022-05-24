@@ -2,23 +2,50 @@ import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import { welcome } from 'assets'
 import * as S from './Home.styled'
-import { api, Email, fullName } from 'service/api'
-import { useEffect } from 'react'
+import { api, Email, fullName, getId } from 'service/api'
+import { useEffect, useState } from 'react'
 import { emitWarning } from 'process'
+import profissional from 'service/profissional/profissional'
+import { json } from 'stream/consumers'
+import { toast } from 'react-toastify'
 
 const avatar = require('./../../../assets/avatar.png')
 
 export default function Home() {
+  const [questionarios, setQuestionarios] = useState([])
+
+
+
+  async function handleLoadAvaliations(){
+    let professionalData = await profissional.listWithFilter("userId", getId())
+    
+    professionalData = professionalData[0] || {}
+    
+    // console.log(professionalData)
+
+
+
+    // console.log(professionalData.cargo.questionarios)
+
+    setQuestionarios(professionalData?.cargo?.questionarios)
+
+
+  }
+
   function checkLogin(){
     if(!Email) window.location.reload()
-
   }
 
   useEffect(
     () => {
       checkLogin()
+      handleLoadAvaliations()
     }, []
   )
+
+
+  
+
 
   return (
     <S.Body>
@@ -38,59 +65,30 @@ export default function Home() {
         </S.ContainerCall>
 
         <S.GridDetails>
+
           <S.ContentUsers>
-            <S.Content>
-              <div>
-                <h3>Desenvolvimento</h3>
-              </div>
+          {
+            questionarios.map(
+              (questionario: any) => (
+                <S.Content>
+                  <div>
+                    <h3>{questionario.nome}</h3>
+                  </div>
+                  <div className='flex-buttons'>
+                    <button>Enviar</button>
+                    {/* <button onClick={ () => toast.info(questionario.id)}>Ver</button> */}
+                    <Link to={`/responder-questionario/${questionario.id}`}
+                    // onClick={ () => toast.info(questionario.id)}
+                    >
+                      Ver
+                    </Link>
+                  </div>
 
-              <div>
-                <button>Enviar</button>
-                <button>Ver</button>
-              </div>
-            </S.Content>
-            <S.Content>
-              <div>
-                <h3>PDI</h3>
-              </div>
-
-              <div>
-                <button>Enviar</button>
-                <button>Ver</button>
-              </div>
-            </S.Content>
-            <S.Content>
-              <div>
-                <h3>Avaliação geral</h3>
-              </div>
-
-              <div>
-                <button>Enviar</button>
-                <button>Ver</button>
-              </div>
-            </S.Content>
-            <S.Content>
-              <div>
-                <h3>PRI</h3>
-              </div>
-
-              <div>
-                <button>Enviar</button>
-                <button>Ver</button>
-              </div>
-            </S.Content>
-
-            <S.Content>
-              <div>
-                <h3>PRI</h3>
-              </div>
-
-              <div>
-                <button>Enviar</button>
-                <button>Ver</button>
-              </div>
-            </S.Content>
+                </S.Content>
+              )
+            )}
           </S.ContentUsers>
+
 
           <S.DetailsUser>
            {/* <h1>User pertencente a empresaX</h1> */}
