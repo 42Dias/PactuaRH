@@ -192,6 +192,8 @@ export default function QuestionaryQuestions() {
                     onClick={() => {
                       setSelectedId(benefit.id)
                       setNome(benefit.nome)
+                      setDescricao(benefit.descricao)
+                      console.log(benefit.descricao)
                       openModal()
                     }}
                   >
