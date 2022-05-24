@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom'
 import { Radio } from 'antd';
 import stateHandler from 'utils/changeStatesHandlers'
 import { SubmitButton } from 'ui/components/SubmitButton'
+import { toast } from 'react-toastify'
 
 
 export default function AnswerQuestionary() {
@@ -24,9 +25,12 @@ export default function AnswerQuestionary() {
   const [nome, setNome] = useState<string>('')
   const [selectedId, setSelectedId] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
+
+
   const [answerQuestionary, setAnswerQuestionary] = useState<any>({})
   const [respostas, setRespostas] = useState<any>({})
-
+  
+  const [pontuation, setPontuation] = useState<string>('')
   
   async function handleLoadAnswerQuestionary() {
     const allAnswerQuestionary = await questionarios.find(id)
@@ -35,7 +39,7 @@ export default function AnswerQuestionary() {
 
 
     //maps the questions adding all the basic data to a array of objects
-    allAnswerQuestionary?.perguntas.map(
+    allAnswerQuestionary?.perguntas?.map(
       (pergunta: any) => {
         const data = {
           perguntaId: pergunta.id,
@@ -51,6 +55,7 @@ export default function AnswerQuestionary() {
 
 
 
+    console.log(allAnswerQuestionary)
     setAnswerQuestionary(allAnswerQuestionary)
   }
 
@@ -88,23 +93,74 @@ export default function AnswerQuestionary() {
 
     let items = answerQuestionary.questionarioScore[0].item
 
-    console.log("sumOfAnwsers")
-    console.log(sumOfAnwsers)
+    //sorts the values to descending order
+    items.sort((previous: any, next: any)=> next.pontuacao - previous.pontuacao )
+    items.reverse()
 
-    let how = ""
+    let pontuation = ""
+
+    console.log(answerQuestionary.questionarioScore[0].formato)
+
+
+    if(answerQuestionary.questionarioScore[0].formato == "quantidade"){
+      console.log("dentro do if!")
+
+      pontuation = handleCheckPontuationByQuantidy(items, sumOfAnwsers)
+    }
+
+    else if(answerQuestionary.questionarioScore[0].formato == "porcentagem"){
+      console.log("dentro do if! porcentagem")
+
+      const length = respostas.length
+
+      pontuation = handleCheckPontuationByPercentage(items, sumOfAnwsers, length)
+    }
+
+    else toast.error("Algo de errado com a Avaliação")
+
+
+    if(pontuation == "") pontuation = "Abaixo do ponto mínimo"
+
+    setPontuation(pontuation)  
+    return pontuation
+    
+
+  }
+
+  function handleCheckPontuationByQuantidy(items: any, sumOfAnwsers: number){
+    let pontuation = ""
 
     items.map(
       (item: any) => {
         if (item.pontuacao < sumOfAnwsers){
-          how = item.nome
+          pontuation = item.nome
         }
       }
     )
 
+    return pontuation
+  }
 
-    return how
+
+  function handleCheckPontuationByPercentage(items: any, sumOfAnwsers: number, length: number){
+    let pontuation = ""
+
+    sumOfAnwsers = sumOfAnwsers / length
     
+    console.log(items)
+    items.map(
+      (item: any) => {
+        console.log(item.pontuacao)
+        console.log(sumOfAnwsers)
+        console.log(item.nome)
 
+        if (item.pontuacao < sumOfAnwsers){
+          pontuation = item.nome
+        }
+      }
+    )
+
+    return pontuation
   }
 
 
@@ -133,9 +189,8 @@ export default function AnswerQuestionary() {
           <S.Question>
             <h3>{pergunta.nome} <span className='required'>*</span> </h3>
             <p>
-              {pergunta.descricao}
-              <br />
-              {pergunta.id}
+              {pergunta.pontuation}
+              {/* {pergunta.id} */}
             </p>
 
             <S.Alternative>
@@ -143,7 +198,7 @@ export default function AnswerQuestionary() {
               pergunta?.questionarioResposta.map(
                 (resposta: any) => (
                   <div>
-                  {resposta.id}
+                  {/* {resposta.id} */}
                   <input
                     required
                     type="radio"
@@ -155,7 +210,9 @@ export default function AnswerQuestionary() {
                       
                     }
                   />
-                  <label htmlFor="1">{resposta.resposta} | { resposta.resultado }.</label>
+                  <label htmlFor="1">{resposta.resposta}
+                  {/* | { resposta.resultado }. */}
+                  </label>
                 </div>
                 )
               )
@@ -193,7 +250,7 @@ export default function AnswerQuestionary() {
           <h2>Editar benefício</h2>
             <p>
 
-            Sua pontuação foi: {checkQuestionaryAvaliation()}
+            Sua pontuação foi: {pontuation}
 
 
             </p>
