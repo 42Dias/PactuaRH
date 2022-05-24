@@ -10,6 +10,8 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import { iQuestoes } from 'types'
 import { AiFillQuestionCircle } from 'react-icons/ai'
 import { SiBitcoinsv } from 'react-icons/si'
+import stateHandler from 'utils/changeStatesHandlers'
+import cargos from 'service/cargos/cargos'
 
 export default function 
 Questionnaires() {
@@ -21,7 +23,13 @@ Questionnaires() {
   const [questionario, setQuestionario] = useState([])
   const [id, setId] = useState('')
   const [nome, setNome] = useState('')
-  // const [tipoResposta, setTipoResposta] = useState('')
+  // const [tipoResposta, setTipoResposta] = useState('')]
+
+
+  const [allCargo, setAllCargo] = useState<any[]>([])
+  const [selectedCargo,        setSelectedCargo       ] = useState<any[]>([])
+
+
   const [allQuestoes, setAllQuestoes] = useState<iQuestoes[]>([])
   const [allQuestoesNew, setAllQuestoesNew] = useState<iQuestoes[]>([])
   const [selectedQuestao, setSelectedQuestao] = useState<iQuestoes>()
@@ -92,6 +100,7 @@ Questionnaires() {
   async function handleSetQuestionarioEditValues(questionario: any) {
     setAllQuestoes(questionario.perguntas)
     setSelectedQuestao(questionario)
+    stateHandler.setJustIdsOfArrayObject(questionario?.cargo, setSelectedCargo)
     setNome(questionario.nome)
   }
 
@@ -161,7 +170,7 @@ Questionnaires() {
   async function handleCreate() {
     const data = {
       nome: nome,
-      // tipoResposta: tipoResposta,
+      cargos: selectedCargo,
       perguntas: allQuestoes,
     }
 
@@ -175,7 +184,7 @@ Questionnaires() {
     const id = selectedQuestao?.id
     const data = {
       nome: nome,
-      // tipoResposta: tipoResposta,
+      cargos: selectedCargo,
       perguntas: allQuestoes,
       perguntasNew: allQuestoesNew,
     }
@@ -189,6 +198,7 @@ Questionnaires() {
 
   useEffect(() => {
     handleLoadQuestionario()
+    handleLoadCargos()
   }, [])
 
   async function handleDelete(id: string) {
@@ -196,6 +206,20 @@ Questionnaires() {
 
     handleLoadQuestionario()
   }
+
+
+
+
+  async function handleLoadCargos() {
+    const allCargos = await cargos.list()
+
+    setAllCargo(allCargos)
+
+  }
+
+
+
+  
   return (
     <>
       <S.Body>
@@ -311,6 +335,46 @@ Questionnaires() {
             placeholder='Tipo de resposta'
             onChange={(e) => setTipoResposta(e.target.value)}
           /> */}
+
+
+      <div className="action-box">
+            <h3>Cargos</h3>
+          </div>
+          {
+            selectedCargo.map(
+              (e, i) => (
+                <div className="border">
+                    <div className="return">
+                    <select
+                      name=""
+                      defaultValue={e}
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedCargo, setSelectedCargo)}
+                    >
+                      <option hidden> Selecione </option>
+                      {allCargo.map(
+                        e => (
+                          <option value={e.id}> {e.nome} </option>
+                        )
+                      )}
+                    </select>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, selectedCargo, setSelectedCargo)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          }
+          <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
+             <FiPlus />
+          </button>
+
+          <h3>Questões</h3>
+
 
           {allQuestoes.length > 0 && (
             <>
@@ -517,6 +581,46 @@ Questionnaires() {
             placeholder='Tipo de resposta'
             onChange={(e) => setTipoResposta(e.target.value)}
           /> */}
+
+          <div className="action-box">
+            <h3>Cargos</h3>
+          </div>
+          {
+            selectedCargo.map(
+              (e, i) => (
+                <div className="border">
+                    <div className="return">
+                    <select
+                      name=""
+                      defaultValue={e}
+                      onChange={(e) => stateHandler.handleChangeStateOfArray(i, e, selectedCargo, setSelectedCargo)}
+                    >
+                      <option hidden> Selecione </option>
+                      {allCargo.map(
+                        e => (
+                          <option value={e.id}> {e.nome} </option>
+                        )
+                      )}
+                    </select>
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => stateHandler.removeFormFields(i, selectedCargo, setSelectedCargo)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              )
+            )
+          }
+          <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
+             <FiPlus />
+          </button>
+
+
+          <h3>Questões</h3>
+
 
           {allQuestoes.length > 0 && (
             <>
