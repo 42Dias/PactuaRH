@@ -187,6 +187,41 @@ export const Content = styled.div`
     }
   }
 
+
+  a {
+    width: 96px;
+    height: 48px;
+    border-radius: 5px;
+    border: 0;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: 0.5s;
+
+    &:hover {
+      background: #080808;
+    }
+
+    :last-child {
+      margin-left: 10px;
+      border: 1px solid black;
+      background: transparent;
+      color: black;
+
+      &:hover {
+        background: #aaa;
+      }
+    }
+  }
+
+  .flex-buttons{
+    display: flex;
+  }
+
+
   @media (max-width: 800px) {
     padding-left: 10%;
     flex-direction: column;
@@ -201,6 +236,12 @@ export const Content = styled.div`
         margin: 0;
       }
     }
+    
+
+    a {
+      margin: 10px 0;
+    }
+    
   }
 `
 
