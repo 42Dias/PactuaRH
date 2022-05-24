@@ -9,15 +9,21 @@ import { fullName } from 'service/api'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import handleSetNumber from 'utils/handleSetNumber'
+import { useParams } from 'react-router-dom'
 
 export default function QuestionariosAnswer() {
+
+  const { id } = useParams()
+
+
+
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
   const [resposta, setResposta] = useState<string>('')
   const [pontuacao, setPontuacao] = useState<string>('')
 
-  const [id, setId] = useState<string>('')
+  const [selectedId, setSelectedId] = useState<string>('')
   const [questionariosAnswer, setquestionariosAnswer] = useState<any[]>([])
 
   const [respostaFilter, setRespostaFilter] = useState<string>('')
@@ -55,7 +61,7 @@ export default function QuestionariosAnswer() {
   }
 
   async function handleLoadquestionariosAnswer() {
-    const allquestionariosAnswer = await questionariosResposta.list()
+    const allquestionariosAnswer = await questionariosResposta.listWithFilter("questionarioItemId", id)
 
     setquestionariosAnswer(allquestionariosAnswer)
   }
@@ -64,6 +70,7 @@ export default function QuestionariosAnswer() {
     const data = {
       resposta: resposta,
       resultado: pontuacao,
+      questionarioItemId: id,
     }
 
     const isCreated = await questionariosResposta.create(data)
@@ -72,13 +79,14 @@ export default function QuestionariosAnswer() {
     await handleLoadquestionariosAnswer()
   }
 
-  async function handleUpdate(id: string) {
+  async function handleUpdate(selectedId: string) {
     const data = {
       resposta: resposta,
       resultado: pontuacao,
+      questionarioItemId: id,
     }
 
-    const isUpdated = await questionariosResposta.update(id, data)
+    const isUpdated = await questionariosResposta.update(selectedId, data)
 
     if (isUpdated) closeModal()
     await handleLoadquestionariosAnswer()
@@ -88,8 +96,8 @@ export default function QuestionariosAnswer() {
     handleLoadquestionariosAnswer()
   }, [])
 
-  async function handleDelete(id: string) {
-    await questionariosResposta.delete(id)
+  async function handleDelete(selectedId: string) {
+    await questionariosResposta.delete(selectedId)
 
     handleLoadquestionariosAnswer()
   }
@@ -157,7 +165,7 @@ export default function QuestionariosAnswer() {
                 <td>
                   <button
                     onClick={() => {
-                      setId(value.id)
+                      setSelectedId(value.id)
                       setResposta(value.resposta)
                       setPontuacao(value.resultado)
                       openModal()
@@ -194,7 +202,7 @@ export default function QuestionariosAnswer() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleUpdate(id)
+            handleUpdate(selectedId)
           }}
         >
           <h2>Editar respostas</h2>
