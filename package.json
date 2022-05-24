@@ -75,7 +75,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-promise": "5.1.0",
     "eslint-plugin-react": "7.28.0",
-    "eslint-plugin-react-hooks": "4.2.0",
+    "eslint-plugin-react-hooks": "^4.6.0-next-82c64e1a4-20220520",
     "jest": "27.4.7",
     "jest-styled-components": "7.0.8",
     "lint-staged": "12.3.3",
