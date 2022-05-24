@@ -10,7 +10,7 @@ import { fullName } from 'service/api'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 import stateHandler from 'utils/changeStatesHandlers'
-import cargos from 'service/cargos/cargos'
+// import cargos from 'service/cargos/cargos'
 import questionarios from 'service/questionarios/questionarios'
 
 export default function Avaliations() {
@@ -131,12 +131,12 @@ export default function Avaliations() {
   ==========================================================================================================
   */
 
-  async function handleLoadCargos() {
-    const allCargos = await cargos.list()
+  // async function handleLoadCargos() {
+  //   const allCargos = await cargos.list()
 
-    setAllCargo(allCargos)
+  //   setAllCargo(allCargos)
 
-  }
+  // }
 
   async function handleLoadQuestionarios() {
     const allQuestionarios = await questionarios.list()
@@ -154,7 +154,7 @@ export default function Avaliations() {
 
   useEffect(() => {
     handleLoadAvaliations()
-    handleLoadCargos()
+    // handleLoadCargos() 
     handleLoadQuestionarios()
   }, [])
   /*
@@ -309,7 +309,7 @@ export default function Avaliations() {
             onChange={(e) => setDescricao(e.target.value)}
           />
 
-          <div className="action-box">
+          {/* <div className="action-box">
             <h3>Cargos</h3>
           </div>
           {
@@ -343,7 +343,7 @@ export default function Avaliations() {
           }
           <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
              <FiPlus />
-          </button>
+          </button> */}
           
 
 
@@ -424,7 +424,7 @@ export default function Avaliations() {
             required
           />
 
-          <div className="action-box">
+          {/* <div className="action-box">
             <h3>Cargos</h3>
           </div>
           {
@@ -459,7 +459,7 @@ export default function Avaliations() {
 
           <button className='btn-plus' type='button' onClick={() => stateHandler.addFormFields(selectedCargo, setSelectedCargo)}>
             <FiPlus />
-          </button>
+          </button> */}
 
           <div className="action-box">
             <h3>Questionarios</h3>
