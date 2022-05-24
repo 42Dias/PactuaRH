@@ -29,6 +29,7 @@ import {
   FiArrowRightCircle,
   FiEdit,
   FiTrendingUp,
+  FiChevronsRight,
 } from 'react-icons/fi'
 
 // import sidebar css from react-pro-sidebar module and our custom css
@@ -77,10 +78,6 @@ const Sidebar = () => {
                 <SubMenu title='Cadastros' icon={<FiEdit />}>
         
                   <MenuItem>
-                    <Link to='/avaliacoes'>Avaliações</Link>
-                  </MenuItem>
-
-                  <MenuItem>
                     <Link to='/area'>Área</Link>
                   </MenuItem>
 
@@ -92,9 +89,6 @@ const Sidebar = () => {
                     <Link to='/cargos'>Cargos</Link>
                   </MenuItem>
 
-                  <MenuItem>
-                    <Link to='/checkpoints'>Checkpoints</Link>
-                  </MenuItem>
 
                   <MenuItem>
                     <Link to='/centroCustos'>Centro de Custos</Link>
@@ -127,6 +121,26 @@ const Sidebar = () => {
                     <Link to='/profissionais'>Profissionais</Link>
                   </MenuItem>
 
+
+                  <MenuItem>Relatórios*</MenuItem>
+
+                  <MenuItem>
+                    <Link to='/cadastrar-usuario'>Usuário</Link>
+                  </MenuItem>
+                
+                 
+                </SubMenu>
+
+                <SubMenu title='Parâmetros' icon={<FiChevronsRight />}>
+                <MenuItem>
+                    <Link to='/avaliacoes'>Avaliações</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link to='/checkpoints'>Checkpoints</Link>
+                  </MenuItem>
+
+
                   <MenuItem>
                     <Link to='/pdi'>Pdi</Link>
                   </MenuItem>
@@ -135,17 +149,10 @@ const Sidebar = () => {
                     <Link to='/pri'>Pri</Link>
                   </MenuItem>
 
-                  <MenuItem>Relatórios*</MenuItem>
 
                   <MenuItem>
                     <Link to='/questionarios'>Questionários</Link>
                   </MenuItem>
-
-                  <MenuItem>
-                    <Link to='/cadastrar-usuario'>Usuário</Link>
-                  </MenuItem>
-                
-                 
                 </SubMenu>
 
                 <SubMenu title='Avaliação' icon={<FiTrendingUp />}>
