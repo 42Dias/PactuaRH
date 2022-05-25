@@ -159,9 +159,13 @@ const Sidebar = () => {
 
 
                 <SubMenu title='Relatórios' icon={<FiTrendingUp />}>
-                  
+
                   <MenuItem>
                       <Link to='/desempenho'> Desempenho</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                      <Link to='/myAvaliations'> Minhas avaliações</Link>
                   </MenuItem>
                   
                   <MenuItem>
