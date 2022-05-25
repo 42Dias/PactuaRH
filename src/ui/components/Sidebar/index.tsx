@@ -30,6 +30,7 @@ import {
   FiEdit,
   FiTrendingUp,
   FiChevronsRight,
+  FiUser,
 } from 'react-icons/fi'
 
 // import sidebar css from react-pro-sidebar module and our custom css
@@ -93,12 +94,6 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/centroCustos'>Centro de Custos</Link>
                   </MenuItem>
-                  
-
-                  <MenuItem>
-                    <Link to='/cadastro-da-empresa'>Empresas</Link>
-                  </MenuItem>
-
         
                   <MenuItem>  
                     <Link to='/escolaridade'>Escolaridade</Link>
@@ -124,9 +119,6 @@ const Sidebar = () => {
 
                   <MenuItem>Relatórios*</MenuItem>
 
-                  <MenuItem>
-                    <Link to='/cadastrar-usuario'>Usuário</Link>
-                  </MenuItem>
                 
                  
                 </SubMenu>
@@ -149,25 +141,33 @@ const Sidebar = () => {
                     <Link to='/pri'>Pri</Link>
                   </MenuItem>
 
-
                   <MenuItem>
                     <Link to='/questionarios'>Questionários</Link>
                   </MenuItem>
                 </SubMenu>
 
-                <SubMenu title='Avaliação' icon={<FiTrendingUp />}>
+
+                <SubMenu title='Admin' icon={<FiUser />}>
+                    <MenuItem>
+                      <Link to='/cadastro-da-empresa'>Empresas</Link>
+                    </MenuItem>
+
+                    <MenuItem>
+                      <Link to='/cadastrar-usuario'>Usuário</Link>
+                    </MenuItem>
+                </SubMenu>
+
+
+                <SubMenu title='Relatórios' icon={<FiTrendingUp />}>
+                  
                   <MenuItem>
                       <Link to='/desempenho'> Desempenho</Link>
                   </MenuItem>
+                  
                   <MenuItem>
-                    <Link to='/avaliacao-geral'>Geral</Link>
+                      <Link to='/relatorio-9box'> 9box </Link>
                   </MenuItem>
-                  <MenuItem>Individual</MenuItem>
-                  <MenuItem>Recuperação</MenuItem>
-                  <MenuItem>Desenvolvimento</MenuItem>
-                  <MenuItem>
-                  <Link to='/relatorio-9box'> 9box </Link>
-                  </MenuItem>
+
                 </SubMenu>
               </Menu>
             </SidebarContent>
