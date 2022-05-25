@@ -19,7 +19,7 @@ export default function Home() {
   async function handleLoadAvaliations(){
     let professionalData = await profissional.listWithFilter("userId", getId())
     
-    professionalData = professionalData[0] || {}
+    professionalData = professionalData[0] || []
     
     // console.log(professionalData)
 
@@ -68,7 +68,7 @@ export default function Home() {
 
           <S.ContentUsers>
           {
-            questionarios.map(
+            questionarios[0] && questionarios.map(
               (questionario: any) => (
                 <S.Content>
                   <div>
