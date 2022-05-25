@@ -10,88 +10,52 @@ import { fullName, getId } from 'service/api'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import profissional from 'service/profissional/profissional'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { AiFillStar, AiOutlineConsoleSql, AiOutlineStar } from 'react-icons/ai'
 
 
 export default function MyAvaliations() {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
-  const [nome, setNome] = useState<string>('')
-  const [descricao, setDescricao] = useState<string>('')
-  const [id, setId] = useState<string>('')
-  const [benefits, setBenefits] = useState<any[]>([])
-  const [subArea        ,setSubArea  ] = useState<boolean>(false)
-  const [areaPai        ,setAreaPai  ] = useState<string>('')
-  const [allData        ,setAllData  ] = useState<any>({})
-  // setAllData
+  const [modalIsOpen    , setIsOpen  ] = useState(false)
+  const [modalIsOpenNew ,setIsOpenNew] = useState(false)
 
-  const [area           , setArea    ] = useState([])
-  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
-  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
-  const [subAreaFilter        ,setSubAreaFilter  ] = useState<boolean>(false)
-  const [areaPaiFilter        ,setAreaPaiFilter  ] = useState<string>('')
+  const [nome           , setNome           ] = useState<string>('')
+  const [myQuestionaries, setMyQuestionaries] = useState<any[]>([])
+  const [allData        , setAllData        ] = useState<any>({})
+  const [points         , setPoints         ] = useState<any>([{}])
+  const [pontuation     , setPontuation     ] = useState<string>('')
+  const [allPontuations , setAllPontuations  ] = useState<any>({})
+  
 
-  
-  
+    /*
+  ==========================================================================================================
+                                              MODAL
+  ==========================================================================================================
+  */
+
   function openModal() {
     setIsOpen(true)
   }
 
   function closeModal() {
-    setSubArea(false)
-    setAreaPai('')
     setIsOpen(false)
   }
+
 
   function openModalNew() {
     setIsOpenNew(true)
   }
 
   function closeModalNew() {
-    setSubArea(false)
-    setAreaPai('')
+
     setIsOpenNew(false)
   }
 
-  async function handleLoadBenefits() {
-    const allBenefits = await beneficio.list()
-
-    // setBenefits(allBenefits)
-  }
-
-  async function handleCreate() {
-    const data = {
-      nome: nome,
-      descricao: descricao,
-    }
-
-    const isCreated = await beneficio.create(data)
-
-    if (isCreated) closeModalNew()
-    await handleLoadBenefits()
-  }
-
-  async function handleUpdate(id: string) {
-    const data = {
-      nome: nome,
-      descricao: descricao,
-    }
-
-    const isUpdated = await beneficio.update(id, data)
-
-    if (isUpdated) closeModal()
-    await handleLoadBenefits()
-  }
-
-  useEffect(() => {
-    handleLoadBenefits()
-    handleLoadAvaliations()
-  }, [])
-  async function handleDelete(id: string) {
-    // await beneficio.delete(id)
-
-    // handleLoadBenefits()
-  }
+  
+  /*
+  ==========================================================================================================
+                                              LOAD
+  ==========================================================================================================
+  */
 
   async function handleLoadAvaliations(){
     let professionalData = await profissional.listWithFilter("userId", getId())
@@ -100,12 +64,128 @@ export default function MyAvaliations() {
     
     console.log(professionalData)
 
-
-
-    setBenefits(professionalData?.cargo?.questionarios)
+    setMyQuestionaries(professionalData?.cargo?.questionarios)
     setAllData(professionalData)
 
   }
+
+  /*
+  ==========================================================================================================
+                                            HANDLESETVALUES
+  ==========================================================================================================
+  */
+
+
+  function checkQuestionaryAvaliation(pontuacoes: any, formato: string, respostas: any){
+    let sumOfAnwsers = 0
+
+    respostas.map(
+      (item: any) => sumOfAnwsers += item.questionarioResposta.resultado 
+    )
+
+    console.log(sumOfAnwsers)
+
+
+    //sorts the values to descending order
+    pontuacoes.sort((previous: any, next: any)=> next.pontuacao - previous.pontuacao )
+    pontuacoes.reverse()
+
+    let pontuation = ""
+
+
+    if(formato == "quantidade"){
+      console.log("dentro do if!")
+
+      pontuation = handleCheckPontuationByQuantidy(pontuacoes, sumOfAnwsers)
+    }
+
+    else if(formato == "porcentagem"){
+      console.log("dentro do if! porcentagem")
+
+      const length = respostas.length
+
+      pontuation = handleCheckPontuationByPercentage(pontuacoes, sumOfAnwsers, length)
+    }
+
+    else toast.error("Algo de errado com a Avaliação")
+
+
+    if(pontuation == "") pontuation = "Abaixo do ponto mínimo"
+
+    setAllPontuations(pontuacoes)
+
+    setPontuation(pontuation)  
+    return pontuation
+    
+  }
+
+  function handleCheckPontuationByQuantidy(items: any, sumOfAnwsers: number){
+    let pontuation = ""
+
+    items.map(
+      (item: any) => {
+        if (item.pontuacao < sumOfAnwsers){
+          pontuation = item.nome
+        }
+      }
+    )
+
+    return pontuation
+  }
+
+
+  function handleCheckPontuationByPercentage(items: any, sumOfAnwsers: number, length: number){
+    let pontuation = ""
+
+    sumOfAnwsers = sumOfAnwsers / length
+    
+    console.log(items)
+    items.map(
+      (item: any) => {
+        console.log(`${item.pontuacao} < ${sumOfAnwsers} = ${item.pontuacao < sumOfAnwsers}`)
+        console.log(item.pontuacao < sumOfAnwsers && item.nome)
+
+        if (item.pontuacao < sumOfAnwsers){
+          pontuation = item.nome
+        }
+      }
+    )
+
+    return pontuation
+  }
+  
+
+  /*
+  ==========================================================================================================
+                                              USEEFFECT
+  ==========================================================================================================
+  */
+
+
+  useEffect(() => {
+    handleLoadAvaliations()
+  }, [])
+
+  /*
+  ==========================================================================================================
+                                              HANDLECLICK
+  ==========================================================================================================
+  */
+
+  function handleClickButton(questionary: any){
+    setNome(questionary.nome)
+    setPoints(questionary.questionarioPonto)
+
+    checkQuestionaryAvaliation(
+      questionary.questionarioScore[0].item,
+      questionary.questionarioScore[0].formato,
+      questionary.questionarioPonto,
+    )
+
+    openModal()
+    
+  }
+
 
   
   
@@ -131,7 +211,7 @@ export default function MyAvaliations() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="benefits"
+              table="myQuestionaries"
               filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
@@ -141,72 +221,103 @@ export default function MyAvaliations() {
 
           <h3>Minhas Avaliações</h3>
 
-          <S.Table id="benefits">
+          <S.Table id="myQuestionaries">
             <S.TrTitle>
               <td>Nome da Avaliação</td>
+              <td></td>
+              <td></td>
             </S.TrTitle>
 
-            {benefits.map((benefit) => (
+            {myQuestionaries.map((questionary) => (
               <S.TrSecond>
-                <td>{benefit.nome}</td>
+                <td>{questionary.nome}</td>
+
                 <td>
-                  <Link
-                  to={`/responder-questionario/${benefit.id}`}
-                  className='black-color'
-                    onClick={() => {
-                      setId(benefit.id)
-                      setNome(benefit.nome)
-                      openModal()
-                    }}
-                  >
-                    <FiEye size={18} />
-                  </Link>
-                </td>
-                <td>
-                  <button onClick={() => handleDelete(benefit.id)}>
+                {
+                questionary.questionarioPonto[0] ? (
+                  <button onClick={() => handleClickButton(questionary)}>
                     <FiCheck size={18} />
                   </button>
+                ) : (
+                  <Link
+                  to={`/responder-questionario/${questionary.id}`}
+                  className='black-color'
+                  >
+                    <FiEye size={18} />
+
+                  </Link>
+                )
+                }
+                </td>
+                <td>
+                {
+                questionary.questionarioPonto[0] ? (
+                  <button type='button' onClick={() => openModalNew()} >
+                    <AiFillStar size={18}/>
+                  </button>
+                ) : (
+                  <button onClick={() => toast.error("Avaliação não finalizada")}  >
+                    <AiOutlineStar size={18} />
+                  </button>
+                )
+                }
                 </td>
               </S.TrSecond>
             ))}
           </S.Table>
 
+          <br />
+
           <h3>Avaliações do meu subordinado </h3>
-          <S.Table id="benefits">
+          <S.Table id="myQuestionaries">
             <S.TrTitle>
               <td>Nome da Avaliação</td>
+              <td></td>
+              <td></td>
             </S.TrTitle>
 
             {
               allData?.cargo?.cargosLiderados?.map(
                 (cargos: any) => (
                   cargos.questionarios?.map(
-                    (e: any) => (
+                    (subordinateQuestionary: any) => (
                       <S.TrSecond>
-                      <td>{e.nome}</td>
-                      <td>
-                        <Link
-                          to={`/responder-questionario/${e.id}`}
-                          className='black-color'
-                          onClick={() => {
-                            setId(e.id)
-                            setNome(e.nome)
-                            openModal()
-                          }}  
-                        >
-                          <FiEye size={18} />
-                        </Link>
-                      </td>
-                      <td>
-                        <button onClick={() => handleDelete(e.id)}>
-                          <FiCheck size={18} />
-                        </button>
-                      </td>
-                    </S.TrSecond>
+                        <td>{subordinateQuestionary.nome}</td>
+                        <td>
+                          {
+                            subordinateQuestionary.questionarioPonto[0] ? (
+                              <button onClick={() => handleClickButton(subordinateQuestionary)}>
+                                <FiCheck size={18} />
+                              </button>
+                            ) : (
+                              <Link
+                                to={`/responder-questionario/${subordinateQuestionary.id}`}
+                                className='black-color'>
+                                <FiEye size={18} />
+                              </Link>
+                            )
+                          }
+                        </td>
+                        <td>
+                          {
+                            subordinateQuestionary.questionarioPonto[0] ? (
+                              <button type='button' onClick={() => openModalNew()} >
+                                <AiFillStar size={18} />
+                              </button>
+                            ) : (
+                              <button onClick={() => toast.error("Avaliação não finalizada")}  >
+                                <AiOutlineStar size={18} />
+                              </button>
+                            )
+                          }
+                        </td>
+                      </S.TrSecond>
                     )
                   ))
               )
             }
+
+            
           </S.Table>
 
        
@@ -230,24 +341,47 @@ export default function MyAvaliations() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleUpdate(id)
           }}
         >
-          <h2>Editar Avaliação</h2>
-          <input
-            type='text'
-            placeholder='Nome da Avaliação'
-            defaultValue={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
-           <input
-            type='text'
-            placeholder='Descrição'
-            defaultValue={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-          />
+          <h2>{ nome }</h2>
+          {
+          points[0].id ? (
+            points.map(
+              (point: any) => (
+                <S.Question>
+                <h3>
+                  {
+                    point.questionarioItem.nome
+                  }
+                </h3>
 
-          <button type='submit'>Enviar</button>
+                <p>
+                  {
+                    point?.questionarioResposta?.resposta
+                  }
+                </p>
+
+                <p>
+                  nota: &nbsp;
+                  {
+                  point?.questionarioResposta?.resultado
+                  }
+                </p>
+                </S.Question>
+              )
+            )
+          ) : (
+            ""
+          )
+          }
+          
+          <h2>
+            {
+              pontuation
+            }
+          </h2>
+
+          <button type="button" onClick={() => closeModal()}>Fechar</button>
         </S.ContainerForm>
       </Modal>
 
@@ -268,26 +402,11 @@ export default function MyAvaliations() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleCreate()
           }}
         >
-          <h2>Cadastrar Avaliação</h2>
-
-          <label htmlFor="">Nome da Avaliação</label>
-          <input
-            type='text'
-            onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome da Avaliação'
-            required
-          />
-          <input
-            type='text'
-            onChange={(e) => setDescricao(e.target.value)}
-            placeholder='Descrição'
-            required
-          />
-
-          <button type='submit'>Enviar</button>
+          <h2>Serviço ainda não feito</h2>
+          <button type="button" onClick={() => closeModalNew()}>Fechar</button>
+          
         </S.ContainerForm>
       </Modal>
 
