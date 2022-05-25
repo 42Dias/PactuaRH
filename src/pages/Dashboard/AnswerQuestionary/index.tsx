@@ -7,15 +7,17 @@ import questionarios from 'service/questionarios/questionarios'
 import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Radio } from 'antd';
 import stateHandler from 'utils/changeStatesHandlers'
 import { SubmitButton } from 'ui/components/SubmitButton'
 import { toast } from 'react-toastify'
-
+import questionariosResposta from 'service/questionarioResposta/questionarioResposta'
+import questionarioPonto from 'service/questionarioPonto/questionarioPonto'
 
 export default function AnswerQuestionary() {
-
+  
+  const navigate = useNavigate()
   const { id }  = useParams()
 
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -31,50 +33,12 @@ export default function AnswerQuestionary() {
   const [respostas, setRespostas] = useState<any>({})
   
   const [pontuation, setPontuation] = useState<string>('')
-  
-  async function handleLoadAnswerQuestionary() {
-    const allAnswerQuestionary = await questionarios.find(id)
 
-    let perguntasERespostas: any = []
-
-
-    //maps the questions adding all the basic data to a array of objects
-    allAnswerQuestionary?.perguntas?.map(
-      (pergunta: any) => {
-        const data = {
-          perguntaId: pergunta.id,
-          respostaId: '',
-          pontuacao: 0
-        }
-
-        perguntasERespostas.push(data)
-
-      })
-    
-    setRespostas(perguntasERespostas)
-
-
-
-    console.log(allAnswerQuestionary)
-    setAnswerQuestionary(allAnswerQuestionary)
-  }
-
-
-
-  useEffect(() => {
-    handleLoadAnswerQuestionary()
-  }, [])
-
-
-  function handleSetAnwser(value: string, id: string, index: number){
-    let awnsers = [...respostas]
-
-    awnsers[index].pontuacao  = parseFloat(value)
-    awnsers[index].respostaId = id
-
-    setRespostas(awnsers)
-
-  }
+  /*
+  ==========================================================================================================
+                                              MODAL
+  ==========================================================================================================
+  */
 
   function openModal() {
     setIsOpen(true)
@@ -83,6 +47,84 @@ export default function AnswerQuestionary() {
   function closeModal() {
     setIsOpen(false)
   }
+
+   function openModalNew() {
+    setIsOpenNew(true)
+  }
+
+  /*
+  ==========================================================================================================
+                                              CRUD
+  ==========================================================================================================
+  */
+
+  async function handleSetRespostas(){
+
+    respostas.map(
+      async (resposta: any) => {
+          
+      await questionarioPonto.create(resposta)
+    }
+    )
+
+    toast.success("Resposta data com sucesso")
+
+    navigate("/dashboard")
+
+  }
+
+
+  async function handleLoadAnswerQuestionary() {
+    const allAnswerQuestionary = await questionarios.find(id)
+
+    handleSetDefaultValues(allAnswerQuestionary)
+
+    setAnswerQuestionary(allAnswerQuestionary)
+  }
+
+  /*
+  ==========================================================================================================
+                                            HANDLESETVALUES
+  ==========================================================================================================
+  */
+
+
+  function handleSetDefaultValues(allAnswerQuestionary: any){
+    let perguntasERespostas: any = []
+
+    //maps the questions adding all the basic data to a array of objects
+    allAnswerQuestionary?.perguntas?.map(
+      (pergunta: any) => {
+        const data = {
+          questionarioId: id,
+          questionarioItemId: pergunta.id,
+          respostaId: '',
+          pontuacao: 0
+        }
+
+        perguntasERespostas.push(data)
+
+      })
+
+    setRespostas(perguntasERespostas)
+  }
+
+  function handleSetAnwser(value: string, id: string, index: number){
+    let awnsers = [...respostas]
+
+    awnsers[index].pontuacao  = parseFloat(value)
+    awnsers[index].questionarioRespostaId = id
+
+
+    setRespostas(awnsers)
+  }
+
+  /*
+  ==========================================================================================================
+                                              SUM AVALIATION
+  ==========================================================================================================
+  */
+
 
   function checkQuestionaryAvaliation(){
     let sumOfAnwsers = 0
@@ -124,7 +166,6 @@ export default function AnswerQuestionary() {
     setPontuation(pontuation)  
     return pontuation
     
-
   }
 
   function handleCheckPontuationByQuantidy(items: any, sumOfAnwsers: number){
@@ -163,9 +204,21 @@ export default function AnswerQuestionary() {
     return pontuation
   }
 
+  /*
+  ==========================================================================================================
+                                              USEEFFECT
+  ==========================================================================================================
+  */
 
 
-  
+  useEffect(() => {
+    handleLoadAnswerQuestionary()
+  }, [])
+
+
+
+
+
   return (
     <>
       <S.Body>
@@ -174,52 +227,54 @@ export default function AnswerQuestionary() {
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container
-        onSubmit={e => {
-          e.preventDefault()
-          checkQuestionaryAvaliation()
-          openModal()
-        }}
+          onSubmit={e => {
+            e.preventDefault()
+            checkQuestionaryAvaliation()
+            openModal()
+          }}
         >
           <h2>
             {answerQuestionary?.nome}
           </h2>
           {
-           answerQuestionary?.perguntas?.map(
-            (pergunta: any, index: number) => (
-          <S.Question>
-            <h3>{pergunta.nome} <span className='required'>*</span> </h3>
-            <p>
-              {pergunta.pontuation}
-              {/* {pergunta.id} */}
-            </p>
+            answerQuestionary?.perguntas?.map(
+              (pergunta: any, index: number) => (
+                <S.Question>
+                  <h3>{pergunta.nome} <span className='required'>*</span> </h3>
+                  <p>
+                    {pergunta.pontuation}
+                    {/* {pergunta.id} */}
+                  </p>
 
-            <S.Alternative>
-            {
-              pergunta?.questionarioResposta.map(
-                (resposta: any) => (
-                  <div>
-                  {/* {resposta.id} */}
-                  <input
-                    required
-                    type="radio"
-                    value={resposta.resultado}
-                    name={pergunta.id}
-                    id={resposta.id}
-                    onChange={
-                      (e) => handleSetAnwser(e.target.value, e.target.id, index)
-                      
+                  <S.Alternative>
+                    {
+                      pergunta?.questionarioResposta.map(
+                        (resposta: any) => (
+                          <div>
+                            {/* {resposta.id} */}
+                            <input
+                              required
+                              type="radio"
+                              value={resposta.resultado}
+                              name={pergunta.id}
+                              id={resposta.id}
+                              onChange={
+                                (e) => handleSetAnwser(e.target.value, e.target.id, index)
+
+                              }
+                            />
+                            <label htmlFor="1">{resposta.resposta}
+                              {/* | { resposta.resultado }
+                  */}
+                              .
+                            </label>
+                          </div>
+                        )
+                      )
                     }
-                  />
-                  <label htmlFor="1">{resposta.resposta}
-                  {/* | { resposta.resultado }. */}
-                  </label>
-                </div>
-                )
-              )
-            }
-            </S.Alternative>
-          </S.Question>
-          ))
+                  </S.Alternative>
+                </S.Question>
+              ))
           }
 
           <S.SubmitButton type="submit" value="Enviar" name="Enviar" >
@@ -227,39 +282,36 @@ export default function AnswerQuestionary() {
           </S.SubmitButton >
 
 
-        <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        overlayClassName='react-modal-overlay'
-        className='react-modal-content'
-      >
-        <button
-          className='react-modal-close'
-          type='button'
-          onClick={closeModal}
-        >
-          <FiX />
-        </button>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            overlayClassName='react-modal-overlay'
+            className='react-modal-content'
+          >
+            <button
+              className='react-modal-close'
+              type='button'
+              onClick={closeModal}
+            >
+              <FiX />
+            </button>
 
-        <S.ContainerForm
-          onSubmit={(e) => {
-            e.preventDefault()
-            // handleUpdate(id)
-          }}
-        >
-          <h2>Editar benefício</h2>
-            <p>
+            <S.ContainerForm
+              onSubmit={(e) => {
+                e.preventDefault()
+                handleSetRespostas()
+              }}
+            >
+              <h2>Editar benefício</h2>
+              <p>
 
-            Sua pontuação foi: {pontuation}
-
-
-            </p>
-          <button type='submit'>Enviar</button>
-        </S.ContainerForm>
-      </Modal>
+                Sua pontuação foi: {pontuation}
 
 
-
+              </p>
+              <button type='submit'>Enviar</button>
+            </S.ContainerForm>
+          </Modal>
         </S.Container>
       </S.Body>
     </>
