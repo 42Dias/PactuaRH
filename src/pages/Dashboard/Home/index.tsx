@@ -27,7 +27,7 @@ export default function Home() {
 
     // console.log(professionalData.cargo.questionarios)
 
-    setQuestionarios(professionalData?.cargo?.questionarios)
+    if(professionalData) setQuestionarios(professionalData?.cargo?.questionarios)
 
 
   }
