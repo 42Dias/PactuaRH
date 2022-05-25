@@ -153,3 +153,45 @@ export const ContainerForm = styled.form`
     }
   }
 `
+
+export const Question = styled.div`
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #0000002e;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: all 0.2s ease-in;
+
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  }
+
+  p {
+    margin: 13px 0;
+  }
+
+  span {
+    color: #d93025;
+  }
+`
+
+export const Alternative = styled.div`
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  
+  div {
+    margin 5px 0;
+  }
+
+  input {
+    backgrond: blue;
+    color: red;
+    transition: all 0.2s ease-in;
+  }
+
+  label{
+    margin-left: 0.5rem;
+  }
+`
+
