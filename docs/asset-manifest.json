@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/PactuaRH/static/css/main.244b53b4.css",
-    "main.js": "/PactuaRH/static/js/main.9c9dc212.js",
+    "main.js": "/PactuaRH/static/js/main.f564bca9.js",
     "static/media/avatar.png": "/PactuaRH/static/media/avatar.bd10be59b3995842aff9.png",
     "index.html": "/PactuaRH/index.html",
     "main.244b53b4.css.map": "/PactuaRH/static/css/main.244b53b4.css.map",
-    "main.9c9dc212.js.map": "/PactuaRH/static/js/main.9c9dc212.js.map"
+    "main.f564bca9.js.map": "/PactuaRH/static/js/main.f564bca9.js.map"
   },
   "entrypoints": [
     "static/css/main.244b53b4.css",
-    "static/js/main.9c9dc212.js"
+    "static/js/main.f564bca9.js"
   ]
 }
