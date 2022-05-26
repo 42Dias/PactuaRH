@@ -19,7 +19,7 @@ export default function Home() {
   async function handleLoadAvaliations(){
     let professionalData = await profissional.listWithFilter("userId", getId())
     
-    professionalData = professionalData[0] || []
+    // professionalData = professionalData[0] || []
     
     // console.log(professionalData)
 
@@ -27,7 +27,7 @@ export default function Home() {
 
     // console.log(professionalData.cargo.questionarios)
 
-    if(professionalData) setQuestionarios(professionalData?.cargo?.questionarios)
+    // if(professionalData) setQuestionarios(professionalData?.cargo?.questionarios)
 
 
   }
