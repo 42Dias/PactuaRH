@@ -39,7 +39,7 @@ export const ContainerCall = styled.div`
   background-color: #000;
   border-radius: 10px;
 
-  color: white;
+  color: white !important;
 
   display: flex;
   justify-content: space-between;
@@ -56,6 +56,11 @@ export const ContainerCall = styled.div`
 
   p {
     padding: 10px 0;
+  }
+
+  h2 {
+    /* padding: 10px 0;*/
+    color: white !important;
   }
 
   a {
