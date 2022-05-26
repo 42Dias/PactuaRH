@@ -326,7 +326,7 @@ export default function Positions() {
 
   function handleSetSkills(cargo:iCargo){
     setSkills([])
-    cargo.habilidades.map(
+    cargo?.habilidades?.map(
       (skills) => {
         setSkills(prevValues => {
           return Array.from(new Set([...prevValues, skills.id]))
@@ -337,7 +337,7 @@ export default function Positions() {
 
   function handleSetWanted(cargo:iCargo){
     setWanted([])
-    cargo.desejaveis.map(
+    cargo?.desejaveis?.map(
       (wanted) => {
         setWanted(prevValues => {
           console.log(prevValues)
@@ -350,7 +350,7 @@ export default function Positions() {
 
   function handleSetFunctions(cargo:iCargo){
     setFunctions([])
-    cargo.funcoes.map(
+    cargo?.funcoes?.map(
       (functions) => {
         setFunctions(prevValues => {
           return Array.from(new Set([...prevValues, functions.id]))
@@ -364,7 +364,7 @@ export default function Positions() {
   function handleSetEducations(cargo:iCargo){
     setEducations([])
 
-    cargo.ecolaridade.map(
+    cargo?.ecolaridade?.map(
       (educations) => {
         setEducations(prevValues => {
           return Array.from(new Set([...prevValues, educations.id]))
