@@ -441,7 +441,7 @@ async function handleFilterProfessionals(){
                 <td>{value.nome}</td>
                 <td>{value.cpf}</td>
                 <td>{value.rg}</td>
-                <td>{value.cargo.nome}</td>
+                <td>{value.cargo?.nome}</td>
                 <td>
                   <button
                     onClick={() => {
