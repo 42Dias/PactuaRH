@@ -2,17 +2,37 @@ import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
 import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './UserRegistration.styled'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import InputMask from 'react-input-mask'
 import { Link } from 'react-router-dom'
 import user from 'service/user/user'
 import { fullName, id } from 'service/api'
 // import { randomUUID } from 'crypto'
-
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import fakeapi from 'service/fake-api'
+
+interface IRyan {
+  id:number;
+  name:string;
+  price:number;
+  available: boolean;
+  image: string;
+}
 
 export default function UserRegistration() {
+
+  const [ryan, setRyan] = useState<IRyan[]>([]);
+
+  useEffect(() => {
+    async function getRyan() {
+      const response = await fakeapi.get('/ryan');
+      setRyan(response.data);
+      console.log(response.data);
+    }
+    getRyan()
+  }, [])
+
   const roles = [
     {
       value: "user",
@@ -146,7 +166,6 @@ export default function UserRegistration() {
         </S.Title>
         <S.Container>
           <S.FlexButtons>
-            {/* This button toggles a modal to create a newUser */}
             <div>
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
@@ -177,18 +196,50 @@ export default function UserRegistration() {
               <td>Nome</td>
               <td>Email</td>
               <td>Role</td>
+              <td>Role</td>
+            </S.TrTitle>
+
+            {
+              ryan.map(
+                (ryans) => (
+                  <S.TrSecond>
+                    <td>
+                      {ryans.id || "Não cadastrado"}
+                    </td>
+                    <td>
+                      {ryans.name || "sem nome"}
+                    </td>
+                    <td>
+                      {ryans.price || "sem nome"}
+                    </td>
+                    <td>
+                      {ryans.available || "sem nome"}
+                    </td>
+                    <img src={ryans.image} alt="" />
+                  </S.TrSecond>
+                )
+              )
+            }
+
+          </S.Table>
+
+          <S.Table id="usuario">
+            <S.TrTitle>
+              <td>Nome</td>
+              <td>Email</td>
+              <td>Role</td>
             </S.TrTitle>
 
             {
             allUsers.map(
               (user) => (
                 <S.TrSecond>
-              <td>
-                {user.fullName || "Não cadastrado"}
-              </td>
-              <td>
-                {user.email    || "Não cadastrado"}
-              </td>
+                  <td>
+                    {user.fullName || "Não cadastrado"}
+                  </td>
+                  <td>
+                    {user.email    || "Não cadastrado"}
+                  </td>
               <td>
                 { showUserRole(user.tenants[0].roles[0])   || "Não cadastrado" }
               </td>
