@@ -13,33 +13,29 @@ export const semImagem =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Item_sem_imagem.svg/1024px-Item_sem_imagem.svg.png'
 export const loadingGif = 'https://contribua.org/mb-static/images/loading.gif'
 
-
-
-export const getToken  = () => {
-  let _token =  localStorage.getItem('token')
-  if(!_token) return "";
+export const getToken = () => {
+  let _token = localStorage.getItem('token')
+  if (!_token) return ''
   return _token.replace(/"/g, '') || ''
-  }
-  
+}
+
 export const getTenantId = () => {
-  let _tenantId =  localStorage.getItem('tenantId')
-  if(!_tenantId) return "";
+  let _tenantId = localStorage.getItem('tenantId')
+  if (!_tenantId) return ''
   return _tenantId.replace(/"/g, '') || ''
-  }
+}
 
-export const getRole     = () => {
-  let roles =  localStorage.getItem('roles')
-  if(!roles) return "";
+export const getRole = () => {
+  let roles = localStorage.getItem('roles')
+  if (!roles) return ''
   return roles.replace(/"/g, '') || ''
-  }
+}
 
-export const getId       = () => {
-  let _userAdmId =  localStorage.getItem('id')
-  if(!_userAdmId) return "";
+export const getId = () => {
+  let _userAdmId = localStorage.getItem('id')
+  if (!_userAdmId) return ''
   return _userAdmId.replace(/"/g, '') || ''
-  }
-
-
+}
 
 // export const ip = 'http://localhost' // teste lo  cal
 // export const ip = 'https://projetos.42dias.com.br' // servidor/
