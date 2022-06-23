@@ -1,8 +1,7 @@
 import { FiEdit, FiEdit2, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
-import * as S from './EvaluationRecord.styled'
-import { Switch } from 'antd'
+import * as S from './Evaluation.styled'
 import { useState } from 'react'
 import Modal from 'react-modal'
 
@@ -17,7 +16,7 @@ interface PropsModal {
   to?: number;
 }
 
-export function EvaluationRecord() {
+export function Evaluation() {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [activeKey, setActiveTabKey] = useState();
@@ -147,26 +146,22 @@ export function EvaluationRecord() {
 
         <S.Container>
           <S.LinksContainer>
-            <Link className='active-class' to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
-            <Link to='/avaliacao'>Questionário &gt;</Link>
+            <Link to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
+            <Link className='active-class' to='/avaliacao'>Questionário &gt;</Link>
             <Link to='/perguntas'>Perguntas &gt;</Link>
             <Link to='/'>Resposta</Link>
           </S.LinksContainer>
 
           <S.FlexInit>
-            <h2>Avaliação</h2>
+            <h2>Avaliação de desempenho</h2>
 
             <button onClick={() => openModal(1)}>
-              <FiPlus /> Novo
+              <FiPlus /> Novo questionário 
             </button>
           </S.FlexInit>
 
-          <div>
-            <Switch defaultChecked />
-          </div>
-
           <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Desempenho</Link>
+            <Link to='/avaliacao'>Questionário</Link>
 
             <div className='flex-configs'>
               <button onClick={() => openModal(2)} className='settings'>
@@ -183,7 +178,7 @@ export function EvaluationRecord() {
           </div>
 
           <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Avaliação 2</Link>
+            <Link to='/avaliacao'>Questionário 2</Link>
             <div className='flex-configs'>
               <button onClick={() => openModal(2)} className='settings'>
                 <FiSettings />
@@ -199,7 +194,7 @@ export function EvaluationRecord() {
           </div>
 
           <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Avaliação 3</Link>
+            <Link to='/avaliacao'>Questionário 3</Link>
             <div className='flex-configs'>
               <button onClick={() => openModal(2)} className='settings'>
                 <FiSettings />
@@ -236,26 +231,14 @@ export function EvaluationRecord() {
           
           {activeKey === 1 && (
 						<>
-              <TitleComponent title='Adicionar avaliação' />
-              <InputComponent value='Titulo' />
+              <TitleComponent title='Adicionar questionário' />
+              <InputComponent value='Nome dos questionário' />
             </>
 					)}
 
           {activeKey === 2 && (
 						<div className='confgContainer'>
-              <TitleComponent title='Configurar' />
-              <ConfigCheckTitle titleConfig='Avaliação' />
-              <div className="checkContainer">
-                <CheckBox checkBoxTitle='Númerico' />
-                <CheckBox checkBoxTitle='Não númerico' />
-              </div>
-
-              <ConfigCheckTitle titleConfig='Tipo de pontuação' />
-              <div className="checkContainer">
-                <CheckBox checkBoxTitle='Porcentagem' />
-                <CheckBox checkBoxTitle='Pontos' />
-              </div>
-
+              <TitleComponent title='Configurar questionario 1' />
               <div className="flexBtn">
                 <h2>Score</h2>
 
@@ -276,8 +259,8 @@ export function EvaluationRecord() {
 
           {activeKey === 3 && (
             <>
-              <TitleComponent title='Editar avaliação ' />
-              <InputComponent value='Titulo' />
+              <TitleComponent title='Editar avaliação' />
+              <InputComponent value='Nome' />
             </>
           )}
 

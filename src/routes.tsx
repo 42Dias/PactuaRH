@@ -34,6 +34,10 @@ import AnswerQuestionary from 'pages/Dashboard/AnswerQuestionary'
 import MyAvaliations from 'pages/Dashboard/MyAvaliations'
 import { Assessments } from 'pages/Dashboard/Assessments'
 import { EvaluationRecord } from 'pages/Dashboard/EvaluationRecord'
+import { Evaluation } from 'pages/Dashboard/Evaluation'
+import { Questions } from 'pages/Dashboard/Questions'
+import { MyRatings } from 'pages/Dashboard/MyRatings'
+import { Answer } from 'pages/Dashboard/Answer'
 
 const RoutesApp = () => {
   return (
@@ -73,6 +77,10 @@ const RoutesApp = () => {
           <Route path='/MyAvaliations' element={<MyAvaliations />} />
           <Route path='/minhas-avaliacoes' element={<Assessments />} />
           <Route path='/cadastro-de-avaliacao' element={<EvaluationRecord />} />
+          <Route path='/avaliacao' element={<Evaluation />} />
+          <Route path='/perguntas' element={<Questions />} />
+          <Route path='/minhas-avaliacoes/1' element={<MyRatings />} />
+          <Route path='/respostas' element={<Answer />} />
           
           <Route
           path='/questionario-perguntas/:id' element={<QuestionaryQuestions />}

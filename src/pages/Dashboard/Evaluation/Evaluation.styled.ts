@@ -13,7 +13,7 @@ export const LinksScore = styled.div`
 
   div {
     position: relative;
-
+    
     &:first-child {
       left: 1%;
     }
@@ -58,7 +58,6 @@ export const LinksScore = styled.div`
       border-radius: 100%;
       background: #b9e9c9;
     }
-
   }
 `
 

@@ -13,7 +13,7 @@ export const LinksScore = styled.div`
 
   div {
     position: relative;
-
+    
     &:first-child {
       left: 1%;
     }
@@ -58,7 +58,6 @@ export const LinksScore = styled.div`
       border-radius: 100%;
       background: #b9e9c9;
     }
-
   }
 `
 
@@ -105,6 +104,8 @@ export const Container = styled.div`
         align-items: center;
         justify-content: center;
         gap: 0 5px;
+
+        text-decoration: none;
 
         width: 145px;
         height: 40px;
@@ -234,6 +235,21 @@ export const ContainerForm = styled.form`
     }
   }
 
+  textarea {
+    margin: 10px 0;
+    padding: 1.7rem;
+    width: 100%;
+    height: 5rem;
+    font-size: 1rem;
+    font-weight: 400;
+    background: #e7e9ee;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.25rem;
+    &::placeholder {
+      color: #747474;
+    }
+  }
+
   select {
     padding: 0 1.5rem;
     width: 100%;
@@ -321,7 +337,7 @@ export const ContainerForm = styled.form`
   .gridScore {
     display: grid;
     gap: 0 60px;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     padding: 12px 8px;
     width: 750px;
   }

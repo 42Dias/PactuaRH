@@ -19,7 +19,7 @@ export function Assessments() {
               <h3>Configurar avaliações</h3>
             </Link>
 
-            <Link to='/cadastro-de-avaliacao'>
+            <Link to='/minhas-avaliacoes/1'>
               <h3>Envio e aprovação do superior</h3>
             </Link>
 

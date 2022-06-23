@@ -1,7 +1,7 @@
 import { FiEdit, FiEdit2, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
-import * as S from './EvaluationRecord.styled'
+import * as S from './Questions.styled'
 import { Switch } from 'antd'
 import { useState } from 'react'
 import Modal from 'react-modal'
@@ -13,11 +13,10 @@ interface PropsModal {
   titleConfig?: string;
   checkBoxTitle?: string;
   titleAvaliation?: string;
-  from?: number;
-  to?: number;
+  to?: string;
 }
 
-export function EvaluationRecord() {
+export function Questions() {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [activeKey, setActiveTabKey] = useState();
@@ -77,13 +76,21 @@ export function EvaluationRecord() {
     )
   }
 
-  function ScoreComponent({titleAvaliation, from, to}: PropsModal) {
+  function TextAreaComponente({value}: PropsModal) {
+    return (
+      <>
+        <label>{value}</label>
+        <textarea placeholder={value}></textarea>
+      </>
+    )
+  }
+
+  function ScoreComponent({titleAvaliation, to}: PropsModal) {
     return (
       <div>
         <div className="gridScore addBox">
           <span>{titleAvaliation}</span>
-          <span>{from}%</span>
-          <span>{to}%</span>
+          <span>{to}</span>
           <div>
             <button><FiTrash2 /></button>
             <button onClick={() => openModal(5)}><FiEdit /></button>
@@ -147,26 +154,22 @@ export function EvaluationRecord() {
 
         <S.Container>
           <S.LinksContainer>
-            <Link className='active-class' to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
+            <Link to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
             <Link to='/avaliacao'>Questionário &gt;</Link>
-            <Link to='/perguntas'>Perguntas &gt;</Link>
+            <Link className='active-class' to='/perguntas'>Perguntas &gt;</Link>
             <Link to='/'>Resposta</Link>
           </S.LinksContainer>
 
           <S.FlexInit>
-            <h2>Avaliação</h2>
+            <h2>Perguntas do Questionário 1</h2>
 
             <button onClick={() => openModal(1)}>
-              <FiPlus /> Novo
+              <FiPlus /> Nova pergunta
             </button>
           </S.FlexInit>
 
-          <div>
-            <Switch defaultChecked />
-          </div>
-
           <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Desempenho</Link>
+            <span>...?</span>
 
             <div className='flex-configs'>
               <button onClick={() => openModal(2)} className='settings'>
@@ -183,7 +186,7 @@ export function EvaluationRecord() {
           </div>
 
           <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Avaliação 2</Link>
+            <span>...?</span>
             <div className='flex-configs'>
               <button onClick={() => openModal(2)} className='settings'>
                 <FiSettings />
@@ -199,7 +202,7 @@ export function EvaluationRecord() {
           </div>
 
           <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Avaliação 3</Link>
+            <span>...?</span>
             <div className='flex-configs'>
               <button onClick={() => openModal(2)} className='settings'>
                 <FiSettings />
@@ -235,42 +238,32 @@ export function EvaluationRecord() {
         >
           
           {activeKey === 1 && (
-						<>
-              <TitleComponent title='Adicionar avaliação' />
-              <InputComponent value='Titulo' />
-            </>
+						<div className='confgContainer'>
+              <div className="flexBtn">
+                <h2>Perguntas</h2>
+
+                <button onClick={() => openModal(4)}><FiPlus /> Nova linha</button>
+              </div>
+              <InputComponent value='Sua pergunta...' />
+              <InputComponent value='Peso da pergunta *%*' />
+            </div>
 					)}
 
           {activeKey === 2 && (
 						<div className='confgContainer'>
               <TitleComponent title='Configurar' />
-              <ConfigCheckTitle titleConfig='Avaliação' />
-              <div className="checkContainer">
-                <CheckBox checkBoxTitle='Númerico' />
-                <CheckBox checkBoxTitle='Não númerico' />
-              </div>
-
-              <ConfigCheckTitle titleConfig='Tipo de pontuação' />
-              <div className="checkContainer">
-                <CheckBox checkBoxTitle='Porcentagem' />
-                <CheckBox checkBoxTitle='Pontos' />
-              </div>
-
               <div className="flexBtn">
-                <h2>Score</h2>
-
                 <button onClick={() => openModal(4)}><FiPlus /> Novo</button>
               </div>
 
               <div className="gridScore">
-                <span>Nome</span>
-                <span>De</span>
-                <span>Até</span>
+                <span>Resposta</span>
+                <span>Pontuação</span>
               </div>
 
-              <ScoreComponent titleAvaliation='Baixo desempenho' from={20} to={50} />
-              <ScoreComponent titleAvaliation='Desempenho esperado' from={50} to={70} />
-              <ScoreComponent titleAvaliation='Desempenho acima da média' from={70} to={100} />
+              <ScoreComponent titleAvaliation='Baixo desempenho' to='50%' />
+              <ScoreComponent titleAvaliation='Desempenho esperado' to='600 pontos' />
+              <ScoreComponent titleAvaliation='Desempenho acima da média' to='100%' />
             </div >
 					)}
 
@@ -282,12 +275,16 @@ export function EvaluationRecord() {
           )}
 
           {activeKey === 4 && (
-            <>
-              <TitleComponent title='Adicionar score' />
-              <InputComponent value='Titulo' />
-              <InputComponent value='De *%*' />
-              <InputComponent value='Até *%*' />
-            </>
+            <div className='confgContainer'>
+              <TitleComponent title='Adicionar resposta' />
+              <ConfigCheckTitle titleConfig='Resposta' />
+              <div className="checkContainer">
+                <CheckBox checkBoxTitle='Númerico' />
+                <CheckBox checkBoxTitle='Não númerico' />
+              </div>
+              <InputComponent value='Pontuação' />
+              <TextAreaComponente value='Titulo' />
+            </div>
           )}
 
           {activeKey === 5 && (
