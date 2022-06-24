@@ -65,6 +65,31 @@ export function EvaluationRecord() {
     setIsOpen(false)
   }
 
+  //Differentiate modals
+
+  function handleOpenCreateModal(){
+    openModal(1)
+    //Clean the id
+    setId("")
+    setNome("")
+
+  }
+
+
+  function handleOpenEditModal(id: string){
+    setId(id)
+    openModal(3)
+  }
+
+
+  function handleOpenSettingsModal(id: string){
+    setId(id)
+
+    openModal(2)
+  }
+
+
+
 
 /*
 ==========================================================================================================
@@ -238,7 +263,7 @@ export function EvaluationRecord() {
           <S.FlexInit>
             <h2>Avaliação</h2>
 
-            <button onClick={() => openModal(1)}>
+            <button onClick={() => handleOpenCreateModal()}>
               <FiPlus /> Novo
             </button>
           </S.FlexInit>
@@ -254,14 +279,14 @@ export function EvaluationRecord() {
             <div className='box-avaliacoes' key={questioryItem.id}>
               <Link to='/avaliacao'>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                <button onClick={() => openModal(2)} className='settings'>
+                <button onClick={() => handleOpenSettingsModal(questioryItem.id)} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
                 <button className='delete'>
                   <FiTrash2 />
                 </button>
-                <button onClick={() => openModal(3)} className='edit'>
+                <button onClick={() => handleOpenEditModal(questioryItem.id)} className='edit'>
                   <FiEdit2 />
                 </button>
               </div>
