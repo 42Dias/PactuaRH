@@ -10,6 +10,12 @@ import questionarios from 'service/questionarios/questionarios'
 
 export function EvaluationRecord() {
 
+  
+/*
+==========================================================================================================
+                                        STATES
+==========================================================================================================
+*/
   //ModalStates
   const [modalIsOpen, setIsOpen] = useState(false);
   const [activeKey, setActiveTabKey] = useState();
@@ -21,6 +27,12 @@ export function EvaluationRecord() {
   const [selectedQuestao, setSelectedQuestao] = useState<iQuestoes>()
 
 
+
+/*
+==========================================================================================================
+                                        Modal Functions
+==========================================================================================================
+*/
 
 	const openModal = (activeKey:any) => {
 		if (activeKey === 1) {
@@ -65,6 +77,11 @@ export function EvaluationRecord() {
     }
 
 
+/*
+==========================================================================================================
+                                          CRUD FUNCTIONS 
+==========================================================================================================
+*/
 
     async function handleLoadQuestionario() {
       const allQuestionario = await questionarios.list()
@@ -97,6 +114,11 @@ export function EvaluationRecord() {
       await handleLoadQuestionario()
     }
 
+/*
+==========================================================================================================
+                                Page's SubComponents 
+==========================================================================================================
+*/
 
     return (
       <span
