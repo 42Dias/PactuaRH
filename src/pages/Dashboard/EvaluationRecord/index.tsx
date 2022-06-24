@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './EvaluationRecord.styled'
 import { Switch } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import questionarios from 'service/questionarios/questionarios'
@@ -65,6 +65,50 @@ export function EvaluationRecord() {
     setIsOpen(false)
   }
 
+
+/*
+==========================================================================================================
+                                          CRUD FUNCTIONS 
+==========================================================================================================
+*/
+
+  async function handleLoadQuestionario() {
+    const allQuestionario = await questionarios.list()
+
+    setQuestionario(allQuestionario)
+  }
+
+  async function handleCreate() {
+    const data = {
+      nome: nome,
+    }
+
+    const isCreated = await questionarios.create(data)
+
+    if (isCreated) closeModal()
+    await handleLoadQuestionario()
+  }
+
+  async function handleUpdate() {
+    const id = selectedQuestao?.id
+
+    const data = {
+      nome: nome,
+    }
+
+    const isUpdated = await questionarios.update(id, data)
+
+    if (isUpdated) closeModal()
+
+    await handleLoadQuestionario()
+  }
+
+  
+  /*
+  ==========================================================================================================
+                                  Page's SubComponents 
+  ==========================================================================================================
+  */
   function Status() {
     const [isActiveColor, setIsActiveColor] = useState(false)
 
@@ -76,49 +120,6 @@ export function EvaluationRecord() {
       }
     }
 
-
-/*
-==========================================================================================================
-                                          CRUD FUNCTIONS 
-==========================================================================================================
-*/
-
-    async function handleLoadQuestionario() {
-      const allQuestionario = await questionarios.list()
-  
-      setQuestionario(allQuestionario)
-    }
-  
-    async function handleCreate() {
-      const data = {
-        nome: nome,
-      }
-  
-      const isCreated = await questionarios.create(data)
-  
-      if (isCreated) closeModal()
-      await handleLoadQuestionario()
-    }
-  
-    async function handleUpdate() {
-      const id = selectedQuestao?.id
-
-      const data = {
-        nome: nome,
-      }
-  
-      const isUpdated = await questionarios.update(id, data)
-  
-      if (isUpdated) closeModal()
-  
-      await handleLoadQuestionario()
-    }
-
-/*
-==========================================================================================================
-                                Page's SubComponents 
-==========================================================================================================
-*/
 
     return (
       <span
@@ -175,6 +176,19 @@ export function EvaluationRecord() {
       </>
     )
   }
+
+
+
+/*
+==========================================================================================================
+                                  UseEffects 
+==========================================================================================================
+*/
+
+  useEffect(() => {
+    handleLoadQuestionario()
+  }, [])
+
 
 
 
@@ -236,7 +250,7 @@ export function EvaluationRecord() {
           {
           questionario.map(
            ( questioryItem: iQuestoes ) => (
-            
+
             <div className='box-avaliacoes' key={questioryItem.id}>
               <Link to='/avaliacao'>Desempenho</Link>
               <div className='flex-configs'>
