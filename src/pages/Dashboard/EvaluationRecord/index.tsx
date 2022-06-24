@@ -7,10 +7,10 @@ import { FormEvent, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import questionarios from 'service/questionarios/questionarios'
+import InputComponent from 'ui/components/InputComponent'
 
 export function EvaluationRecord() {
 
-  
 /*
 ==========================================================================================================
                                         STATES
@@ -22,8 +22,8 @@ export function EvaluationRecord() {
 
   //PageComponents States
   const [questionario   , setQuestionario   ] = useState<iQuestoes[]>([])
-  const [id             , setId             ] = useState<string>("")
-  const [nome           , setNome           ] = useState<string>('')
+  const [id             , setId             ] = useState<string | undefined>("")
+  const [nome           , setNome           ] = useState<string | undefined>('')
   const [selectedQuestao, setSelectedQuestao] = useState<iQuestoes>()
 
 
@@ -76,8 +76,10 @@ export function EvaluationRecord() {
   }
 
 
-  function handleOpenEditModal(id: string){
+  function handleOpenEditModal(id: string, nome: string){
     setId(id)
+    setNome(nome)
+    
     openModal(3)
   }
 
@@ -173,14 +175,8 @@ export function EvaluationRecord() {
     return <h1>{title}</h1>
   }
 
-  function InputComponent({ value }: PropsModal) {
-    return (
-      <>
-        <label>{value}</label>
-        <input placeholder={value} />
-      </>
-    )
-  }
+  
+  
 
   function ScoreComponent({titleAvaliation, from, to}: PropsModal) {
     return (
@@ -301,7 +297,7 @@ export function EvaluationRecord() {
                 <button className='delete' onClick={() => handleDelete(questioryItem.id)}>
                   <FiTrash2 />
                 </button>
-                <button onClick={() => handleOpenEditModal(questioryItem.id)} className='edit'>
+                <button onClick={() => handleOpenEditModal(questioryItem.id, questioryItem.nome)} className='edit'>
                   <FiEdit2 />
                 </button>
               </div>
@@ -335,7 +331,7 @@ export function EvaluationRecord() {
           {activeKey === 1 && (
 						<>
               <TitleComponent title='Adicionar avaliação' />
-              <InputComponent value='Titulo' />
+              <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
             </>
 					)}
 
@@ -375,25 +371,25 @@ export function EvaluationRecord() {
           {activeKey === 3 && (
             <>
               <TitleComponent title='Editar avaliação ' />
-              <InputComponent value='Titulo' />
+              <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
             </>
           )}
 
           {activeKey === 4 && (
             <>
               <TitleComponent title='Adicionar score' />
-              <InputComponent value='Titulo' />
-              <InputComponent value='De *%*' />
-              <InputComponent value='Até *%*' />
+              <InputComponent title='Titulo' />
+              <InputComponent title='De *%*' />
+              <InputComponent title='Até *%*' />
             </>
           )}
 
           {activeKey === 5 && (
             <>
               <TitleComponent title='Editar score' />
-              <InputComponent value='Titulo' />
-              <InputComponent value='De *%*' />
-              <InputComponent value='Até *%*' />
+              <InputComponent title='Titulo' />
+              <InputComponent title='De *%*' />
+              <InputComponent title='Até *%*' />
             </>
           )}
 
