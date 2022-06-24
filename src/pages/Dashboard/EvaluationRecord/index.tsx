@@ -232,55 +232,31 @@ export function EvaluationRecord() {
           <div>
             <Switch defaultChecked />
           </div>
-
-          <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Desempenho</Link>
-
-            <div className='flex-configs'>
-              <button onClick={() => openModal(2)} className='settings'>
-                <FiSettings />
-                <span>Configurar</span>
-              </button>
-              <button className='delete'>
-                <FiTrash2 />
-              </button>
-              <button onClick={() => openModal(3)} className='edit'>
-                <FiEdit2 />
-              </button>
-            </div>
+          
+          {
+          questionario.map(
+           ( questioryItem: iQuestoes ) => (
+            
+            <div className='box-avaliacoes' key={questioryItem.id}>
+              <Link to='/avaliacao'>Desempenho</Link>
+              <div className='flex-configs'>
+                <button onClick={() => openModal(2)} className='settings'>
+                  <FiSettings />
+                  <span>Configurar</span>
+                </button>
+                <button className='delete'>
+                  <FiTrash2 />
+                </button>
+                <button onClick={() => openModal(3)} className='edit'>
+                  <FiEdit2 />
+                </button>
+              </div>
           </div>
 
-          <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Avaliação 2</Link>
-            <div className='flex-configs'>
-              <button onClick={() => openModal(2)} className='settings'>
-                <FiSettings />
-                <span>Configurar</span>
-              </button>
-              <button className='delete'>
-                <FiTrash2 />
-              </button>
-              <button onClick={() => openModal(3)} className='edit'>
-                <FiEdit2 />
-              </button>
-            </div>
-          </div>
+           )
+          )}
 
-          <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Avaliação 3</Link>
-            <div className='flex-configs'>
-              <button onClick={() => openModal(2)} className='settings'>
-                <FiSettings />
-                <span>Configurar</span>
-              </button>
-              <button className='delete'>
-                <FiTrash2 />
-              </button>
-              <button onClick={() => openModal(3)} className='edit'>
-                <FiEdit2 />
-              </button>
-            </div>
-          </div>
+          
         </S.Container>
       </S.Body>
 
