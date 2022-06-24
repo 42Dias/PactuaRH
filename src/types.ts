@@ -37,3 +37,16 @@ export interface iQuestoes extends iData {
   obrigatorio: boolean
   tipo: string
 }
+
+
+export interface PropsModal {
+  title?: string;
+  value?: string;
+  valueModal?: number;
+  titleConfig?: string;
+  checkBoxTitle?: string;
+  titleAvaliation?: string;
+  from?: number;
+  to?: number;
+  onChange?: (e?: string) => string | undefined | void;
+}
