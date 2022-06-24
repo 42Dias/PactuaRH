@@ -50,3 +50,9 @@ export interface PropsModal {
   to?: number;
   onChange?: (e?: string) => string | undefined | void;
 }
+
+
+
+export interface PropsCheckBox extends PropsModal {
+  checked?: boolean;
+}
