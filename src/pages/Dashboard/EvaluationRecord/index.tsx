@@ -127,8 +127,13 @@ export function EvaluationRecord() {
 
     await handleLoadQuestionario()
   }
+ 
+  async function handleDelete(id: string) {
+    await questionarios.delete(id)
 
-  
+    handleLoadQuestionario()
+  }
+
   /*
   ==========================================================================================================
                                   Page's SubComponents 
@@ -283,7 +288,7 @@ export function EvaluationRecord() {
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
-                <button className='delete'>
+                <button className='delete' onClick={() => handleDelete(questioryItem.id)}>
                   <FiTrash2 />
                 </button>
                 <button onClick={() => handleOpenEditModal(questioryItem.id)} className='edit'>
