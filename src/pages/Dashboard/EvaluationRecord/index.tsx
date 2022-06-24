@@ -252,7 +252,7 @@ export function EvaluationRecord() {
            ( questioryItem: iQuestoes ) => (
 
             <div className='box-avaliacoes' key={questioryItem.id}>
-              <Link to='/avaliacao'>Desempenho</Link>
+              <Link to='/avaliacao'>{questioryItem.nome}</Link>
               <div className='flex-configs'>
                 <button onClick={() => openModal(2)} className='settings'>
                   <FiSettings />
