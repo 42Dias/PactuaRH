@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './EvaluationRecord.styled'
 import { Switch } from 'antd'
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import questionarios from 'service/questionarios/questionarios'
@@ -21,9 +21,9 @@ export function EvaluationRecord() {
   const [activeKey, setActiveTabKey] = useState();
 
   //PageComponents States
-  const [questionario, setQuestionario] = useState([])
-  const [id          , setId         ] = useState('')
-  const [nome        , setNome       ] = useState('')
+  const [questionario   , setQuestionario   ] = useState<iQuestoes[]>([])
+  const [id             , setId             ] = useState<string>("")
+  const [nome           , setNome           ] = useState<string>('')
   const [selectedQuestao, setSelectedQuestao] = useState<iQuestoes>()
 
 
@@ -97,6 +97,17 @@ export function EvaluationRecord() {
 ==========================================================================================================
 */
 
+  //necessary by the single page's modal
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    console.log("id")
+    console.log(id)
+
+    if(!id) handleCreate()
+    else handleUpdate() 
+  }
+
   async function handleLoadQuestionario() {
     const allQuestionario = await questionarios.list()
 
@@ -115,7 +126,6 @@ export function EvaluationRecord() {
   }
 
   async function handleUpdate() {
-    const id = selectedQuestao?.id
 
     const data = {
       nome: nome,
@@ -319,7 +329,7 @@ export function EvaluationRecord() {
         </button>
 
         <S.ContainerForm
-          // onSubmit={handleCreateNewTransaction}
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
         >
           
           {activeKey === 1 && (
