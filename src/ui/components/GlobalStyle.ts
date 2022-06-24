@@ -53,8 +53,8 @@ export const GlobalStyle = createGlobalStyle`
     position: relative;
     padding: 3rem;
     width: 100%;
-    max-width: 576px;
-    max-height: 650px;
+    max-width: 850px;
+    max-height: 620px;
     height: 100%;
     overflow: auto;
     background: white;
