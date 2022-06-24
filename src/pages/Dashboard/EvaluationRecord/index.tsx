@@ -5,37 +5,45 @@ import * as S from './EvaluationRecord.styled'
 import { Switch } from 'antd'
 import { useState } from 'react'
 import Modal from 'react-modal'
-
-interface PropsModal {
-  title?: string;
-  value?: string;
-  valueModal?: number;
-  titleConfig?: string;
-  checkBoxTitle?: string;
-  titleAvaliation?: string;
-  from?: number;
-  to?: number;
-}
+import { iQuestoes, PropsModal } from 'types'
+import questionarios from 'service/questionarios/questionarios'
 
 export function EvaluationRecord() {
 
-  const [modalIsOpen, setIsOpen] = useState(false)
+  //ModalStates
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [activeKey, setActiveTabKey] = useState();
+
+  //PageComponents States
+  const [questionario, setQuestionario] = useState([])
+  const [id          , setId         ] = useState('')
+  const [nome        , setNome       ] = useState('')
+  const [selectedQuestao, setSelectedQuestao] = useState<iQuestoes>()
+
+
 
 	const openModal = (activeKey:any) => {
 		if (activeKey === 1) {
       setActiveTabKey(activeKey)
 			setIsOpen(!modalIsOpen);
-		} else if(activeKey === 2) {
+		}
+    
+    else if(activeKey === 2) {
       setActiveTabKey(activeKey)
       setIsOpen(!modalIsOpen);
-    } else if (activeKey === 3) {
+    }
+    
+    else if (activeKey === 3) {
       setActiveTabKey(activeKey)
       setIsOpen(!modalIsOpen);
-    } else if (activeKey === 4) {
+    }
+    
+    else if (activeKey === 4) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
-    } else if (activeKey === 5) {
+    }
+    
+    else if (activeKey === 5) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
     }
@@ -55,6 +63,40 @@ export function EvaluationRecord() {
         setIsActiveColor(false)
       }
     }
+
+
+
+    async function handleLoadQuestionario() {
+      const allQuestionario = await questionarios.list()
+  
+      setQuestionario(allQuestionario)
+    }
+  
+    async function handleCreate() {
+      const data = {
+        nome: nome,
+      }
+  
+      const isCreated = await questionarios.create(data)
+  
+      if (isCreated) closeModal()
+      await handleLoadQuestionario()
+    }
+  
+    async function handleUpdate() {
+      const id = selectedQuestao?.id
+
+      const data = {
+        nome: nome,
+      }
+  
+      const isUpdated = await questionarios.update(id, data)
+  
+      if (isUpdated) closeModal()
+  
+      await handleLoadQuestionario()
+    }
+
 
     return (
       <span
@@ -85,7 +127,9 @@ export function EvaluationRecord() {
           <span>{from}%</span>
           <span>{to}%</span>
           <div>
-            <button><FiTrash2 /></button>
+            <button>
+              <FiTrash2 />
+            </button>
             <button onClick={() => openModal(5)}><FiEdit /></button>
           </div>
         </div>
@@ -109,6 +153,8 @@ export function EvaluationRecord() {
       </>
     )
   }
+
+
 
   return (
     <>
