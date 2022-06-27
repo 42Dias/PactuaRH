@@ -7,8 +7,7 @@ export default function InputComponent({ title, onChange, value }: PropsModal) {
   
         <input
         placeholder={title}
-        //@ts-ignore
-        onChange={(e) => onChange(e.target.value)} 
+        onChange={(e) => onChange?.(e.target.value)} 
         value={value}
         />
       </>
