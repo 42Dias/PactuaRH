@@ -222,6 +222,14 @@ export function EvaluationRecord() {
   }
   
 
+  async function handleDeleteSubItem(id: string) {
+    await avaliacaoScoreItem.delete(id)
+    closeModal()
+
+    handleLoadQuestionario()
+  }
+  
+
   /*
   ==========================================================================================================
                                   Page's SubComponents 
@@ -262,7 +270,7 @@ export function EvaluationRecord() {
           <span>{from}%</span>
           <span>{to}%</span>
           <div>
-            <button>
+            <button onClick={() => handleDeleteSubItem(id!)}>
               <FiTrash2 />
             </button>
             <button onClick={() => {
