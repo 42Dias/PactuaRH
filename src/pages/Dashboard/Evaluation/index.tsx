@@ -3,14 +3,15 @@ import { Link, useParams } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './Evaluation.styled'
 import { Switch } from 'antd'
-import { FormEvent, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import questionarios from 'service/questionarios/questionarios'
-import questionarioItem from 'service/questionarioItem/questionarioItem'
+import questionariosScoreItem from 'service/questionariosScoreItem/questionariosScoreItem'
 import InputComponent from 'ui/components/InputComponent'
-import CheckBox from 'ui/components/CheckBox'
+import CheckBox from 'ui/components/CheckBox' 
 import { toast } from 'react-toastify'
+import questionariosScores from 'service/questionariosScore/questionariosScore'
 
 export function Evaluation() {
 
@@ -19,12 +20,18 @@ export function Evaluation() {
                                         STATES
 ==========================================================================================================
 */
+
+  const avaliationId  = useParams().id;
+  
   //ModalStates
   const [modalIsOpen, setIsOpen] = useState(false);
   const [activeKey, setActiveTabKey] = useState<number>(0);
 
   //PageComponents States
-  const [questionario   , setQuestionario   ] = useState<iQuestoes[]>([])
+  const [questionario     , setQuestionario     ] = useState<iQuestoes[] | any>([])
+  const [selectedScore    , setSelectedScore    ] = useState<iQuestoes[] | any>([])
+  const [selectedScoreItem, setSelectedScoreItem] = useState<iQuestoes[] | any>([])
+  
   const [id             , setId             ] = useState<string | undefined>("")
   const [nome           , setNome           ] = useState<string | undefined>('')
 
@@ -33,16 +40,16 @@ export function Evaluation() {
 
   const [score         , setScore  ] = useState<string>("")
   const [titulo        , setTitulo ] = useState<string>("")
-  const [de            , setDe     ] = useState<string>("")
-  const [ate           , setAte    ] = useState<string>("")
+  const [de            , setDe     ] = useState<string | number>("")
+  const [ate           , setAte    ] = useState<string | number>("")
   const [idScore       , setIdScore] = useState<string>("")
 
 
 
 
   //Avaliation States
-  const [formato, setFormato] = useState('')
-  const [tipo,    setTipo   ] = useState('')
+  const [formato, setFormato] = useState<string>('')
+  const [tipo,    setTipo   ] = useState<string>('')
 
 
 /*
@@ -102,15 +109,13 @@ export function Evaluation() {
 
 
   function handleOpenSettingsModal(id: string, score?: any){
-    setId(id)
 
-    console.log("items")
-    console.log(score.items)
-    setSubItens(score.items)  
-    
-    setFormato(score.formato)
-    setTipo(score.tipo)
-    
+    setId(id)
+    setSelectedScore(score?.id)
+    console.log(score?.id)
+    setSubItens(score?.item)      
+    setFormato(score?.formato)
+    setTipo(score?.tipo)
 
     openModal(2)
   }
@@ -136,7 +141,7 @@ export function Evaluation() {
         handleCreate()
         break;
       case 2:
-        // CreateSecondary()
+        updateSecondary()
         break;
       case 3:
         handleUpdate()
@@ -154,7 +159,7 @@ export function Evaluation() {
   }
 
   async function handleLoadQuestionario() {
-    const allQuestionario = await questionarios.list()
+    const allQuestionario = await questionarios.listWithFilter("avaliacaoId", avaliationId)
 
     setQuestionario(allQuestionario)
   }
@@ -162,6 +167,7 @@ export function Evaluation() {
   async function handleCreate() {
     const data = {
       nome: nome,
+      avaliacaoId: avaliationId,
     }
 
     const isCreated = await questionarios.create(data)
@@ -174,7 +180,10 @@ export function Evaluation() {
 
     const data = {
       nome: nome,
+      avaliacaoId: avaliationId,
     }
+
+    
 
     const isUpdated = await questionarios.update(id, data)
 
@@ -189,21 +198,46 @@ export function Evaluation() {
     handleLoadQuestionario()
   }
 
+
+  //it is autautomatically created in backend in the avaliation creation  
+  // So it is just necessary to updated it's values
+  async function updateSecondary() {
+
+    const data = {
+      de: de, 
+      ate: ate,
+      nome: titulo,
+      score: score,
+      formato: formato,
+      tipo: tipo,
+      
+      questionariosrioScoreId: selectedScore,
+      questionariosScore: selectedScore,
+    }
+
+    const isUpdated = await questionariosScores.update(selectedScore, data)
+
+    if (isUpdated) closeModal()
+
+    await handleLoadQuestionario()
+  }
+ 
+
+  
+
   async function handleCreateSubItem(){
-    const { id } = useParams()
-
-
     let data = {
       de: de, 
       ate: ate,
       nome: titulo,
       score: score,
-      avaliacaoId: id,
+      questionariosrioScoreId: selectedScore,
     }
 
-    const isCreated = await questionarioItem.create(data)
+    const isCreated = await questionariosScoreItem.create(data)
     if (isCreated) closeModal()
 
+    await handleLoadQuestionario()
   }
 
   async function handleEditSubItem(){
@@ -212,12 +246,23 @@ export function Evaluation() {
       de: de, 
       ate: ate,
       nome: titulo,
-      score: score
+      score: score,
+      questionariosrioScoreId: selectedScore,
+      questionariosScore: selectedScore,
     }
 
-    const isCreated = await questionarioItem.update(data)
+    const isCreated = await questionariosScoreItem.update(selectedScoreItem, data)
     if (isCreated) closeModal()
 
+    await handleLoadQuestionario()
+  }
+  
+
+  async function handleDeleteSubItem(id: string) {
+    await questionariosScoreItem.delete(id)
+    closeModal()
+
+    handleLoadQuestionario()
   }
   
 
@@ -253,7 +298,7 @@ export function Evaluation() {
   
   
 
-  function ScoreComponent({titleAvaliation, from, to}: PropsModal) {
+  function ScoreComponent({titleAvaliation, from, to, id}: PropsModal) {
     return (
       <div>
         <div className="gridScore addBox">
@@ -261,10 +306,21 @@ export function Evaluation() {
           <span>{from}%</span>
           <span>{to}%</span>
           <div>
-            <button>
+            <button onClick={() => handleDeleteSubItem(id!)}>
               <FiTrash2 />
             </button>
-            <button onClick={() => openModal(5)}><FiEdit /></button>
+            <button onClick={() => {
+              
+              setSelectedScoreItem(id)
+              setDe(to!)
+              setAte(from!)
+              setTitulo(titleAvaliation!)
+
+              openModal(5)
+              }
+            }>
+              <FiEdit />
+            </button>
           </div>
         </div>
       </div>
@@ -291,6 +347,9 @@ export function Evaluation() {
   useEffect(() => {
     handleLoadQuestionario()
   }, [])
+
+  console.log(questionario)
+
 
 
 
@@ -338,7 +397,7 @@ export function Evaluation() {
           </S.LinksContainer>
 
           <S.FlexInit>
-            <h2>Avaliação de Desempenho</h2>
+            <h2>Avaliação</h2>
 
             <button onClick={() => handleOpenCreateModal()}>
               <FiPlus /> Novo
@@ -354,9 +413,9 @@ export function Evaluation() {
            ( questioryItem: iQuestoes ) => (
 
             <div className='box-avaliacoes' key={questioryItem.id}>
-              <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
+              <Link to={`/perguntas/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0]?.item)} className='settings'>
+                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0])} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
@@ -419,7 +478,12 @@ export function Evaluation() {
               <div className="flexBtn">
                 <h2>Score</h2>
 
-                <button onClick={() => openModal(4)}><FiPlus /> Novo</button>
+                <button onClick={() => {
+                  openModal(4)
+                  setTitulo("")
+                  setDe("")
+                  setAte("")
+                  }}><FiPlus /> Novo</button>
               </div>
 
               <div className="gridScore">
@@ -435,6 +499,7 @@ export function Evaluation() {
                   onClick={() => setIdScore(item.id)}
                   >
                     <ScoreComponent
+                      id={item.id}
                       titleAvaliation={item.nome}
                       from={item.de}
                       to={item.ate}
