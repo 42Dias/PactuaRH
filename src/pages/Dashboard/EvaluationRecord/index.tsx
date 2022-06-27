@@ -27,6 +27,17 @@ export function EvaluationRecord() {
   const [id             , setId             ] = useState<string | undefined>("")
   const [nome           , setNome           ] = useState<string | undefined>('')
 
+  const [subItens        , setSubItens        ] = useState<any>([{}])
+
+
+  const [nomeScore     , setNomeScore] = useState<string>("")
+  const [titulo        , setTitulo   ] = useState<string>("")
+  const [de            , setDe       ] = useState<string>("")
+  const [ate           , setAte      ] = useState<string>("")
+
+
+
+
   //Avaliation States
   const [formato, setFormato] = useState('')
   const [tipo, setTipo] = useState('')
@@ -378,6 +389,12 @@ export function EvaluationRecord() {
                 <span>Até</span>
               </div>
 
+              {/* subItens.map(
+                (item, i: number) = (
+                  <ScoreComponent titleAvaliation='Baixo desempenho' from={item.de} to={item.ate} />
+                )
+              ) */}
+
               <ScoreComponent titleAvaliation='Baixo desempenho' from={20} to={50} />
               <ScoreComponent titleAvaliation='Desempenho esperado' from={50} to={70} />
               <ScoreComponent titleAvaliation='Desempenho acima da média' from={70} to={100} />
@@ -393,19 +410,19 @@ export function EvaluationRecord() {
 
           {activeKey === 4 && (
             <>
-              <TitleComponent title='Adicionar score' />
-              <InputComponent title='Titulo' />
-              <InputComponent title='De *%*' />
-              <InputComponent title='Até *%*' />
+              <TitleComponent title='Adicionar score' onChange={(text: any) => setNomeScore(text)} value={nomeScore} />
+              <InputComponent title='Titulo'          onChange={(text: any) => setTitulo(text)}    value={titulo}    />
+              <InputComponent title='De *%*'          onChange={(text: any) => setDe(text)}        value={de}        />
+              <InputComponent title='Até *%*'         onChange={(text: any) => setAte(text)}       value={ate}       />
             </>
           )}
 
           {activeKey === 5 && (
             <>
-              <TitleComponent title='Editar score' />
-              <InputComponent title='Titulo' />
-              <InputComponent title='De *%*' />
-              <InputComponent title='Até *%*' />
+              <TitleComponent title='Editar score' onChange={(text: any) => setNomeScore(text)} value={nomeScore} />
+              <InputComponent title='Titulo'       onChange={(text: any) => setTitulo(text)}    value={titulo}    />
+              <InputComponent title='De *%*'       onChange={(text: any) => setDe(text)}        value={de}        />
+              <InputComponent title='Até *%*'      onChange={(text: any) => setAte(text)}       value={ate}       />
             </>
           )}
 
