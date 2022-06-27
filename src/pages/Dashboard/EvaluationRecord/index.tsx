@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './EvaluationRecord.styled'
 import { Switch } from 'antd'
-import { FormEvent, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
-import questionarios from 'service/questionarios/questionarios'
+import avaliacao from 'service/avaliacoes/avaliacoes'
 import questionarioItem from 'service/questionarioItem/questionarioItem'
 import InputComponent from 'ui/components/InputComponent'
-import CheckBox from 'ui/components/CheckBox'
+import CheckBox from 'ui/components/CheckBox' 
 import { toast } from 'react-toastify'
 
 export function EvaluationRecord() {
@@ -24,7 +24,7 @@ export function EvaluationRecord() {
   const [activeKey, setActiveTabKey] = useState<number>(0);
 
   //PageComponents States
-  const [questionario   , setQuestionario   ] = useState<iQuestoes[]>([])
+  const [questionario   , setQuestionario   ] = useState<iQuestoes[] | any>([])
   const [id             , setId             ] = useState<string | undefined>("")
   const [nome           , setNome           ] = useState<string | undefined>('')
 
@@ -151,7 +151,7 @@ export function EvaluationRecord() {
   }
 
   async function handleLoadQuestionario() {
-    const allQuestionario = await questionarios.list()
+    const allQuestionario = await avaliacao.list()
 
     setQuestionario(allQuestionario)
   }
@@ -161,7 +161,7 @@ export function EvaluationRecord() {
       nome: nome,
     }
 
-    const isCreated = await questionarios.create(data)
+    const isCreated = await avaliacao.create(data)
 
     if (isCreated) closeModal()
     await handleLoadQuestionario()
@@ -173,7 +173,7 @@ export function EvaluationRecord() {
       nome: nome,
     }
 
-    const isUpdated = await questionarios.update(id, data)
+    const isUpdated = await avaliacao.update(id, data)
 
     if (isUpdated) closeModal()
 
@@ -181,7 +181,7 @@ export function EvaluationRecord() {
   }
  
   async function handleDelete(id: string) {
-    await questionarios.delete(id)
+    await avaliacao.delete(id)
 
     handleLoadQuestionario()
   }
@@ -352,7 +352,7 @@ export function EvaluationRecord() {
             <div className='box-avaliacoes' key={questioryItem.id}>
               <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0]?.item)} className='settings'>
+                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.pontos[0]?.item)} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
