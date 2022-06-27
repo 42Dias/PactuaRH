@@ -8,6 +8,8 @@ import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import questionarios from 'service/questionarios/questionarios'
 import InputComponent from 'ui/components/InputComponent'
+import CheckBox from 'ui/components/CheckBox'
+import { toast } from 'react-toastify'
 
 export function EvaluationRecord() {
 
@@ -18,14 +20,16 @@ export function EvaluationRecord() {
 */
   //ModalStates
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [activeKey, setActiveTabKey] = useState();
+  const [activeKey, setActiveTabKey] = useState<number>(0);
 
   //PageComponents States
   const [questionario   , setQuestionario   ] = useState<iQuestoes[]>([])
   const [id             , setId             ] = useState<string | undefined>("")
   const [nome           , setNome           ] = useState<string | undefined>('')
-  const [selectedQuestao, setSelectedQuestao] = useState<iQuestoes>()
 
+  //Avaliation States
+  const [formato, setFormato] = useState('')
+  const [tipo, setTipo] = useState('')
 
 
 /*
@@ -105,7 +109,7 @@ export function EvaluationRecord() {
 
     console.log("id")
     console.log(id)
-
+    
     if(!id) handleCreate()
     else handleUpdate() 
   }
@@ -196,14 +200,6 @@ export function EvaluationRecord() {
     )
   }
 
-  function CheckBox({checkBoxTitle}: PropsModal) {
-    return (
-      <div>
-        <input type="checkbox" />
-        <small>{checkBoxTitle}</small>
-      </div>
-    )
-  }
 
   function ConfigCheckTitle({titleConfig}: PropsModal) {
     return (
@@ -224,6 +220,8 @@ export function EvaluationRecord() {
   useEffect(() => {
     handleLoadQuestionario()
   }, [])
+
+  console.log(activeKey)
 
 
 
@@ -340,14 +338,14 @@ export function EvaluationRecord() {
               <TitleComponent title='Configurar' />
               <ConfigCheckTitle titleConfig='Avaliação' />
               <div className="checkContainer">
-                <CheckBox checkBoxTitle='Númerico' />
-                <CheckBox checkBoxTitle='Não númerico' />
+                <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}      />
+                <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" }  />
               </div>
 
               <ConfigCheckTitle titleConfig='Tipo de pontuação' />
               <div className="checkContainer">
-                <CheckBox checkBoxTitle='Porcentagem' />
-                <CheckBox checkBoxTitle='Pontos' />
+                <CheckBox value="porcentagem" checkBoxTitle='Porcentagem' onChange={() => setTipo("porcentagem")}  checked={tipo === "porcentagem" } />
+                <CheckBox value="quantidade"  checkBoxTitle='Pontos'      onChange={() => setTipo("quantidade")}   checked={tipo === "quantidade" }  />
               </div>
 
               <div className="flexBtn">
