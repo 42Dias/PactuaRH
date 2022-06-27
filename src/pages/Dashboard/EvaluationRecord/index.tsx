@@ -11,6 +11,7 @@ import avaliacaoScoreItem from 'service/avaliacaoScoreItem/avaliacaoScoreItem'
 import InputComponent from 'ui/components/InputComponent'
 import CheckBox from 'ui/components/CheckBox' 
 import { toast } from 'react-toastify'
+import avaliacaoScores from 'service/avaliacaoScore/avaliacaoScore'
 
 export function EvaluationRecord() {
 
@@ -36,8 +37,8 @@ export function EvaluationRecord() {
 
   const [score         , setScore  ] = useState<string>("")
   const [titulo        , setTitulo ] = useState<string>("")
-  const [de            , setDe     ] = useState<string>("")
-  const [ate           , setAte    ] = useState<string>("")
+  const [de            , setDe     ] = useState<string | number>("")
+  const [ate           , setAte    ] = useState<string | number>("")
   const [idScore       , setIdScore] = useState<string>("")
 
 
@@ -108,6 +109,7 @@ export function EvaluationRecord() {
 
     setId(id)
     setSelectedScore(score?.id)
+    console.log(score?.id)
     setSubItens(score?.item)      
     setFormato(score?.formato)
     setTipo(score?.tipo)
@@ -136,7 +138,7 @@ export function EvaluationRecord() {
         handleCreate()
         break;
       case 2:
-        // CreateSecondary()
+        updateSecondary()
         break;
       case 3:
         handleUpdate()
@@ -189,6 +191,33 @@ export function EvaluationRecord() {
     handleLoadQuestionario()
   }
 
+
+  //it is autautomatically created in backend in the avaliation creation  
+  // So it is just necessary to updated it's values
+  async function updateSecondary() {
+
+    const data = {
+      de: de, 
+      ate: ate,
+      nome: titulo,
+      score: score,
+      formato: formato,
+      tipo: tipo,
+      
+      avaliacaorioScoreId: selectedScore,
+      avaliacaoScore: selectedScore,
+    }
+
+    const isUpdated = await avaliacaoScores.update(selectedScore, data)
+
+    if (isUpdated) closeModal()
+
+    await handleLoadQuestionario()
+  }
+ 
+
+  
+
   async function handleCreateSubItem(){
     let data = {
       de: de, 
@@ -215,7 +244,7 @@ export function EvaluationRecord() {
       avaliacaoScore: selectedScore,
     }
 
-    const isCreated = await avaliacaoScoreItem.update(data)
+    const isCreated = await avaliacaoScoreItem.update(selectedScoreItem, data)
     if (isCreated) closeModal()
 
     await handleLoadQuestionario()
@@ -274,7 +303,12 @@ export function EvaluationRecord() {
               <FiTrash2 />
             </button>
             <button onClick={() => {
+              
               setSelectedScoreItem(id)
+              setDe(to!)
+              setAte(from!)
+              setTitulo(titleAvaliation!)
+
               openModal(5)
               }
             }>
@@ -437,7 +471,12 @@ export function EvaluationRecord() {
               <div className="flexBtn">
                 <h2>Score</h2>
 
-                <button onClick={() => openModal(4)}><FiPlus /> Novo</button>
+                <button onClick={() => {
+                  openModal(4)
+                  setTitulo("")
+                  setDe("")
+                  setAte("")
+                  }}><FiPlus /> Novo</button>
               </div>
 
               <div className="gridScore">
