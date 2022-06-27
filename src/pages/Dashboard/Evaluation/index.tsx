@@ -1,40 +1,78 @@
 import { FiEdit, FiEdit2, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './Evaluation.styled'
-import { useState } from 'react'
+import { Switch } from 'antd'
+import { FormEvent, SetStateAction, useEffect, useState } from 'react'
 import Modal from 'react-modal'
-
-interface PropsModal {
-  title?: string;
-  value?: string;
-  valueModal?: number;
-  titleConfig?: string;
-  checkBoxTitle?: string;
-  titleAvaliation?: string;
-  from?: number;
-  to?: number;
-}
+import { iQuestoes, PropsModal } from 'types'
+import questionarios from 'service/questionarios/questionarios'
+import questionarioItem from 'service/questionarioItem/questionarioItem'
+import InputComponent from 'ui/components/InputComponent'
+import CheckBox from 'ui/components/CheckBox'
+import { toast } from 'react-toastify'
 
 export function Evaluation() {
 
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [activeKey, setActiveTabKey] = useState();
+/*
+==========================================================================================================
+                                        STATES
+==========================================================================================================
+*/
+  //ModalStates
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [activeKey, setActiveTabKey] = useState<number>(0);
+
+  //PageComponents States
+  const [questionario   , setQuestionario   ] = useState<iQuestoes[]>([])
+  const [id             , setId             ] = useState<string | undefined>("")
+  const [nome           , setNome           ] = useState<string | undefined>('')
+
+  const [subItens        , setSubItens      ] = useState<any[] | undefined>()
+
+
+  const [score         , setScore  ] = useState<string>("")
+  const [titulo        , setTitulo ] = useState<string>("")
+  const [de            , setDe     ] = useState<string>("")
+  const [ate           , setAte    ] = useState<string>("")
+  const [idScore       , setIdScore] = useState<string>("")
+
+
+
+
+  //Avaliation States
+  const [formato, setFormato] = useState('')
+  const [tipo,    setTipo   ] = useState('')
+
+
+/*
+==========================================================================================================
+                                        Modal Functions
+==========================================================================================================
+*/
 
 	const openModal = (activeKey:any) => {
 		if (activeKey === 1) {
       setActiveTabKey(activeKey)
 			setIsOpen(!modalIsOpen);
-		} else if(activeKey === 2) {
+		}
+    
+    else if(activeKey === 2) {
       setActiveTabKey(activeKey)
       setIsOpen(!modalIsOpen);
-    } else if (activeKey === 3) {
+    }
+    
+    else if (activeKey === 3) {
       setActiveTabKey(activeKey)
       setIsOpen(!modalIsOpen);
-    } else if (activeKey === 4) {
+    }
+    
+    else if (activeKey === 4) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
-    } else if (activeKey === 5) {
+    }
+    
+    else if (activeKey === 5) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
     }
@@ -44,6 +82,150 @@ export function Evaluation() {
     setIsOpen(false)
   }
 
+  //Differentiate modals
+
+  function handleOpenCreateModal(){
+    openModal(1)
+    //Clean the id
+    setId("")
+    setNome("")
+
+  }
+
+
+  function handleOpenEditModal(id: string, nome: string){
+    setId(id)
+    setNome(nome)
+        
+    openModal(3)
+  }
+
+
+  function handleOpenSettingsModal(id: string, score?: any){
+    setId(id)
+
+    console.log("items")
+    console.log(score.items)
+    setSubItens(score.items)  
+    
+    setFormato(score.formato)
+    setTipo(score.tipo)
+    
+
+    openModal(2)
+  }
+
+
+
+
+/*
+==========================================================================================================
+                                          CRUD FUNCTIONS 
+==========================================================================================================
+*/
+
+  //necessary by the single page's modal
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    console.log("id")
+    console.log(id)
+    
+    switch (activeKey) {
+      case 1:
+        handleCreate()
+        break;
+      case 2:
+        // CreateSecondary()
+        break;
+      case 3:
+        handleUpdate()
+        break;
+      case 4:
+        handleCreateSubItem()
+      break;
+      case 5:
+        handleEditSubItem()
+      break;
+      default:
+        toast.error(`nada configurado para activeKey == ${activeKey}.`);
+    }
+    
+  }
+
+  async function handleLoadQuestionario() {
+    const allQuestionario = await questionarios.list()
+
+    setQuestionario(allQuestionario)
+  }
+
+  async function handleCreate() {
+    const data = {
+      nome: nome,
+    }
+
+    const isCreated = await questionarios.create(data)
+
+    if (isCreated) closeModal()
+    await handleLoadQuestionario()
+  }
+
+  async function handleUpdate() {
+
+    const data = {
+      nome: nome,
+    }
+
+    const isUpdated = await questionarios.update(id, data)
+
+    if (isUpdated) closeModal()
+
+    await handleLoadQuestionario()
+  }
+ 
+  async function handleDelete(id: string) {
+    await questionarios.delete(id)
+
+    handleLoadQuestionario()
+  }
+
+  async function handleCreateSubItem(){
+    const { id } = useParams()
+
+
+    let data = {
+      de: de, 
+      ate: ate,
+      nome: titulo,
+      score: score,
+      avaliacaoId: id,
+    }
+
+    const isCreated = await questionarioItem.create(data)
+    if (isCreated) closeModal()
+
+  }
+
+  async function handleEditSubItem(){
+
+    let data = {
+      de: de, 
+      ate: ate,
+      nome: titulo,
+      score: score
+    }
+
+    const isCreated = await questionarioItem.update(data)
+    if (isCreated) closeModal()
+
+  }
+  
+
+  /*
+  ==========================================================================================================
+                                  Page's SubComponents 
+  ==========================================================================================================
+  */
   function Status() {
     const [isActiveColor, setIsActiveColor] = useState(false)
 
@@ -54,6 +236,7 @@ export function Evaluation() {
         setIsActiveColor(false)
       }
     }
+
 
     return (
       <span
@@ -67,14 +250,8 @@ export function Evaluation() {
     return <h1>{title}</h1>
   }
 
-  function InputComponent({ value }: PropsModal) {
-    return (
-      <>
-        <label>{value}</label>
-        <input placeholder={value} />
-      </>
-    )
-  }
+  
+  
 
   function ScoreComponent({titleAvaliation, from, to}: PropsModal) {
     return (
@@ -84,7 +261,9 @@ export function Evaluation() {
           <span>{from}%</span>
           <span>{to}%</span>
           <div>
-            <button><FiTrash2 /></button>
+            <button>
+              <FiTrash2 />
+            </button>
             <button onClick={() => openModal(5)}><FiEdit /></button>
           </div>
         </div>
@@ -92,14 +271,6 @@ export function Evaluation() {
     )
   }
 
-  function CheckBox({checkBoxTitle}: PropsModal) {
-    return (
-      <div>
-        <input type="checkbox" />
-        <small>{checkBoxTitle}</small>
-      </div>
-    )
-  }
 
   function ConfigCheckTitle({titleConfig}: PropsModal) {
     return (
@@ -108,6 +279,20 @@ export function Evaluation() {
       </>
     )
   }
+
+
+
+/*
+==========================================================================================================
+                                  UseEffects 
+==========================================================================================================
+*/
+
+  useEffect(() => {
+    handleLoadQuestionario()
+  }, [])
+
+
 
   return (
     <>
@@ -153,61 +338,41 @@ export function Evaluation() {
           </S.LinksContainer>
 
           <S.FlexInit>
-            <h2>Avaliação de desempenho</h2>
+            <h2>Avaliação de Desempenho</h2>
 
-            <button onClick={() => openModal(1)}>
-              <FiPlus /> Novo questionário 
+            <button onClick={() => handleOpenCreateModal()}>
+              <FiPlus /> Novo
             </button>
           </S.FlexInit>
 
-          <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Questionário</Link>
+          <div>
+            <Switch defaultChecked />
+          </div>
+          
+          {
+          questionario.map(
+           ( questioryItem: iQuestoes ) => (
 
-            <div className='flex-configs'>
-              <button onClick={() => openModal(2)} className='settings'>
-                <FiSettings />
-                <span>Configurar</span>
-              </button>
-              <button className='delete'>
-                <FiTrash2 />
-              </button>
-              <button onClick={() => openModal(3)} className='edit'>
-                <FiEdit2 />
-              </button>
-            </div>
+            <div className='box-avaliacoes' key={questioryItem.id}>
+              <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
+              <div className='flex-configs'>
+                <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0]?.item)} className='settings'>
+                  <FiSettings />
+                  <span>Configurar</span>
+                </button>
+                <button className='delete' onClick={() => handleDelete(questioryItem.id)}>
+                  <FiTrash2 />
+                </button>
+                <button onClick={() => handleOpenEditModal(questioryItem.id, questioryItem.nome)} className='edit'>
+                  <FiEdit2 />
+                </button>
+              </div>
           </div>
 
-          <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Questionário 2</Link>
-            <div className='flex-configs'>
-              <button onClick={() => openModal(2)} className='settings'>
-                <FiSettings />
-                <span>Configurar</span>
-              </button>
-              <button className='delete'>
-                <FiTrash2 />
-              </button>
-              <button onClick={() => openModal(3)} className='edit'>
-                <FiEdit2 />
-              </button>
-            </div>
-          </div>
+           )
+          )}
 
-          <div className='box-avaliacoes'>
-            <Link to='/avaliacao'>Questionário 3</Link>
-            <div className='flex-configs'>
-              <button onClick={() => openModal(2)} className='settings'>
-                <FiSettings />
-                <span>Configurar</span>
-              </button>
-              <button className='delete'>
-                <FiTrash2 />
-              </button>
-              <button onClick={() => openModal(3)} className='edit'>
-                <FiEdit2 />
-              </button>
-            </div>
-          </div>
+          
         </S.Container>
       </S.Body>
 
@@ -226,19 +391,31 @@ export function Evaluation() {
         </button>
 
         <S.ContainerForm
-          // onSubmit={handleCreateNewTransaction}
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
         >
           
           {activeKey === 1 && (
 						<>
-              <TitleComponent title='Adicionar questionário' />
-              <InputComponent value='Nome dos questionário' />
+              <TitleComponent title='Adicionar avaliação' />
+              <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
             </>
 					)}
 
           {activeKey === 2 && (
 						<div className='confgContainer'>
-              <TitleComponent title='Configurar questionario 1' />
+              <TitleComponent title='Configurar' />
+              <ConfigCheckTitle titleConfig='Avaliação' />
+              <div className="checkContainer">
+                <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}      />
+                <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" }  />
+              </div>
+
+              <ConfigCheckTitle titleConfig='Tipo de pontuação' />
+              <div className="checkContainer">
+                <CheckBox value="porcentagem" checkBoxTitle='Porcentagem' onChange={() => setTipo("porcentagem")}  checked={tipo === "porcentagem" } />
+                <CheckBox value="quantidade"  checkBoxTitle='Pontos'      onChange={() => setTipo("quantidade")}   checked={tipo === "quantidade" }  />
+              </div>
+
               <div className="flexBtn">
                 <h2>Score</h2>
 
@@ -251,34 +428,46 @@ export function Evaluation() {
                 <span>Até</span>
               </div>
 
-              <ScoreComponent titleAvaliation='Baixo desempenho' from={20} to={50} />
-              <ScoreComponent titleAvaliation='Desempenho esperado' from={50} to={70} />
-              <ScoreComponent titleAvaliation='Desempenho acima da média' from={70} to={100} />
+              {
+              subItens?.map(
+                (item, i: number) => (
+                  <div
+                  onClick={() => setIdScore(item.id)}
+                  >
+                    <ScoreComponent
+                      titleAvaliation={item.nome}
+                      from={item.de}
+                      to={item.ate}
+                    />
+                  </div>
+                )
+              )
+              }
             </div >
 					)}
 
           {activeKey === 3 && (
             <>
-              <TitleComponent title='Editar avaliação' />
-              <InputComponent value='Nome' />
+              <TitleComponent title='Editar avaliação ' />
+              <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
             </>
           )}
 
           {activeKey === 4 && (
             <>
-              <TitleComponent title='Adicionar score' />
-              <InputComponent value='Titulo' />
-              <InputComponent value='De *%*' />
-              <InputComponent value='Até *%*' />
+              <TitleComponent title='Adicionar score' onChange={(text: any) => setScore(text)}  value={score} />
+              <InputComponent title='Titulo'          onChange={(text: any) => setTitulo(text)} value={titulo}    />
+              <InputComponent title='De *%*'          onChange={(text: any) => setDe(text)}     value={de}        />
+              <InputComponent title='Até *%*'         onChange={(text: any) => setAte(text)}    value={ate}       />
             </>
           )}
 
           {activeKey === 5 && (
             <>
-              <TitleComponent title='Editar score' />
-              <InputComponent value='Titulo' />
-              <InputComponent value='De *%*' />
-              <InputComponent value='Até *%*' />
+              <TitleComponent title='Editar score' onChange={(text: any) => setScore(text)}  value={score} />
+              <InputComponent title='Titulo'       onChange={(text: any) => setTitulo(text)} value={titulo}    />
+              <InputComponent title='De *%*'       onChange={(text: any) => setDe(text)}     value={de}        />
+              <InputComponent title='Até *%*'      onChange={(text: any) => setAte(text)}    value={ate}       />
             </>
           )}
 
