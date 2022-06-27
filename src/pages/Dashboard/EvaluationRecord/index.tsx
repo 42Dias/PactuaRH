@@ -110,8 +110,26 @@ export function EvaluationRecord() {
     console.log("id")
     console.log(id)
     
-    if(!id) handleCreate()
-    else handleUpdate() 
+    switch (activeKey) {
+      case 1:
+        handleCreate()
+        break;
+      case 2:
+        // CreateSecondary()
+        break;
+      case 3:
+        handleUpdate()
+        break;
+      case 4:
+        // handleUpdate()
+      break;
+      case 5:
+        // handleUpdate()
+      break;
+      default:
+        toast.error(`nada configurado para activeKey == ${activeKey}.`);
+    }
+    
   }
 
   async function handleLoadQuestionario() {
