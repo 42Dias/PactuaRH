@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import avaliacao from 'service/avaliacoes/avaliacoes'
-import questionarioItem from 'service/questionarioItem/questionarioItem'
+import avaliacaoScoreItem from 'service/avaliacaoScoreItem/avaliacaoScoreItem'
 import InputComponent from 'ui/components/InputComponent'
 import CheckBox from 'ui/components/CheckBox' 
 import { toast } from 'react-toastify'
@@ -24,7 +24,10 @@ export function EvaluationRecord() {
   const [activeKey, setActiveTabKey] = useState<number>(0);
 
   //PageComponents States
-  const [questionario   , setQuestionario   ] = useState<iQuestoes[] | any>([])
+  const [questionario     , setQuestionario     ] = useState<iQuestoes[] | any>([])
+  const [selectedScore    , setSelectedScore    ] = useState<iQuestoes[] | any>([])
+  const [selectedScoreItem, setSelectedScoreItem] = useState<iQuestoes[] | any>([])
+  
   const [id             , setId             ] = useState<string | undefined>("")
   const [nome           , setNome           ] = useState<string | undefined>('')
 
@@ -41,8 +44,8 @@ export function EvaluationRecord() {
 
 
   //Avaliation States
-  const [formato, setFormato] = useState('')
-  const [tipo,    setTipo   ] = useState('')
+  const [formato, setFormato] = useState<string>('')
+  const [tipo,    setTipo   ] = useState<string>('')
 
 
 /*
@@ -102,12 +105,12 @@ export function EvaluationRecord() {
 
 
   function handleOpenSettingsModal(id: string, score?: any){
-    setId(id)
 
-    setSubItens(score.items)      
-    setFormato(score.formato)
-    setTipo(score.tipo)
-    
+    setId(id)
+    setSelectedScore(score?.id)
+    setSubItens(score?.item)      
+    setFormato(score?.formato)
+    setTipo(score?.tipo)
 
     openModal(2)
   }
@@ -191,12 +194,14 @@ export function EvaluationRecord() {
       de: de, 
       ate: ate,
       nome: titulo,
-      score: score
+      score: score,
+      avaliacaorioScoreId: selectedScore,
     }
 
-    const isCreated = await questionarioItem.create(data)
+    const isCreated = await avaliacaoScoreItem.create(data)
     if (isCreated) closeModal()
 
+    await handleLoadQuestionario()
   }
 
   async function handleEditSubItem(){
@@ -205,12 +210,15 @@ export function EvaluationRecord() {
       de: de, 
       ate: ate,
       nome: titulo,
-      score: score
+      score: score,
+      avaliacaorioScoreId: selectedScore,
+      avaliacaoScore: selectedScore,
     }
 
-    const isCreated = await questionarioItem.update(data)
+    const isCreated = await avaliacaoScoreItem.update(data)
     if (isCreated) closeModal()
 
+    await handleLoadQuestionario()
   }
   
 
@@ -246,7 +254,7 @@ export function EvaluationRecord() {
   
   
 
-  function ScoreComponent({titleAvaliation, from, to}: PropsModal) {
+  function ScoreComponent({titleAvaliation, from, to, id}: PropsModal) {
     return (
       <div>
         <div className="gridScore addBox">
@@ -257,7 +265,13 @@ export function EvaluationRecord() {
             <button>
               <FiTrash2 />
             </button>
-            <button onClick={() => openModal(5)}><FiEdit /></button>
+            <button onClick={() => {
+              setSelectedScoreItem(id)
+              openModal(5)
+              }
+            }>
+              <FiEdit />
+            </button>
           </div>
         </div>
       </div>
@@ -352,7 +366,7 @@ export function EvaluationRecord() {
             <div className='box-avaliacoes' key={questioryItem.id}>
               <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.pontos[0]?.item)} className='settings'>
+                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.avaliacaoScore[0])} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
@@ -431,6 +445,7 @@ export function EvaluationRecord() {
                   onClick={() => setIdScore(item.id)}
                   >
                     <ScoreComponent
+                      id={item.id}
                       titleAvaliation={item.nome}
                       from={item.de}
                       to={item.ate}
