@@ -316,6 +316,19 @@ export const ContainerForm = styled.form`
         }
       }
     }
+
+
+    .checkContainer {
+      div {
+        display: flex;
+        gap: 0 10px;
+        align-items: center;
+        input[type='radio'] {
+          width: 15px;
+          height: 15px;
+        }
+      }
+    }
   }
 
   .gridScore {
