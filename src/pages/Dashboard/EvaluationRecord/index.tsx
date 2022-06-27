@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './EvaluationRecord.styled'
 import { Switch } from 'antd'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, SetStateAction, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import questionarios from 'service/questionarios/questionarios'
@@ -28,7 +28,7 @@ export function EvaluationRecord() {
   const [id             , setId             ] = useState<string | undefined>("")
   const [nome           , setNome           ] = useState<string | undefined>('')
 
-  const [subItens        , setSubItens        ] = useState<any>([{}])
+  const [subItens        , setSubItens      ] = useState<any[] | undefined>()
 
 
   const [score         , setScore  ] = useState<string>("")
@@ -42,7 +42,7 @@ export function EvaluationRecord() {
 
   //Avaliation States
   const [formato, setFormato] = useState('')
-  const [tipo, setTipo] = useState('')
+  const [tipo,    setTipo   ] = useState('')
 
 
 /*
@@ -96,13 +96,18 @@ export function EvaluationRecord() {
   function handleOpenEditModal(id: string, nome: string){
     setId(id)
     setNome(nome)
-    
+        
     openModal(3)
   }
 
 
-  function handleOpenSettingsModal(id: string){
+  function handleOpenSettingsModal(id: string, score?: any){
     setId(id)
+
+    setSubItens(score.items)      
+    setFormato(score.formato)
+    setTipo(score.tipo)
+    
 
     openModal(2)
   }
@@ -280,7 +285,7 @@ export function EvaluationRecord() {
     handleLoadQuestionario()
   }, [])
 
-  console.log(activeKey)
+  console.log(questionario)
 
 
 
@@ -345,9 +350,9 @@ export function EvaluationRecord() {
            ( questioryItem: iQuestoes ) => (
 
             <div className='box-avaliacoes' key={questioryItem.id}>
-              <Link to='/avaliacao'>{questioryItem.nome}</Link>
+              <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                <button onClick={() => handleOpenSettingsModal(questioryItem.id)} className='settings'>
+                <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0]?.item)} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
@@ -419,8 +424,9 @@ export function EvaluationRecord() {
                 <span>Até</span>
               </div>
 
-              {/* subItens.map(
-                (item, i: number) = (
+              {
+              subItens?.map(
+                (item, i: number) => (
                   <div
                   onClick={() => setIdScore(item.id)}
                   >
@@ -431,11 +437,8 @@ export function EvaluationRecord() {
                     />
                   </div>
                 )
-              ) */}
-
-              <ScoreComponent titleAvaliation='Baixo desempenho' from={20} to={50} />
-              <ScoreComponent titleAvaliation='Desempenho esperado' from={50} to={70} />
-              <ScoreComponent titleAvaliation='Desempenho acima da média' from={70} to={100} />
+              )
+              }
             </div >
 					)}
 
