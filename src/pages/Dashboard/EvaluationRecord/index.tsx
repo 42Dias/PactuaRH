@@ -7,6 +7,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import questionarios from 'service/questionarios/questionarios'
+import questionarioItem from 'service/questionarioItem/questionarioItem'
 import InputComponent from 'ui/components/InputComponent'
 import CheckBox from 'ui/components/CheckBox'
 import { toast } from 'react-toastify'
@@ -30,10 +31,11 @@ export function EvaluationRecord() {
   const [subItens        , setSubItens        ] = useState<any>([{}])
 
 
-  const [nomeScore     , setNomeScore] = useState<string>("")
-  const [titulo        , setTitulo   ] = useState<string>("")
-  const [de            , setDe       ] = useState<string>("")
-  const [ate           , setAte      ] = useState<string>("")
+  const [score         , setScore  ] = useState<string>("")
+  const [titulo        , setTitulo ] = useState<string>("")
+  const [de            , setDe     ] = useState<string>("")
+  const [ate           , setAte    ] = useState<string>("")
+  const [idScore       , setIdScore] = useState<string>("")
 
 
 
@@ -132,10 +134,10 @@ export function EvaluationRecord() {
         handleUpdate()
         break;
       case 4:
-        // handleUpdate()
+        handleCreateSubItem()
       break;
       case 5:
-        // handleUpdate()
+        handleEditSubItem()
       break;
       default:
         toast.error(`nada configurado para activeKey == ${activeKey}.`);
@@ -178,6 +180,34 @@ export function EvaluationRecord() {
 
     handleLoadQuestionario()
   }
+
+  async function handleCreateSubItem(){
+    let data = {
+      de: de, 
+      ate: ate,
+      nome: titulo,
+      score: score
+    }
+
+    const isCreated = await questionarioItem.create(data)
+    if (isCreated) closeModal()
+
+  }
+
+  async function handleEditSubItem(){
+
+    let data = {
+      de: de, 
+      ate: ate,
+      nome: titulo,
+      score: score
+    }
+
+    const isCreated = await questionarioItem.update(data)
+    if (isCreated) closeModal()
+
+  }
+  
 
   /*
   ==========================================================================================================
@@ -391,7 +421,15 @@ export function EvaluationRecord() {
 
               {/* subItens.map(
                 (item, i: number) = (
-                  <ScoreComponent titleAvaliation='Baixo desempenho' from={item.de} to={item.ate} />
+                  <div
+                  onClick={() => setIdScore(item.id)}
+                  >
+                    <ScoreComponent
+                      titleAvaliation={item.nome}
+                      from={item.de}
+                      to={item.ate}
+                    />
+                  </div>
                 )
               ) */}
 
@@ -410,19 +448,19 @@ export function EvaluationRecord() {
 
           {activeKey === 4 && (
             <>
-              <TitleComponent title='Adicionar score' onChange={(text: any) => setNomeScore(text)} value={nomeScore} />
-              <InputComponent title='Titulo'          onChange={(text: any) => setTitulo(text)}    value={titulo}    />
-              <InputComponent title='De *%*'          onChange={(text: any) => setDe(text)}        value={de}        />
-              <InputComponent title='Até *%*'         onChange={(text: any) => setAte(text)}       value={ate}       />
+              <TitleComponent title='Adicionar score' onChange={(text: any) => setScore(text)}  value={score} />
+              <InputComponent title='Titulo'          onChange={(text: any) => setTitulo(text)} value={titulo}    />
+              <InputComponent title='De *%*'          onChange={(text: any) => setDe(text)}     value={de}        />
+              <InputComponent title='Até *%*'         onChange={(text: any) => setAte(text)}    value={ate}       />
             </>
           )}
 
           {activeKey === 5 && (
             <>
-              <TitleComponent title='Editar score' onChange={(text: any) => setNomeScore(text)} value={nomeScore} />
-              <InputComponent title='Titulo'       onChange={(text: any) => setTitulo(text)}    value={titulo}    />
-              <InputComponent title='De *%*'       onChange={(text: any) => setDe(text)}        value={de}        />
-              <InputComponent title='Até *%*'      onChange={(text: any) => setAte(text)}       value={ate}       />
+              <TitleComponent title='Editar score' onChange={(text: any) => setScore(text)}  value={score} />
+              <InputComponent title='Titulo'       onChange={(text: any) => setTitulo(text)} value={titulo}    />
+              <InputComponent title='De *%*'       onChange={(text: any) => setDe(text)}     value={de}        />
+              <InputComponent title='Até *%*'      onChange={(text: any) => setAte(text)}    value={ate}       />
             </>
           )}
 
