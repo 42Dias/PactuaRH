@@ -38,15 +38,17 @@ export function Questions() {
   const [activeKey, setActiveTabKey] = useState<number>(0);
 
   const [nome      , setNome     ] = useState<string>('')
+  const [peso      , setPeso     ] = useState<string>('')
   const [descricao ,setDescricao ] = useState<string>('')
   const [selectedId,setSelectedId] = useState<string>('')
-  const [questions  ,setQuestions  ] = useState<any[]>([])
+  const [questions ,setQuestions  ] = useState<any[]>([])
+
 
 
   
   
   const [questionarioItemId, setQuestionarioItemId] = useState<string>('')
-  const [QuestionariosAnswer, setquestionariosAnswer] = useState<any[]>([])
+  const [questionariosAnswer, setQuestionariosAnswer] = useState<any[]>([])
   
   const [resposta   ,setResposta   ] = useState<string>('')
   const [pontuacao   ,setPontuacao   ] = useState<string>('')
@@ -135,6 +137,7 @@ export function Questions() {
   async function handleCreate() {
     const data = {
       nome: nome,
+      peso: peso,
       descricao: descricao,
       questionarioId: id,
     }
@@ -172,11 +175,6 @@ export function Questions() {
   }, [])
 
   // subcrud functions
-  async function handleLoadquestionariosAnswer() {
-    const allquestionariosAnswer = await questionariosResposta.listWithFilter("questionarioItemId", id)
-
-    setquestionariosAnswer(allquestionariosAnswer)
-  }
 
   async function handleCreateAnswer() {
     const data = {
@@ -188,7 +186,7 @@ export function Questions() {
     const isCreated = await questionariosResposta.create(data)
 
     if (isCreated) closeModal()
-    await handleLoadquestionariosAnswer()
+    
   }
 
   async function handleUpdateAnswer(selectedId: string) {
@@ -201,13 +199,11 @@ export function Questions() {
     const isUpdated = await questionariosResposta.update(selectedId, data)
 
     if (isUpdated) closeModal()
-    await handleLoadquestionariosAnswer()
+    
   }  
 
   async function handleDeleteAnswer(selectedId: string) {
     await questionariosResposta.delete(selectedId)
-
-    handleLoadquestionariosAnswer()
   }
 
 
@@ -402,7 +398,7 @@ export function Questions() {
                 <button onClick={() => openModal(4)}><FiPlus /> Nova linha</button>
               </div>
               <InputComponent title='Sua pergunta...'       onChange={(text :any) => setNome(text)} value={nome} />
-              <InputComponent title='Peso da pergunta *%*' />
+              <InputComponent title='Peso da pergunta *%*'  onChange={(text :any) => setPeso(text)} value={peso}/>
             </div>
 					)}
 
