@@ -42,9 +42,10 @@ export function Questions() {
   
   const [questionarioItemId, setQuestionarioItemId] = useState<string>('')
   const [questionariosAnswer, setQuestionariosAnswer] = useState<any[]>([])
+  const [questionarioAnswerId, setQuestionarioAnswerId] = useState<string>('')
   
-  const [resposta   ,setResposta   ] = useState<string>('')
-  const [pontuacao  ,setPontuacao   ] = useState<string>('')
+  const [resposta   ,setResposta   ] = useState<string | number>('')
+  const [pontuacao  ,setPontuacao   ] = useState<string | number>('')
 
   const [formato, setFormato] = useState<string>('')
 
@@ -108,9 +109,21 @@ export function Questions() {
     setQuestionarioItemId(id)
     setQuestionariosAnswer(answer)
 
- 
     openModal(2)
   }
+
+
+  function handleSetValuesAndOpenEditAnswer( pontuacao: string | number ,resposta: string | number, id: string, formato: string){
+    setPontuacao(pontuacao) 
+    setResposta(resposta)
+    setFormato(formato)
+    console.log(formato)
+    setQuestionarioAnswerId(id)
+
+    openModal(5)
+  }
+
+
 
 
   //necessary by the single page's modal
@@ -134,7 +147,7 @@ export function Questions() {
       handleCreateAnswer()
     break;
     case 5:
-      // handleUpdateAnswer()
+      handleUpdateAnswer()
     break;
     default:
       toast.error(`nada configurado para activeKey == ${activeKey}.`);
@@ -207,14 +220,15 @@ export function Questions() {
     
   }
 
-  async function handleUpdateAnswer(selectedId: string) {
+  async function handleUpdateAnswer() {
     const data = {
       resposta: resposta,
       resultado: pontuacao,
+      formato: formato,
       questionarioItemId: questionarioItemId,
     }
 
-    const isUpdated = await questionariosResposta.update(selectedId, data)
+    const isUpdated = await questionariosResposta.update(questionarioAnswerId, data)
 
     if (isUpdated) closeModal()
     handleLoadQuestions()
@@ -223,7 +237,7 @@ export function Questions() {
 
   async function handleDeleteAnswer(selectedId: string) {
     await questionariosResposta.delete(selectedId)
-    
+
     closeModal()
     handleLoadQuestions()
   }
@@ -264,7 +278,7 @@ export function Questions() {
 
 
 
-  function ScoreComponent({titleAvaliation, to, id}: PropsModal) {
+  function ScoreComponent({titleAvaliation, to, id, formato}: PropsModal) {
     return (
       <div>
         <div className="gridScore addBox">
@@ -272,7 +286,7 @@ export function Questions() {
           <span>{to}</span>
           <div>
             <button onClick={() => handleDeleteAnswer(id!)}><FiTrash2 /></button>
-            <button onClick={() => openModal(5)}><FiEdit /></button>
+            <button onClick={() => handleSetValuesAndOpenEditAnswer(titleAvaliation!, to!, id!, formato!)}><FiEdit /></button>
           </div>
         </div>
       </div>
@@ -427,10 +441,10 @@ export function Questions() {
                 <span>Resposta</span>
                 <span>Pontuação</span>
               </div>
-{
+              {
               questionariosAnswer.map(
                 answer => (
-                 <ScoreComponent titleAvaliation={answer.resposta} to={answer.resultado} id={answer.id}/>
+                 <ScoreComponent titleAvaliation={answer.resposta} to={answer.resultado} id={answer.id} formato={answer.formato}/>
 
                 )
               )}
@@ -463,10 +477,16 @@ export function Questions() {
 
           {activeKey === 5 && (
             <>
-              <TitleComponent title='Editar Resposta' />
-              <InputComponent title='Titulo'          />
-              <InputComponent title='De *%*'          />
-              <InputComponent title='Até *%*'         />
+            <div className='confgContainer'>
+              <TitleComponent title='Adicionar Resposta' />
+              <ConfigCheckTitle titleConfig='Resposta'   />
+              <div className="checkContainer">
+                <CheckBox checkBoxTitle='Númerico'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}   />
+                <CheckBox checkBoxTitle='Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" } />
+              </div>
+              <InputComponent title='Pontuação' onChange={(text :any) => setPontuacao(text)} value={pontuacao} />
+              <TextAreaComponent title='Titulo' onChange={(text :any) => setResposta(text)} value={resposta} />
+            </div>
             </>
           )}
 
