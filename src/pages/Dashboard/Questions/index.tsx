@@ -98,6 +98,16 @@ export function Questions() {
 ==========================================================================================================
 */
 
+  //
+  function handleSetValuesAndOpenEdit(nome: string, peso: string){
+    setNome(nome)
+    setPeso(peso)
+
+
+    openModal(3)
+  }
+
+
   //necessary by the single page's modal
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault()
@@ -176,7 +186,6 @@ export function Questions() {
   }, [])
 
   // subcrud functions
-
   async function handleCreateAnswer() {
     const data = {
       resposta: resposta,
@@ -342,7 +351,7 @@ export function Questions() {
                     <button className='delete'  onClick={() => handleDelete(question.id)}>
                       <FiTrash2 />
                     </button>
-                    <button onClick={() => openModal(3)} className='edit'>
+                    <button onClick={() => handleSetValuesAndOpenEdit(question.nome, question.peso)} className='edit'>
                       <FiEdit2 />
                     </button>
                   </div>
@@ -396,7 +405,7 @@ export function Questions() {
               <div className="flexBtn">
                 <h2>Perguntas</h2>
 
-                <button onClick={() => openModal(4)}><FiPlus /> Nova linha</button>
+                {/* <button onClick={() => openModal(4)}><FiPlus /> Nova linha</button> */}
               </div>
               <InputComponent title='Sua pergunta...'       onChange={(text :any) => setNome(text)} value={nome} />
               <InputComponent title='Peso da pergunta *%*'  onChange={(text :any) => setPeso(text)} value={peso}/>
@@ -424,13 +433,14 @@ export function Questions() {
           {activeKey === 3 && (
             <>
               <TitleComponent title='Editar avaliação ' />
-              <InputComponent title='Titulo'            />
+              <InputComponent title='Sua pergunta...'       onChange={(text :any) => setNome(text)} value={nome} />
+              <InputComponent title='Peso da pergunta *%*'  onChange={(text :any) => setPeso(text)} value={peso}/>
             </>
           )}
 
           {activeKey === 4 && (
             <div className='confgContainer'>
-              <TitleComponent title='Adicionar resposta' />
+              <TitleComponent title='Adicionar Resposta' />
               <ConfigCheckTitle titleConfig='Resposta'   />
               <div className="checkContainer">
                 <CheckBox checkBoxTitle='Númerico'     />
@@ -443,7 +453,7 @@ export function Questions() {
 
           {activeKey === 5 && (
             <>
-              <TitleComponent title='Editar score' />
+              <TitleComponent title='Editar Resposta' />
               <InputComponent title='Titulo'       />
               <InputComponent title='De *%*'       />
               <InputComponent title='Até *%*'      />
