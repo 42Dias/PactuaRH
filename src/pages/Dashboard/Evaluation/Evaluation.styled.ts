@@ -325,6 +325,18 @@ export const ContainerForm = styled.form`
     width: 750px;
   }
 
+  .checkContainer {
+    div {
+      display: flex;
+      gap: 0 10px;
+      align-items: center;
+      input[type='radio'] {
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+
   .addBox {
     padding: 0 8px;
     margin: 10px 0;

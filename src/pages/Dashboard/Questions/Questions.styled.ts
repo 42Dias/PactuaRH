@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import { theme } from 'config'
 
 export const LinksScore = styled.div`
+
+
   width: 100%;
   height: 10px;
   background: rgba(80, 200, 120, 0.4);
@@ -58,7 +60,11 @@ export const LinksScore = styled.div`
       border-radius: 100%;
       background: #b9e9c9;
     }
+
+    
   }
+
+
 `
 
 export const Container = styled.div`
@@ -214,6 +220,8 @@ export const ContainerForm = styled.form`
     font-size: 1.5rem;
     color: var(--text-title);
   }
+
+  
 
   input {
     margin: 10px 0;
