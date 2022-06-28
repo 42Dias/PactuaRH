@@ -96,6 +96,17 @@ export function Questions() {
 */
 
   //
+
+  function handleClearValuesAndOpenCreate(){
+    setSelectedId("")
+    setNome("")
+    setPeso("")
+
+    openModal(1)
+  }
+
+
+  
   function handleSetValuesAndOpenEdit(id: string, nome: string, peso: string){
     setSelectedId(id)
     setNome(nome)
@@ -121,7 +132,6 @@ export function Questions() {
 
     openModal(4)
   }
-  
 
 
   function handleSetValuesAndOpenEditAnswer( pontuacao: string | number ,resposta: string | number, id: string, formato: string){
@@ -360,7 +370,7 @@ export function Questions() {
           <S.FlexInit>
             <h2>Perguntas do Questionário 1</h2>
 
-            <button onClick={() => openModal(1)}>
+            <button onClick={() => handleClearValuesAndOpenCreate()}>
               <FiPlus /> Nova pergunta
             </button>
           </S.FlexInit>
