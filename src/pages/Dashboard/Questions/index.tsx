@@ -113,6 +113,17 @@ export function Questions() {
   }
 
 
+  function handleClearValuesAndOpenCreateAnswer(){
+    setPontuacao("") 
+    setResposta("")
+    setFormato("")
+    setQuestionarioAnswerId("")
+
+    openModal(4)
+  }
+  
+
+
   function handleSetValuesAndOpenEditAnswer( pontuacao: string | number ,resposta: string | number, id: string, formato: string){
     setPontuacao(pontuacao) 
     setResposta(resposta)
@@ -434,7 +445,7 @@ export function Questions() {
 						<div className='confgContainer'>
               <TitleComponent title='Configurar' />
               <div className="flexBtn">
-                <button onClick={() => openModal(4)}><FiPlus /> Novo</button>
+                <button onClick={() => handleClearValuesAndOpenCreateAnswer()}><FiPlus /> Novo</button>
               </div>
 
               <div className="gridScore">{questionariosAnswer.length}
