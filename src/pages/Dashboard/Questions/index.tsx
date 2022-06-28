@@ -99,10 +99,10 @@ export function Questions() {
 */
 
   //
-  function handleSetValuesAndOpenEdit(nome: string, peso: string){
+  function handleSetValuesAndOpenEdit(id: string, nome: string, peso: string){
     setNome(nome)
     setPeso(peso)
-
+    setSelectedId(id)
 
     openModal(3)
   }
@@ -123,7 +123,7 @@ export function Questions() {
       // updateSecondary()
       break;
     case 3:
-      // handleUpdate()
+      handleUpdate()
       break;
     case 4:
       // handleCreateAnswer()
@@ -158,7 +158,7 @@ export function Questions() {
     await handleLoadQuestions()
   }
 
-  async function handleUpdate(selectedId: string) {
+  async function handleUpdate() {
 
     const data = {
       nome: nome,
@@ -351,7 +351,7 @@ export function Questions() {
                     <button className='delete'  onClick={() => handleDelete(question.id)}>
                       <FiTrash2 />
                     </button>
-                    <button onClick={() => handleSetValuesAndOpenEdit(question.nome, question.peso)} className='edit'>
+                    <button onClick={() => handleSetValuesAndOpenEdit(question.id, question.nome, question.peso)} className='edit'>
                       <FiEdit2 />
                     </button>
                   </div>
