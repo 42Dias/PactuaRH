@@ -51,7 +51,7 @@ export function Questions() {
   const [questionariosAnswer, setQuestionariosAnswer] = useState<any[]>([])
   
   const [resposta   ,setResposta   ] = useState<string>('')
-  const [pontuacao   ,setPontuacao   ] = useState<string>('')
+  const [pontuacao  ,setPontuacao   ] = useState<string>('')
 
 
 /*
@@ -152,6 +152,7 @@ export function Questions() {
 
     const data = {
       nome: nome,
+      peso: peso,
       descricao: descricao,
       questionarioId: id,
     }
@@ -338,7 +339,7 @@ export function Questions() {
                       <FiSettings />
                       <span>Configurar</span>
                     </button>
-                    <button className='delete'>
+                    <button className='delete'  onClick={() => handleDelete(question.id)}>
                       <FiTrash2 />
                     </button>
                     <button onClick={() => openModal(3)} className='edit'>
@@ -414,7 +415,7 @@ export function Questions() {
                 <span>Pontuação</span>
               </div>
 
-              <ScoreComponent titleAvaliation='Baixo desempenho' to='50%' />
+              <ScoreComponent titleAvaliation='Baixo desempenho' to='50%'           />
               <ScoreComponent titleAvaliation='Desempenho esperado' to='600 pontos' />
               <ScoreComponent titleAvaliation='Desempenho acima da média' to='100%' />
             </div >
@@ -423,19 +424,19 @@ export function Questions() {
           {activeKey === 3 && (
             <>
               <TitleComponent title='Editar avaliação ' />
-              <InputComponent title='Titulo' />
+              <InputComponent title='Titulo'            />
             </>
           )}
 
           {activeKey === 4 && (
             <div className='confgContainer'>
               <TitleComponent title='Adicionar resposta' />
-              <ConfigCheckTitle titleConfig='Resposta' />
+              <ConfigCheckTitle titleConfig='Resposta'   />
               <div className="checkContainer">
-                <CheckBox checkBoxTitle='Númerico' />
+                <CheckBox checkBoxTitle='Númerico'     />
                 <CheckBox checkBoxTitle='Não númerico' />
               </div>
-              <InputComponent title='Pontuação' />
+              <InputComponent title='Pontuação'  />
               <TextAreaComponente title='Titulo' />
             </div>
           )}
@@ -443,9 +444,9 @@ export function Questions() {
           {activeKey === 5 && (
             <>
               <TitleComponent title='Editar score' />
-              <InputComponent title='Titulo' />
-              <InputComponent title='De *%*' />
-              <InputComponent title='Até *%*' />
+              <InputComponent title='Titulo'       />
+              <InputComponent title='De *%*'       />
+              <InputComponent title='Até *%*'      />
             </>
           )}
 
