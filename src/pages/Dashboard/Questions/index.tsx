@@ -22,7 +22,11 @@ interface PropsModal {
 }
 
 export function Questions() {
-
+/*
+==========================================================================================================
+                                        STATES
+==========================================================================================================
+*/
   //questionaryId
   const id = useParams().id 
 
@@ -40,6 +44,12 @@ export function Questions() {
   const [questionarioItemId, setQuestionarioItemId] = useState<string>('')
   
 
+
+/*
+==========================================================================================================
+                                        Modal Functions
+==========================================================================================================
+*/
 	const openModal = (activeKey:any) => {
 		if (activeKey === 1) {
       setActiveTabKey(activeKey)
