@@ -1,9 +1,14 @@
 import { FiEdit, FiEdit2, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './Questions.styled'
+import CheckBox from 'ui/components/CheckBox' 
+
+import { useEffect, useState } from 'react'
+import questionarioItem from 'service/questionarioItem/questionarioItem'
+
+
 import { Switch } from 'antd'
-import { useState } from 'react'
 import Modal from 'react-modal'
 
 interface PropsModal {
@@ -18,23 +23,45 @@ interface PropsModal {
 
 export function Questions() {
 
+  //questionaryId
+  const id = useParams().id 
+
+  
   const [modalIsOpen, setIsOpen] = useState(false)
   const [activeKey, setActiveTabKey] = useState();
+
+  const [nome      , setNome     ] = useState<string>('')
+  const [descricao ,setDescricao ] = useState<string>('')
+  const [selectedId,setSelectedId] = useState<string>('')
+  const [Questions  ,setQuestions  ] = useState<any[]>([])
+  const [subArea   ,setSubArea   ] = useState<boolean>(false)
+  const [areaPai   ,setAreaPai   ] = useState<string>('')
+
+  const [questionarioItemId, setQuestionarioItemId] = useState<string>('')
+  
 
 	const openModal = (activeKey:any) => {
 		if (activeKey === 1) {
       setActiveTabKey(activeKey)
 			setIsOpen(!modalIsOpen);
-		} else if(activeKey === 2) {
+		}
+    
+    else if(activeKey === 2) {
       setActiveTabKey(activeKey)
       setIsOpen(!modalIsOpen);
-    } else if (activeKey === 3) {
+    }
+    
+    else if (activeKey === 3) {
       setActiveTabKey(activeKey)
       setIsOpen(!modalIsOpen);
-    } else if (activeKey === 4) {
+    }
+    
+    else if (activeKey === 4) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
-    } else if (activeKey === 5) {
+    }
+    
+    else if (activeKey === 5) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
     }
@@ -43,6 +70,9 @@ export function Questions() {
   function closeModal() {
     setIsOpen(false)
   }
+
+
+
 
   function Status() {
     const [isActiveColor, setIsActiveColor] = useState(false)
@@ -100,14 +130,7 @@ export function Questions() {
     )
   }
 
-  function CheckBox({checkBoxTitle}: PropsModal) {
-    return (
-      <div>
-        <input type="checkbox" />
-        <small>{checkBoxTitle}</small>
-      </div>
-    )
-  }
+  
 
   function ConfigCheckTitle({titleConfig}: PropsModal) {
     return (
@@ -185,22 +208,8 @@ export function Questions() {
             </div>
           </div>
 
-          <div className='box-avaliacoes'>
-            <span>...?</span>
-            <div className='flex-configs'>
-              <button onClick={() => openModal(2)} className='settings'>
-                <FiSettings />
-                <span>Configurar</span>
-              </button>
-              <button className='delete'>
-                <FiTrash2 />
-              </button>
-              <button onClick={() => openModal(3)} className='edit'>
-                <FiEdit2 />
-              </button>
-            </div>
-          </div>
 
+          {/*
           <div className='box-avaliacoes'>
             <span>...?</span>
             <div className='flex-configs'>
@@ -216,6 +225,9 @@ export function Questions() {
               </button>
             </div>
           </div>
+          */}
+
+
         </S.Container>
       </S.Body>
 
