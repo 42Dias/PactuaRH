@@ -397,7 +397,9 @@ export function Evaluation() {
           </S.LinksContainer>
 
           <S.FlexInit>
-            <h2>Avaliação</h2>
+            <h2>
+              Questionário
+            </h2>
 
             <button onClick={() => handleOpenCreateModal()}>
               <FiPlus /> Novo
