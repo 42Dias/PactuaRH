@@ -13,18 +13,9 @@ import Modal from 'react-modal'
 import questionariosResposta from 'service/questionarioResposta/questionarioResposta'
 import { toast } from 'react-toastify'
 import InputComponent from 'ui/components/InputComponent'
-import { iQuestoes } from 'types'
+import { iQuestoes, PropsModal } from 'types'
 import TextAreaComponent from 'ui/components/TextAreaComponent'
 
-interface PropsModal {
-  title?: string;
-  value?: string;
-  valueModal?: number;
-  titleConfig?: string;
-  checkBoxTitle?: string;
-  titleAvaliation?: string;
-  to?: string;
-}
 
 export function Questions() {
 /*
@@ -114,10 +105,10 @@ export function Questions() {
 
 
   function handleSetValuesAndOpenSettings(id: string, answer: iQuestoes[] ){
-    setSelectedId(id)
+    setQuestionarioItemId(id)
     setQuestionariosAnswer(answer)
 
-
+ 
     openModal(2)
   }
 
@@ -211,6 +202,8 @@ export function Questions() {
     const isCreated = await questionariosResposta.create(data)
 
     if (isCreated) closeModal()
+
+    handleLoadQuestions()
     
   }
 
@@ -224,11 +217,15 @@ export function Questions() {
     const isUpdated = await questionariosResposta.update(selectedId, data)
 
     if (isUpdated) closeModal()
+    handleLoadQuestions()
     
   }  
 
   async function handleDeleteAnswer(selectedId: string) {
     await questionariosResposta.delete(selectedId)
+    
+    closeModal()
+    handleLoadQuestions()
   }
 
 
@@ -267,14 +264,14 @@ export function Questions() {
 
 
 
-  function ScoreComponent({titleAvaliation, to}: PropsModal) {
+  function ScoreComponent({titleAvaliation, to, id}: PropsModal) {
     return (
       <div>
         <div className="gridScore addBox">
           <span>{titleAvaliation}</span>
           <span>{to}</span>
           <div>
-            <button><FiTrash2 /></button>
+            <button onClick={() => handleDeleteAnswer(id!)}><FiTrash2 /></button>
             <button onClick={() => openModal(5)}><FiEdit /></button>
           </div>
         </div>
@@ -351,7 +348,7 @@ export function Questions() {
                   <span> {question.nome } </span>
 
                   <div className='flex-configs'>
-                    <button onClick={() => openModal(2)} className='settings'>
+                    <button onClick={() => handleSetValuesAndOpenSettings(question.id, question.questionarioResposta)} className='settings'>
                       <FiSettings />
                       <span>Configurar</span>
                     </button>
@@ -426,14 +423,20 @@ export function Questions() {
                 <button onClick={() => openModal(4)}><FiPlus /> Novo</button>
               </div>
 
-              <div className="gridScore">3
+              <div className="gridScore">{questionariosAnswer.length}
                 <span>Resposta</span>
                 <span>Pontuação</span>
               </div>
+{
+              questionariosAnswer.map(
+                answer => (
+                 <ScoreComponent titleAvaliation={answer.resposta} to={answer.resultado} id={answer.id}/>
 
-              <ScoreComponent titleAvaliation='Baixo desempenho' to='50%'           />
+                )
+              )}
+              {/* 
               <ScoreComponent titleAvaliation='Desempenho esperado' to='600 pontos' />
-              <ScoreComponent titleAvaliation='Desempenho acima da média' to='100%' />
+              <ScoreComponent titleAvaliation='Desempenho acima da média' to='100%' /> */}
             </div >
 					)}
 
