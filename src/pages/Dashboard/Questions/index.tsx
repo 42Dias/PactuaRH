@@ -12,6 +12,7 @@ import { Switch } from 'antd'
 import Modal from 'react-modal'
 import questionariosResposta from 'service/questionarioResposta/questionarioResposta'
 import { toast } from 'react-toastify'
+import InputComponent from 'ui/components/InputComponent'
 
 interface PropsModal {
   title?: string;
@@ -243,14 +244,6 @@ export function Questions() {
     return <h1>{title}</h1>
   }
 
-  function InputComponent({ value }: PropsModal) {
-    return (
-      <>
-        <label>{value}</label>
-        <input placeholder={value} />
-      </>
-    )
-  }
 
   function TextAreaComponente({value}: PropsModal) {
     return (
@@ -408,8 +401,8 @@ export function Questions() {
 
                 <button onClick={() => openModal(4)}><FiPlus /> Nova linha</button>
               </div>
-              <InputComponent value='Sua pergunta...' />
-              <InputComponent value='Peso da pergunta *%*' />
+              <InputComponent title='Sua pergunta...'       onChange={(text :any) => setNome(text)} value={nome} />
+              <InputComponent title='Peso da pergunta *%*' />
             </div>
 					)}
 
@@ -434,7 +427,7 @@ export function Questions() {
           {activeKey === 3 && (
             <>
               <TitleComponent title='Editar avaliação ' />
-              <InputComponent value='Titulo' />
+              <InputComponent title='Titulo' />
             </>
           )}
 
@@ -446,17 +439,17 @@ export function Questions() {
                 <CheckBox checkBoxTitle='Númerico' />
                 <CheckBox checkBoxTitle='Não númerico' />
               </div>
-              <InputComponent value='Pontuação' />
-              <TextAreaComponente value='Titulo' />
+              <InputComponent title='Pontuação' />
+              <TextAreaComponente title='Titulo' />
             </div>
           )}
 
           {activeKey === 5 && (
             <>
               <TitleComponent title='Editar score' />
-              <InputComponent value='Titulo' />
-              <InputComponent value='De *%*' />
-              <InputComponent value='Até *%*' />
+              <InputComponent title='Titulo' />
+              <InputComponent title='De *%*' />
+              <InputComponent title='Até *%*' />
             </>
           )}
 
