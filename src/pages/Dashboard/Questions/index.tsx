@@ -13,6 +13,7 @@ import Modal from 'react-modal'
 import questionariosResposta from 'service/questionarioResposta/questionarioResposta'
 import { toast } from 'react-toastify'
 import InputComponent from 'ui/components/InputComponent'
+import { iQuestoes } from 'types'
 
 interface PropsModal {
   title?: string;
@@ -100,11 +101,20 @@ export function Questions() {
 
   //
   function handleSetValuesAndOpenEdit(id: string, nome: string, peso: string){
+    setSelectedId(id)
     setNome(nome)
     setPeso(peso)
-    setSelectedId(id)
 
     openModal(3)
+  }
+
+
+  function handleSetValuesAndOpenSettings(id: string, answer: iQuestoes[] ){
+    setSelectedId(id)
+    setQuestionariosAnswer(answer)
+
+
+    openModal(2)
   }
 
 
