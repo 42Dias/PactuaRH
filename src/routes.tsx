@@ -75,12 +75,6 @@ const RoutesApp = () => {
           <Route path='/respostas/:id' element={<QuestionnairesAnswer />} />
           <Route path='/respostas/:id' element={<MyAvaliations />} />
           <Route path='/MyAvaliations' element={<MyAvaliations />} />
-          <Route path='/minhas-avaliacoes' element={<Assessments />} />
-          <Route path='/cadastro-de-avaliacao' element={<EvaluationRecord />} />
-          <Route path='/avaliacao' element={<Evaluation />} />
-          <Route path='/perguntas' element={<Questions />} />
-          <Route path='/minhas-avaliacoes/1' element={<MyRatings />} />
-          <Route path='/respostas' element={<Answer />} />
           
           <Route
           path='/questionario-perguntas/:id' element={<QuestionaryQuestions />}
@@ -88,6 +82,17 @@ const RoutesApp = () => {
           <Route
             path='/questionario-score/:id'   element={<QuestionaryScore />}
           />
+
+
+          <Route path='/minhas-avaliacoes' element={<Assessments />} />
+          <Route path='/cadastro-de-avaliacao' element={<EvaluationRecord />} />
+          <Route path='/avaliacao'             element={<Evaluation />} />
+          <Route path='/avaliacao/:id'         element={<Evaluation />} />
+          <Route path='/perguntas'             element={<Questions />} />
+          <Route path='/perguntas/:id'         element={<Questions />} />
+          <Route path='/minhas-avaliacoes/:id' element={<MyRatings />} />
+          <Route path='/minhas-avaliacoes/1'   element={<MyRatings />} />
+          <Route path='/respostas'             element={<Answer />} />
         </Routes>
       </BrowserRouter>
     </>
