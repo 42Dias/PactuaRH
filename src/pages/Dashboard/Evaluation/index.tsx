@@ -19,7 +19,7 @@ export function Evaluation() {
 ==========================================================================================================
                                         STATES
 ==========================================================================================================
-*/
+*/ 
 
   const avaliationId  = useParams().id;
   
@@ -108,7 +108,7 @@ export function Evaluation() {
   }
 
 
-  function handleOpenSettingsModal(id: string, score?: any){
+  function handleOpenSettingsModal(id: string, score?: any, nome?: string){
 
     setId(id)
     setSelectedScore(score?.id)
@@ -116,6 +116,8 @@ export function Evaluation() {
     setSubItens(score?.item)      
     setFormato(score?.formato)
     setTipo(score?.tipo)
+
+    setNome(nome)
 
     openModal(2)
   }
@@ -228,7 +230,7 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
     const data = {
       de: de, 
       ate: ate,
-      nome: titulo,
+      nome: nome,
       score: score,
       formato: formato,
       tipo: tipo,
@@ -419,10 +421,6 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
               <FiPlus /> Novo
             </button>
           </S.FlexInit>
-
-          <div>
-            <Switch defaultChecked />
-          </div>
           
           {
           questionario.map(
@@ -431,7 +429,7 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
             <div className='box-avaliacoes' key={questioryItem.id}>
               <Link to={`/perguntas/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0])} className='settings'>
+                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0], questioryItem.nome)} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
