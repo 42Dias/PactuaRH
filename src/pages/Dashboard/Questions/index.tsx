@@ -14,6 +14,7 @@ import questionariosResposta from 'service/questionarioResposta/questionarioResp
 import { toast } from 'react-toastify'
 import InputComponent from 'ui/components/InputComponent'
 import { iQuestoes } from 'types'
+import TextAreaComponent from 'ui/components/TextAreaComponent'
 
 interface PropsModal {
   title?: string;
@@ -53,6 +54,9 @@ export function Questions() {
   
   const [resposta   ,setResposta   ] = useState<string>('')
   const [pontuacao  ,setPontuacao   ] = useState<string>('')
+
+  const [formato, setFormato] = useState<string>('')
+
 
 
 /*
@@ -136,7 +140,7 @@ export function Questions() {
       handleUpdate()
       break;
     case 4:
-      // handleCreateAnswer()
+      handleCreateAnswer()
     break;
     case 5:
       // handleUpdateAnswer()
@@ -200,6 +204,7 @@ export function Questions() {
     const data = {
       resposta: resposta,
       resultado: pontuacao,
+      formato: formato,
       questionarioItemId: questionarioItemId,
     }
 
@@ -261,14 +266,6 @@ export function Questions() {
   }
 
 
-  function TextAreaComponente({value}: PropsModal) {
-    return (
-      <>
-        <label>{value}</label>
-        <textarea placeholder={value}></textarea>
-      </>
-    )
-  }
 
   function ScoreComponent({titleAvaliation, to}: PropsModal) {
     return (
@@ -429,7 +426,7 @@ export function Questions() {
                 <button onClick={() => openModal(4)}><FiPlus /> Novo</button>
               </div>
 
-              <div className="gridScore">
+              <div className="gridScore">3
                 <span>Resposta</span>
                 <span>Pontuação</span>
               </div>
@@ -453,20 +450,20 @@ export function Questions() {
               <TitleComponent title='Adicionar Resposta' />
               <ConfigCheckTitle titleConfig='Resposta'   />
               <div className="checkContainer">
-                <CheckBox checkBoxTitle='Númerico'     />
-                <CheckBox checkBoxTitle='Não númerico' />
+                <CheckBox checkBoxTitle='Númerico'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}   />
+                <CheckBox checkBoxTitle='Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" } />
               </div>
-              <InputComponent title='Pontuação'  />
-              <TextAreaComponente title='Titulo' />
+              <InputComponent title='Pontuação' onChange={(text :any) => setPontuacao(text)} value={pontuacao} />
+              <TextAreaComponent title='Titulo' onChange={(text :any) => setResposta(text)} value={resposta} />
             </div>
           )}
 
           {activeKey === 5 && (
             <>
               <TitleComponent title='Editar Resposta' />
-              <InputComponent title='Titulo'       />
-              <InputComponent title='De *%*'       />
-              <InputComponent title='Até *%*'      />
+              <InputComponent title='Titulo'          />
+              <InputComponent title='De *%*'          />
+              <InputComponent title='Até *%*'         />
             </>
           )}
 
