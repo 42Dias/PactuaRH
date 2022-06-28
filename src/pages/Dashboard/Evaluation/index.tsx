@@ -138,6 +138,19 @@ function handleClearValuesAndOpenCreateScore(){
   openModal(4)
 }
 
+
+
+  
+function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: string | number , titleAvaliation: string){
+  setSelectedScoreItem(id)
+  setDe(to!)
+  setAte(from!)
+  setTitulo(titleAvaliation!)
+
+  openModal(5)
+}
+
+
   //necessary by the single page's modal
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -318,15 +331,7 @@ function handleClearValuesAndOpenCreateScore(){
             <button onClick={() => handleDeleteSubItem(id!)}>
               <FiTrash2 />
             </button>
-            <button onClick={() => {
-              
-              setSelectedScoreItem(id)
-              setDe(to!)
-              setAte(from!)
-              setTitulo(titleAvaliation!)
-
-              openModal(5)
-              }
+            <button onClick={() => handleSetValuesAndOpenEditScore(id! ,to! ,from! ,titleAvaliation!)   
             }>
               <FiEdit />
             </button>
