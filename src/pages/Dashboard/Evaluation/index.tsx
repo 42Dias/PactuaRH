@@ -129,6 +129,15 @@ export function Evaluation() {
 ==========================================================================================================
 */
 
+
+function handleClearValuesAndOpenCreateScore(){
+  setTitulo("")
+  setDe("")
+  setAte("")
+
+  openModal(4)
+}
+
   //necessary by the single page's modal
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -480,12 +489,7 @@ export function Evaluation() {
               <div className="flexBtn">
                 <h2>Score</h2>
 
-                <button onClick={() => {
-                  openModal(4)
-                  setTitulo("")
-                  setDe("")
-                  setAte("")
-                  }}><FiPlus /> Novo</button>
+                <button onClick={() => handleClearValuesAndOpenCreateScore()}><FiPlus /> Novo</button>
               </div>
 
               <div className="gridScore">
