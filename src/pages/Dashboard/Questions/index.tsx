@@ -10,6 +10,7 @@ import questionarioItem from 'service/questionarioItem/questionarioItem'
 
 import { Switch } from 'antd'
 import Modal from 'react-modal'
+import questionariosResposta from 'service/questionarioResposta/questionarioResposta'
 
 interface PropsModal {
   title?: string;
@@ -38,11 +39,15 @@ export function Questions() {
   const [descricao ,setDescricao ] = useState<string>('')
   const [selectedId,setSelectedId] = useState<string>('')
   const [Questions  ,setQuestions  ] = useState<any[]>([])
-  const [subArea   ,setSubArea   ] = useState<boolean>(false)
-  const [areaPai   ,setAreaPai   ] = useState<string>('')
 
-  const [questionarioItemId, setQuestionarioItemId] = useState<string>('')
+
   
+  
+  const [questionarioItemId, setQuestionarioItemId] = useState<string>('')
+  const [QuestionariosAnswer, setquestionariosAnswer] = useState<any[]>([])
+  
+  const [resposta   ,setResposta   ] = useState<string>('')
+  const [pontuacao   ,setPontuacao   ] = useState<string>('')
 
 
 /*
@@ -81,6 +86,107 @@ export function Questions() {
     setIsOpen(false)
   }
 
+
+
+/*
+==========================================================================================================
+                                          CRUD FUNCTIONS 
+==========================================================================================================
+*/
+
+
+  async function handleLoadQuestions() {
+    const allQuestions = await questionarioItem.listWithFilter("questionarioId", id)
+
+    setQuestions(allQuestions)
+  }
+
+  async function handleCreate() {
+    const data = {
+      nome: nome,
+      descricao: descricao,
+      questionarioId: id,
+    }
+    
+    const isCreated = await questionarioItem.create(data)
+
+    if (isCreated) closeModal()
+    await handleLoadQuestions()
+  }
+
+  async function handleUpdate(selectedId: string) {
+
+    const data = {
+      nome: nome,
+      descricao: descricao,
+      questionarioId: id,
+    }
+
+    const isUpdated = await questionarioItem.update(selectedId, data)
+
+    if (isUpdated) closeModal()
+    await handleLoadQuestions()
+  }
+
+
+  async function handleDelete(selectedId: string) {
+    await questionarioItem.delete(selectedId)
+
+    handleLoadQuestions()
+  }
+
+
+  useEffect(() => {
+    handleLoadQuestions()
+  }, [])
+
+  // subcrud functions
+  async function handleLoadquestionariosAnswer() {
+    const allquestionariosAnswer = await questionariosResposta.listWithFilter("questionarioItemId", id)
+
+    setquestionariosAnswer(allquestionariosAnswer)
+  }
+
+  async function handleCreateAnswer() {
+    const data = {
+      resposta: resposta,
+      resultado: pontuacao,
+      questionarioItemId: questionarioItemId,
+    }
+
+    const isCreated = await questionariosResposta.create(data)
+
+    if (isCreated) closeModal()
+    await handleLoadquestionariosAnswer()
+  }
+
+  async function handleUpdateAnswer(selectedId: string) {
+    const data = {
+      resposta: resposta,
+      resultado: pontuacao,
+      questionarioItemId: questionarioItemId,
+    }
+
+    const isUpdated = await questionariosResposta.update(selectedId, data)
+
+    if (isUpdated) closeModal()
+    await handleLoadquestionariosAnswer()
+  }  
+
+  async function handleDeleteAnswer(selectedId: string) {
+    await questionariosResposta.delete(selectedId)
+
+    handleLoadquestionariosAnswer()
+  }
+
+
+
+
+/*
+==========================================================================================================
+                                  Page's SubComponents 
+==========================================================================================================
+*/
 
 
 
