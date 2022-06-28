@@ -11,6 +11,7 @@ import questionarioItem from 'service/questionarioItem/questionarioItem'
 import { Switch } from 'antd'
 import Modal from 'react-modal'
 import questionariosResposta from 'service/questionarioResposta/questionarioResposta'
+import { toast } from 'react-toastify'
 
 interface PropsModal {
   title?: string;
@@ -33,12 +34,12 @@ export function Questions() {
 
   
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [activeKey, setActiveTabKey] = useState();
+  const [activeKey, setActiveTabKey] = useState<number>(0);
 
   const [nome      , setNome     ] = useState<string>('')
   const [descricao ,setDescricao ] = useState<string>('')
   const [selectedId,setSelectedId] = useState<string>('')
-  const [Questions  ,setQuestions  ] = useState<any[]>([])
+  const [questions  ,setQuestions  ] = useState<any[]>([])
 
 
   
@@ -93,6 +94,35 @@ export function Questions() {
                                           CRUD FUNCTIONS 
 ==========================================================================================================
 */
+
+  //necessary by the single page's modal
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
+
+  console.log("id")
+  console.log(id)
+
+  switch (activeKey) {
+    case 1:
+      handleCreate()
+      break;
+    case 2:
+      // updateSecondary()
+      break;
+    case 3:
+      // handleUpdate()
+      break;
+    case 4:
+      // handleCreateAnswer()
+    break;
+    case 5:
+      // handleUpdateAnswer()
+    break;
+    default:
+      toast.error(`nada configurado para activeKey == ${activeKey}.`);
+  }
+
+  }
 
 
   async function handleLoadQuestions() {
@@ -307,23 +337,29 @@ export function Questions() {
             </button>
           </S.FlexInit>
 
-          <div className='box-avaliacoes'>
-            <span>...?</span>
 
-            <div className='flex-configs'>
-              <button onClick={() => openModal(2)} className='settings'>
-                <FiSettings />
-                <span>Configurar</span>
-              </button>
-              <button className='delete'>
-                <FiTrash2 />
-              </button>
-              <button onClick={() => openModal(3)} className='edit'>
-                <FiEdit2 />
-              </button>
-            </div>
-          </div>
+          {
+          questions.map(
+            ( question ) => (
+                <div className='box-avaliacoes'>
+                  <span> {question.nome } </span>
 
+                  <div className='flex-configs'>
+                    <button onClick={() => openModal(2)} className='settings'>
+                      <FiSettings />
+                      <span>Configurar</span>
+                    </button>
+                    <button className='delete'>
+                      <FiTrash2 />
+                    </button>
+                    <button onClick={() => openModal(3)} className='edit'>
+                      <FiEdit2 />
+                    </button>
+                  </div>
+                </div>
+            )
+          )
+          }
 
           {/*
           <div className='box-avaliacoes'>
@@ -362,7 +398,7 @@ export function Questions() {
         </button>
 
         <S.ContainerForm
-          // onSubmit={handleCreateNewTransaction}
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
         >
           
           {activeKey === 1 && (
