@@ -6,6 +6,7 @@ import { Switch } from 'antd'
 import { useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes } from 'types'
+import questionarios from 'service/questionarios/questionarios'
 
 
 export function MyRatings() {
@@ -16,19 +17,22 @@ export function MyRatings() {
                                         STATES
 ==========================================================================================================
 */
-
-
-/*
-==========================================================================================================
-                                      Modal Functions
-==========================================================================================================
-*/
+  //PageComponents States
+  const [questionario     , setQuestionario     ] = useState<iQuestoes[] | any>([])
 
 /*
 ==========================================================================================================
                                     CRUD FUNCTIONS 
 ==========================================================================================================
 */
+
+  async function handleLoadAnswerQuestionary() {
+    const allAnswerQuestionary = await questionarios.list()
+
+    setQuestionario(allAnswerQuestionary)
+  }
+
+
 
 /*
 ==========================================================================================================
