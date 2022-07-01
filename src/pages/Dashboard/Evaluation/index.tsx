@@ -322,18 +322,18 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
   
   
 
-  function ScoreComponent({titleAvaliation, from, to, id}: PropsModal) {
+  function ScoreComponent({titleAvaliation, from, to, id, }: PropsModal) {
     return (
       <div>
         <div className="gridScore addBox">
           <span>{titleAvaliation}</span>
-          <span>{from}%</span>
-          <span>{to}%</span>
+          <span>{from} {tipo === "porcentagem" && "%"} </span>
+          <span>{to  } {tipo === "porcentagem" && "%"} </span>
           <div>
             <button onClick={() => handleDeleteSubItem(id!)}>
               <FiTrash2 />
             </button>
-            <button onClick={() => handleSetValuesAndOpenEditScore(id! ,to! ,from! ,titleAvaliation!)   
+            <button onClick={() => handleSetValuesAndOpenEditScore(id! ,from! ,to! ,titleAvaliation!)   
             }>
               <FiEdit />
             </button>
@@ -406,15 +406,32 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
 
         <S.Container>
           <S.LinksContainer>
-            <Link to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
-            <Link className='active-class' to='/avaliacao'>Questionário &gt;</Link>
-            <Link to='/perguntas'>Perguntas &gt;</Link>
-            <Link to='/'>Resposta</Link>
+            <Link 
+            to='/cadastro-de-avaliacao'
+            >
+              Avaliação &gt;
+            </Link>
+            <p 
+            className='active-class' 
+            // to='/avaliacao'
+            >
+              Questionário &gt;
+            </p>
+            <p 
+            // to='/perguntas'
+            >
+              Perguntas &gt;
+            </p>
+            <p 
+            // to='/'
+            >
+              Resposta
+            </p>
           </S.LinksContainer>
 
           <S.FlexInit>
             <h2>
-              Questionário
+            Iniciativa ou KPI
             </h2>
 
             <button onClick={() => handleOpenCreateModal()}>
@@ -477,9 +494,16 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
           {activeKey === 2 && (
 						<div className='confgContainer'>
               <TitleComponent title='Configurar' />
+
+              <br />
+              <br />
+              <br />
+              <br />
+
+              
               <ConfigCheckTitle titleConfig='Avaliação' />
               <div className="checkContainer">
-                <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}      />
+                <CheckBox value="numerico"     checkBoxTitle='Númerico (KPI)'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}      />
                 <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" }  />
               </div>
 
