@@ -1,9 +1,11 @@
 import { FiCornerDownLeft, FiEdit, FiEdit2, FiPlay, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './Answer.styled'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
+import questionarioItem from 'service/questionarioItem/questionarioItem'
+import { iQuestoes } from 'types'
 
 export function Answer() {
 
@@ -12,7 +14,12 @@ export function Answer() {
                                         STATES
 ==========================================================================================================
 */
+
+
+  const { id } = useParams()
+  
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [questions     , setQuestions     ] = useState<iQuestoes[]>([])
 
 
 
@@ -21,6 +28,15 @@ export function Answer() {
                                       CRUD FUNCTIONS 
 ==========================================================================================================
 */
+
+
+  async function handleLoadAnswerQuestionary() {
+    const allAnswerQuestionary = await questionarioItem.listWithFilter("questionarioId", id)
+
+    setQuestions(allAnswerQuestionary)
+  }
+
+
 
 /*
 ==========================================================================================================
@@ -41,6 +57,11 @@ export function Answer() {
                                       Modal Functions 
 ==========================================================================================================
 */
+  useEffect(
+    () => {
+      handleLoadAnswerQuestionary()
+    }, []
+  )
 
   function openModal () {
     setIsOpen(!modalIsOpen);
