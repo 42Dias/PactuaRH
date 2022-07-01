@@ -31,21 +31,32 @@ export interface iNiveis extends iData {
 }
 
 export interface iQuestoes extends iData {
+  avaliacaoScore: any
   nome: string
   pergunta: string
   tipoDeResposta: string
   obrigatorio: boolean
   tipo: string
+  
+  de:   number | undefined,
+  ate:  number | undefined,
+  
+  pontos: iQuestoes[]
+  questionarioScore: iQuestoes[],
+  item: iQuestoes
 }
 
 
 export interface PropsModal {
   title?: string;
-  value?: string;
+  value?: string | number | undefined;
   valueModal?: number;
   titleConfig?: string;
   checkBoxTitle?: string;
   titleAvaliation?: string;
+  id?: string;
+  formato?: string;
+  pontuacao?: string;
   from?: number;
   to?: number;
   onChange?: (e?: string) => string | undefined | void;
