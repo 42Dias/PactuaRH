@@ -181,8 +181,9 @@ export const LinksContainer = styled.div`
     color: #2d2d2d;
   }
 
-  a {
+  a, p {
     color: #b3b3b3;
+    margin-bottom: 0;
 
     transition: all 0.2s ease-in;
 
