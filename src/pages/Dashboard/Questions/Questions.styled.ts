@@ -185,8 +185,9 @@ export const LinksContainer = styled.div`
     color: #2d2d2d;
   }
 
-  a {
+  a, p {
     color: #b3b3b3;
+    margin-bottom: 0;
 
     transition: all 0.2s ease-in;
 
@@ -356,10 +357,22 @@ export const ContainerForm = styled.form`
     align-items: center;
     height: 60px;
 
+
+    span{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      line-clamp: 2; 
+      -webkit-box-orient: vertical;
+      
+    }
+
     div {
       display: flex;
       gap: 0 20px;
       margin-left: auto;
+
 
       button {
         width: 40px;
