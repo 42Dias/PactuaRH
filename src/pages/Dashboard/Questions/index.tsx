@@ -47,7 +47,7 @@ export function Questions() {
   const [resposta   ,setResposta   ] = useState<string | number>('')
   const [pontuacao  ,setPontuacao   ] = useState<string | number>('')
 
-  const [formato, setFormato] = useState<string>('')
+  const [formato, setFormato] = useState<string | number>('')
 
 
 
@@ -134,7 +134,9 @@ export function Questions() {
   }
 
 
-  function handleSetValuesAndOpenEditAnswer( pontuacao: string | number ,resposta: string | number, id: string, formato: string){
+  function handleSetValuesAndOpenEditAnswer( resposta: string | number ,pontuacao: string | number, id: string, formato: string){
+    
+    // titleAvaliation!, to!, id!, formato!
     setPontuacao(pontuacao) 
     setResposta(resposta)
     setFormato(formato)
@@ -304,7 +306,7 @@ export function Questions() {
       <div>
         <div className="gridScore addBox">
           <span>{titleAvaliation}</span>
-          <span>{to}</span>
+          <span>{to}             </span>
           <div>
             <button onClick={() => handleDeleteAnswer(id!)}><FiTrash2 /></button>
             <button onClick={() => handleSetValuesAndOpenEditAnswer(titleAvaliation!, to!, id!, formato!)}><FiEdit /></button>
@@ -361,10 +363,23 @@ export function Questions() {
 
         <S.Container>
           <S.LinksContainer>
-            <Link to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
-            <Link to='/avaliacao'>Questionário &gt;</Link>
-            <Link className='active-class' to='/perguntas'>Perguntas &gt;</Link>
-            <Link to='/'>Resposta</Link>
+            <Link
+            to='/cadastro-de-avaliacao'
+            >
+              Avaliação &gt;</Link>
+            <p
+            // to='/avaliacao '
+            >
+              Questionário &gt;</p>
+            <p
+            className='active-class'
+            // to='/perguntas'
+            >
+              Perguntas &gt;</p>
+            <p
+            // to='/'
+            >
+              Resposta</p>
           </S.LinksContainer>
 
           <S.FlexInit>
@@ -458,17 +473,17 @@ export function Questions() {
                 <button onClick={() => handleClearValuesAndOpenCreateAnswer()}><FiPlus /> Novo</button>
               </div>
 
-              <div className="gridScore">{questionariosAnswer.length}
+              <div className="gridScore">{questionariosAnswer?.length}
                 <span>Resposta</span>
                 <span>Pontuação</span>
               </div>
               {
-              questionariosAnswer.map(
+              questionariosAnswer?.map(
                 answer => (
                  <ScoreComponent titleAvaliation={answer.resposta} to={answer.resultado} id={answer.id} formato={answer.formato}/>
-
                 )
               )}
+
               {/* 
               <ScoreComponent titleAvaliation='Desempenho esperado' to='600 pontos' />
               <ScoreComponent titleAvaliation='Desempenho acima da média' to='100%' /> */}
@@ -506,7 +521,7 @@ export function Questions() {
                 <CheckBox checkBoxTitle='Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" } />
               </div>
               <InputComponent title='Pontuação' onChange={(text :any) => setPontuacao(text)} value={pontuacao} />
-              <TextAreaComponent title='Titulo' onChange={(text :any) => setResposta(text)} value={resposta} />
+              <TextAreaComponent title='Titulo' onChange={(text :any) => setResposta(text)}  value={resposta} />
             </div>
             </>
           )}
