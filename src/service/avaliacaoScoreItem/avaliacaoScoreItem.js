@@ -5,7 +5,7 @@ import servidorErrorMessage from '../../utils/servidorErrorMessage'
 export default class avaliacaoScoreItem {
   static async create(data) {
     const response = await api
-      .post('questionario-score-item', {
+      .post('avaliacao-score-item', {
         data,
       })
 
@@ -24,7 +24,7 @@ export default class avaliacaoScoreItem {
   //= =========================================================================================================
   static async update(id, data) {
     const response = await api
-      .put(`questionario-score-item/${id}`, {
+      .put(`avaliacao-score-item/${id}`, {
         data,
       })
       .catch(() => {
@@ -42,7 +42,7 @@ export default class avaliacaoScoreItem {
   //= =========================================================================================================
   static async delete(id) {
     const response = await api
-      .delete(`questionario-score-item/${id}`)
+      .delete(`avaliacao-score-item/${id}`)
       .then((res) => {
         const status = res.status
         const mensagemOk = 'Usuário apagado com sucesso!'
@@ -60,7 +60,7 @@ export default class avaliacaoScoreItem {
 
   //= =========================================================================================================
   static async list() {
-    const response = await api.get('questionario-score-item').catch(() => {
+    const response = await api.get('avaliacao-score-item').catch(() => {
       servidorErrorMessage()
     })
 
@@ -71,7 +71,7 @@ export default class avaliacaoScoreItem {
 
   static async listWithFilter(filter, value) {
     const response = await api
-      .get(`questionario-score-item?filter%5B${filter}%5D=${value}`)
+      .get(`avaliacao-score-item?filter%5B${filter}%5D=${value}`)
       .catch(() => {
         servidorErrorMessage()
       })
@@ -83,7 +83,7 @@ export default class avaliacaoScoreItem {
 
   //= =========================================================================================================
   static async listWithManyFilters(filters) {
-    const response = await api.get(`questionario-score-item?${filters}`).catch(() => {
+    const response = await api.get(`avaliacao-score-item?${filters}`).catch(() => {
       servidorErrorMessage()
     })
 
@@ -95,7 +95,7 @@ export default class avaliacaoScoreItem {
   //= =========================================================================================================
   static async find(id) {
     const response = await api
-      .get(`questionario-score-item/${id}`)
+      .get(`avaliacao-score-item/${id}`)
 
       .catch(() => {
         servidorErrorMessage()
