@@ -125,7 +125,7 @@ const Sidebar = () => {
 
                 <SubMenu title='Parâmetros' icon={<FiChevronsRight />}>
                 <MenuItem>
-                    <Link to='/avaliacoes'>Avaliações</Link>
+                    <Link to='/cadastro-de-avaliacao'>Avaliações</Link>
                   </MenuItem>
 
                   <MenuItem>
@@ -140,10 +140,12 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/pri'>Pri</Link>
                   </MenuItem>
-
+                  
+                  {/* 
                   <MenuItem>
                     <Link to='/questionarios'>Questionários</Link>
                   </MenuItem>
+                  */}
                 </SubMenu>
 
 
