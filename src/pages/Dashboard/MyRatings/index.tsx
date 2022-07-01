@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './MyRatings.styled'
 import { Switch } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes } from 'types'
 import questionarios from 'service/questionarios/questionarios'
@@ -18,7 +18,7 @@ export function MyRatings() {
 ==========================================================================================================
 */
   //PageComponents States
-  const [questionario     , setQuestionario     ] = useState<iQuestoes[] | any>([])
+  const [avaliations     , setAvaliations     ] = useState<iQuestoes[]>([])
 
 /*
 ==========================================================================================================
@@ -29,7 +29,7 @@ export function MyRatings() {
   async function handleLoadAnswerQuestionary() {
     const allAnswerQuestionary = await questionarios.list()
 
-    setQuestionario(allAnswerQuestionary)
+    setAvaliations(allAnswerQuestionary)
   }
 
 
@@ -64,6 +64,12 @@ export function MyRatings() {
                                         UseEffects 
 ==========================================================================================================
 */
+
+
+  useEffect(() => {
+    handleLoadAnswerQuestionary()
+  }, [])
+
 
   return (
     <>
@@ -129,16 +135,24 @@ export function MyRatings() {
             <h2>Minhas avaliações</h2>
           </S.FlexInit>
 
-          <div className='box-avaliacoes'>
-            <span>Desempenho</span>
 
-            <div className='flex-configs'>
-              <Link to='/respostas' className='settings'>
-                <FiPlay />
-                <span>Iniciar</span>
-              </Link>
-            </div>
-          </div>
+            {
+            avaliations.map(
+              questionario => (
+                <div className='box-avaliacoes'>
+                  <span>Desempenho</span>
+                  <div className='flex-configs'>
+                    <Link to='/respostas' className='settings'>
+                      <FiPlay />
+                      <span>Iniciar</span>
+                    </Link>
+                  </div>
+                </div>
+                
+              )
+            )
+            }
+
 
           <div className='box-avaliacoes'>
             <span>Avaliação 2</span>
