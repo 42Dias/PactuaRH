@@ -105,7 +105,7 @@ export function EvaluationRecord() {
   }
 
 
-  function handleOpenSettingsModal(id: string, score?: any){
+  function handleOpenSettingsModal(id: string, score?: any, nome?: string){
 
     setId(id)
     setSelectedScore(score?.id)
@@ -113,6 +113,8 @@ export function EvaluationRecord() {
     setSubItens(score?.item)      
     setFormato(score?.formato)
     setTipo(score?.tipo)
+
+    setTitulo(nome!)
 
     openModal(2)
   }
@@ -199,7 +201,7 @@ export function EvaluationRecord() {
     const data = {
       de: de, 
       ate: ate,
-      nome: titulo,
+      nome: nome,
       score: score,
       formato: formato,
       tipo: tipo,
@@ -296,8 +298,8 @@ export function EvaluationRecord() {
       <div>
         <div className="gridScore addBox">
           <span>{titleAvaliation}</span>
-          <span>{from}%</span>
-          <span>{to}%</span>
+          <span>{from}{tipo === "porcentagem" && "%"}</span>
+          <span>{to}  {tipo === "porcentagem" && "%"}</span>
           <div>
             <button onClick={() => handleDeleteSubItem(id!)}>
               <FiTrash2 />
@@ -383,10 +385,27 @@ export function EvaluationRecord() {
 
         <S.Container>
           <S.LinksContainer>
-            <Link className='active-class' to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
-            <Link to='/avaliacao'>Questionário &gt;</Link>
-            <Link to='/perguntas'>Perguntas &gt;</Link>
-            <Link to='/'>Resposta</Link>
+            <Link
+            className='active-class'
+            to='/cadastro-de-avaliacao'
+            >
+              Avaliação &gt;
+            </Link>
+            <p
+            // to='/avaliacao'
+            >
+              Questionário &gt;
+            </p>
+            <p
+            // to='/perguntas'
+            >
+              Perguntas &gt;
+            </p>
+            <p
+            // to='/'
+            >
+              Resposta
+            </p>
           </S.LinksContainer>
 
           <S.FlexInit>
@@ -408,7 +427,7 @@ export function EvaluationRecord() {
             <div className='box-avaliacoes' key={questioryItem.id}>
               <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.avaliacaoScore[0])} className='settings'>
+                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.avaliacaoScore[0], questioryItem.id)} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
@@ -456,10 +475,23 @@ export function EvaluationRecord() {
           {activeKey === 2 && (
 						<div className='confgContainer'>
               <TitleComponent title='Configurar' />
-              <ConfigCheckTitle titleConfig='Avaliação' />
+              {/* <ConfigCheckTitle titleConfig='Avaliação' /> */}
+
+              <ConfigCheckTitle titleConfig='Esta Avaliação é' />
               <div className="checkContainer">
-                <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}      />
-                <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" }  />
+                <CheckBox value="porcentagem" checkBoxTitle='PDI' onChange={() => setTipo("porcentagem")}  checked={tipo === "a" } />
+                <CheckBox value="quantidade"  checkBoxTitle='PMP'      onChange={() => setTipo("quantidade")}   checked={tipo === "b" }  />
+                <CheckBox value="quantidade"  checkBoxTitle='Avaliação Desempenho'      onChange={() => setTipo("quantidade")}   checked={tipo === "c" }  />
+              </div>
+
+              <br />
+              <br />
+              <br />
+              <br />
+              <ConfigCheckTitle titleConfig='Formato' />
+              <div className="checkContainer">
+                <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("x")}    checked={formato === "x"}      />
+                <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("y")} checked={formato === "y" }  />
               </div>
 
               <ConfigCheckTitle titleConfig='Tipo de pontuação' />
