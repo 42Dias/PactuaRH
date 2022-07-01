@@ -17,6 +17,7 @@ export function MyRatings() {
 ==========================================================================================================
 */
 
+
 /*
 ==========================================================================================================
                                       Modal Functions
@@ -97,10 +98,27 @@ export function MyRatings() {
 
         <S.Container>
           <S.LinksContainer>
-            <Link className='active-class' to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
-            <Link to='/avaliacao'>Questionário &gt;</Link>
-            <Link to='/perguntas'>Perguntas &gt;</Link>
-            <Link to='/'>Resposta</Link>
+            <Link
+            className='active-class'
+            to='/cadastro-de-avaliacao'
+            >
+              Avaliação &gt;
+            </Link>
+            <p
+            // to='/avaliacao'
+            >
+              Questionário &gt;
+              </p>
+            <p
+            // to='/perguntas'
+            >
+              Perguntas &gt;
+              </p>
+            <p
+            // to='/'
+            >
+              Resposta
+            </p>
           </S.LinksContainer>
 
           <S.FlexInit>
