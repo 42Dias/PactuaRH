@@ -1,5 +1,5 @@
 import { FiEdit, FiEdit2, FiPlay, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './MyRatings.styled'
 import { Switch } from 'antd'
@@ -7,9 +7,11 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes } from 'types'
 import questionarios from 'service/questionarios/questionarios'
+import avaliacoes from 'service/avaliacoes/avaliacoes'
 
 
 export function MyRatings() {
+
 
 
 /*
@@ -27,7 +29,8 @@ export function MyRatings() {
 */
 
   async function handleLoadAnswerQuestionary() {
-    const allAnswerQuestionary = await questionarios.list()
+
+    const allAnswerQuestionary = await avaliacoes.list()
 
     setAvaliations(allAnswerQuestionary)
   }
@@ -136,13 +139,13 @@ export function MyRatings() {
           </S.FlexInit>
 
 
-            {
+          {
             avaliations.map(
               questionario => (
                 <div className='box-avaliacoes'>
-                  <span>Desempenho</span>
+                  <span>{questionario.nome}</span>
                   <div className='flex-configs'>
-                    <Link to='/respostas' className='settings'>
+                    <Link to={`/responder-questionarios/${questionario.id}`} className='settings'>
                       <FiPlay />
                       <span>Iniciar</span>
                     </Link>
@@ -151,30 +154,8 @@ export function MyRatings() {
                 
               )
             )
-            }
+          }
 
-
-          <div className='box-avaliacoes'>
-            <span>Avaliação 2</span>
-
-            <div className='flex-configs'>
-              <Link to='/respostas' className='settings'>
-                <FiPlay />
-                <span>Iniciar</span>
-              </Link>
-            </div>
-          </div>
-
-          <div className='box-avaliacoes'>
-            <span>Avaliação 3</span>
-
-            <div className='flex-configs'>
-              <Link to='/respostas' className='settings'>
-                <FiPlay />
-                <span>Iniciar</span>
-              </Link>
-            </div>
-          </div>
         </S.Container>
       </S.Body>      
     </>
