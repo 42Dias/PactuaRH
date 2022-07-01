@@ -72,19 +72,17 @@ const RoutesApp = () => {
           <Route path='/pri'                  element={<Pri />} />
           <Route path='/checkpoints'          element={<Checkpoints />} />
           <Route path='/responder-questionario/:id' element={<AnswerQuestionary />} />
-          <Route path='/respostas/:id' element={<QuestionnairesAnswer />} />
-          <Route path='/respostas/:id' element={<MyAvaliations />} />
-          <Route path='/MyAvaliations' element={<MyAvaliations />} />
-          
+          <Route path='/respostas/:id'        element={<QuestionnairesAnswer />} />
+          <Route path='/respostas/:id'        element={<MyAvaliations />} />
+          <Route path='/MyAvaliations'        element={<MyAvaliations />} />
           <Route
           path='/questionario-perguntas/:id' element={<QuestionaryQuestions />}
           />
           <Route
             path='/questionario-score/:id'   element={<QuestionaryScore />}
           />
-
-
-          <Route path='/minhas-avaliacoes' element={<Assessments />} />
+          
+          <Route path='/minhas-avaliacoes'     element={<Assessments />} />
           <Route path='/cadastro-de-avaliacao' element={<EvaluationRecord />} />
           <Route path='/avaliacao'             element={<Evaluation />} />
           <Route path='/avaliacao/:id'         element={<Evaluation />} />
