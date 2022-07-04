@@ -210,7 +210,7 @@ export function Answer() {
           {
             questions.map(
               (question: iQuestoes) => (
-                <div className='box-avaliacoes'>
+                <div className='box-avaliacoes' key={question.id}>
                   <span>
                     {question.nome}
                   </span>
@@ -265,7 +265,7 @@ export function Answer() {
           {
             questionAnwesers.map(
               ( answer, i ) => (
-                <S.AnswersContainer>
+                <S.AnswersContainer key={answer.id}>
                   <input
                     required
                     type="radio"
