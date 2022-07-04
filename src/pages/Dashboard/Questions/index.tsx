@@ -17,7 +17,7 @@ import { iQuestoes, PropsModal } from 'types'
 import TextAreaComponent from 'ui/components/TextAreaComponent'
 
 
-export function Questions() {
+export function   Questions() {
 /*
 ==========================================================================================================
                                         STATES
