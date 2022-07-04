@@ -154,7 +154,8 @@ export function Answer() {
     
     toast.success("Resposta enviada com sucesso")
 
-    // navigate("/dashboard")
+    handleLoadAnswerQuestionary()
+    closeModal()
   }
 
 
@@ -285,9 +286,6 @@ export function Answer() {
               )
             )
           }
-
-
-
           <button className='send' type='submit'>Cadastrar</button>
         </S.ContainerForm>
       </Modal>
