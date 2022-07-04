@@ -20,7 +20,7 @@ export function Answer() {
   
   const [modalIsOpen      , setIsOpen          ] = useState(false)
   const [questions        , setQuestions       ] = useState<iQuestoes[]>([])
-  const [userAnwesers     , setUserAnwesers    ] = useState<iQuestoes[]>([])
+  const [userAnweser      , setUserAnweser    ] = useState<any>()
   const [questionAnwesers , setQuestionAnwesers] = useState<iQuestoes[]>([])
   const [selectedQuestion, setSelectedQuestion ] = useState<iQuestoes>()
 
@@ -67,7 +67,7 @@ export function Answer() {
   function closeModal() {
     setIsOpen(false)
   }
-  
+
 /*
 ==========================================================================================================
                                 Page's SubComponents 
@@ -103,19 +103,33 @@ export function Answer() {
 
   function handleOpenModal(selectedQuestion: iQuestoes){
     setQuestionAnwesers(selectedQuestion?.questionarioResposta!)
+    handleSetDefaultValues(selectedQuestion)
     setSelectedQuestion(selectedQuestion)
     openModal()
   }
 
 
-  function handleSetAnwser(value: string , id: string, index: number){
-    let awnsers = [...userAnwesers]
+  function handleSetDefaultValues(allAnswerQuestionary: iQuestoes){
+    const {questionarioId, id} = allAnswerQuestionary
 
-    awnsers[index].pontuacao  = parseFloat(value)
-    awnsers[index].questionarioRespostaId = id
+    const defaultAnswer = {
+      questionarioId:     questionarioId,
+      questionarioItemId: id,
+      respostaId: '',
+      pontuacao: 0
+    }
+
+    setUserAnweser(defaultAnswer)
+  }
 
 
-    setUserAnwesers(awnsers)
+  function handleSetAnwser(value: string , id: string){
+    let awnsers = userAnweser
+
+    awnsers.pontuacao              = parseFloat(value)
+    awnsers.questionarioRespostaId = id
+    
+    setUserAnweser(awnsers)
   }
 
 
@@ -231,13 +245,13 @@ export function Answer() {
                     required
                     type="radio"
                     value={answer.resultado}
-                    name={answer.id}
-                    id={answer.id}
+                    name={selectedQuestion?.id}
+                    id={answer?.id}
                     onChange={
-                      ({target}) => handleSetAnwser(target.value, target.id, i)
+                      ({target}) => handleSetAnwser(target.value, target.id)
                     }
                   />
-                  <label htmlFor="1">
+                  <label htmlFor={answer.id}>
                     {answer.resposta}
                   </label>
                 </S.AnswersContainer>
