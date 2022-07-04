@@ -234,7 +234,8 @@ export function Answer() {
                 <span>Responder</span>
               </button>
             </div>
-          </div> */}
+          </div>
+          */}
         </S.Container>
       </S.Body>      
 
@@ -260,9 +261,6 @@ export function Answer() {
           <h1>{ selectedQuestion?.nome }</h1>
           {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
           <textarea placeholder="Responda aqui...."></textarea> */}
-          {/* <label htmlFor=""></label>
-          <textarea placeholder="Responda aqui...."></textarea> */}
-
           {
             questionAnwesers.map(
               ( answer, i ) => (
@@ -274,7 +272,7 @@ export function Answer() {
                     name={selectedQuestion?.id}
                     id={answer?.id}
                     //@ts-ignore
-                    checked={answer?.questionarioPonto[0]?.questionarioRespostaId!  == answer?.id}
+                    defaultChecked={answer?.questionarioPonto[0]?.questionarioRespostaId == answer?.id}
                     disabled={!!userAnweser?.isAnswered}
                     onChange={
                       ({target}) => handleSetAnwser(target.value, target.id)
