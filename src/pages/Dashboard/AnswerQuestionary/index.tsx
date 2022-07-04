@@ -1,18 +1,13 @@
 import Sidebar from 'ui/components/Sidebar'
 import Modal from 'react-modal'
-import { FiPlus, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
+import { FiX } from 'react-icons/fi'
 import * as S from './AnswerQuestionary.styled'
 import { useEffect, useState } from 'react'
 import questionarios from 'service/questionarios/questionarios'
 import { fullName } from 'service/api'
 //@ts-ignore
-import ReactHTMLTableToExcel from 'react-html-table-to-excel'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import { Radio } from 'antd';
-import stateHandler from 'utils/changeStatesHandlers'
-import { SubmitButton } from 'ui/components/SubmitButton'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import questionariosResposta from 'service/questionarioResposta/questionarioResposta'
 import questionarioPonto from 'service/questionarioPonto/questionarioPonto'
 
 export default function AnswerQuestionary() {
@@ -264,8 +259,6 @@ export default function AnswerQuestionary() {
                               }
                             />
                             <label htmlFor="1">{resposta.resposta}
-                              {/* | { resposta.resultado }
-                  */}
                               .
                             </label>
                           </div>
