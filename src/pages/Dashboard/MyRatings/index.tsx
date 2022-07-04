@@ -138,20 +138,18 @@ export function MyRatings() {
             <h2>Minhas avaliações</h2>
           </S.FlexInit>
 
-
           {
             avaliations.map(
-              questionario => (
-                <div className='box-avaliacoes'>
-                  <span>{questionario.nome}</span>
+              ({nome, id}) => (
+                <div className='box-avaliacoes' key={id}>
+                  <span>{nome}</span>
                   <div className='flex-configs'>
-                    <Link to={`/responder-questionarios/${questionario.id}`} className='settings'>
+                    <Link to={`/responder-questionarios/${id}`} className='settings'>
                       <FiPlay />
                       <span>Iniciar</span>
                     </Link>
                   </div>
                 </div>
-                
               )
             )
           }
