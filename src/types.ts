@@ -41,10 +41,18 @@ export interface iQuestoes extends iData {
   de:   number | undefined,
   ate:  number | undefined,
   
+
   pontos: iQuestoes[]
-  questionarioScore: iQuestoes[],
-  item: iQuestoes,
-  questionarioResposta?: iQuestoes[],
+  questionarioScore: iQuestoes[]
+  item: iQuestoes
+  questionarioResposta?: iQuestoes[]
+  questionarioPonto?: iQuestoes[]
+  pontuacao?: string | number
+  questionarioRespostaId?: string
+  questionarioId?: string
+  resposta?: string
+  resultado?: string | number | readonly string[] | undefined
+  
 
 }
 
