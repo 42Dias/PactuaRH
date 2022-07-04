@@ -1,3 +1,4 @@
+import { Label } from './../Career/Career.styled';
 import styled from 'styled-components'
 import { theme } from 'config'
 
@@ -389,4 +390,20 @@ export const ContainerForm = styled.form`
       }
     }
   }
+`
+
+
+
+
+
+export const AnswersContainer = styled.div`
+display: flex;
+gap: 0 10px;
+align-items: center;
+input[type='checkbox'], input[type='radio'] {
+  width: 15px;
+  height: 15px;
+}
+
+
 `
