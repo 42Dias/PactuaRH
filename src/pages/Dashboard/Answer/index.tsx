@@ -261,6 +261,10 @@ export function Answer() {
                     value={answer.resultado}
                     name={selectedQuestion?.id}
                     id={answer?.id}
+                    checked={!!answer.questionarioPonto}
+                    onClick={
+                      () => console.log(answer)
+                    }
                     onChange={
                       ({target}) => handleSetAnwser(target.value, target.id)
                     }
