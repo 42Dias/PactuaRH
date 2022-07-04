@@ -43,8 +43,18 @@ export interface iQuestoes extends iData {
   
   pontos: iQuestoes[]
   questionarioScore: iQuestoes[],
-  item: iQuestoes
+  item: iQuestoes,
+  questionarioResposta?: iQuestoes[],
+
 }
+
+
+
+export interface iQuestoesPeguntas extends iQuestoes {
+
+  questionarioResposta: iQuestoes[],
+}
+
 
 
 export interface PropsModal {
