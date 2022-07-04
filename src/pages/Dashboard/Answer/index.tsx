@@ -112,13 +112,25 @@ export function Answer() {
 
 
   function handleSetDefaultValues(allAnswerQuestionary: iQuestoes){
-    const {questionarioId, id} = allAnswerQuestionary
+    const {questionarioId, id, questionarioResposta} = allAnswerQuestionary
+    let isAnswered = false;
+
+    console.log(allAnswerQuestionary)
+
+    questionarioResposta?.map(
+      (answer) => {
+        console.log(answer)
+        console.log(answer.questionarioPonto?.length! >= 1)
+        if( answer.questionarioPonto?.length! >= 1) isAnswered = true
+      }
+    )
 
     const defaultAnswer = {
       questionarioId:     questionarioId,
       questionarioItemId: id,
       respostaId:         '',
-      pontuacao:          0
+      pontuacao:          0,
+      isAnswered: isAnswered,
     }
 
     setUserAnweser(defaultAnswer)
@@ -261,10 +273,9 @@ export function Answer() {
                     value={answer.resultado}
                     name={selectedQuestion?.id}
                     id={answer?.id}
-                    checked={!!answer.questionarioPonto}
-                    onClick={
-                      () => console.log(answer)
-                    }
+                    //@ts-ignore
+                    checked={answer?.questionarioPonto[0]?.questionarioRespostaId!  == answer?.id}
+                    disabled={!!userAnweser?.isAnswered}
                     onChange={
                       ({target}) => handleSetAnwser(target.value, target.id)
                     }
