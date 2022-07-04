@@ -136,14 +136,13 @@ export function MyQuestionaries() {
             <h2>Minhas avaliações</h2>
           </S.FlexInit>
 
-
             {
             avaliations.map(
               ({nome, id}) => (
-                <div className='box-avaliacoes'>
+                <div className='box-avaliacoes' key={id}>
                   <span>{nome}</span>
                   <div className='flex-configs'>
-                    <Link to={`/respostas/${id}`} className='settings'>
+                    <Link to={`/responder/${id}`} className='settings'>
                       <FiPlay />
                       <span>Iniciar</span>
                     </Link>
@@ -153,8 +152,6 @@ export function MyQuestionaries() {
               )
             )
             }
-
-
         </S.Container>
       </S.Body>      
     </>
