@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import questionarioItem from 'service/questionarioItem/questionarioItem'
 import { iQuestoes, iQuestoesPeguntas } from 'types'
+import questionarioPonto from 'service/questionarioPonto/questionarioPonto'
+import { toast } from 'react-toastify'
 
 export function Answer() {
 
@@ -115,8 +117,8 @@ export function Answer() {
     const defaultAnswer = {
       questionarioId:     questionarioId,
       questionarioItemId: id,
-      respostaId: '',
-      pontuacao: 0
+      respostaId:         '',
+      pontuacao:          0
     }
 
     setUserAnweser(defaultAnswer)
@@ -131,6 +133,18 @@ export function Answer() {
     
     setUserAnweser(awnsers)
   }
+
+
+  async function handleSubmitAnswer(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault()
+
+    await questionarioPonto.create(userAnweser)
+    
+    toast.success("Resposta enviada com sucesso")
+
+    // navigate("/dashboard")
+  }
+
 
 
 
@@ -228,7 +242,7 @@ export function Answer() {
         </button>
 
         <S.ContainerForm
-          // onSubmit={handleCreateNewTransaction}
+          onSubmit={(e) => handleSubmitAnswer(e)}
         >
           
           <h1>{ selectedQuestion?.nome }</h1>
