@@ -169,6 +169,10 @@ const Sidebar = () => {
                   <MenuItem>
                       <Link to='/myAvaliations'> Minhas avaliações</Link>
                   </MenuItem>
+
+                  <MenuItem>
+                      <Link to='/responder-avaliacoes'>(Novo) Minhas avaliações</Link>
+                  </MenuItem>
                   
                   <MenuItem>
                       <Link to='/relatorio-9box'> 9box </Link>
