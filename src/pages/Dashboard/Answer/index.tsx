@@ -5,7 +5,7 @@ import * as S from './Answer.styled'
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import questionarioItem from 'service/questionarioItem/questionarioItem'
-import { iQuestoes } from 'types'
+import { iQuestoes, iQuestoesPeguntas } from 'types'
 
 export function Answer() {
 
@@ -18,8 +18,10 @@ export function Answer() {
 
   const { id } = useParams()
   
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [questions     , setQuestions     ] = useState<iQuestoes[]>([])
+  const [modalIsOpen      , setIsOpen          ] = useState(false)
+  const [questions        , setQuestions       ] = useState<iQuestoes[]>([])
+  const [userAnwesers     , setUserAnwesers    ] = useState<iQuestoes[]>([])
+  const [questionAnwesers , setQuestionAnwesers] = useState<iQuestoes[]>([])
 
 
 
@@ -55,6 +57,11 @@ export function Answer() {
                                       Modal Functions 
 ==========================================================================================================
 */
+
+  function handleOpenModal(selectedQuestion: iQuestoes){
+    setQuestionAnwesers(selectedQuestion?.questionarioResposta!)
+    openModal()
+  }
 
   function openModal () {
     setIsOpen(!modalIsOpen);
@@ -131,13 +138,13 @@ export function Answer() {
           </S.FlexInit>
           {
             questions.map(
-              question => (
+              (question: iQuestoes) => (
                 <div className='box-avaliacoes'>
                   <span>
                     {question.nome}
                   </span>
                   <div className='flex-configs'>
-                    <button onClick={openModal} className='settings'>
+                    <button onClick={() => handleOpenModal(question)} className='settings'>
                       <FiCornerDownLeft />
                       <span>Responder</span>
                     </button>
@@ -181,14 +188,14 @@ export function Answer() {
         >
           
           <h1>Responda</h1>
-          <label htmlFor="">Com que frequência você se sente deprimido?</label>
-          <textarea placeholder="Responda aqui...."></textarea>
+          {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
+          <textarea placeholder="Responda aqui...."></textarea> */}
+          {/* <label htmlFor=""></label>
+          <textarea placeholder="Responda aqui...."></textarea> */}
 
           <label htmlFor="">Você tem alguma preocupação que gostaria de mencionar?</label>
           <textarea placeholder="Responda aqui...."></textarea>
 
-          <label htmlFor="">Comparado com seus colegas de trabalho ou amigos, você se considera mais feliz que a maioria deles?</label>
-          <textarea placeholder="Responda aqui...."></textarea>
 
           <button className='send' type='submit'>Cadastrar</button>
         </S.ContainerForm>
