@@ -33,17 +33,9 @@ export function Answer() {
   async function handleLoadAnswerQuestionary() {
     const allAnswerQuestionary = await questionarioItem.listWithFilter("questionarioId", id)
 
+    console.log(allAnswerQuestionary)
     setQuestions(allAnswerQuestionary)
   }
-
-
-
-/*
-==========================================================================================================
-                                    Page's SubComponents 
-==========================================================================================================
-*/
-
 
 
 /*
@@ -52,16 +44,17 @@ export function Answer() {
 ==========================================================================================================
 */
 
-/*
-==========================================================================================================
-                                      Modal Functions 
-==========================================================================================================
-*/
   useEffect(
     () => {
       handleLoadAnswerQuestionary()
     }, []
   )
+
+/*
+==========================================================================================================
+                                      Modal Functions 
+==========================================================================================================
+*/
 
   function openModal () {
     setIsOpen(!modalIsOpen);
@@ -136,8 +129,26 @@ export function Answer() {
           <S.FlexInit>
             <h2>Resposta de Questionário 1</h2>
           </S.FlexInit>
+          {
+            questions.map(
+              question => (
+                <div className='box-avaliacoes'>
+                  <span>
+                    {question.nome}
+                  </span>
+                  <div className='flex-configs'>
+                    <button onClick={openModal} className='settings'>
+                      <FiCornerDownLeft />
+                      <span>Responder</span>
+                    </button>
+                  </div>
+                </div>
+              )
+          )
+          }
 
-          <div className='box-avaliacoes'>
+
+          {/* <div className='box-avaliacoes'>
             <span>...?</span>
 
             <div className='flex-configs'>
@@ -146,29 +157,7 @@ export function Answer() {
                 <span>Responder</span>
               </button>
             </div>
-          </div>
-
-          <div className='box-avaliacoes'>
-            <span>...?</span>
-
-            <div className='flex-configs'>
-              <button onClick={openModal} className='settings'>
-                <FiCornerDownLeft />
-                <span>Responder</span>
-              </button>
-            </div>
-          </div>
-
-          <div className='box-avaliacoes'>
-            <span>...?</span>
-
-            <div className='flex-configs'>
-              <button onClick={openModal} className='settings'>
-                <FiCornerDownLeft />
-                <span>Responder</span>
-              </button>
-            </div>
-          </div>
+          </div> */}
         </S.Container>
       </S.Body>      
 
