@@ -22,6 +22,7 @@ export function Answer() {
   const [questions        , setQuestions       ] = useState<iQuestoes[]>([])
   const [userAnwesers     , setUserAnwesers    ] = useState<iQuestoes[]>([])
   const [questionAnwesers , setQuestionAnwesers] = useState<iQuestoes[]>([])
+  const [selectedQuestion, setSelectedQuestion ] = useState<iQuestoes>()
 
 
 
@@ -37,6 +38,7 @@ export function Answer() {
 
     console.log(allAnswerQuestionary)
     setQuestions(allAnswerQuestionary)
+    
   }
 
 
@@ -58,11 +60,6 @@ export function Answer() {
 ==========================================================================================================
 */
 
-  function handleOpenModal(selectedQuestion: iQuestoes){
-    setQuestionAnwesers(selectedQuestion?.questionarioResposta!)
-    openModal()
-  }
-
   function openModal () {
     setIsOpen(!modalIsOpen);
   }
@@ -70,6 +67,12 @@ export function Answer() {
   function closeModal() {
     setIsOpen(false)
   }
+  
+/*
+==========================================================================================================
+                                Page's SubComponents 
+==========================================================================================================
+*/
 
   function Status() {
     const [isActiveColor, setIsActiveColor] = useState(false)
@@ -89,6 +92,33 @@ export function Answer() {
       />
     )
   }
+
+
+
+/*
+==========================================================================================================
+                                      Functions 
+==========================================================================================================
+*/
+
+  function handleOpenModal(selectedQuestion: iQuestoes){
+    setQuestionAnwesers(selectedQuestion?.questionarioResposta!)
+    setSelectedQuestion(selectedQuestion)
+    openModal()
+  }
+
+
+  function handleSetAnwser(value: string , id: string, index: number){
+    let awnsers = [...userAnwesers]
+
+    awnsers[index].pontuacao  = parseFloat(value)
+    awnsers[index].questionarioRespostaId = id
+
+
+    setUserAnwesers(awnsers)
+  }
+
+
 
   return (
     <>
@@ -187,14 +217,34 @@ export function Answer() {
           // onSubmit={handleCreateNewTransaction}
         >
           
-          <h1>Responda</h1>
+          <h1>{ selectedQuestion?.nome }</h1>
           {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
           <textarea placeholder="Responda aqui...."></textarea> */}
           {/* <label htmlFor=""></label>
           <textarea placeholder="Responda aqui...."></textarea> */}
 
-          <label htmlFor="">Você tem alguma preocupação que gostaria de mencionar?</label>
-          <textarea placeholder="Responda aqui...."></textarea>
+          {
+            questionAnwesers.map(
+              ( answer, i ) => (
+                <S.AnswersContainer>
+                  <input
+                    required
+                    type="radio"
+                    value={answer.resultado}
+                    name={answer.id}
+                    id={answer.id}
+                    onChange={
+                      ({target}) => handleSetAnwser(target.value, target.id, i)
+                    }
+                  />
+                  <label htmlFor="1">
+                    {answer.resposta}
+                  </label>
+                </S.AnswersContainer>
+              )
+            )
+          }
+
 
 
           <button className='send' type='submit'>Cadastrar</button>
