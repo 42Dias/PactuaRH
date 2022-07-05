@@ -1,4 +1,4 @@
-import { FiCornerDownLeft, FiEdit, FiEdit2, FiPlay, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
+import { FiCornerDownLeft, FiX } from 'react-icons/fi'
 import { Link, useParams } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './Answer.styled'
@@ -25,6 +25,8 @@ export function Answer() {
   const [userAnweser      , setUserAnweser    ] = useState<any>()
   const [questionAnwesers , setQuestionAnwesers] = useState<iQuestoes[]>([])
   const [selectedQuestion, setSelectedQuestion ] = useState<iQuestoes>()
+
+  
 
 
 
@@ -264,7 +266,7 @@ export function Answer() {
           <textarea placeholder="Responda aqui...."></textarea> */}
           {
             questionAnwesers.map(
-              ( answer, i ) => (
+              ( answer ) => (
                 <S.AnswersContainer key={answer.id}>
                   <input
                     required
