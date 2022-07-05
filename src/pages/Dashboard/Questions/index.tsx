@@ -15,6 +15,7 @@ import { toast } from 'react-toastify'
 import InputComponent from 'ui/components/InputComponent'
 import { iQuestoes, PropsModal } from 'types'
 import TextAreaComponent from 'ui/components/TextAreaComponent'
+import questionariosScores from 'service/questionariosScore/questionariosScore'
 
 
 export function   Questions() {
@@ -48,6 +49,8 @@ export function   Questions() {
   const [pontuacao  ,setPontuacao   ] = useState<string | number>('')
 
   const [formato, setFormato] = useState<string | number>('')
+
+  const [questionaryKindOfAvaliation, setQuestionaryKindOfAvaliation] = useState<string | undefined>('')
 
 
 
@@ -181,8 +184,9 @@ export function   Questions() {
 
   async function handleLoadQuestions() {
     const allQuestions = await questionarioItem.listWithFilter("questionarioId", id)
-
     setQuestions(allQuestions)
+
+    
   }
 
   async function handleCreate() {
@@ -222,10 +226,6 @@ export function   Questions() {
   }
 
 
-  useEffect(() => {
-    handleLoadQuestions()
-  }, [])
-
   // subcrud functions
   async function handleCreateAnswer() {
     const data = {
@@ -233,6 +233,7 @@ export function   Questions() {
       resultado: pontuacao,
       formato: formato,
       questionarioItemId: questionarioItemId,
+      
     }
 
     const isCreated = await questionariosResposta.create(data)
@@ -325,6 +326,16 @@ export function   Questions() {
       </>
     )
   }
+
+/*
+==========================================================================================================
+                                         UseEffects 
+==========================================================================================================
+*/
+  useEffect(() => {
+    handleLoadQuestions()
+  }, [])
+
 
   return (
     <>
