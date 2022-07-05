@@ -39,6 +39,7 @@ import { Questions } from 'pages/Dashboard/Questions'
 import { MyRatings } from 'pages/Dashboard/MyRatings'
 import { Answer } from 'pages/Dashboard/Answer'
 import { MyQuestionaries } from 'pages/Dashboard/MyQuestionaries'
+import { AnswerNotNumeric } from 'pages/Dashboard/AnswerNotNumeric'
 
 const RoutesApp = () => {
   return (
@@ -93,7 +94,8 @@ const RoutesApp = () => {
           <Route path='/responder-avaliacoes'       element={<MyRatings />}        />
           <Route path='/responder-questionarios/:id'element={<MyQuestionaries />}  /> 
           <Route path='/respostas'                  element={<Answer    />}        />
-          <Route path='/respostas/:id'              element={<Answer    />}        />
+          <Route path='/responder/:id'              element={<Answer    />}        />
+          <Route path='/responder-nao-numerico/:id' element={<AnswerNotNumeric/>}  />
         </Routes>
       </BrowserRouter>
     </>
