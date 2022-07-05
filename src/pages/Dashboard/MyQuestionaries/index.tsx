@@ -71,6 +71,8 @@ export function MyQuestionaries() {
     handleLoadAnswerQuestionary()
   }, [])
 
+  console.log(avaliations)
+
 
   return (
     <>
@@ -138,17 +140,19 @@ export function MyQuestionaries() {
 
             {
             avaliations.map(
-              ({nome, id}) => (
+              ({nome, id, questionarioScore}) => (
                 <div className='box-avaliacoes' key={id}>
                   <span>{nome}</span>
                   <div className='flex-configs'>
-                    <Link to={`/responder/${id}`} className='settings'>
+                    <Link to={
+                      questionarioScore[0].formato != 'naoNumerico' ?
+                      `/responder/${id}`: `/responder-nao-numerico/${id}`
+                      } className='settings'>
                       <FiPlay />
                       <span>Iniciar</span>
                     </Link>
                   </div>
                 </div>
-                
               )
             )
             }
