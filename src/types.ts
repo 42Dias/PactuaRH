@@ -52,6 +52,8 @@ export interface iQuestoes extends iData {
   questionarioId?: string
   resposta?: string
   resultado?: string | number | readonly string[] | undefined
+  formato?: string | number | readonly string[] | undefined
+  
   
 
 }
