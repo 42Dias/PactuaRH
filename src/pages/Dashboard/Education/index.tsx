@@ -8,25 +8,36 @@ import escolaridade from 'service/escolaridade/escolaridade'
 import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export default function Education() {
+
+  //===================================== Modal's States
   const [modalIsOpen   , setIsOpen    ] = useState(false)
   const [modalIsOpenNew, setIsOpenNew ] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+
+  //===================================== CRUD's States
   const [nome          , setNome      ] = useState<string>("")
   const [desc          , setDesc      ] = useState<string>("")
   const [id            , setId        ] = useState<string>("")
   const [education     , setEducation ] = useState<any[]>([])
 
 
-
-
+  //===================================== Filter's States
   const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
   const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
 
 
+  //===================================== Loading's States
+  const [loading, setLoading] = useState(true);
 
-    
+
+/* 
+==========================================================================================================
+                                        Modal's Functions
+==========================================================================================================
+*/ 
   function openModalFilter() {
     setIsOpenFilter(true)
   }
@@ -54,10 +65,20 @@ export default function Education() {
     setIsOpenNew(false)
   }
 
-  async function handleLoadEducation() {
-    let allEducation = await escolaridade.list()
 
+/* 
+==========================================================================================================
+                                        Crud's Functions
+==========================================================================================================
+*/ 
+
+  async function handleLoadEducation() {
+    
+    
+    let allEducation = await escolaridade.list()
     setEducation(allEducation)
+
+    setLoading(false)
   }
 
   async function handleCreate(){
@@ -85,11 +106,7 @@ export default function Education() {
 
   }
 
-  useEffect(
-    () => {
-      handleLoadEducation() 
-    }, []
-  )
+
 
   async function handleDelete(id: string){
     await escolaridade.delete(id)
@@ -97,9 +114,10 @@ export default function Education() {
     handleLoadEducation()
     
   }
-  /* 
+
+/* 
 ==========================================================================================================
-                                            Filters
+                                        Filters's Functions
 ==========================================================================================================
 */ 
 
@@ -126,10 +144,25 @@ export default function Education() {
 
     closeModalFilter()
   }
+
+
+/* 
+==========================================================================================================
+                                          UseEffect
+==========================================================================================================
+*/ 
+  useEffect(
+    () => {
+      handleLoadEducation() 
+    }, []
+  )
+
   return (
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
