@@ -13,6 +13,7 @@ import cargos from 'service/cargos/cargos'
 import planoDeCarreiraNivel from 'service/planoCarreiraNiveis/planoCarreiraNiveis'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export default function Career() {
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
@@ -32,6 +33,10 @@ export default function Career() {
 
   const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
   const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
+
+
+  const [loading, setLoading] = useState(true);
+
   
   // const [hasNiveis, setHasNiveis] = useState<boolean>(false)
   // const [dependentes, setDependentes] = useState<iDependent[]>([
@@ -190,8 +195,12 @@ function closeModalFilter() {
     console.log(isDeleted)
   }
   async function handleLoadCargos() {
+    
+    
     const cargo = await cargos.list()
     setAllCargos(cargo)
+
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -213,12 +222,12 @@ function closeModalFilter() {
     let filter = ''
 
     if (nomeFilter){
-      console.log("tem nome")
+      
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter){
-      console.log("tem desc")
+      
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -237,10 +246,12 @@ function closeModalFilter() {
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
+
           <S.FlexButtons>
             <div>
               <button onClick={openModalNew}>
