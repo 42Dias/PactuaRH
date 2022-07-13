@@ -8,24 +8,37 @@ import funcoes from 'service/funcoes/funcoes'
 import { fullName } from 'service/api'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export default function FunctionsPage() {
+
+  //===================================== Modal's States
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
+
+
+  //===================================== CRUD's States
   const [allFuncoes, setAllFuncoes] = useState([])
   const [nome, setNome] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
-  const [funcaoEdit, setFuncaoEdit] = useState<any>({})
+  const [funcEdit, setFunctionEdit] = useState<any>({})
+
+
+  //===================================== Filter's States
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
-  const [subAreaFilter, setSubAreaFilter] = useState<boolean>(false)
-  const [areaPaiFilter, setAreaPaiFilter] = useState<string>('')
 
-  async function getAllFuncoes() {
-    const funcao = await funcoes.list()
-    setAllFuncoes(funcao)
-  }
+
+
+  const [loading, setLoading] = useState(true);
+
+
+/* 
+==========================================================================================================
+                                        Modal's Functions
+==========================================================================================================
+*/ 
 
   function openModal() {
     setIsOpen(true)
@@ -43,11 +56,22 @@ export default function FunctionsPage() {
     setIsOpenNew(false)
   }
 
-  useEffect(() => {
-    getAllFuncoes()
-  }, [])
+/* 
+==========================================================================================================
+                                        Crud's Functions
+==========================================================================================================
+*/
 
-  async function createFuncao() {
+  async function handleLoadFunctions() {
+    
+    
+    const func = await funcoes.list()
+    setAllFuncoes(func)
+
+    setLoading(false)
+  }
+
+  async function handleCreateFunction() {
     const data = {
       nome: nome,
       descricao: descricao,
@@ -59,10 +83,10 @@ export default function FunctionsPage() {
     console.log(isCreated)
 
     if (isCreated) closeModalNew()
-    getAllFuncoes()
+    handleLoadFunctions()
   }
 
-  async function updateFuncao(id: string) {
+  async function handleUpdateFunction(id: string) {
     const data = {
       nome: nome,
       descricao: descricao,
@@ -74,7 +98,7 @@ export default function FunctionsPage() {
     console.log(isUpdated)
 
     if (isUpdated) closeModal()
-    getAllFuncoes()
+    handleLoadFunctions()
   }
 
   function openModalFilter() {
@@ -85,24 +109,31 @@ export default function FunctionsPage() {
     setIsOpenFilter(false)
     setNomeFilter('')
     setDescricaoFilter('')
-    setAreaPaiFilter('')
+
   }
 
-  async function deleteFuncao(id: string) {
+  async function deleteFunction(id: string) {
     const isDelete = await funcoes.delete(id)
-    getAllFuncoes()
+    handleLoadFunctions()
   }
+
+
+/* 
+==========================================================================================================
+                                        Filters's Functions
+==========================================================================================================
+*/ 
 
   async function handleFilterFunctions() {
     let filter = ''
 
     if (nomeFilter) {
-      console.log('tem nome')
+      
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter) {
-      console.log('tem desc')
+      
 
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -114,10 +145,24 @@ export default function FunctionsPage() {
     closeModalFilter()
   }
 
+
+/* 
+==========================================================================================================
+                                          UseEffect
+==========================================================================================================
+*/ 
+
+
+  useEffect(() => {
+    handleLoadFunctions()
+  }, [])
+
   return (
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
@@ -136,27 +181,27 @@ export default function FunctionsPage() {
             </div>
 
             <ReactHTMLTableToExcel
-              table="funcao"
+              table="func"
               filename="Pactua Benefícios Excel"
               sheet="Sheet"
               buttonText="Exportar para excel"
             />
           </S.FlexButtons>
 
-            <S.Table id="funcao">
+            <S.Table id="func">
               <S.TrTitle>
                 <td>Função</td>
                 <td>Descrição</td>
               </S.TrTitle>
 
-              {allFuncoes.map((funcao: any, index) => (
+              {allFuncoes.map((func: any, index) => (
                 <S.TrSecond key={index}>
-                  <td>{funcao.nome}</td>
-                  <td>{funcao.descricao}</td>
+                  <td>{func.nome}</td>
+                  <td>{func.descricao}</td>
                   <td>
                     <button
                       onClick={() => {
-                        setFuncaoEdit(funcao)
+                        setFunctionEdit(func)
                         openModal()
                       }}
                     >
@@ -166,7 +211,7 @@ export default function FunctionsPage() {
                   <td>
                     <button
                       onClick={() => {
-                        deleteFuncao(funcao.id)
+                        deleteFunction(func.id)
                       }}
                     >
                       <FiTrash size={18} />
@@ -198,7 +243,7 @@ export default function FunctionsPage() {
           onSubmit={(e: any) => {
             e.preventDefault()
             // e.target.reset()
-            updateFuncao(funcaoEdit.id)
+            handleUpdateFunction(funcEdit.id)
           }}
         >
           <h2>Editar Função</h2>
@@ -206,14 +251,14 @@ export default function FunctionsPage() {
           <input
             type='text'
             placeholder='Função'
-            defaultValue={funcaoEdit?.nome}
+            defaultValue={funcEdit?.nome}
             onChange={(e) => setNome(e.target.value)}
           />
 
           <input
             type='text'
             placeholder='Função'
-            defaultValue={funcaoEdit?.descricao}
+            defaultValue={funcEdit?.descricao}
             onChange={(e) => setDescricao(e.target.value)}
           />
           {/* <input type='text' placeholder='Mão de obra' />
@@ -246,7 +291,7 @@ export default function FunctionsPage() {
           onSubmit={(e: any) => {
             e.preventDefault()
             // e.target.reset()
-            createFuncao()
+            handleCreateFunction()
           }}
         >
           <h2>Cadastrar função</h2>
