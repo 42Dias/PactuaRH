@@ -19,6 +19,7 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 import { iCargo, iData } from '../../../types'
 import { useForm } from 'react-hook-form'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export default function Positions() {
 
@@ -55,6 +56,10 @@ export default function Positions() {
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
   // const [cargos, setCargos] = useState()
 
+
+  const [loading, setLoading] = useState(true);
+
+
   function openModal() {
     setIsOpen(true)
   }
@@ -80,9 +85,13 @@ export default function Positions() {
   }
 
   async function handleLoadArea() {
-    const allArea = await areas.list()
+    
 
+    const allArea = await areas.list()
     setAllAreas(allArea)
+    
+    setLoading(false)
+
   }
   async function handleLoadEducation() {
     let allEducation = await escolaridade.list()
@@ -218,9 +227,6 @@ export default function Positions() {
   async function handleLoadPosition() {
     const cargo = await cargos.list()
 
-    console.log('cargos')
-    console.log(cargo)
-
     setAllCargos(cargo)
   }
 
@@ -234,7 +240,7 @@ export default function Positions() {
       // ecolaridade: rawData.id,
 
       cargosLiderados: [ rawData.cargoLiderId ],
-      // Estes 4 são tabelas separadas aaaaaaaa, como listas n:m 
+      // Estes 4 são tabelas separadas, como listas n:m 
       desejaveis: wanted,
       funcoes:    functions,
       habilidades: skills,
@@ -242,8 +248,6 @@ export default function Positions() {
     }  
 
 
-    console.log("data")
-    console.log(data)
     
     let isCreated = await cargos.create(data)
 
@@ -291,8 +295,6 @@ export default function Positions() {
   }
 
   async function handleDeletePosition(id: string){
-    console.log(id)
-
     let isDeleted = await cargos.delete(id)
 
     await handleLoadPosition()
@@ -340,8 +342,6 @@ export default function Positions() {
     cargo?.desejaveis?.map(
       (wanted) => {
         setWanted(prevValues => {
-          console.log(prevValues)
-          console.log(wanted.id)
           return Array.from(new Set([...prevValues, wanted.id]))
           })
       }
@@ -374,7 +374,6 @@ export default function Positions() {
   }
   // encapsulated all above
   function handleSetArrays(cargo: iCargo){
-    console.log(cargo)
     handleSetSkills(cargo)
     handleSetWanted(cargo)
     handleSetFunctions(cargo)
@@ -399,31 +398,30 @@ export default function Positions() {
     let filter = '';
 
     if (rawData.nome){
-      console.log("tem nome")
+      
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bnome%5D=${rawData.nome}`
     }
     if (rawData.desc){
-      console.log("tem desc")
+      
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bdescricao%5D=${rawData.desc}`
       
     }
     if (rawData.areaId != "Área"){
-      console.log("tem areaId")
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Barea%5D=${rawData.areaId}`
     }
     if (rawData.lideranca == "true"){
-      console.log("tem pai")
+      
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Blideranca%5D=${true}`
     }
     if (rawData.habilidadeId){
-      console.log("tem pai")
+      
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bhabilidade%5D=${rawData.habilidadeId}`
@@ -431,10 +429,6 @@ export default function Positions() {
     
 
     if (educationsSelected) {
-
-      console.log("Bjhbfakjdbvjbsdkjb")
-      console.log("tem pai")
-
       if (filter.length != 0) filter += '&'
       filter += `filter%5Becolaridade%5D=${educationsSelected}`
     }
@@ -455,6 +449,8 @@ export default function Positions() {
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
@@ -576,12 +572,6 @@ export default function Positions() {
 
 
         </select>
-          {/* <input
-          type='text' placeholder='Descrição oficial'
-          // onChange={() => console.log(register)}
-          {...register('descOfc')}
-          /> */}
-
          <label htmlFor="">Código Brasileiro de Ocupações</label>
           <select
           defaultValue={cargoSelected?.cbo || "Não cadastrado"}
@@ -914,7 +904,6 @@ export default function Positions() {
 
 
           <input
-          // onClick={(e) => console.log(register)}
           type='submit'
           className='button'
           value="Enviar"
@@ -960,11 +949,6 @@ export default function Positions() {
           {...register('desc')}
           />
 
-          {/* <input
-          type='text' placeholder='Descrição oficial'
-          // onChange={() => console.log(register)}
-          {...register('descOfc')}
-          /> */}
           <label htmlFor="">Liderança</label>
           <select
             placeholder='Liderança'
@@ -1237,7 +1221,6 @@ export default function Positions() {
         </button>
           
           <input
-          // onClick={(e) => console.log(register)}
           type='submit'
           className='button'
           value="Enviar"
