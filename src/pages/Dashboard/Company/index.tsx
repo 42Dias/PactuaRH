@@ -178,39 +178,33 @@ function clearFields(){
       let filter = ''
   
       if (nome){
-        console.log("tem nome")
+        
         if(filter.length != 0 ) filter += '&'
         filter += `filter%5Bnome%5D=${nome}`
       }
 
       if (cnpj) {
-        console.log("tem cnpj")
         if (filter.length != 0) filter += '&'
         filter += `filter%5Bcnpj%5D=${cnpj}`
       }
       if (cnac) {
-        console.log("tem cnac")
         if (filter.length != 0) filter += '&'
         filter += `filter%5Bcnac%5D=${cnac}`
       }
       if (razaoSocial) {
-        console.log("tem razaoSocial")
         if (filter.length != 0) filter += '&'
         filter += `filter%5BrazaoSocial%5D=${razaoSocial}`
       }
       if (logradouro) {
-        console.log("tem logradouro")
         if (filter.length != 0) filter += '&'
         filter += `filter%5Blogradouro%5D=${logradouro}`
       }
       if (inscricaoEstadual) {
-        console.log("tem inscricaoEstadual")
         if (filter.length != 0) filter += '&'
         filter += `filter%5BinscricaoEstadual%5D=${inscricaoEstadual}`
       }
 
       if (inscricaoMunicipal) {
-        console.log("tem inscricaoMunicipal")
         if (filter.length != 0) filter += '&'
         filter += `filter%5BinscricaoMunicipal%5D=${inscricaoMunicipal}`
       }
@@ -218,18 +212,15 @@ function clearFields(){
       let empresaFilted = await empresa.listWithManyFilters(filter)
   
       setAllEmpresa(empresaFilted)
-      console.log(empresaFilted)
   
       closeModalFilter()
     }
   // 
   function handleChangeCnpj(cnpjEntered: string){
-    console.log(cnpjEntered)
     setCnpj(cnpjEntered)
 
     let cnpjCleanered = cnpjEntered.replace(/[^\d]+/g,'')
 
-    console.log(cnpjCleanered.length != 14)
 
     if(cnpjCleanered.length != 14) return;
 
