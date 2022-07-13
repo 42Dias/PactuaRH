@@ -68,7 +68,6 @@ export default function QuestionaryQuestions() {
   async function handleLoadBenefits() {
     let url = window.location.pathname
     let id = url.replace('/questionario-perguntas/', '')
-    console.log(id)
     const allBenefits = await questionarioItem.listWithFilter("questionarioId", id)
 
     setBenefits(allBenefits)
@@ -90,7 +89,6 @@ export default function QuestionaryQuestions() {
   async function handleUpdate(selectedId: string) {
     let url = window.location.pathname
     let id = url.replace('/questionario-perguntas/', '')
-    console.log(id)
 
 
     const data = {
@@ -119,12 +117,10 @@ export default function QuestionaryQuestions() {
     let filter = ''
 
     if (nomeFilter){
-      console.log("tem nome")
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter){
-      console.log("tem desc")
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -135,7 +131,6 @@ export default function QuestionaryQuestions() {
     let questionarioItemFilted = await questionarioItem.listWithManyFilters(filter)
 
     setBenefits(questionarioItemFilted)
-    console.log(questionarioItemFilted)
 
     closeModalFilter()
   }
@@ -193,7 +188,6 @@ export default function QuestionaryQuestions() {
                       setSelectedId(benefit.id)
                       setNome(benefit.nome)
                       setDescricao(benefit.descricao)
-                      console.log(benefit.descricao)
                       openModal()
                     }}
                   >
