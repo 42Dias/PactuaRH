@@ -139,25 +139,25 @@ export default function Area() {
     let filter = ''
 
     if (nomeFilter){
-      console.log("tem nome")
+      
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter){
-      console.log("tem desc")
+      
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
       
     }
     if (subAreaFilter){
-      console.log("tem sub")
+      
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5BsubArea%5D=${subArea}`
     }
     if (areaPaiFilter){
-      console.log("tem pai")
+      
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5BareaPai%5D=${areaPaiFilter}`
