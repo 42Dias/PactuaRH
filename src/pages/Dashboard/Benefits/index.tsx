@@ -8,26 +8,33 @@ import beneficio from 'service/beneficio/beneficio'
 import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 
 export default function Benefits() {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
-  const [nome, setNome] = useState<string>('')
-  const [descricao, setDescricao] = useState<string>('')
-  const [id, setId] = useState<string>('')
-  const [benefits, setBenefits] = useState<any[]>([])
-  const [subArea        ,setSubArea  ] = useState<boolean>(false)
-  const [areaPai        ,setAreaPai  ] = useState<string>('')
-  
 
-  const [area           , setArea    ] = useState([])
+  //===================================== CRUD States
+  const [modalIsOpen       , setIsOpen] = useState(false)
+  const [modalIsOpenNew    , setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+  const [nome              , setNome] = useState<string>('')
+  const [descricao         , setDescricao] = useState<string>('')
+  const [id                , setId] = useState<string>('')
+  const [benefits          , setBenefits] = useState<any[]>([])
+
+  //===================================== Filter States
   const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
   const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
-  const [subAreaFilter        ,setSubAreaFilter  ] = useState<boolean>(false)
-  const [areaPaiFilter        ,setAreaPaiFilter  ] = useState<string>('')
 
+
+  //===================================== Loading States
+  const [loading, setLoading] = useState(true);
+
+/* 
+==========================================================================================================
+                                        Modal's Functions
+==========================================================================================================
+*/ 
   function openModalFilter() {
     setIsOpenFilter(true)
   }
@@ -36,7 +43,6 @@ export default function Benefits() {
     setIsOpenFilter(false)
      setNomeFilter('')
     setDescricaoFilter('')
-    setAreaPaiFilter('')
   }
   
   function openModal() {
@@ -44,8 +50,6 @@ export default function Benefits() {
   }
 
   function closeModal() {
-    setSubArea(false)
-    setAreaPai('')
     setIsOpen(false)
   }
 
@@ -54,15 +58,19 @@ export default function Benefits() {
   }
 
   function closeModalNew() {
-    setSubArea(false)
-    setAreaPai('')
     setIsOpenNew(false)
   }
+/* 
+==========================================================================================================
+                                        Crud's Functions
+==========================================================================================================
+*/ 
 
   async function handleLoadBenefits() {
     const allBenefits = await beneficio.list()
 
     setBenefits(allBenefits)
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -89,27 +97,22 @@ export default function Benefits() {
     await handleLoadBenefits()
   }
 
-  useEffect(() => {
-    handleLoadBenefits()
-  }, [])
-  async function handleDelete(id: string) {
-    await beneficio.delete(id)
-
-    handleLoadBenefits()
-  }
+/* 
+==========================================================================================================
+                                        Filters's Functions
+==========================================================================================================
+*/ 
 
   async function handleFilterArea(){
-
-    console.log("oujbnbojfdnbfnjbnfkdjnbkjdfnbndfbndfbkjfgjk")
     let filter = ''
 
     if (nomeFilter){
-      console.log("tem nome")
+      
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter){
-      console.log("tem desc")
+      
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -124,15 +127,33 @@ export default function Benefits() {
 
     closeModalFilter()
   }
+
+/* 
+==========================================================================================================
+                                          UseEffect
+==========================================================================================================
+*/ 
+
+  useEffect(() => {
+    handleLoadBenefits()
+  }, [])
+  async function handleDelete(id: string) {
+    await beneficio.delete(id)
+
+    handleLoadBenefits()
+  }
+
   
   return (
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
+
           <S.FlexButtons>
             <div>
               <button onClick={openModalNew}>
