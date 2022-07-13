@@ -76,11 +76,8 @@ export default function FunctionsPage() {
       nome: nome,
       descricao: descricao,
     }
-    console.log(data)
-    console.log(data.nome)
 
     const isCreated = await funcoes.cadastro(data)
-    console.log(isCreated)
 
     if (isCreated) closeModalNew()
     handleLoadFunctions()
@@ -91,11 +88,8 @@ export default function FunctionsPage() {
       nome: nome,
       descricao: descricao,
     }
-    console.log(data)
-    console.log(data.nome)
 
     const isUpdated = await funcoes.update(id, data)
-    console.log(isUpdated)
 
     if (isUpdated) closeModal()
     handleLoadFunctions()
