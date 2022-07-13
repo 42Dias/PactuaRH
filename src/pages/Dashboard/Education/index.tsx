@@ -125,13 +125,10 @@ export default function Education() {
     let filter = ''
 
     if (nomeFilter){
-      console.log("tem nome")
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter){
-      console.log("tem desc")
-
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
       
