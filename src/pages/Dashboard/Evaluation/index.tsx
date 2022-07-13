@@ -12,6 +12,7 @@ import InputComponent from 'ui/components/InputComponent'
 import CheckBox from 'ui/components/CheckBox' 
 import { toast } from 'react-toastify'
 import questionariosScores from 'service/questionariosScore/questionariosScore'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export function Evaluation() {
 
@@ -50,6 +51,9 @@ export function Evaluation() {
   //Avaliation States
   const [formato, setFormato] = useState<string>('')
   const [tipo,    setTipo   ] = useState<string>('')
+
+  const [loading, setLoading] = useState(true);
+
 
 
 /*
@@ -112,7 +116,6 @@ export function Evaluation() {
 
     setId(id)
     setSelectedScore(score?.id)
-    console.log(score?.id)
     setSubItens(score?.item)      
     setFormato(score?.formato)
     setTipo(score?.tipo)
@@ -156,9 +159,6 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
   //necessary by the single page's modal
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
-    console.log("id")
-    console.log(id)
     
     switch (activeKey) {
       case 1:
@@ -183,9 +183,10 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
   }
 
   async function handleLoadQuestionario() {
-    const allQuestionario = await questionarios.listWithFilter("avaliacaoId", avaliationId)
-
+    const allQuestionario = await questionarios.listWithFilter("avaliacaoId", avaliationId)    
     setQuestionario(allQuestionario)
+
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -364,8 +365,6 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
     handleLoadQuestionario()
   }, [])
 
-  console.log(questionario)
-
 
 
 
@@ -373,6 +372,8 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>
             <S.LinksScore>
