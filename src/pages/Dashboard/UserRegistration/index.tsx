@@ -28,7 +28,7 @@ export default function UserRegistration() {
     async function getRyan() {
       const response = await fakeapi.get('/ryan');
       setRyan(response.data);
-      console.log(response.data);
+      
     }
     getRyan()
   }, [])
