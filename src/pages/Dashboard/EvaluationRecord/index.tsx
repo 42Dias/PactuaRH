@@ -12,6 +12,7 @@ import InputComponent from 'ui/components/InputComponent'
 import CheckBox from 'ui/components/CheckBox' 
 import { toast } from 'react-toastify'
 import avaliacaoScores from 'service/avaliacaoScore/avaliacaoScore'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export function EvaluationRecord() {
 
@@ -47,6 +48,9 @@ export function EvaluationRecord() {
   //Avaliation States
   const [formato, setFormato] = useState<string>('')
   const [tipo,    setTipo   ] = useState<string>('')
+
+  const [loading, setLoading] = useState(true);
+
 
 
 /*
@@ -109,7 +113,6 @@ export function EvaluationRecord() {
 
     setId(id)
     setSelectedScore(score?.id)
-    console.log(score?.id)
     setSubItens(score?.item)      
     setFormato(score?.formato)
     setTipo(score?.tipo)
@@ -132,8 +135,6 @@ export function EvaluationRecord() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    console.log("id")
-    console.log(id)
     
     switch (activeKey) {
       case 1:
@@ -158,9 +159,10 @@ export function EvaluationRecord() {
   }
 
   async function handleLoadQuestionario() {
-    const allQuestionario = await avaliacao.list()
-
+    const allQuestionario = await avaliacao.list()    
     setQuestionario(allQuestionario)
+
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -343,8 +345,6 @@ export function EvaluationRecord() {
     handleLoadQuestionario()
   }, [])
 
-  console.log(questionario)
-
 
 
 
@@ -352,6 +352,8 @@ export function EvaluationRecord() {
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>
             <S.LinksScore>
