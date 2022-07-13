@@ -86,12 +86,10 @@ Questionnaires() {
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
 
-    // console.log(newFormValues)
     setAllQuestoesNew(newFormValues)
   }
 
   const removeFormFieldsNew = (i: number) => {
-    // console.log(dependentesNew[i])
     const newFormValues = [...allQuestoesNew]
     newFormValues.splice(i, 1)
     setAllQuestoesNew(newFormValues)
@@ -106,7 +104,6 @@ Questionnaires() {
 
   function openModal() {
     setIsOpen(true)
-    console.log(selectedQuestao)
   }
 
   function openModalFilter() {
