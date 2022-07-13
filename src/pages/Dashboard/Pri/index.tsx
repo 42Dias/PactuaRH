@@ -8,29 +8,34 @@ import { fullName } from 'service/api'
 import profissional from 'service/profissional/profissional'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export default function Pri() {
-  // let { id }  = useParams();
 
+  //===================================== Modal's States
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
+
+  //===================================== Crud's States
+  const [idSelected, setId] = useState<string>('')
   const [nome, setNome] = useState<string>('')
   const [desc, setDesc] = useState<string>('')
-  // const [id, setId] = useState<string>('')
   const [profissionalSelected, setProfissionalSelected] = useState<any>()
-
-  const [idSelected, setId] = useState<string>('')
-
   const [pri, setPri] = useState<any[]>([])
-
   const [priItems, setPriItems] = useState<any[]>([])
   const [priItemsNew, setPriItemsNew] = useState<any[]>([])
   const [allUsers, setAllUsers] = useState<any[]>([])
 
 
+  //===================================== Filter's States
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+
+
+  //===================================== Loading's States
+  const [loading, setLoading] = useState(true);
+
 
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -59,10 +64,10 @@ export default function Pri() {
   }
 
   async function handleLoadPri() {
-    const allPri = await priIService.list()
-
-
+    const allPri = await priIService.list()    
     setPri(allPri)
+
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -126,8 +131,6 @@ export default function Pri() {
   }
 
   const handleChangeState = (i: number, e: any, state: any[], setState: (value: any) => void) => {
-    console.log("e.target.value")
-    console.log(e.target.value)
 
     const newFormValues = [...state]
     // @ts-ignore
@@ -154,13 +157,10 @@ export default function Pri() {
     let filter = ''
 
     if (nomeFilter) {
-      console.log('tem nome')
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter) {
-      console.log('tem desc')
-
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
     }
@@ -176,6 +176,9 @@ export default function Pri() {
     <>
       <S.Body>
         <Sidebar />
+
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
@@ -224,7 +227,6 @@ export default function Pri() {
                       setDesc(pri.descricao)
                       setPriItems(pri.priItems)
                       setProfissionalSelected(pri.profissionaisId)
-                      console.log(pri.profissionaisId)
                       openModal()
                     }}
                   >
