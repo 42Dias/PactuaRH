@@ -12,6 +12,7 @@ import profissional from 'service/profissional/profissional'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { AiFillStar, AiOutlineConsoleSql, AiOutlineStar } from 'react-icons/ai'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 
 export default function MyAvaliations() {
@@ -24,7 +25,8 @@ export default function MyAvaliations() {
   const [points         , setPoints         ] = useState<any>([{}])
   const [pontuation     , setPontuation     ] = useState<string>('')
   const [allPontuations , setAllPontuations  ] = useState<any>({})
-  
+
+  const [loading, setLoading] = useState(true);
 
     /*
   ==========================================================================================================
@@ -62,11 +64,10 @@ export default function MyAvaliations() {
     
     professionalData = professionalData[0] || {}
     
-    console.log(professionalData)
-
     setMyQuestionaries(professionalData?.cargo?.questionarios)
     setAllData(professionalData)
-
+    
+    setLoading(false)
   }
 
   /*
@@ -83,7 +84,6 @@ export default function MyAvaliations() {
       (item: any) => sumOfAnwsers += item.questionarioResposta.resultado 
     )
 
-    console.log(sumOfAnwsers)
 
 
     //sorts the values to descending order
@@ -94,14 +94,10 @@ export default function MyAvaliations() {
 
 
     if(formato == "quantidade"){
-      console.log("dentro do if!")
-
       pontuation = handleCheckPontuationByQuantidy(pontuacoes, sumOfAnwsers)
     }
 
     else if(formato == "porcentagem"){
-      console.log("dentro do if! porcentagem")
-
       const length = respostas.length
 
       pontuation = handleCheckPontuationByPercentage(pontuacoes, sumOfAnwsers, length)
@@ -139,12 +135,8 @@ export default function MyAvaliations() {
 
     sumOfAnwsers = sumOfAnwsers / length
     
-    console.log(items)
     items.map(
       (item: any) => {
-        console.log(`${item.pontuacao} < ${sumOfAnwsers} = ${item.pontuacao < sumOfAnwsers}`)
-        console.log(item.pontuacao < sumOfAnwsers && item.nome)
-
         if (item.pontuacao < sumOfAnwsers){
           pontuation = item.nome
         }
@@ -193,6 +185,8 @@ export default function MyAvaliations() {
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
