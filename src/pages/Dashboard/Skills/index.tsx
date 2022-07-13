@@ -7,12 +7,15 @@ import habilidades from 'service/habilidades/habilidades'
 import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export default function Skills() {
+  //===================================== Modal's States
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
-  
+
+  //===================================== CRUD States
   const [nome, setNome] = useState<string>('')
   const [id, setId] = useState<string>('')
   const [descricao, setDescricao] = useState<string>('')
@@ -21,6 +24,15 @@ export default function Skills() {
   const [skillsFilter           ,setSkillsFilter     ] = useState<string>('')
   const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
 
+  //===================================== Loading's States
+  const [loading, setLoading] = useState(true);
+
+  
+/* 
+==========================================================================================================
+                                        Modal's Functions
+==========================================================================================================
+*/ 
   function openModal() {
     setIsOpen(true)
   }
@@ -37,10 +49,30 @@ export default function Skills() {
     setIsOpenNew(false)
   }
 
-  async function handleLoadSkills() {
-    const allSkills = await habilidades.list()
+  function openModalFilter() {
+    setIsOpenFilter(true)
+  }
 
+  function closeModalFilter() {
+    setIsOpenFilter(false)
+    setSkillsFilter('')
+    setDescricaoFilter('')
+  }
+
+
+
+/* 
+==========================================================================================================
+                                        Crud's Functions
+==========================================================================================================
+*/ 
+  async function handleLoadSkills() {
+    
+    
+    const allSkills = await habilidades.list()    
     setSkills(allSkills)
+
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -67,32 +99,31 @@ export default function Skills() {
     await handleLoadSkills()
   }
 
-  function openModalFilter() {
-    setIsOpenFilter(true)
-  }
 
-  function closeModalFilter() {
-    setIsOpenFilter(false)
-    setSkillsFilter('')
-    setDescricaoFilter('')
-  }
+  async function handleDelete(id: string) {
+    await habilidades.delete(id)
 
-  useEffect(() => {
     handleLoadSkills()
-  }, [])
+  }
 
 
-  async function handleFilterArea() {
+/* 
+==========================================================================================================
+                                        Filters's Functions
+==========================================================================================================
+*/ 
+
+
+
+  async function handleFilterSkills() {
 
     let filter = ''
 
     if (skillsFilter){
-      console.log("tem nome")
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bnome%5D=${skillsFilter}`
     }
     if (descricaoFilter){
-      console.log("tem desc")
 
       if(filter.length != 0 ) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -104,20 +135,29 @@ export default function Skills() {
 
     setSkills(habilidadesFilted)
 
-    //setHabilidades(habilidadesFilted)
-
     closeModalFilter()
   }
 
-  async function handleDelete(id: string) {
-    await habilidades.delete(id)
 
+
+
+/* 
+==========================================================================================================
+                                          useEffect
+==========================================================================================================
+*/ 
+
+  useEffect(() => {
     handleLoadSkills()
-  }
+  }, [])
+  
+
   return (
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
@@ -272,7 +312,7 @@ export default function Skills() {
         <S.ContainerForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleFilterArea()
+            handleFilterSkills()
           }}
         >
           <h2>Filtros</h2>
