@@ -13,6 +13,7 @@ import priItemService from 'service/priItem/priItem'
 import { FiPlus, FiEdit, FiTrash, FiX, FiFilter,FiArrowRight, FiCheck } from 'react-icons/fi'
 import { Select } from 'antd'
 import { AiFillQuestionCircle } from 'react-icons/ai';
+import LoadingLayer from 'ui/components/LoadingLayer';
 const { Option } = Select;
 
 
@@ -26,19 +27,25 @@ export default function PriItem() {
 */
   let { id }  = useParams();
   
-
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  //===================================== Modal's States
+  const [modalIsOpen      , setIsOpen      ] = useState(false)
+  const [modalIsOpenNew   , setIsOpenNew   ] = useState(false)
   const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
-  const [idSelected, setId] = useState<string>('')
-  const [nome, setNome] = useState<string>('')
-  const [desc, setDesc] = useState<string>('')
-  const [atividade, setAtividade] = useState<string>('')
-  // const [id, setId] = useState<string>('')
-  const [pdi, setPdi] = useState<any[]>([])
 
+  //===================================== CRUD's States
+  const [idSelected, setId       ] = useState<string>('')
+  const [nome      , setNome     ] = useState<string>('')
+  const [desc      , setDesc     ] = useState<string>('')
+  const [atividade , setAtividade] = useState<string>('')
+  const [pdi, setPdi] = useState<any[]>([])
+  
+  //===================================== Filter's States
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+
+  //===================================== Loading's States
+  const [loading, setLoading] = useState(true);
+
 
 /*
 ==========================================================================================================
@@ -77,13 +84,14 @@ export default function PriItem() {
 ==========================================================================================================
 */
   async function handleLoadPdi() {
-
+    
     let idSelectedPath = window.location.pathname
     let idSelected = idSelectedPath.replace('/pri-item/', '')
-
+    
     const allPdi = await priItemService.listWithFilter('priId', idSelected)
-
     setPdi(allPdi)
+    
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -148,12 +156,12 @@ export default function PriItem() {
     let filter = `filter%5BpriId%5D=${pdiId}`
 
     if (nomeFilter) {
-      console.log('tem nome')
+      
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter) {
-      console.log('tem desc')
+      
 
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -170,6 +178,8 @@ export default function PriItem() {
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
