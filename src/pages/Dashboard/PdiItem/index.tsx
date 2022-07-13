@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom'
 
 import { FiPlus, FiEdit, FiTrash, FiX, FiFilter,FiArrowRight, FiCheck } from 'react-icons/fi'
 import { Select } from 'antd'
+import LoadingLayer from 'ui/components/LoadingLayer';
 const { Option } = Select;
 
 
@@ -40,6 +41,10 @@ export default function PdiItem() {
 
   const [nomeFilter, setNomeFilter] = useState<string>('')
   const [descricaoFilter, setDescricaoFilter] = useState<string>('')
+
+
+  const [loading, setLoading] = useState(true);
+
 
 /*
 ==========================================================================================================
@@ -79,11 +84,14 @@ export default function PdiItem() {
 */
 
   async function handleLoadPdi() {
+    
+    
     let idSelectedPath = window.location.pathname
     let idSelected = idSelectedPath.replace('/pdi-item/', '')
-    const allPdi = await pdiItemService.listWithFilter('pdiId', idSelected)
-
+    const allPdi = await pdiItemService.listWithFilter('pdiId', idSelected)    
     setPdi(allPdi)
+
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -150,12 +158,12 @@ export default function PdiItem() {
 
 
     if (nomeFilter) {
-      console.log('tem nome')
+      
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter) {
-      console.log('tem desc')
+      
 
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -172,6 +180,8 @@ export default function PdiItem() {
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
