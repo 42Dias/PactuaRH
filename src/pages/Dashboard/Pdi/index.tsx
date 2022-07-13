@@ -9,6 +9,7 @@ import Link from "react-router-dom";
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import profissional from 'service/profissional/profissional'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export default function Pdi() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -29,6 +30,8 @@ export default function Pdi() {
 
   const [allUsers, setAllUsers] = useState<any[]>([])
   const [profissionalSelected, setProfissionalSelected] = useState<any>()
+
+  const [loading, setLoading] = useState(true);
 
   function openModalFilter() {
     setIsOpenFilter(true)
@@ -57,9 +60,12 @@ export default function Pdi() {
   }
 
   async function handleLoadPdi() {
+    
+    
     const allPdi = await pdiService.list()
-
     setPdi(allPdi)
+
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -126,8 +132,6 @@ export default function Pdi() {
   }
 
   const handleChangeState = (i: number, e: any, state: any[], setState: (value: any) => void) => {
-    console.log("e.target.value")
-    console.log(e.target.value)
 
     const newFormValues = [...state]
     // @ts-ignore
@@ -154,12 +158,12 @@ export default function Pdi() {
     let filter = ''
 
     if (nomeFilter) {
-      console.log('tem nome')
+      
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter) {
-      console.log('tem desc')
+      
 
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -176,6 +180,8 @@ export default function Pdi() {
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
