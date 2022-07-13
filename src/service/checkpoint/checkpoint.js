@@ -65,7 +65,7 @@ export default class checkpoint {
       servidorErrorMessage()
     })
     console.log("response")
-    console.log(response)
+    
 
     const responseData = response.data.rows
 

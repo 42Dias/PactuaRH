@@ -17,7 +17,7 @@ export default class empresa{
         const mensagemNotOk = 'Algo deu errado :(';
         responseHandler(status, mensagemOk, mensagemNotOk)
 
-        console.log(response)
+        
         if(response.status == 200){
             return 'ok'
         }
@@ -61,7 +61,7 @@ export default class empresa{
   static async loadEmpresaQuantidade(){
     return await api.get(`empresa-count`)
           .then((response) => {
-            // console.log(response)
+            // 
             let data = response.data[0]
             return data.quantidadeDeEmpresas 
           });
@@ -81,7 +81,7 @@ export default class empresa{
     console.log(url)
     return await api.get(url)
           .then((response) => {
-            // console.log(response)
+            // 
             let data = response.data.rows
             return data 
           });

@@ -12,7 +12,7 @@ export default class centroCustos {
         servidorErrorMessage()
       })
 
-    console.log(response)
+    
 
     const mensagemOk = 'Centro de Custos criado com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('

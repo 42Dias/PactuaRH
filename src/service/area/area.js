@@ -65,7 +65,7 @@ export default class areas {
       servidorErrorMessage()
     })
     console.log("response")
-    console.log(response)
+    
 
     const responseData = response.data.rows
 

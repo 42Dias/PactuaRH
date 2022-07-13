@@ -100,7 +100,7 @@ export default class funcoes {
       })
       .then(async (response) => {
         const mensagemOk = 'Opa, recebemos o seu registro :)'
-        console.log(response)
+        
         responseHandler(response.status, mensagemOk)
         return response
       })
