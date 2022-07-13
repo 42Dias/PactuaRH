@@ -20,6 +20,7 @@ import profissional from 'service/profissional/profissional'
 import dependente from 'service/dependente/dependente'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 
 export default function Professionals() {
@@ -30,48 +31,55 @@ export default function Professionals() {
     rg: string
     dataNas: string
   }
-  const [profissionals, setProfissionals] = useState<any[]>([])
 
+  
+  //===================================== Modal's States
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
-
+  
+  //===================================== Crud's States
   const [allUsers, setAllUsers] = useState<any[]>([])
   const [userSelected, setUserSelected] = useState<any>()
   const [selectedProfessional, setSelectedProfessional] = useState<any>()
-
-  const [id, setId] = useState<string>('')
+  
+  const [profissionals, setProfissionals] = useState<any[]>([])
   const [descricao, setDescricao] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const [nascimento, setNascimento] = useState<string>('')
-  const [genero, setGenero] = useState<string>('')
-  const [estado, setEstado] = useState<string>('')
-  const [nome, setNome] = useState<string>('')
-  const [rg, setRg] = useState<string>('')
-  const [cpf, setCpf] = useState<string>('')
-  const [nomeMae, setNomeMae] = useState<string>('')
-  const [beneficios, setBeneficios] = useState<string>('')
-  const [cargo, setCargo] = useState<string>('')
-  const [cep, setCep] = useState<string>('')
-  const [logradouro, setLogradouro] = useState<string>('')
-  const [bairro, setBairro] = useState<string>('')
-  const [numero, setNumero] = useState<string>('')
-  const [cidade, setCidade] = useState<string>('')
-  const [telefone, setTelefone] = useState<string>('')
-  const [telefone2, setTelefone2] = useState<string>('')
+  const [nascimento , setNascimento ] = useState<string>('')
+  const [genero     , setGenero     ] = useState<string>('')
+  const [estado     , setEstado     ] = useState<string>('')
+  const [nome       , setNome       ] = useState<string>('')
+  const [rg         , setRg         ] = useState<string>('')
+  const [cpf        , setCpf        ] = useState<string>('')
+  const [nomeMae    , setNomeMae    ] = useState<string>('')
+  const [cargo      , setCargo      ] = useState<string>('')
+  const [cep        , setCep        ] = useState<string>('')
+  const [logradouro , setLogradouro ] = useState<string>('')
+  const [bairro     , setBairro     ] = useState<string>('')
+  const [numero     , setNumero     ] = useState<string>('')
+  const [cidade     , setCidade     ] = useState<string>('')
+  const [telefone   , setTelefone   ] = useState<string>('')
+  const [telefone2  , setTelefone2  ] = useState<string>('')
   const [estadoCivil, setEstadoCivil] = useState<string>('')
   const [hasDependente, setHasDependente] = useState<boolean>(false)
-  const [dependentes, setDependentes] = useState<iDependent[]>([
-  ])
+  
+  // n-m association
+  const [dependentes  , setDependentes  ] = useState<iDependent[]>([])
   const [dependentesNew, setDependentesNew] = useState<iDependent[]>([])
-  // const [dependentesNew, setDependentesNew  ] = useState<iDependent[]>([ { nome: '', cpf: '', rg: '', dataNas: '' } ])
 
   const [allPositions, setAllPositions] = useState<iCargo[]>([])
 
-  const [dependentsToDelete, setDependentsToDelete] = useState<iDependent[]>([])
-  const [index, setIndex] = useState<number>(0)
+
+  //===================================== Loading's States
+  const [loading, setLoading] = useState(true);
 
 
+/* 
+==========================================================================================================
+                                        Modal's Functions
+==========================================================================================================
+*/ 
   function clearFields(){
     setDependentes([])
     setDependentesNew([])
@@ -84,7 +92,7 @@ export default function Professionals() {
     setRg("")
     setCpf("")
     setNomeMae("")
-    setBeneficios("")
+
     setCargo("")
     setCep("")
     setLogradouro("")
@@ -124,15 +132,18 @@ export default function Professionals() {
     setIsOpenNew(false)
   }
 
+
+/* 
+==========================================================================================================
+                                        Crud's Functions
+==========================================================================================================
+*/ 
+
   async function handleChangeCep(cepText: string) {
     const cep = cepText.replace(/[^0-9]/g, '')
 
-    // console.log('cep')
-    // console.log(cep)
-
     if (cep.length == 8) {
       const data = await cepInformation(cep)
-      // console.log(data)
       setCep(data.cep)
       setLogradouro(data.logradouro)
       setBairro(data.bairro)
@@ -144,36 +155,39 @@ export default function Professionals() {
   // ============================== Main Functions
 
   async function handleLoadProfessionals() {
+    
+    
     const allProfissionals = await profissional.list()
-
     setProfissionals(allProfissionals)
+
+    setLoading(false)
   }
   async function handleCreateProfessional() {
 
     if (userSelected) setEmail(userSelected.email)
 
     const data = {
-      nome: nome || userSelected?.fullname,
-      cpf: cpf,
-      rg: rg,
-      descricao: descricao,
-      dataNasc: nascimento,
-      nomeMae: nomeMae,
-      cep: cep,
-      email: email,
-      cidade: cidade,
-      bairro: bairro,
-      logradouro: logradouro,
-      numero: numero,
-      telefone1: telefone,
-      telefone2: telefone2,
-      // complemento: complemento,
+      nome:        nome || userSelected?.fullname,
+      cpf:         cpf,
+      rg:          rg,
+      descricao:   descricao,
+      dataNasc:    nascimento,
+      nomeMae:     nomeMae,
+      cep:         cep,
+      email:       email,
+      cidade:      cidade,
+      bairro:      bairro,
+      logradouro:  logradouro,
+      numero:      numero,
+      telefone1:   telefone,
+      telefone2:   telefone2,
       dependentes: dependentes,
-      cargo: cargo,
-      userId: userSelected.id,
-      genero: genero,
-      estado: estado,
+      cargo:       cargo,
+      userId:      userSelected.id,
+      genero:      genero,
+      estado:      estado,
       estadoCivil: estadoCivil,
+      // complemento: complemento,
     }
 
 
@@ -193,34 +207,34 @@ export default function Professionals() {
     const id = selectedProfessional.id
 
     const data = {
-      nome: nome || selectedProfessional?.nome,
-      cpf: cpf || selectedProfessional?.cpf,
-      descricao: descricao || selectedProfessional?.descricao,
-      rg: rg || selectedProfessional?.rg,
-      userId: '' || selectedProfessional?.userId,
-      dataNasc: nascimento || selectedProfessional?.dataNas,
-      nomeMae: nomeMae || selectedProfessional?.nomeMae,
-      cep: cep || selectedProfessional?.cep,
+      nome:        nome        || selectedProfessional?.nome,
+      cpf:         cpf         || selectedProfessional?.cpf,
+      descricao:   descricao   || selectedProfessional?.descricao,
+      rg:          rg          || selectedProfessional?.rg,
+      userId:      ''          || selectedProfessional?.userId,
+      dataNasc:    nascimento  || selectedProfessional?.dataNas,
+      nomeMae:     nomeMae     || selectedProfessional?.nomeMae,
+      cep:         cep         || selectedProfessional?.cep,
       estadoCivil: estadoCivil || selectedProfessional?.estadoCivil,
-      email: email || selectedProfessional?.email,
-      cidade: cidade || selectedProfessional?.cidade,
-      bairro: bairro || selectedProfessional?.bairro,
-      logradouro: logradouro || selectedProfessional?.logradouro,
-      numero: numero || selectedProfessional?.numero,
-      telefone1: telefone || selectedProfessional?.telefone1,
-      telefone2: telefone2 || selectedProfessional?.telefone2,
-      cargo: cargo || selectedProfessional?.cargo.id,
+      email:       email       || selectedProfessional?.email,
+      cidade:      cidade      || selectedProfessional?.cidade,
+      bairro:      bairro      || selectedProfessional?.bairro,
+      logradouro:  logradouro  || selectedProfessional?.logradouro,
+      numero:      numero      || selectedProfessional?.numero,
+      telefone1:   telefone    || selectedProfessional?.telefone1,
+      telefone2:   telefone2   || selectedProfessional?.telefone2,
+      cargo:       cargo       || selectedProfessional?.cargo.id,
       dependentes: dependentes || selectedProfessional?.dependentes,
       dependentesNew: dependentesNew,
     }
     const isUpdated = await profissional.update(id, data)
 
-    // console.log(isUpdated)
-
     handleLoadProfessionals()
 
     closeModal()
   }
+
+
   // ============================== Handle Change Screen elements
   const addFormFields = () => {
     // @ts-ignore
@@ -234,12 +248,10 @@ export default function Professionals() {
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
 
-    // console.log(newFormValues)
     setDependentes(newFormValues)
   }
 
   const removeFormFields = (i: number) => {
-    // console.log(dependentes[i])
     const newFormValues = [...dependentes]
     newFormValues.splice(i, 1)
     setDependentes(newFormValues)
@@ -258,12 +270,10 @@ export default function Professionals() {
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
 
-    // console.log(newFormValues)
     setDependentesNew(newFormValues)
   }
 
   const removeFormFieldsNew = (i: number) => {
-    // console.log(dependentesNew[i])
     const newFormValues = [...dependentesNew]
     newFormValues.splice(i, 1)
     setDependentesNew(newFormValues)
@@ -273,16 +283,11 @@ export default function Professionals() {
   async function handleLoadPosition() {
     const cargo = await cargos.list()
 
-    // console.log('cargos')
-    // console.log(cargo)
 
     setAllPositions(cargo)
   }
   async function getUsers() {
     const users = await user.list()
-
-    // console.log('users')
-    // console.log(users)
 
     setAllUsers(users)
   }
@@ -290,7 +295,15 @@ export default function Professionals() {
   async function handleRemoveDependent(id?: string) {
     await dependente.delete(id)
   }
-  // ============================== UseEffects
+
+
+
+/* 
+==========================================================================================================
+                                          UseEffect
+==========================================================================================================
+*/ 
+
 
   useEffect(() => {
     handleLoadPosition()
@@ -316,76 +329,56 @@ async function handleFilterProfessionals(){
   let filter = ''
 
   if (nome){
-    console.log("tem nome")
-    if(filter.length != 0 ) filter += '&'
     filter += `filter%5Bnome%5D=${nome}`
   }
   if (cpf){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5Bcpf%5D=${cpf}`
     
   }
 
   if (rg){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5Brg%5D=${rg}`
     
   }
 
   if (nascimento){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5BdataNasc%5D=${nascimento}`
     
   }
 
   if (nomeMae){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5BnomeMae%5D=${nomeMae}`
   
   }
 
   if (cep){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5Bcep%5D=${cep}`
     
   }
 
   if (estadoCivil){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5BestadoCivil%5D=${estadoCivil}`
     
   }
 
   if (email){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5Bemail%5D=${email}`
     
   }
 
   if (cidade){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5Bcidade%5D=${cidade}`
     
   }
   if (cargo){
-    console.log("tem desc")
-
     if(filter.length != 0 ) filter += '&'
     filter += `filter%5Bcargo%5D=${cargo}`
     
@@ -395,7 +388,6 @@ async function handleFilterProfessionals(){
   let professionalsFiltered = await profissional.listWithManyFilters(filter)
 
   setProfissionals(professionalsFiltered)
-  console.log(professionalsFiltered)
 
   closeModalFilter()
 
@@ -404,6 +396,8 @@ async function handleFilterProfessionals(){
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
@@ -445,15 +439,11 @@ async function handleFilterProfessionals(){
                 <td>
                   <button
                     onClick={() => {
-                      setId(value.id)
+
                       setSelectedProfessional(value)
-                      console.log(value)
                       setHasDependente(value.dependente.length >= 1)
-                      console.log(value.dependente.length >= 1)
                       setDependentes(value.dependente)
                       setCargo(value.cargo.id)
-                      // console.log("value.cargo.id")
-                      // console.log(value.cargo.id)
 
                       openModal()
                     }}
@@ -693,7 +683,6 @@ async function handleFilterProfessionals(){
                       const cpfWithLetters = e.target.value
                       const clearedCpf = cpfWithLetters.replace(/\D/g, '')
 
-                      // console.log(clearedCpf)
                       if (clearedCpf.length != 11) return
 
                       checkCPF(clearedCpf)
@@ -755,7 +744,6 @@ async function handleFilterProfessionals(){
                       const cpfWithLetters = e.target.value
                       const clearedCpf = cpfWithLetters.replace(/\D/g, '')
 
-                      // console.log(clearedCpf)
                       if (clearedCpf.length != 11) return
 
                       checkCPF(clearedCpf)
@@ -992,7 +980,6 @@ async function handleFilterProfessionals(){
           <select name='' id=''
           onChange={(e) => {
             setGenero(e.target.value)
-            console.log(e.target.value)
               
           }
             }>
@@ -1062,7 +1049,6 @@ async function handleFilterProfessionals(){
                       const cpfWithLetters = e.target.value
                       const clearedCpf = cpfWithLetters.replace(/\D/g, '')
 
-                      // console.log(clearedCpf)
                       if (clearedCpf.length != 11) return
 
                       checkCPF(clearedCpf)
