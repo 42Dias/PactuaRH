@@ -8,8 +8,15 @@ import areas from 'service/area/area'
 import { fullName } from 'service/api'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 export default function Area() {
+
+/* 
+==========================================================================================================
+                                      States
+==========================================================================================================
+*/ 
   const [modalIsOpen    ,setIsOpen   ] = useState(false)
   const [modalIsOpenNew ,setIsOpenNew] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
@@ -28,6 +35,15 @@ export default function Area() {
   const [id             , setId      ] = useState<string>('')
   const [area           , setArea    ] = useState([])
 
+
+  const [loading, setLoading] = useState(true);
+
+
+/* 
+==========================================================================================================
+                                      Modal's Functions
+==========================================================================================================
+*/ 
   function openModal() {
     setIsOpen(true)
   }
@@ -60,10 +76,20 @@ export default function Area() {
     setAreaPaiFilter('')
   }
 
+/* 
+==========================================================================================================
+                                        Crud's Functions
+==========================================================================================================
+*/ 
+
   async function handleLoadArea() {
+    
+
     const allArea = await areas.list()
 
     setArea(allArea)
+
+    setLoading(false)
   }
 
   async function handleCreate() {
@@ -148,10 +174,12 @@ export default function Area() {
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
         <S.Container>
+
           <S.FlexButtons>
             <div>
               <button onClick={openModalNew}>
