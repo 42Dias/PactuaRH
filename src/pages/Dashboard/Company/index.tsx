@@ -11,13 +11,18 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import { toast } from 'react-toastify'
 
 import checkCNPJ from '../../../utils/checkCNPJ'
+import LoadingLayer from 'ui/components/LoadingLayer'
 
 
 export default function Company() {
+  
+  
+  //===================================== Modal's States
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
 
+  //===================================== CRUD's States
   const [cnpj       , setCnpj       ] = useState<string>("")
   const [id         , setId         ] = useState<string>("")
   const [cnac       , setCnac       ] = useState<string>("")
@@ -30,7 +35,19 @@ export default function Company() {
   const [inscricaoEstadual, setInscricaoEstadual] = useState<string>("")
   const [inscricaoMunicipal, setInscricaoMunicipal] = useState<string>("")
 
-  function clearFields(){
+  //===================================== Loading's States
+  const [loading, setLoading] = useState(true);
+
+
+
+
+
+/* 
+==========================================================================================================
+                                        Modal's Functions
+==========================================================================================================
+*/ 
+function clearFields(){
     setCnpj("")
     setCnac("")
     setNome("")
@@ -74,28 +91,30 @@ export default function Company() {
     clearFields()
   }
 
+
+
+/* 
+==========================================================================================================
+                                        Crud's Functions
+==========================================================================================================
+*/ 
   /*
-  
   IMPORTANT OBS.: This plataform works as Multi-Tenant so a admin can only see its own employees,
   HE CANNOT SEE ANY OTHER EMPLOYEE INSTEAD OF ITS OWN! 
-
   */ 
 
   /*
-  
     IT CREATES A ENTERPRISE WITH ADMIN's TENANTID 
-  
   */
     async function handleLoaderEmpresa(){
+      
+      
       const empresaCadastradas = await empresa.loadEmpresas();
-      console.log(empresaCadastradas);
       setAllEmpresa(empresaCadastradas);
+      
+      setLoading(false)
     }
-    useEffect(
-      () => {
-        handleLoaderEmpresa()
-      },[]
-    )
+
 
     async function cadastrarEmpresa() {
       let data = {
@@ -146,6 +165,13 @@ export default function Company() {
       await handleLoaderEmpresa()
 
     }
+
+
+/* 
+==========================================================================================================
+                                        Filters's Functions
+==========================================================================================================
+*/ 
   
     async function handleFilterEmpresa(){
 
@@ -212,10 +238,24 @@ export default function Company() {
     else toast.success("CNPJ Válido") 
   }
 
+/* 
+==========================================================================================================
+                                          UseEffect
+==========================================================================================================
+*/ 
+  useEffect(
+    () => {
+      handleLoaderEmpresa()
+    },[]
+  )
+
+
   return (
     <>
       <S.Body>
         <Sidebar />
+        <LoadingLayer loading={loading} />
+
         <S.Title>
           <S.Container>Bem vindo, {fullName} 😁</S.Container>
         </S.Title>
