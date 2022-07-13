@@ -93,8 +93,6 @@ export default function QuestionaryScore() {
     const newId = window.location.pathname.replace('/questionario-score/', '')
     const allBenefits = await questionariosScores.listWithFilter('questionarioId', newId)
 
-    console.log(allBenefits)
-
     setBenefits(allBenefits[0] || {})
   }
 
@@ -147,12 +145,12 @@ export default function QuestionaryScore() {
     let filter = ''
 
     if (nomeFilter) {
-      console.log("tem nome")
+      
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
     if (descricaoFilter) {
-      console.log("tem desc")
+      
 
       if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
@@ -261,7 +259,6 @@ export default function QuestionaryScore() {
                         setNome(benefits?.nome)
                         setFormato(benefits?.formato)
                         setSubItens(benefits?.item)
-                        console.log(benefits?.item)
                         openModal()
                       }}
                     >
