@@ -93,7 +93,7 @@ export function MyRatings() {
 
               <div>
                 <Status />
-                <small>Questionário</small>
+                <small>Iniciativa ou KPI</small>
               </div>
 
               <div>
@@ -120,7 +120,7 @@ export function MyRatings() {
             <p
             // to='/avaliacao'
             >
-              Questionário &gt;
+              Iniciativa ou KPI &gt;
               </p>
             <p
             // to='/perguntas'
