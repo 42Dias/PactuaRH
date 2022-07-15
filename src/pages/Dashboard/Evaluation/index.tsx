@@ -13,6 +13,7 @@ import CheckBox from 'ui/components/CheckBox'
 import { toast } from 'react-toastify'
 import questionariosScores from 'service/questionariosScore/questionariosScore'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import Status from 'ui/components/Status'
 
 export function Evaluation() {
 
@@ -296,25 +297,6 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
                                   Page's SubComponents 
   ==========================================================================================================
   */
-  function Status() {
-    const [isActiveColor, setIsActiveColor] = useState(false)
-
-    function changeColor() {
-      if (isActiveColor === false) {
-        setIsActiveColor(true)
-      } else {
-        setIsActiveColor(false)
-      }
-    }
-
-
-    return (
-      <span
-        onClick={changeColor}
-        className={`${isActiveColor ? 'activeColor' : ''}`}
-      />
-    )
-  }
 
   function TitleComponent({ title }: PropsModal) {
     return <h1>{title}</h1>
@@ -388,8 +370,8 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
               </div>
 
               <div>
-                <Status />
-                <small>Questionário</small>
+                <Status active={true} />
+                <small>Iniciativa ou KPI</small>
               </div>
 
               <div>
@@ -416,7 +398,7 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
             className='active-class' 
             // to='/avaliacao'
             >
-              Questionário &gt;
+              Iniciativa ou KPI &gt;
             </p>
             <p 
             // to='/perguntas'
