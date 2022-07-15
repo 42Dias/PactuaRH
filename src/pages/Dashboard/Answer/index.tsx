@@ -182,7 +182,7 @@ export function Answer() {
 
               <div>
                 <Status />
-                <small>Questionário</small>
+                <small>Iniciativa ou KPI</small>
               </div>
 
               <div>
@@ -201,7 +201,7 @@ export function Answer() {
         <S.Container>
           <S.LinksContainer>
             <Link className='active-class' to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
-            <Link to='/avaliacao'>Questionário &gt;</Link>
+            <Link to='/avaliacao'>Iniciativa ou KPI &gt;</Link>
             <Link to='/perguntas'>Perguntas &gt;</Link>
             <Link to='/'>Resposta</Link>
           </S.LinksContainer>

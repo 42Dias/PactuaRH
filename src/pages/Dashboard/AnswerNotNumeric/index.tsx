@@ -184,7 +184,7 @@ export function AnswerNotNumeric() {
 
               <div>
                 <Status />
-                <small>Questionário</small>
+                <small>Iniciativa ou KPI</small>
               </div>
 
               <div>
@@ -203,7 +203,7 @@ export function AnswerNotNumeric() {
         <S.Container>
           <S.LinksContainer>
             <Link className='active-class' to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
-            <Link to='/avaliacao'>Questionário &gt;</Link>
+            <Link to='/avaliacao'>Iniciativa ou KPI &gt;</Link>
             <Link to='/perguntas'>Perguntas &gt;</Link>
             <Link to='/'>Resposta</Link>
           </S.LinksContainer>
