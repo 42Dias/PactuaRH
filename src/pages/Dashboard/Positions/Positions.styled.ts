@@ -86,7 +86,6 @@ export const TrSecond = styled.tr`
 `
 
 export const ContainerForm = styled.form`
-
   label {
     display: block;
     margin: 20px 0;
@@ -101,7 +100,7 @@ export const ContainerForm = styled.form`
   input {
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 400;
     background: #e7e9ee;
@@ -111,6 +110,7 @@ export const ContainerForm = styled.form`
     &::placeholder {
       color: #747474;
     }
+    
     & + input {
     }
   }
@@ -118,7 +118,7 @@ export const ContainerForm = styled.form`
   select {
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 400;
     background: #e7e9ee;
@@ -137,7 +137,7 @@ export const ContainerForm = styled.form`
     margin-top: 1.5rem;
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 600;
     color: #ffffff;
@@ -152,17 +152,21 @@ export const ContainerForm = styled.form`
   }
 
   button {
-    margin-top: 1.5rem;
-    padding: 0 1.5rem;
-    width: 100%;
-    height: 4rem;
-    font-size: 1rem;
-    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 230px;
+    height: 2.5rem;
+    padding: 0 10px;
+    font-size: 13px;
     color: #ffffff;
-    background: black;
     border: 0;
     border-radius: 0.25rem;
     transition: filter 0.2s ease-in-out;
+    border: 1px solid #50C878;
+    color: white;
+    background: #50C878;
 
     &:hover {
       filter: brightness(0.9);
@@ -187,43 +191,48 @@ export const ContainerForm = styled.form`
     }
   }
 
-  .btn-add{
-    width: 100% !important; 
-  }
-
   .btn-trash{
     background-color: #EA1C24;
     margin-left: 5px;
     margin-right: 5px;
-    width: 15%;
+    border: 1px solid #EA1C24;
+
+    svg {
+      color: white;
+    }
   }
 
-  .border{
+  .border {
     display: flex;
     align-items: center;
     flex-direction: column;
-
-    select {
-      margin-top: 1.5rem;
-    }
     
     .return {
       display: flex;
       align-items: center;
-      width: 100%;  
+      width: 100%;
+
+      & + .return {
+        margin-top: 20px;
+      }
+
       button {
-        height: 4rem;
+        height: 3rem;
+        width: 60px;
       }
     }
   }
 
-`
-
-
+  .add-component {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+`;
 
 export const divCheck = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-`
-
+`;

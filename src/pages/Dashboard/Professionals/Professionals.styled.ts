@@ -95,7 +95,7 @@ export const ContainerForm = styled.form`
   input {
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 400;
     background: #e7e9ee;
@@ -111,7 +111,7 @@ export const ContainerForm = styled.form`
     margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 400;
     background: #e7e9ee;
@@ -127,7 +127,7 @@ export const ContainerForm = styled.form`
     margin-top: 1.5rem;
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 600;
     color: #ffffff;
@@ -165,15 +165,13 @@ export const ContainerForm = styled.form`
       bottom:0;
       margin-top:auto;
       margin-bottom:auto;
-    }
-
-    
+    } 
   }
 
   .btn-plus{
-    width: 100%
+    width: 100%;
+    background: #50C878;
   }
-
 
   .return {
     align-items: baseline;
@@ -192,19 +190,16 @@ export const ContainerForm = styled.form`
     
     button {
       width: 15%;
-      height: 4rem;
+      height: 3rem;
     }
-
   }
-    
 
   .btn-trash{
-    background-color: #EA1C24;
+    background-color: #EA1C24 !important;
     margin-top: 0 !important;
     margin-left: 5px;
     margin-right: 5px;
   }
-  
 `
 
 

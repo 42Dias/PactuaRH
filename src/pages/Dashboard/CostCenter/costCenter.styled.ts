@@ -92,7 +92,7 @@ export const ContainerForm = styled.form`
     margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 400;
     background: #e7e9ee;
@@ -109,7 +109,7 @@ export const ContainerForm = styled.form`
     margin: 10px 0;
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 400;
     background: #e7e9ee;
@@ -126,7 +126,7 @@ export const ContainerForm = styled.form`
     margin-top: 1.5rem;
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 600;
     color: #ffffff;
