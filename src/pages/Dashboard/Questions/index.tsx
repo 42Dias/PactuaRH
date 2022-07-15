@@ -16,6 +16,7 @@ import InputComponent from 'ui/components/InputComponent'
 import { iQuestoes, PropsModal } from 'types'
 import TextAreaComponent from 'ui/components/TextAreaComponent'
 import questionarios from 'service/questionarios/questionarios'
+import Status from 'ui/components/Status'
 
 
 export function   Questions() {
@@ -278,26 +279,6 @@ export function   Questions() {
 */
 
 
-
-  function Status() {
-    const [isActiveColor, setIsActiveColor] = useState(false)
-
-    function changeColor() {
-      if (isActiveColor === false) {
-        setIsActiveColor(true)
-      } else {
-        setIsActiveColor(false)
-      }
-    }
-
-    return (
-      <span
-        onClick={changeColor}
-        className={`${isActiveColor ? 'activeColor' : ''}`}
-      />
-    )
-  }
-
   function TitleComponent({ title }: PropsModal) {
     return <h1>{title}</h1>
   }
@@ -358,7 +339,7 @@ export function   Questions() {
 
               <div>
                 <Status />
-                <small>Questionário</small>
+                <small>Iniciativa ou KPI</small>
               </div>
 
               <div>
@@ -367,7 +348,7 @@ export function   Questions() {
               </div>
 
               <div>
-                <Status />
+                <Status active={true}/>
                 <small>Perguntas</small>
               </div>
             </S.LinksScore>
