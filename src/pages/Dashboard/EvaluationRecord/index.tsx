@@ -13,6 +13,7 @@ import CheckBox from 'ui/components/CheckBox'
 import { toast } from 'react-toastify'
 import avaliacaoScores from 'service/avaliacaoScore/avaliacaoScore'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import Status from 'ui/components/Status'
 
 export function EvaluationRecord() {
 
@@ -21,21 +22,18 @@ export function EvaluationRecord() {
                                         STATES
 ==========================================================================================================
 */
-  //ModalStates
+
+  //===================================== Modal's States
   const [modalIsOpen, setIsOpen] = useState(false);
   const [activeKey, setActiveTabKey] = useState<number>(0);
 
-  //PageComponents States
+  //===================================== PageComponents's States
   const [questionario     , setQuestionario     ] = useState<iQuestoes[] | any>([])
   const [selectedScore    , setSelectedScore    ] = useState<iQuestoes[] | any>([])
   const [selectedScoreItem, setSelectedScoreItem] = useState<iQuestoes[] | any>([])
-  
   const [id             , setId             ] = useState<string | undefined>("")
   const [nome           , setNome           ] = useState<string | undefined>('')
-
   const [subItens        , setSubItens      ] = useState<any[] | undefined>()
-
-
   const [score         , setScore  ] = useState<string>("")
   const [titulo        , setTitulo ] = useState<string>("")
   const [de            , setDe     ] = useState<string | number>("")
@@ -44,13 +42,13 @@ export function EvaluationRecord() {
 
 
 
-
   //Avaliation States
   const [formato, setFormato] = useState<string>('')
   const [tipo,    setTipo   ] = useState<string>('')
+  const [forma,    setForma ] = useState<string>('')
 
+  //Loading State
   const [loading, setLoading] = useState(true);
-
 
 
 /*
@@ -90,7 +88,6 @@ export function EvaluationRecord() {
     setIsOpen(false)
   }
 
-  //Differentiate modals
 
   function handleOpenCreateModal(){
     openModal(1)
@@ -115,6 +112,7 @@ export function EvaluationRecord() {
     setSelectedScore(score?.id)
     setSubItens(score?.item)      
     setFormato(score?.formato)
+    setForma(score?.forma)
     setTipo(score?.tipo)
 
     setTitulo(nome!)
@@ -196,7 +194,7 @@ export function EvaluationRecord() {
   }
 
 
-  //it is autautomatically created in backend in the avaliation creation  
+  // it is automatically created in backend in the avaliation creation  
   // So it is just necessary to updated it's values
   async function updateSecondary() {
 
@@ -268,25 +266,6 @@ export function EvaluationRecord() {
                                   Page's SubComponents 
   ==========================================================================================================
   */
-  function Status() {
-    const [isActiveColor, setIsActiveColor] = useState(false)
-
-    function changeColor() {
-      if (isActiveColor === false) {
-        setIsActiveColor(true)
-      } else {
-        setIsActiveColor(false)
-      }
-    }
-
-
-    return (
-      <span
-        onClick={changeColor}
-        className={`${isActiveColor ? 'activeColor' : ''}`}
-      />
-    )
-  }
 
   function TitleComponent({ title }: PropsModal) {
     return <h1>{title}</h1>
@@ -358,7 +337,7 @@ export function EvaluationRecord() {
           <S.Container>
             <S.LinksScore>
               <div>
-                <Status />
+                <Status active={true}/>
                 <small>Avaliação</small>
               </div>
 
@@ -369,7 +348,7 @@ export function EvaluationRecord() {
 
               <div>
                 <Status />
-                <small>Questionário</small>
+                <small>Iniciativa ou KPI</small>
               </div>
 
               <div>
@@ -396,7 +375,7 @@ export function EvaluationRecord() {
             <p
             // to='/avaliacao'
             >
-              Questionário &gt;
+              Iniciativa ou KPI &gt;
             </p>
             <p
             // to='/perguntas'
@@ -481,18 +460,14 @@ export function EvaluationRecord() {
 
               <ConfigCheckTitle titleConfig='Esta Avaliação é' />
               <div className="checkContainer">
-                <CheckBox value="porcentagem" checkBoxTitle='PDI' onChange={() => setTipo("porcentagem")}  checked={tipo === "a" } />
-                <CheckBox value="quantidade"  checkBoxTitle='PMP'      onChange={() => setTipo("quantidade")}   checked={tipo === "b" }  />
-                <CheckBox value="quantidade"  checkBoxTitle='Avaliação Desempenho'      onChange={() => setTipo("quantidade")}   checked={tipo === "c" }  />
+                <CheckBox value="porcentagem" checkBoxTitle='PDI'                       onChange={() => setForma("PDI")}                   checked={forma === "PDI" } />
+                <CheckBox value="quantidade"  checkBoxTitle='PMP'                       onChange={() => setForma("PMP")}                   checked={forma === "PMP" }  />
+                <CheckBox value="quantidade"  checkBoxTitle='Avaliação Desempenho'      onChange={() => setForma("AvaliacaoDesempenho")}   checked={forma === "AvaliacaoDesempenho" }  />
               </div>
 
-              <br />
-              <br />
-              <br />
-              <br />
               <ConfigCheckTitle titleConfig='Formato' />
               <div className="checkContainer">
-                <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("x")}    checked={formato === "x"}      />
+                <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("x")} checked={formato === "x"}   />
                 <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("y")} checked={formato === "y" }  />
               </div>
 
@@ -549,8 +524,8 @@ export function EvaluationRecord() {
             <>
               <TitleComponent title='Adicionar score' onChange={(text: any) => setScore(text)}  value={score} />
               <InputComponent title='Titulo'          onChange={(text: any) => setTitulo(text)} value={titulo}    />
-              <InputComponent title='De *%*'          onChange={(text: any) => setDe(text)}     value={de}        />
-              <InputComponent title='Até *%*'         onChange={(text: any) => setAte(text)}    value={ate}       />
+              <InputComponent title='De'          onChange={(text: any) => setDe(text)}     value={de}        />
+              <InputComponent title='Até'         onChange={(text: any) => setAte(text)}    value={ate}       />
             </>
           )}
 
@@ -558,8 +533,8 @@ export function EvaluationRecord() {
             <>
               <TitleComponent title='Editar score' onChange={(text: any) => setScore(text)}  value={score} />
               <InputComponent title='Titulo'       onChange={(text: any) => setTitulo(text)} value={titulo}    />
-              <InputComponent title='De *%*'       onChange={(text: any) => setDe(text)}     value={de}        />
-              <InputComponent title='Até *%*'      onChange={(text: any) => setAte(text)}    value={ate}       />
+              <InputComponent title='De'       onChange={(text: any) => setDe(text)}     value={de}        />
+              <InputComponent title='Até'      onChange={(text: any) => setAte(text)}    value={ate}       />
             </>
           )}
 
