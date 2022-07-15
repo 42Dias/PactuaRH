@@ -15,7 +15,7 @@ import { toast } from 'react-toastify'
 import InputComponent from 'ui/components/InputComponent'
 import { iQuestoes, PropsModal } from 'types'
 import TextAreaComponent from 'ui/components/TextAreaComponent'
-import questionariosScores from 'service/questionariosScore/questionariosScore'
+import questionarios from 'service/questionarios/questionarios'
 
 
 export function   Questions() {
@@ -50,7 +50,7 @@ export function   Questions() {
 
   const [formato, setFormato] = useState<string | number>('')
 
-  const [questionaryKindOfAvaliation, setQuestionaryKindOfAvaliation] = useState<string | undefined>('')
+  const [questionaryLink, setQuestionaryLink] = useState<string | undefined>('')
 
 
 
@@ -186,6 +186,8 @@ export function   Questions() {
     const allQuestions = await questionarioItem.listWithFilter("questionarioId", id)
     setQuestions(allQuestions)
 
+    const questionary = await questionarios.find(id)
+    setQuestionaryLink(questionary.avaliacao.id)
     
   }
 
@@ -378,10 +380,11 @@ export function   Questions() {
             to='/cadastro-de-avaliacao'
             >
               Avaliação &gt;</Link>
-            <p
-            // to='/avaliacao '
+            <Link
+            to={`/avaliacao/${questionaryLink}`}
             >
-              Questionário &gt;</p>
+              Iniciativa ou KPI &gt;
+            </Link>
             <p
             className='active-class'
             // to='/perguntas'
