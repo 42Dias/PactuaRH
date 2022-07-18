@@ -582,7 +582,7 @@ function closeModalFilter() {
 
           <button
             type='button'
-            className='btn-actions'
+            className='btn-add-field'
             onClick={() => addFormFields()}
           >
             <FiPlus />

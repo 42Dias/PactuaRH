@@ -575,61 +575,12 @@ export default function Checkpoints() {
             onChange={(e) => setDataFim(e.target.value)}
           />
 
-          {/* <label htmlFor=''>Avaliação</label>
-          <S.SelectPai
-            onChange={(e) => {
-              setAvaliation(e.target.value)
-            }}
-            placeholder='Avaliação'
-            value={avaliation}
-          >
-            <S.OptionsPai hidden>Selecione</S.OptionsPai>
-            {allAvaliacao.map((value: any, index) => (
-              <S.OptionsPai key={index} value={value.id}>
-                {value.nome}
-              </S.OptionsPai>
-            ))}
-          </S.SelectPai> */}
-
-          {/*
-          <label htmlFor=''>PDI</label>
-          <S.SelectPai
-            onChange={(e) => {
-              setPdi(e.target.value)
-            }}
-            placeholder='PDI'
-            defaultValue={pdi}
-          >
-            <S.OptionsPai hidden>Selecione</S.OptionsPai>
-            {allPdi.map((value: any, index) => (
-              <S.OptionsPai key={index} value={value.id}>
-                {value.nome}
-              </S.OptionsPai>
-            ))}
-          </S.SelectPai>
-          */}
-          
-          {/*
-          <label htmlFor=''>PRI</label>
-          <S.SelectPai
-            onChange={(e) => {
-              setPri(e.target.value)
-            }}
-            placeholder='PRI'
-            defaultValue={pri}
-          >
-            <S.OptionsPai hidden>Selecione</S.OptionsPai>
-            {allPri.map((value: any, index) => (
-              <S.OptionsPai key={index} value={value.id}>
-                {value.nome}
-              </S.OptionsPai>
-            ))}
-          </S.SelectPai>
-          */}
-
-          
-
-          <label htmlFor=''>Avaliações</label>
+          <div className="flex-space">
+            <label htmlFor=''>Avaliações</label>
+            <button type='button' onClick={() => stateHandler.addFormFields(avaliations, setAvaliations)}>
+              <FiPlus />
+            </button>
+          </div>
           {
             avaliations.map(
               (e, i) => (
@@ -661,11 +612,13 @@ export default function Checkpoints() {
             )
           }
 
-          <button type='button' onClick={() => stateHandler.addFormFields(avaliations, setAvaliations)}>
-            <FiPlus />
-          </button>
+          <div className="flex-space">
+            <label htmlFor=''>PDI</label>
+            <button type='button' onClick={() => stateHandler.addFormFields(pdiItems, setPdiItems)}>
+              <FiPlus />
+            </button>
+          </div>
 
-          <label htmlFor=''>PDI</label>
           {
             pdiItems.map(
               (e, i) => (
@@ -697,13 +650,12 @@ export default function Checkpoints() {
             )
           }
 
-          <button type='button' onClick={() => stateHandler.addFormFields(pdiItems, setPdiItems)}>
-            <FiPlus />
-          </button>
-
-
-
-          <label htmlFor=''>PRI</label>
+          <div className="flex-space">
+            <label htmlFor=''>PRI</label>
+            <button type='button' onClick={() => stateHandler.addFormFields(priItems, setPriItems)}>
+              <FiPlus />
+            </button>
+          </div>
           {
             priItems.map(
               (e, i) => (
@@ -734,10 +686,6 @@ export default function Checkpoints() {
               )
             )
           }
-
-          <button type='button' onClick={() => stateHandler.addFormFields(priItems, setPriItems)}>
-            <FiPlus />
-          </button>
 
           <label htmlFor=''>Status</label>
 

@@ -112,7 +112,6 @@ export function Answer() {
     openModal()
   }
 
-
   function handleSetDefaultValues(allAnswerQuestionary: iQuestoes){
     const {questionarioId, id, questionarioResposta} = allAnswerQuestionary
     let isAnswered = false;

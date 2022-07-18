@@ -3,7 +3,6 @@ import Modal from 'react-modal'
 import { FiPlus, FiEye, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Education.styled'
 import { useEffect, useState } from 'react'
-import InputMask from 'react-input-mask'
 import escolaridade from 'service/escolaridade/escolaridade'
 import { fullName } from 'service/api'
 //@ts-ignore

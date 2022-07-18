@@ -104,10 +104,26 @@ export const ContainerForm = styled.form`
     color: var(--text-title);
   }
 
+  .flex-space {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    button {
+      max-width: 50px;
+      background-color: #50C878;
+
+      svg {
+        position: relative;
+        left: -7px;
+      }
+    }
+  }
+
   input {
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 400;
     background: #e7e9ee;
@@ -124,7 +140,7 @@ export const ContainerForm = styled.form`
   select {
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 400;
     background: #e7e9ee;
@@ -161,7 +177,7 @@ export const ContainerForm = styled.form`
     margin-top: 1.5rem;
     padding: 0 1.5rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     font-size: 1rem;
     font-weight: 600;
     color: #ffffff;
@@ -199,11 +215,8 @@ export const ContainerForm = styled.form`
 
   .btn-trash{
     background-color: #EA1C24;
-    margin-left: 5px;
-    margin-right: 5px;
     width: 15%;
     margin-top:0;
-
   }
 
   .border{
@@ -220,10 +233,11 @@ export const ContainerForm = styled.form`
     .return {
       display: flex;
       align-items: center;
+      gap: 5px;
       margin-bottom: 1.5rem;
       width: 100%;  
       button {
-        height: 4rem;
+        height: 3rem;
       }
     }
   }
