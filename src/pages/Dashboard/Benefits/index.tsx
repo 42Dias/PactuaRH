@@ -60,6 +60,14 @@ export default function Benefits() {
   function closeModalNew() {
     setIsOpenNew(false)
   }
+
+   // open the edit modal
+   function openEditModal(selectedValue: any){
+    setId(selectedValue.id)
+    setNome(selectedValue.nome)
+    setDescricao(selectedValue.descricao)
+    openModal()
+  }
 /* 
 ==========================================================================================================
                                         Crud's Functions
@@ -188,9 +196,7 @@ export default function Benefits() {
                 <td>
                   <button
                     onClick={() => {
-                      setId(benefit.id)
-                      setNome(benefit.nome)
-                      openModal()
+                      openEditModal(benefit)
                     }}
                   >
                     <FiEdit size={18} />
@@ -209,6 +215,11 @@ export default function Benefits() {
         </S.Container>
       </S.Body>
 
+{/*
+===========================================================================================================
+                                      UPDATE MODAL
+===========================================================================================================
+*/}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -236,8 +247,7 @@ export default function Benefits() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
-           <input
-            type='text'
+           <textarea
             placeholder='Descrição'
             defaultValue={descricao}
             onChange={(e) => setDescricao(e.target.value)}
@@ -246,6 +256,12 @@ export default function Benefits() {
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
+
+{/*
+===========================================================================================================
+                                      CREATION MODAL
+===========================================================================================================
+*/}
 
       <Modal
         isOpen={modalIsOpenNew}
@@ -276,8 +292,7 @@ export default function Benefits() {
             placeholder='Nome do benefício'
             required
           />
-          <input
-            type='text'
+          <textarea
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
             required
