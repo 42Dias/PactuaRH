@@ -59,6 +59,14 @@ export default function Skills() {
     setDescricaoFilter('')
   }
 
+     // open the edit modal
+     function openEditModal(selectedValue: any){
+      setId(selectedValue.id)
+      setNome(selectedValue.nome)
+      setDescricao(selectedValue.descricao)
+      openModal()
+    }
+
 
 
 /* 
@@ -194,10 +202,7 @@ export default function Skills() {
                   <td>
                     <button
                       onClick={() => {
-                        setId(skills.id)
-                        setNome(skills.nome)
-                        setDescricao(skills.descricao)
-                        openModal()
+                        openEditModal(skills)
                       }}
                     >
                       <FiEdit size={18} />
@@ -216,6 +221,13 @@ export default function Skills() {
           {skills.length === 0}
         </S.Container>
       </S.Body>
+
+
+{/* 
+===========================================================================================================
+                                      CREATION MODAL
+===========================================================================================================
+*/}
 
       <Modal
         isOpen={modalIsOpen}
@@ -256,6 +268,11 @@ export default function Skills() {
         </S.ContainerForm>
       </Modal>
 
+{/* 
+===========================================================================================================
+                                      UPDATE MODAL
+===========================================================================================================
+*/}
       <Modal
         isOpen={modalIsOpenNew}
         onRequestClose={closeModalNew}
@@ -285,8 +302,7 @@ export default function Skills() {
             placeholder='Nome da habilidade'
             required
           />
-          <input
-            type='text'
+          <textarea
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
             required
@@ -295,6 +311,15 @@ export default function Skills() {
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
+
+
+{/* 
+===========================================================================================================
+                                      FILTER MODAL
+===========================================================================================================
+*/}
+
+
       <Modal
         isOpen={modalIsOpenFilter}
         onRequestClose={closeModalFilter}
@@ -323,8 +348,7 @@ export default function Skills() {
             onChange={(e) => setSkillsFilter(e.target.value)}
             placeholder='Nome do benefício'
           />
-          <input
-            type='text'
+          <textarea
             onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
           />
