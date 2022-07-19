@@ -75,6 +75,16 @@ export default function Area() {
     setDescricaoFilter('')
     setAreaPaiFilter('')
   }
+  // open the edit modal
+  function openEditModal(areaSelected: any){
+    setId(areaSelected.id)
+    setNome(areaSelected.nome)
+    setSubArea(areaSelected.subarea)
+    setAreaPai(areaSelected.areaPaiId)
+    setDescricao(areaSelected.descricao)
+    console.log(area)
+    openModal()
+  }
 
 /* 
 ==========================================================================================================
@@ -219,12 +229,7 @@ export default function Area() {
                   <td>
                     <button
                       onClick={() => {
-                        setId(area.id)
-                        setNome(area.nome)
-                        setSubArea(area.subarea)
-                        setAreaPai(area.areaPaiId)
-                        console.log(area)
-                        openModal()
+                        openEditModal(area)
                       }}
                     >
                       <FiEdit size={18} />
@@ -243,7 +248,11 @@ export default function Area() {
           {area.length === 0 && <p>Não há Dados</p>}
         </S.Container>
       </S.Body>
-
+{/* 
+===========================================================================================================
+                                      UPDATE MODAL
+===========================================================================================================
+*/}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -272,8 +281,7 @@ export default function Area() {
             onChange={(e) => setNome(e.target.value)}
           />
 
-          <input
-            type='text'
+          <textarea
             placeholder='Descrição'
             defaultValue={descricao}
             onChange={(e) => setDescricao(e.target.value)}
@@ -319,6 +327,11 @@ export default function Area() {
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
+{/*
+===========================================================================================================
+                                      CREATION MODAL
+===========================================================================================================
+*/}
 
       <Modal
         isOpen={modalIsOpenNew}
@@ -351,8 +364,7 @@ export default function Area() {
           />
 
           <label htmlFor="">Descrição da área</label>
-          <input
-            type='text'
+          <textarea
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
             required
