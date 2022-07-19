@@ -92,6 +92,7 @@ export const ContainerForm = styled.form`
     color: var(--text-title);
   }
 
+  
   input {
     margin: 10px 0;
     padding: 0 1.5rem;
@@ -106,6 +107,24 @@ export const ContainerForm = styled.form`
       color: #747474;
     }
     & + input {
+      margin-top: 1rem;
+    }
+  }
+
+  textarea {
+    margin: 10px 0;
+    padding: .75rem 1.5rem;
+    width: 100%;
+    height: 3rem;
+    font-size: 1rem;
+    font-weight: 400;
+    background: #e7e9ee;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.25rem;
+    &::placeholder {
+      color: #747474;
+    }
+    & + textarea {
       margin-top: 1rem;
     }
   }
