@@ -69,6 +69,14 @@ export default function CostCenter() {
     setIsOpenNew(false)
   }
 
+   // open the edit modal
+   function openEditModal(selectedValue: any){
+    setId(selectedValue.id)
+    setNome(selectedValue.nome)
+    setDescricao(selectedValue.descricao)
+    openModal()
+  }
+
 /* 
 ==========================================================================================================
                                         Crud's Functions
@@ -225,10 +233,7 @@ export default function CostCenter() {
                   <td>
                     <button
                       onClick={() => {
-                        setNome(c.nome)
-                        setDescricao(c.descricao)
-                        //setCargo(c.cargos[0].nome)
-                        openModal()
+                        openEditModal(c)
                       }}
                     >
                       <FiEdit size={18} />
