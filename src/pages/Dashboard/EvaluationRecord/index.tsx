@@ -6,16 +6,29 @@ import { Switch } from 'antd'
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
-import avaliacao from 'service/avaliacoes/avaliacoes'
-import avaliacaoScoreItem from 'service/avaliacaoScoreItem/avaliacaoScoreItem'
+import questionario from 'service/avaliacoes'
+import questionarioScoreItem from 'service/questionariosScoreItem/questionariosScoreItem'
 import InputComponent from 'ui/components/InputComponent'
 import CheckBox from 'ui/components/CheckBox' 
 import { toast } from 'react-toastify'
-import avaliacaoScores from 'service/avaliacaoScore/avaliacaoScore'
+import questionarioScores from 'service/questionariosScore/questionariosScore'
 import LoadingLayer from 'ui/components/LoadingLayer'
 import Status from 'ui/components/Status'
+import { useEvaluationRecord } from 'contexts/EvaluationRecordProvider'
 
 export function EvaluationRecord() {
+  const {
+    questionario,
+    setQuestionario,
+    loadQuestionario,
+    createQuestionario,
+    findQuestionario,
+    updateQuestionario,
+    deleteQuestionario
+  } = useEvaluationRecord()
+
+
+
 
 /*
 ==========================================================================================================
@@ -28,7 +41,7 @@ export function EvaluationRecord() {
   const [activeKey, setActiveTabKey] = useState<number>(0);
 
   //===================================== PageComponents's States
-  const [questionario     , setQuestionario     ] = useState<iQuestoes[] | any>([])
+  const [questionarioList , setQuestionarioList     ] = useState<iQuestoes[] | any>([])
   const [selectedScore    , setSelectedScore    ] = useState<iQuestoes[] | any>([])
   const [selectedScoreItem, setSelectedScoreItem] = useState<iQuestoes[] | any>([])
   const [id             , setId             ] = useState<string | undefined>("")
@@ -60,17 +73,17 @@ export function EvaluationRecord() {
 	const openModal = (activeKey:any) => {
 		if (activeKey === 1) {
       setActiveTabKey(activeKey)
-			setIsOpen(!modalIsOpen);
+			setIsOpen(true);
 		}
     
     else if(activeKey === 2) {
       setActiveTabKey(activeKey)
-      setIsOpen(!modalIsOpen);
+      setIsOpen(true);
     }
     
     else if (activeKey === 3) {
       setActiveTabKey(activeKey)
-      setIsOpen(!modalIsOpen);
+      setIsOpen(true);
     }
     
     else if (activeKey === 4) {
@@ -108,9 +121,11 @@ export function EvaluationRecord() {
 
   function handleOpenSettingsModal(id: string, score?: any, nome?: string){
 
+    console.log(id, score, nome)
+
     setId(id)
     setSelectedScore(score?.id)
-    setSubItens(score?.item)      
+    setSubItens(score?.item.sort((previous: any,next: any) => (previous.de > next.de) ? 1 : ((next.de > previous.de) ? -1 : 0)))      
     setFormato(score?.formato)
     setForma(score?.forma)
     setTipo(score?.tipo)
@@ -157,39 +172,73 @@ export function EvaluationRecord() {
   }
 
   async function handleLoadQuestionario() {
-    const allQuestionario = await avaliacao.list()    
-    setQuestionario(allQuestionario)
+    const allQuestions = await loadQuestionario()
+    setQuestionarioList(allQuestions)
 
     setLoading(false)
   }
 
+  async function handleGetAndSetSettingsModal(id: string){
+    const selectedQuestionario = await findQuestionario(id)
+    
+    console.log("selectedQuestionario")
+    console.log(selectedQuestionario)
+    handleOpenSettingsModal(selectedQuestionario.id, selectedQuestionario.questionarioScore[0], selectedQuestionario.nome)
+
+    // setActiveTabKey(2)
+
+  }
+
   async function handleCreate() {
+    const scaffoldScoreItems = [
+      {
+        nome: "Acima do esperado",
+        pontuacao: 0,
+        descricao: 0,
+        de: 5,
+        ate: 10,
+      },
+      {
+        nome: "Estático",
+        pontuacao: 0,
+        descricao: 0,
+        de: 3,
+        ate: 4,
+      },
+      {
+        nome: "Abaixo do esperado",
+        pontuacao: 0,
+        descricao: 0,
+        de: 0,
+        ate: 2,
+      }
+    ]
+    
     const data = {
       nome: nome,
+      scoreItem: scaffoldScoreItems
     }
+    
+    
+    const isCreated = await createQuestionario(data)
+    
+    if (isCreated) handleGetAndSetSettingsModal(isCreated.id)
 
-    const isCreated = await avaliacao.create(data)
-
-    if (isCreated) closeModal()
-    await handleLoadQuestionario()
+    await handleLoadQuestionario()    
   }
 
   async function handleUpdate() {
-
     const data = {
       nome: nome,
     }
 
-    const isUpdated = await avaliacao.update(id, data)
-
+    const isUpdated = await updateQuestionario(id, data)
     if (isUpdated) closeModal()
-
     await handleLoadQuestionario()
   }
  
   async function handleDelete(id: string) {
-    await avaliacao.delete(id)
-
+    await deleteQuestionario(id)
     handleLoadQuestionario()
   }
 
@@ -206,11 +255,11 @@ export function EvaluationRecord() {
       formato: formato,
       tipo: tipo,
       
-      avaliacaorioScoreId: selectedScore,
-      avaliacaoScore: selectedScore,
+      questionariorioScoreId: selectedScore,
+      questionarioScore: selectedScore,
     }
 
-    const isUpdated = await avaliacaoScores.update(selectedScore, data)
+    const isUpdated = await questionarioScores.update(selectedScore, data)
 
     if (isUpdated) closeModal()
 
@@ -226,10 +275,10 @@ export function EvaluationRecord() {
       ate: ate,
       nome: titulo,
       score: score,
-      avaliacaorioScoreId: selectedScore,
+      questionariorioScoreId: selectedScore,
     }
 
-    const isCreated = await avaliacaoScoreItem.create(data)
+    const isCreated = await questionarioScoreItem.create(data)
     if (isCreated) closeModal()
 
     await handleLoadQuestionario()
@@ -242,11 +291,11 @@ export function EvaluationRecord() {
       ate: ate,
       nome: titulo,
       score: score,
-      avaliacaorioScoreId: selectedScore,
-      avaliacaoScore: selectedScore,
+      questionariorioScoreId: selectedScore,
+      questionarioScore: selectedScore,
     }
 
-    const isCreated = await avaliacaoScoreItem.update(selectedScoreItem, data)
+    const isCreated = await questionarioScoreItem.update(selectedScoreItem, data)
     if (isCreated) closeModal()
 
     await handleLoadQuestionario()
@@ -254,7 +303,7 @@ export function EvaluationRecord() {
   
 
   async function handleDeleteSubItem(id: string) {
-    await avaliacaoScoreItem.delete(id)
+    await questionarioScoreItem.delete(id)
     closeModal()
 
     handleLoadQuestionario()
@@ -322,7 +371,7 @@ export function EvaluationRecord() {
 
   useEffect(() => {
     handleLoadQuestionario()
-  }, [])
+  }, [  ])
 
 
 
@@ -331,7 +380,9 @@ export function EvaluationRecord() {
     <>
       <S.Body>
         <Sidebar />
+        {/*
         <LoadingLayer loading={loading} />
+        */}
 
         <S.Title>
           <S.Container>
@@ -368,12 +419,12 @@ export function EvaluationRecord() {
           <S.LinksContainer>
             <Link
             className='active-class'
-            to='/cadastro-de-avaliacao'
+            to='/cadastro-de-questionario'
             >
               Avaliação &gt;
             </Link>
             <p
-            // to='/avaliacao'
+            // to='/questionario'
             >
               Iniciativa ou KPI &gt;
             </p>
@@ -402,13 +453,13 @@ export function EvaluationRecord() {
           </div>
           
           {
-          questionario.map(
+          questionario && questionario?.map(
            ( questioryItem: iQuestoes ) => (
 
             <div className='box-avaliacoes' key={questioryItem.id}>
-              <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
+              <Link to={`/questionario/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.avaliacaoScore[0], questioryItem.id)} className='settings'>
+                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0], questioryItem.id)} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
@@ -428,6 +479,13 @@ export function EvaluationRecord() {
         </S.Container>
       </S.Body>
 
+{
+/*
+==========================================================================================================
+                                             Modal 
+==========================================================================================================
+*/
+}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -441,6 +499,8 @@ export function EvaluationRecord() {
         >
           <FiX />
         </button>
+
+      {/* <EvaluationRecordModal />*/}
 
         <S.ContainerForm
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
@@ -462,7 +522,7 @@ export function EvaluationRecord() {
               <div className="checkContainer">
                 <CheckBox value="porcentagem" checkBoxTitle='PDI'                       onChange={() => setForma("PDI")}                   checked={forma === "PDI" } />
                 <CheckBox value="quantidade"  checkBoxTitle='PMP'                       onChange={() => setForma("PMP")}                   checked={forma === "PMP" }  />
-                <CheckBox value="quantidade"  checkBoxTitle='Avaliação Desempenho'      onChange={() => setForma("AvaliacaoDesempenho")}   checked={forma === "AvaliacaoDesempenho" }  />
+                <CheckBox value="quantidade"  checkBoxTitle='Avaliação Desempenho'      onChange={() => setForma("questionarioDesempenho")}   checked={forma === "questionarioDesempenho" }  />
               </div>
 
               <ConfigCheckTitle titleConfig='Formato' />
