@@ -1,5 +1,5 @@
-import { theme } from 'config'
-import { createGlobalStyle } from 'styled-components'
+import { theme } from "config";
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${theme.colors.neutral[100]};
+    background: ${theme.colors.gray.gray2};
     font-family: ${theme.font.family};
     overflow-x: hidden;
     color: ${theme.colors.black};
@@ -73,4 +73,4 @@ export const GlobalStyle = createGlobalStyle`
       filter: brightness(0.8);
     }
   }
-`
+`;

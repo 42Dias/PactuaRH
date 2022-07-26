@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { theme } from 'config'
+import styled from "styled-components";
+import { theme } from "config";
 
 export const Container = styled.div`
   height: 100vh;
@@ -11,12 +11,12 @@ export const Container = styled.div`
       display: none;
     }
   }
-`
+`;
 
 export const Content = styled.div`
   position: absolute;
   left: 52%;
-  top: 27%;
+  top: 20%;
   max-width: 345px;
 
   a {
@@ -35,7 +35,19 @@ export const Content = styled.div`
     top: 50%;
     transform: translate(-50%, -50%);
   }
-`
+
+  .logo {
+    display: flex;
+    margin: 0 auto;
+    width: 250px;
+    height: 100%;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    background: ${theme.colors.button.normal};
+  }
+`;
 
 export const Password = styled.div`
   button {
@@ -55,4 +67,4 @@ export const Password = styled.div`
       position: relative;
     }
   }
-`
+`;

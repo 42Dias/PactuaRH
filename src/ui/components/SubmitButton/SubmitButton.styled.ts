@@ -1,5 +1,5 @@
-import { theme } from 'config'
-import styled from 'styled-components'
+import { theme } from "config";
+import styled from "styled-components";
 
 export const Container = styled.div`
   button {
@@ -8,8 +8,8 @@ export const Container = styled.div`
     border-radius: 4px;
     border: 0;
     transition: transform 1s;
-    background: ${theme.colors.black};
-    color: ${theme.colors.neutral[100]};
+    background: ${theme.colors.button.normal};
+    /* color: ${theme.colors.neutral[100]}; */
 
     margin: 20px 0;
 
@@ -17,4 +17,4 @@ export const Container = styled.div`
       transform: translateX(0px) scale(1.1);
     }
   }
-`
+`;
