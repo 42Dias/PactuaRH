@@ -12,6 +12,7 @@ import { toast } from 'react-toastify'
 
 import checkCNPJ from '../../../utils/checkCNPJ'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import InputsContainer from 'ui/components/InputsContainer'
 
 
 export default function Company() {
@@ -409,7 +410,9 @@ function clearFields(){
           }}
         >
           <h2>Cadastrar empresa</h2>
-
+          
+          <InputsContainer>
+          <div>
           <label htmlFor="">CNPJ</label>
 
           <InputMask
@@ -418,19 +421,25 @@ function clearFields(){
           placeholder='CNPJ'
           onChange={(e) => handleChangeCnpj(e.target.value)}
           />
-
+          </div>
+          <div>
           <label
           htmlFor="">Razão social</label>
           <input
           type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
-
+          </div>
+          </InputsContainer>
+          
+          <InputsContainer>
+          <div>
           <label
           htmlFor="">Nome fantasia</label>
           <input
           type='text'
           placeholder='Nome fantasia'
           onChange={(e) => setNome(e.target.value)}/>
-
+          </div>
+          <div>
           <label
           htmlFor="">Inscrição Estadual</label>
           <InputMask
@@ -438,34 +447,49 @@ function clearFields(){
           type='text'
           placeholder='Inscrição Estadual'
           onChange={(e) => setInscricaoEstadual(e.target.value)}/>
-
+          </div>
+          </InputsContainer>
+           
+          <InputsContainer>
+          <div>
           <label
           htmlFor="">Inscrição municipal</label>
           <input
           type='text'
           placeholder='Inscrição Municipal'
           onChange={(e) => setInscricaoMunicipal(e.target.value)}/>
+          </div>
 
+          <div>
           <label
           htmlFor="">CNAE</label>
           <input
           type='text' 
           placeholder='CNAE'
           onChange={(e) => setCnac(e.target.value)}/>
-
+          </div>
+          </InputsContainer>
+          
+          <InputsContainer>
+          <div>
           <label
           htmlFor="">CEP</label>
-          <input
+          <InputMask
+          mask="99.999-999"
           type='text'
           placeholder='CEP*' 
           onChange={(e) => setCep(e.target.value)}/>
+          </div>
           
+          <div>
           <label
           htmlFor="">Logradouro</label>
           <input
           type='text'
           placeholder='Logradouro'
           onChange={(e) => setLogradouro(e.target.value)}/>
+          </div>
+          </InputsContainer>
 
 
           <button type='submit'>Enviar</button>
@@ -506,9 +530,12 @@ function clearFields(){
           onChange={(e) => handleChangeCnpj(e.target.value)}
           />
           
+          
+          
           <label 
           htmlFor="">Razão social</label>
-          <input 
+          <input
+          
           type='text'
           placeholder='Razão Social' 
           onChange={(e) => setRazaoSocial(e.target.value)}
@@ -549,7 +576,8 @@ function clearFields(){
           
           <label 
           htmlFor="">CEP</label>
-          <input 
+          <InputMask
+          mask="99.999-999" 
           type='text'
           placeholder='CEP*'
           onChange={(e) => setCep(e.target.value)}
@@ -557,7 +585,7 @@ function clearFields(){
           
           <label 
           htmlFor="">Logradouro</label>
-          <input 
+         <input
           type='text'
           placeholder='Logradouro'
           onChange={(e) => setLogradouro(e.target.value)}

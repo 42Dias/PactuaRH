@@ -21,6 +21,7 @@ import dependente from 'service/dependente/dependente'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import LoadingLayer from 'ui/components/LoadingLayer'
+import InputsContainer from 'ui/components/InputsContainer'
 
 
 export default function Professionals() {
@@ -814,67 +815,86 @@ async function handleFilterProfessionals(){
           <h2>Cadastrar profissional</h2>
 
           <h4>Selecione um profissional</h4>
-          <select
-            onChange={(e) => {
-              const userIndex: number = parseInt(e.target.value)
-
-
-              const newUserSelected = allUsers[userIndex]
-              setUserSelected(newUserSelected)
-              // (newUserSelected.fullName)
-              setNome(newUserSelected.fullName)
-              setEmail(newUserSelected.email)
-            }}
-            placeholder='Usuário Cadastrado'
-          >
-            <option hidden>Selecione usuário</option>
-
-            {allUsers.map((user, i) => (
-              <option value={i}>
-                {user.fullName} | {user.email}
-              </option>
-            ))}
-          </select>
-
-          <label htmlFor="">Nome completo</label>
-          <input
-            type='text'
-            defaultValue={userSelected?.fullName}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome'
-          />
-
-          <label htmlFor="">CPF</label>
-          <InputMask
-            // defaultValue={userSelected?.cpf}
-            onChange={(e) => setCpf(e.target.value)}
-            mask='999.999.999-99'
-            placeholder='Seu CPF'
-            value={cpf}
-          />
-
-          <label htmlFor="">RG</label>
-          <InputMask
-            // defaultValue={userSelected?.rg}
-            onChange={(e) => setRg(e.target.value)}
-            mask='99.999.999-9'
-            placeholder='Seu RG'
-            value={rg}
-          />
-
+          
+          <InputsContainer>
+            <div>
+              <select
+                onChange={(e) => {
+                  const userIndex: number = parseInt(e.target.value)
+                  const newUserSelected = allUsers[userIndex]
+                  setUserSelected(newUserSelected)
+                  // (newUserSelected.fullName)
+                  setNome(newUserSelected.fullName)
+                  setEmail(newUserSelected.email)
+                }}
+                placeholder='Usuário Cadastrado'
+              >
+            
+            
+                <option hidden>Selecione usuário</option>
+                {allUsers.map((user, i) => (
+                  <option value={i}>
+                    {user.fullName} | {user.email}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+            
+                <label htmlFor="">Nome completo</label>
+                <input
+            
+                  type='text'
+                  defaultValue={userSelected?.fullName}
+                  onChange={(e) => setNome(e.target.value)}
+                  placeholder='Nome'
+                />
+              </div>
+          </InputsContainer>
+          
+        
+          <InputsContainer>
+          <div>
+            <label htmlFor="">CPF</label>
+            <InputMask
+              // defaultValue={userSelected?.cpf}
+              onChange={(e) => setCpf(e.target.value)}
+              mask='999.999.999-99'
+              placeholder='Seu CPF'
+              value={cpf}
+            />
+          </div>
+          <div>
+            <label htmlFor="">RG</label>
+            <InputMask
+              // defaultValue={userSelected?.rg}
+              onChange={(e) => setRg(e.target.value)}
+              mask='9999-999'
+              placeholder='Seu RG'
+              value={rg}
+            />
+            
+          </div>
+          </InputsContainer>
+          
+          <InputsContainer>
+          <div>
+          <label htmlFor="">Descrição</label>
           <input
             type='text'
             defaultValue={userSelected?.descricao}
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
           />
+          </div>
           {/* <InputMask
             mask='99/99/9999'
             placeholder='Data de nascimento'
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
           /> */}
-
+          
+          <div>
           <label htmlFor="">Data de nascimento</label>
           <input
             type='date'
@@ -882,8 +902,11 @@ async function handleFilterProfessionals(){
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
           />
-
-
+          </div>
+          </InputsContainer>
+          
+          <InputsContainer>
+          <div>
           <label htmlFor="">Nome da mãe</label>
           {/* These are not saved in user data */}
           <input
@@ -892,7 +915,10 @@ async function handleFilterProfessionals(){
             value={nomeMae}
             onChange={(e) => setNomeMae(e.target.value)}
           />
+          </div>
 
+        
+          <div>
           <label htmlFor="">Seu telefone</label>
           <InputMask
             className='masked-input'
@@ -902,7 +928,11 @@ async function handleFilterProfessionals(){
             placeholder='Telefone'
             onChange={(e) => setTelefone(e.target.value)}
           />
+          </div>
+          </InputsContainer>
 
+          <InputsContainer>
+          <div>
           <label htmlFor="">Telefone 2</label>
           <InputMask
             className='masked-input'
@@ -912,12 +942,14 @@ async function handleFilterProfessionals(){
             placeholder='Telefone 2'
             onChange={(e) => setTelefone2(e.target.value)}
           />
+          </div>
           {/*
 
           ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
 
 
           */}
+          <div>
           <label htmlFor="">Cargo</label>
           <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
             <option hidden>Cargo</option>
@@ -925,17 +957,22 @@ async function handleFilterProfessionals(){
               <option value={position.id}>{position.nome}</option>
             ))}
           </select>
+          </div>
+          </InputsContainer>
 
-
+          <InputsContainer>
+          <div>
           <label htmlFor="">CEP</label>
-          <input
+          <InputMask
             type='text'
             placeholder='CEP*'
+            mask='99.999-999 '
             value={cep}
             onChange={(e) => setCep(e.target.value)}
             onBlur={(ev) => handleChangeCep(ev.target.value)}
           />
-
+          </div>
+          <div>
           <label htmlFor="">Cidade</label>
           <input
             type='text'
@@ -943,7 +980,12 @@ async function handleFilterProfessionals(){
             value={cidade}
             onChange={(e) => setCidade(e.target.value)}
           />
+          </div>
+          </InputsContainer>
 
+
+          <InputsContainer>
+          <div>
           <label htmlFor="">Bairro</label>
           <input
             type='text'
@@ -951,7 +993,8 @@ async function handleFilterProfessionals(){
             value={bairro}
             onChange={(e) => setBairro(e.target.value)}
           />
-
+          </div>
+          <div>
           <label htmlFor="">Logradouro</label>
           <input
             type='text'
@@ -959,7 +1002,11 @@ async function handleFilterProfessionals(){
             value={logradouro}
             onChange={(e) => setLogradouro(e.target.value)}
           />
+          </div>
+          </InputsContainer>
 
+          <InputsContainer>
+          <div>
           <label htmlFor="">Número</label>
           <input
             type='text'
@@ -967,8 +1014,9 @@ async function handleFilterProfessionals(){
             value={numero}
             onChange={(e) => setNumero(e.target.value)}
           />
+          </div>
 
-
+          <div>
           <label htmlFor="">Email</label>
           <input
             type='text'
@@ -976,6 +1024,11 @@ async function handleFilterProfessionals(){
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          </div>
+          </InputsContainer>
+
+          <InputsContainer>
+          <div>
           <label htmlFor="">Gênero</label>
           <select name='' id=''
           onChange={(e) => {
@@ -994,7 +1047,8 @@ async function handleFilterProfessionals(){
               Prefiro não responder
             </option>
           </select>
-
+          </div>
+          <div>
           <label htmlFor="">Estado civil</label>
           <select
             name=''
@@ -1016,6 +1070,8 @@ async function handleFilterProfessionals(){
             </option>
 
           </select>
+          </div>
+          </InputsContainer>
 
           <S.divCheck>
             <Checkbox

@@ -289,7 +289,7 @@ export default function FunctionsPage() {
           }}
         >
           <h2>Cadastrar função</h2>
-
+          
           <label htmlFor="">Nome da função</label>
           <input
             type='text'

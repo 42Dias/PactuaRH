@@ -15,6 +15,9 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import { iCargo, iData } from '../../../types'
 import { useForm } from 'react-hook-form'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import InputsContainer from 'ui/components/InputsContainer'
+
+
 
 export default function Positions() {
   const {
@@ -727,40 +730,63 @@ export default function Positions() {
           onSubmit={handleSubmit(handleCreatePosition)}
         >
           <h2>Cadastrar Cargo</h2>
-
+          <InputsContainer>
+          
+          <div>
           <label htmlFor=''>Nome</label>
-          <input type='text' placeholder='Nome' {...register('nome')} />
-
+          <input type='text' placeholder='Nome' {...register('nome')} />  
+          </div>
+          
+          
+          <div>
           <label htmlFor=''>Descrição</label>
-          <input type='text' placeholder='Descrição' {...register('desc')} />
-
+          <input type='text' placeholder='Descrição' {...register('desc')} /> 
+          </div>
+          </InputsContainer>
+          
+          <InputsContainer>
+          <div>
           <label htmlFor=''>Liderança</label>
-          <select placeholder='Liderança' {...register('lideranca')}>
-            <option hidden> Liderança </option>
-            <option value={'true'}> Sim </option>
-            <option value={'false'}> Não </option>
-          </select>
-
+          <select placeholder='Liderança' {...register('lideranca')}>  
+          <option hidden> Liderança </option>
+          <option value={'true'}> Sim </option>
+          <option value={'false'}> Não </option>
+          </select> 
+          </div>
+         
+          <div>
           <label htmlFor=''>Código de ocupação</label>
           <select {...register('ocupationCodeBr')}>
-            <option>Código Brasileiro de Ocupações</option>
-          </select>
+          <option>Código Brasileiro de Ocupações</option>
+          </select> 
+          </div>
+          </InputsContainer>
 
+          <InputsContainer>
+          <div>
           <label htmlFor=''>Código de ocupação conforme IR</label>
           <select {...register('ocupationCodeIR')}>
-            <option>Código de Ocupação conforme IR</option>
+          <option>Código de Ocupação conforme IR</option>
           </select>
-
+          </div>
+          
+          <div>
           <label htmlFor=''>Aréa</label>
           <select {...register('areaId')}>
-            <option hidden>Área</option>
-            {allAreas.map((area) => (
-              <option key={area.id} value={area.id}>
+          <option hidden>Área</option>
+          {allAreas.map((area) => (
+          <option key={area.id} value={area.id}>
                 {area.nome}
               </option>
             ))}
           </select>
-
+          </div>
+          </InputsContainer>
+          
+          
+          
+          <InputsContainer>
+          <div>
           <label htmlFor=''>Cargos liderados</label>
           <select {...register('cargoLiderId')}>
             <option hidden>Cargos Liderados</option>
@@ -770,17 +796,24 @@ export default function Positions() {
               </option>
             ))}
           </select>
+          </div>
+          
 
+          <div>
           <label htmlFor=''>Habilidade</label>
           <select {...register('habilidadeId')}>
             <option hidden>Habilidade</option>
             {allSkills.map((skill) => (
-              <option key={skill.id} value={skill.id}>
-                {skill.nome}
-              </option>
+            <option key={skill.id} value={skill.id}>
+            {skill.nome}
+            </option>
             ))}
           </select>
+          </div>
+          </InputsContainer>
 
+         
+          
           <div className="add-component">
             <label htmlFor=''>
               Habilidades
@@ -816,7 +849,9 @@ export default function Positions() {
               </div>
             ))}
           </div>
-
+         
+          
+          
           <div className="add-component">
             <label htmlFor=''>
               Desejaveis
@@ -852,7 +887,11 @@ export default function Positions() {
               </div>
             ))}
           </div>
+          
+          
 
+          
+          
           <div className="add-component">
             <label htmlFor=''>
               Funções
@@ -891,6 +930,7 @@ export default function Positions() {
             ))}
           </div>
 
+          
           <div className="add-component">
             <label htmlFor=''>
               Escolaridade
@@ -930,6 +970,10 @@ export default function Positions() {
               </div>
             ))}
           </div>
+
+          
+          
+          
 
           <input type='submit' className='button' value='Enviar' />
         </S.ContainerForm>
