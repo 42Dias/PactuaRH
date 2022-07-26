@@ -73,9 +73,9 @@ export default function Checkpoints() {
     setPri('')
 
 
-    setAvaliations( [] )
-    setPdiItems( [] )
-    setPriItems( [] )
+    setAvaliations([])
+    setPdiItems([])
+    setPriItems([])
 
 
 
@@ -95,11 +95,11 @@ export default function Checkpoints() {
     setPdi('')
     setPri('')
 
-    setAvaliations( [] )
-    setPdiItems( [] )
-    setPriItems( [] )
+    setAvaliations([])
+    setPdiItems([])
+    setPriItems([])
 
-    
+
     setIsOpenNew(false)
   }
 
@@ -115,7 +115,7 @@ export default function Checkpoints() {
       descricao: descricao,
       dataInicio: new Date(dataInicio),
       dataFim: new Date(dataFim),
-      
+
       // avaliacao: avaliation,
       // PDI: pdi,
       // pri: pri,
@@ -222,7 +222,7 @@ export default function Checkpoints() {
     closeModalFilter()
   }
 
-  function handleSetArrays(arrayOfObject: any){
+  function handleSetArrays(arrayOfObject: any) {
     stateHandler.setJustIdsOfArrayObject(arrayOfObject?.avaliacao, setAvaliations)
     stateHandler.setJustIdsOfArrayObject(arrayOfObject?.PDI, setPdiItems)
     stateHandler.setJustIdsOfArrayObject(arrayOfObject?.pri, setPriItems)
@@ -399,7 +399,7 @@ export default function Checkpoints() {
           </S.SelectPai> */}
 
 
-          <label htmlFor=''>Avaliações</label>
+          {/* <label htmlFor=''>Avaliações</label>
           {
             avaliations.map(
               (e, i) => (
@@ -433,9 +433,9 @@ export default function Checkpoints() {
 
           <button type='button' onClick={() => stateHandler.addFormFields(avaliations, setAvaliations)}>
             <FiPlus />
-          </button>
+          </button> */}
 
-          <label htmlFor=''>PDI</label>
+          {/* <label htmlFor=''>PDI</label>
           {
             pdiItems.map(
               (e, i) => (
@@ -469,11 +469,11 @@ export default function Checkpoints() {
 
           <button type='button' onClick={() => stateHandler.addFormFields(pdiItems, setPdiItems)}>
             <FiPlus />
-          </button>
+          </button> */}
 
 
 
-          <label htmlFor=''>PRI</label>
+          {/* <label htmlFor=''>PRI</label>
           {
             priItems.map(
               (e, i) => (
@@ -507,7 +507,7 @@ export default function Checkpoints() {
 
           <button type='button' onClick={() => stateHandler.addFormFields(priItems, setPriItems)}>
             <FiPlus />
-          </button>
+          </button> */}
 
           <label htmlFor="">Status</label>
           <input
@@ -575,12 +575,12 @@ export default function Checkpoints() {
             onChange={(e) => setDataFim(e.target.value)}
           />
 
-          <div className="flex-space">
+          {/* <div className="flex-space">
             <label htmlFor=''>Avaliações</label>
             <button type='button' onClick={() => stateHandler.addFormFields(avaliations, setAvaliations)}>
               <FiPlus />
             </button>
-          </div>
+          </div> */}
           {
             avaliations.map(
               (e, i) => (
@@ -612,14 +612,14 @@ export default function Checkpoints() {
             )
           }
 
-          <div className="flex-space">
+          {/* <div className="flex-space">
             <label htmlFor=''>PDI</label>
             <button type='button' onClick={() => stateHandler.addFormFields(pdiItems, setPdiItems)}>
               <FiPlus />
             </button>
-          </div>
+          </div> */}
 
-          {
+          {/* {
             pdiItems.map(
               (e, i) => (
                 <div className="border">
@@ -648,15 +648,15 @@ export default function Checkpoints() {
                 </div>
               )
             )
-          }
+          } */}
 
-          <div className="flex-space">
+          {/* <div className="flex-space">
             <label htmlFor=''>PRI</label>
             <button type='button' onClick={() => stateHandler.addFormFields(priItems, setPriItems)}>
               <FiPlus />
             </button>
-          </div>
-          {
+          </div> */}
+          {/* {
             priItems.map(
               (e, i) => (
                 <div className="border">
@@ -685,7 +685,7 @@ export default function Checkpoints() {
                 </div>
               )
             )
-          }
+          } */}
 
           <label htmlFor=''>Status</label>
 
