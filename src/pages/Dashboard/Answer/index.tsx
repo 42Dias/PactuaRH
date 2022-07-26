@@ -1,10 +1,10 @@
-import { FiCornerDownLeft, FiX } from 'react-icons/fi'
+import { FiCornerDownLeft, FiEdit, FiEdit2, FiPlay, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useParams } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './Answer.styled'
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
-import questionarioItem from 'service/questionarioItem/questionarioItem'
+import questionario from 'service/questionarios/'
 import { iQuestoes, iQuestoesPeguntas } from 'types'
 import questionarioPonto from 'service/questionarioPonto/questionarioPonto'
 import { toast } from 'react-toastify'
@@ -26,8 +26,6 @@ export function Answer() {
   const [questionAnwesers , setQuestionAnwesers] = useState<iQuestoes[]>([])
   const [selectedQuestion, setSelectedQuestion ] = useState<iQuestoes>()
 
-  
-
 
 
 /*
@@ -38,11 +36,10 @@ export function Answer() {
 
 
   async function handleLoadAnswerQuestionary() {
-    const allAnswerQuestionary = await questionarioItem.listWithFilter("questionarioId", id)
+    const allAnswerQuestionary = await questionario.listWithFilter("avaliacaoId", id)
 
     console.log(allAnswerQuestionary)
     setQuestions(allAnswerQuestionary)
-    
   }
 
 
@@ -107,10 +104,12 @@ export function Answer() {
 
   function handleOpenModal(selectedQuestion: iQuestoes){
     setQuestionAnwesers(selectedQuestion?.questionarioResposta!)
+    console.log(selectedQuestion?.questionarioResposta!)
     handleSetDefaultValues(selectedQuestion)
     setSelectedQuestion(selectedQuestion)
     openModal()
   }
+
 
   function handleSetDefaultValues(allAnswerQuestionary: iQuestoes){
     const {questionarioId, id, questionarioResposta} = allAnswerQuestionary
@@ -128,7 +127,7 @@ export function Answer() {
 
     const defaultAnswer = {
       questionarioId:     questionarioId,
-      questionarioItemId: id,
+      // questionarioId: id,
       respostaId:         '',
       pontuacao:          0,
       isAnswered: isAnswered,
@@ -141,7 +140,7 @@ export function Answer() {
   function handleSetAnwser(value: string , id: string){
     let awnsers = userAnweser
 
-    awnsers.pontuacao              = parseFloat(value)
+    awnsers.resposta               = value
     awnsers.questionarioRespostaId = id
     
     setUserAnweser(awnsers)
@@ -160,6 +159,9 @@ export function Answer() {
   }
 
 
+  // console.log(userAnweser)
+
+
 
 
   return (
@@ -176,23 +178,9 @@ export function Answer() {
 
               <div>
                 <Status />
-                <small>Score</small>
-              </div>
-
-              <div>
-                <Status />
                 <small>Iniciativa ou KPI</small>
               </div>
 
-              <div>
-                <Status />
-                <small>Score</small>
-              </div>
-
-              <div>
-                <Status />
-                <small>Perguntas</small>
-              </div>
             </S.LinksScore>
           </S.Container>
         </S.Title>
@@ -201,8 +189,6 @@ export function Answer() {
           <S.LinksContainer>
             <Link className='active-class' to='/cadastro-de-avaliacao'>Avaliação &gt;</Link>
             <Link to='/avaliacao'>Iniciativa ou KPI &gt;</Link>
-            <Link to='/perguntas'>Perguntas &gt;</Link>
-            <Link to='/'>Resposta</Link>
           </S.LinksContainer>
 
           <S.FlexInit>
@@ -223,7 +209,7 @@ export function Answer() {
                   </div>
                 </div>
               )
-          )
+            )
           }
 
 
@@ -238,8 +224,9 @@ export function Answer() {
             </div>
           </div>
           */}
+
         </S.Container>
-      </S.Body>      
+      </S.Body>
 
 
       <Modal
@@ -256,39 +243,76 @@ export function Answer() {
           <FiX />
         </button>
 
-        <S.ContainerForm
-          onSubmit={(e) => handleSubmitAnswer(e)}
-        >
-          
-          <h1>{ selectedQuestion?.nome }</h1>
-          {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
+        {"numerico" ? (
+          <S.ContainerForm
+            onSubmit={(e) => handleSubmitAnswer(e)}
+          >
+
+            <h1>{selectedQuestion?.nome}</h1>
+            {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
           <textarea placeholder="Responda aqui...."></textarea> */}
-          {
-            questionAnwesers.map(
-              ( answer ) => (
-                <S.AnswersContainer key={answer.id}>
-                  <input
-                    required
-                    type="radio"
-                    value={answer.resultado}
-                    name={selectedQuestion?.id}
-                    id={answer?.id}
-                    //@ts-ignore
-                    defaultChecked={answer?.questionarioPonto[0]?.questionarioRespostaId == answer?.id}
-                    disabled={!!userAnweser?.isAnswered}
-                    onChange={
-                      ({target}) => handleSetAnwser(target.value, target.id)
-                    }
-                  />
-                  <label htmlFor={answer.id}>
-                    {answer.resposta}
-                  </label>
-                </S.AnswersContainer>
+            {
+              questionAnwesers.map(
+                (answer) => (
+                  <S.AnswersContainer key={answer.id}>
+                    <input
+                      type="text"
+
+                      required
+                      id={answer?.id}
+
+                      pattern="[0-9]*"
+
+                      //@ts-ignore
+                      defaultValue={answer?.questionarioPonto[0]?.resposta!}
+                      placeholder="Responda aqui...."
+
+                      onChange={
+                        ({ target }) => {
+                          target.value = target.value.replace(/\D/g, "");
+                          handleSetAnwser(target.value, target.id);
+                        }
+                      }
+                    />
+                  </S.AnswersContainer>
+                )
               )
-            )
-          }
-          <button className='send' type='submit'>Cadastrar</button>
-        </S.ContainerForm>
+            }
+            <button className='send' type='submit'>Cadastrar</button>
+          </S.ContainerForm>
+        ) : (
+          <S.ContainerForm
+            onSubmit={(e) => handleSubmitAnswer(e)}
+          >
+
+            <h1>{selectedQuestion?.nome}</h1>
+            {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
+          <textarea placeholder="Responda aqui...."></textarea> */}
+            {
+              questionAnwesers.map(
+                (answer) => (
+                  <S.AnswersContainer key={answer.id}>
+                    <textarea
+                      required
+                      id={answer?.id}
+                      //@ts-ignore
+                      defaultValue={answer?.questionarioPonto[0]?.resposta!}
+                      placeholder="Responda aqui...."
+
+                      //@ts-ignore
+                      disabled={!!answer?.questionarioPonto[0]?.resposta!}
+                      onChange={
+                        ({ target }) => handleSetAnwser(target.value, target.id)
+                      }
+                    ></textarea>
+                  </S.AnswersContainer>
+                )
+              )
+            }
+            <button className='send' type='submit'>Cadastrar</button>
+          </S.ContainerForm>
+        )
+        }
       </Modal>
     </>
   )
