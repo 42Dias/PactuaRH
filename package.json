@@ -20,6 +20,7 @@
   "dependencies": {
     "@babel/plugin-syntax-jsx": "7.16.7",
     "@babel/preset-react": "7.16.7",
+    "@radix-ui/colors": "^0.1.8",
     "@rocketseat/unform": "^1.6.2",
     "@types/react-input-mask": "^3.0.1",
     "@types/react-modal": "^3.13.1",
