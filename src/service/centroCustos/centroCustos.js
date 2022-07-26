@@ -1,25 +1,23 @@
-import { api } from '../api'
+import { api } from "../api";
 
-import responseHandler from '../../utils/responseHandler'
-import servidorErrorMessage from '../../utils/servidorErrorMessage'
+import responseHandler from "../../utils/responseHandler";
+import servidorErrorMessage from "../../utils/servidorErrorMessage";
 export default class centroCustos {
   static async create(data) {
     const response = await api
-      .post('centroCustos', {
+      .post("centroCustos", {
         data,
       })
       .catch(() => {
-        servidorErrorMessage()
-      })
+        servidorErrorMessage();
+      });
 
-    
+    const mensagemOk = "Centro de Custos criado com sucesso!";
+    const mensagemNaoOK = "Revise seus dados :(";
+    responseHandler(response.status, mensagemOk, mensagemNaoOK);
 
-    const mensagemOk = 'Centro de Custos criado com sucesso!'
-    const mensagemNaoOK = 'Revise seus dados :('
-    responseHandler(response.status, mensagemOk, mensagemNaoOK)
-
-    const responseData = response.data
-    return responseData
+    const responseData = response.data;
+    return responseData;
   }
 
   //= =========================================================================================================
@@ -29,15 +27,15 @@ export default class centroCustos {
         data,
       })
       .catch(() => {
-        servidorErrorMessage()
-      })
-    const mensagemOk = 'Centro de Custos alterado com sucesso!'
-    const mensagemNaoOK = 'Revise seus dados :('
-    responseHandler(response.status, mensagemOk, mensagemNaoOK)
+        servidorErrorMessage();
+      });
+    const mensagemOk = "Centro de Custos alterado com sucesso!";
+    const mensagemNaoOK = "Revise seus dados :(";
+    responseHandler(response.status, mensagemOk, mensagemNaoOK);
 
-    const responseData = response.data
+    const responseData = response.data;
 
-    return responseData
+    return responseData;
   }
 
   //= =========================================================================================================
@@ -45,52 +43,51 @@ export default class centroCustos {
     const response = await api
       .delete(`centroCustos/${id}`)
       .then((res) => {
-        const status = res.status
-        const mensagemOk = 'Modulo apagada com sucesso!'
-        const mensagemNaoOK = 'Algo deu errado :('
+        const status = res.status;
+        const mensagemOk = "Modulo apagada com sucesso!";
+        const mensagemNaoOK = "Algo deu errado :(";
 
-        responseHandler(status, mensagemOk, mensagemNaoOK)
+        responseHandler(status, mensagemOk, mensagemNaoOK);
       })
 
       .catch(() => {
-        servidorErrorMessage()
-      })
+        servidorErrorMessage();
+      });
 
-    return response
+    return response;
   }
 
   //= =========================================================================================================
   static async list() {
-    const response = await api.get('centroCustos').catch(() => {
-      servidorErrorMessage()
-    })
+    const response = await api.get("centroCustos").catch(() => {
+      servidorErrorMessage();
+    });
 
-    const responseData = response.data.rows
-    console.log(responseData)
-    return responseData
+    const responseData = response.data.rows;
+    return responseData;
   }
 
   static async listWithFilter(filter, value) {
     const response = await api
       .get(`centroCustos?filter%5B${filter}%5D=${value}`)
       .catch(() => {
-        servidorErrorMessage()
-      })
+        servidorErrorMessage();
+      });
 
-    const responseData = response.data.rows
+    const responseData = response.data.rows;
 
-    return responseData
+    return responseData;
   }
 
   //= =========================================================================================================
   static async listWithManyFilters(filters) {
     const response = await api.get(`centroCustos?${filters}`).catch(() => {
-      servidorErrorMessage()
-    })
+      servidorErrorMessage();
+    });
 
-    const responseData = response.data.rows
+    const responseData = response.data.rows;
 
-    return responseData
+    return responseData;
   }
 
   //= =========================================================================================================
@@ -99,9 +96,9 @@ export default class centroCustos {
       .get(`centroCustos/${id}`)
 
       .catch(() => {
-        servidorErrorMessage()
-      })
+        servidorErrorMessage();
+      });
 
-    return response.data
+    return response.data;
   }
 }

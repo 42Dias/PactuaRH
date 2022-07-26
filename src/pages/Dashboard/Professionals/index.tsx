@@ -58,7 +58,6 @@ export default function Professionals() {
   const [allUsers, setAllUsers] = useState<any[]>([])
   const [userSelected, setUserSelected] = useState<any>()
   const [selectedProfessional, setSelectedProfessional] = useState<any>()
-
   const [profissionals, setProfissionals] = useState<any[]>([])
   const [descricao, setDescricao] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -79,7 +78,7 @@ export default function Professionals() {
   const [telefone2, setTelefone2] = useState<string>('')
   const [estadoCivil, setEstadoCivil] = useState<string>('')
   const [hasDependente, setHasDependente] = useState<boolean>(false)
-  const [centroCustoId, setCentroCustoId] = useState<number>()
+  const [centroCustoId, setCentroCustoId] = useState<string>()
 
   // n-m association
   const [dependentes, setDependentes] = useState<iDependent[]>([])
@@ -205,7 +204,7 @@ export default function Professionals() {
       centroCustoId: centroCustoId
       // complemento: complemento,
     }
-
+    console.log(data, 'data')
     const isCreated = await profissional.create(data)
 
     handleLoadProfessionals()
@@ -241,6 +240,8 @@ export default function Professionals() {
       cargo: cargo || selectedProfessional?.cargo.id,
       dependentes: dependentes || selectedProfessional?.dependentes,
       dependentesNew: dependentesNew,
+      centroCustoId: centroCustoId || selectedProfessional?.centroCustoId
+
     }
     const isUpdated = await profissional.update(id, data)
 
@@ -413,6 +414,7 @@ export default function Professionals() {
     closeModalFilter()
 
   }
+
   return (
     <>
       <S.Body>
@@ -599,17 +601,15 @@ export default function Professionals() {
             ))}
           </select>
 
-          <input
-            type='text'
-            placeholder='CEP*'
-            // value={cep}
-            required
-            defaultValue={selectedProfessional?.cep}
-            onChange={(e) => {
-              setCep(e.target.value)
-            }}
+          <InputMask
+            onChange={(e) => setCep(e.target.value)}
             onBlur={(ev) => handleChangeCep(ev.target.value)}
+            mask='99999-999'
+            placeholder='CEP*'
+            defaultValue={selectedProfessional?.cep}
+            value={cep}
           />
+
 
           <input
             type='text'
@@ -672,6 +672,23 @@ export default function Professionals() {
               </select>
             </>
           )}
+
+          <label htmlFor="">Centro de custo</label>
+          <select
+            name=''
+            id=''
+            required
+            defaultValue={selectedProfessional?.centroCustoId}
+            onChange={(e) => setCentroCustoId(e.target.value)}
+          >
+            <option hidden>Centro de custo</option>
+            {centroCustoList && centroCustoList.map(item => (
+              <option key={item.id} value={item.id}>
+                {item.nome} - {item.codigo}
+              </option>
+            ))}
+
+          </select>
 
           <S.divCheck>
             <Checkbox
@@ -949,13 +966,14 @@ export default function Professionals() {
 
 
           <label htmlFor="">CEP</label>
-          <input
-            type='text'
-            placeholder='CEP*'
-            value={cep}
+          <InputMask
             onChange={(e) => setCep(e.target.value)}
             onBlur={(ev) => handleChangeCep(ev.target.value)}
+            mask='99999-999'
+            placeholder='CEP*'
+            value={cep}
           />
+
 
           <label htmlFor="">Cidade</label>
           <input
@@ -983,10 +1001,10 @@ export default function Professionals() {
 
           <label htmlFor="">Número</label>
           <input
-            type='text'
+            type='number'
             placeholder='Número*'
             value={numero}
-            onChange={(e) => setNumero(e.target.value)}
+            onChange={(e) => setNumero(e.target.value.replace(/\D/g, ""))}
           />
 
 
@@ -1042,7 +1060,8 @@ export default function Professionals() {
           <select
             name=''
             id=''
-            onChange={(e) => setCentroCustoId(Number(e.target.value))}
+            required
+            onChange={(e) => setCentroCustoId(e.target.value)}
           >
             <option hidden>Centro de custo</option>
             {centroCustoList && centroCustoList.map(item => (
@@ -1207,13 +1226,14 @@ export default function Professionals() {
 
 
           <label htmlFor="">CEP</label>
-          <input
-            type='text'
-            placeholder='CEP*'
-            value={cep}
+          <InputMask
             onChange={(e) => setCep(e.target.value)}
             onBlur={(ev) => handleChangeCep(ev.target.value)}
+            mask='99999-999'
+            placeholder='CEP*'
+            value={cep}
           />
+
 
           <label htmlFor="">Cidade</label>
           <input
