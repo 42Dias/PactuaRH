@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { theme } from 'config'
+import styled from "styled-components";
+import { theme } from "config";
 
 export const Container = styled.div`
   display: flex;
@@ -11,18 +11,18 @@ export const Container = styled.div`
   @media (max-width: 970px) {
     padding: 0 12%;
   }
-`
+`;
 
 export const Title = styled.h2`
   font-size: 24px;
   background: white;
   padding: 20px 0;
-`
+`;
 
 export const Body = styled.body`
   width: 100vw;
   height: 100vh;
-`
+`;
 
 export const FlexButtons = styled.div`
   display: flex;
@@ -54,13 +54,13 @@ export const FlexButtons = styled.div`
       margin-left: 10px;
     }
   }
-`
+`;
 
 export const Table = styled.table`
   /* width: 100%; */
   background: white;
   border-radius: 5px;
-`
+`;
 
 export const TrTitle = styled.tr`
   margin: 50px 0 !important;
@@ -69,7 +69,7 @@ export const TrTitle = styled.tr`
     padding: 20px;
     font-weight: bold;
   }
-`
+`;
 
 export const TrSecond = styled.tr`
   height: 53px;
@@ -83,7 +83,7 @@ export const TrSecond = styled.tr`
     background: transparent;
     border: 0;
   }
-`
+`;
 
 export const ContainerForm = styled.form`
   h2 {
@@ -92,7 +92,6 @@ export const ContainerForm = styled.form`
     color: var(--text-title);
   }
 
-  
   input {
     margin: 10px 0;
     padding: 0 1.5rem;
@@ -113,7 +112,7 @@ export const ContainerForm = styled.form`
 
   textarea {
     margin: 10px 0;
-    padding: .75rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     width: 100%;
     height: 3rem;
     font-size: 1rem;
@@ -128,11 +127,10 @@ export const ContainerForm = styled.form`
       margin-top: 1rem;
     }
   }
-
 
   textarea {
     margin: 10px 0;
-    padding: .75rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     width: 100%;
     height: 3rem;
     font-size: 1rem;
@@ -147,7 +145,6 @@ export const ContainerForm = styled.form`
       margin-top: 1rem;
     }
   }
-
 
   select {
     padding: 0 1.5rem;
@@ -184,5 +181,9 @@ export const ContainerForm = styled.form`
     &:hover {
       filter: brightness(0.9);
     }
+
+    &:disabled {
+      opacity: 0.4;
+    }
   }
-`
+`;
