@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled from "styled-components/macro";
+import { theme } from "config";
 
 export const Container = styled.div`
 
@@ -13,7 +14,7 @@ export const Container = styled.div`
     z-index: 1;
   }
   #header .closemenu {
-    color: white;
+    color: ${theme.colors.gray.gray1};
     position: absolute;
     left: 24px;
     line-height: 20px;
@@ -32,7 +33,7 @@ export const Container = styled.div`
     min-width: 80px;
   }
   #header .pro-sidebar-inner {
-    background-color: #000;
+    background-color: ${theme.colors.gray.gray12};
     box-shadow: 0.5px 0.866px 2px 0px rgba(0, 0, 0, 0.15);
   }
   #header .inner-submenu-arrows {
@@ -51,7 +52,7 @@ export const Container = styled.div`
     padding: 0 5px;
   }
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
-    color: white;
+    color: ${theme.colors.gray.gray3};
     margin: 10px 0px;
     font-weight: bold;
   }
@@ -79,7 +80,8 @@ export const Container = styled.div`
   }
 
   #header .pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
-    background-color: #000;
+    background-color: ${theme.colors.gray.gray11};
+    overflow: hidden;
   }
 
   #header
@@ -88,8 +90,8 @@ export const Container = styled.div`
     ul
     .pro-inner-item
     .pro-icon-wrapper {
-    background-color: #2b2b2b;
-    color: white;
+    background-color: #ed6b47;
+    color: ${theme.colors.gray.gray2};
   }
 
   .open .react-slidedown{
@@ -127,6 +129,15 @@ export const Container = styled.div`
     ::-webkit-scrollbar-track {
       border-radius: 5px ;
     }
+  .open .react-slidedown {
+    /* height: 60vh !important; */
+    overflow: scroll;
+  }
+
+  img {
+    display: block;
+    width: 150px;
+    margin: 0 auto;
   }
 
   /* @media only screen and (max-width: 720px) {
@@ -134,4 +145,4 @@ export const Container = styled.div`
       overflow: hidden;
     }
   } */
-`
+}`;

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
-import { welcome } from 'assets'
+import { logo, welcome } from 'assets'
 import * as S from './Home.styled'
 import { api, Email, fullName, getId } from 'service/api'
 import { useEffect, useState } from 'react'
@@ -14,13 +14,11 @@ const avatar = require('./../../../assets/avatar.png')
 export default function Home() {
   const [questionarios, setQuestionarios] = useState([])
 
-
-
-  async function handleLoadAvaliations(){
+  async function handleLoadAvaliations() {
     let professionalData = await profissional.listWithFilter("userId", getId())
-    
+
     // professionalData = professionalData[0] || []
-    
+
     // console.log(professionalData)
 
 
@@ -32,8 +30,8 @@ export default function Home() {
 
   }
 
-  function checkLogin(){
-    if(!Email) window.location.reload()
+  function checkLogin() {
+    if (!Email) window.location.reload()
   }
 
   useEffect(
@@ -43,20 +41,18 @@ export default function Home() {
     }, []
   )
 
-
-  
-
-
   return (
     <S.Body>
       <Sidebar />
       <S.Title>
-        <S.Container>Dashboard</S.Container>
+        <S.Container>
+          Dashboard
+        </S.Container>
       </S.Title>
       <S.Container>
         <S.ContainerCall>
           <div>
-            <h2>Olá, { fullName } 😁</h2>
+            <h2>Olá, {fullName} 😁</h2>
             <p>Aproveite ao máximo da nossa plataforma e descubra talentos</p>
             <Link to='/planos'>Planos</Link>
           </div>
@@ -67,31 +63,31 @@ export default function Home() {
         <S.GridDetails>
 
           <S.ContentUsers>
-          {
-            questionarios[0] && questionarios.map(
-              (questionario: any) => (
-                <S.Content>
-                  <div>
-                    <h3>{questionario.nome}</h3>
-                  </div>
-                  <div className='flex-buttons'>
-                    <button>Enviar</button>
-                    {/* <button onClick={ () => toast.info(questionario.id)}>Ver</button> */}
-                    <Link to={`/responder-questionario/${questionario.id}`}
-                    // onClick={ () => toast.info(questionario.id)}
-                    >
-                      Ver
-                    </Link>
-                  </div>
+            {
+              questionarios[0] && questionarios.map(
+                (questionario: any) => (
+                  <S.Content>
+                    <div>
+                      <h3>{questionario.nome}</h3>
+                    </div>
+                    <div className='flex-buttons'>
+                      <button>Enviar</button>
+                      {/* <button onClick={ () => toast.info(questionario.id)}>Ver</button> */}
+                      <Link to={`/responder-questionario/${questionario.id}`}
+                      // onClick={ () => toast.info(questionario.id)}
+                      >
+                        Ver
+                      </Link>
+                    </div>
 
-                </S.Content>
-              )
-            )}
+                  </S.Content>
+                )
+              )}
           </S.ContentUsers>
 
 
           <S.DetailsUser>
-           {/* <h1>User pertencente a empresaX</h1> */}
+            {/* <h1>User pertencente a empresaX</h1> */}
 
             <S.FlexPhoto>
               <S.Photo>

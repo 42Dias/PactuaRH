@@ -14,33 +14,34 @@ import LoadingLayer from 'ui/components/LoadingLayer'
 export default function CostCenter() {
 
   //===================================== Modal's States
-  const [modalIsOpen       , setIsOpen     ] = useState(false)
-  const [modalIsOpenNew    , setIsOpenNew  ] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
 
   //===================================== CRUD's States
-  const [nome     , setNome] = useState<string>('')
-  const [descricao, setDescricao] = useState<string>('')
+  const [nome, setNome] = useState<string>()
+  const [descricao, setDescricao] = useState<string>()
+  const [codigo, setCodigo] = useState<number | undefined>()
 
   const [id, setId] = useState<string>('')
 
-  const [cost     , setCost  ] = useState<any[]>([])
+  const [cost, setCost] = useState<any[]>([])
   const [allCargos, setCargos] = useState<any[]>([])
-  const [cargo    , setCargo ] = useState<string>('')
+  const [cargo, setCargo] = useState<string>('')
 
   //===================================== Filter's States
-  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
-  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
+  const [nomeFilter, setNomeFilter] = useState<string>('')
+  const [descricaoFilter, setDescricaoFilter] = useState<string>('')
 
   //===================================== Loading's States
   const [loading, setLoading] = useState(true);
 
 
-/* 
-==========================================================================================================
-                                        Modal's Functions
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                          Modal's Functions
+  ==========================================================================================================
+  */
   function openModalFilter() {
     setIsOpenFilter(true)
   }
@@ -58,6 +59,7 @@ export default function CostCenter() {
     setDescricao('')
     setCargo('')
     setIsOpen(false)
+    setCodigo(undefined)
   }
 
   function openModalNew() {
@@ -69,23 +71,24 @@ export default function CostCenter() {
     setIsOpenNew(false)
   }
 
-   // open the edit modal
-   function openEditModal(selectedValue: any){
+  // open the edit modal
+  function openEditModal(selectedValue: any) {
     setId(selectedValue.id)
     setNome(selectedValue.nome)
     setDescricao(selectedValue.descricao)
     openModal()
   }
 
-/* 
-==========================================================================================================
-                                        Crud's Functions
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                          Crud's Functions
+  ==========================================================================================================
+  */
 
   async function handleLoadCostCenter() {
     const allCostCenter = await centroCustos.list()
     setCost(allCostCenter)
+    console.log(allCostCenter, 'allCostCenter')
     setLoading(false)
   }
 
@@ -100,6 +103,7 @@ export default function CostCenter() {
       nome: nome,
       descricao: descricao,
       cargos: cargo,
+      codigo
     }
 
     const isCreated = await centroCustos.create(data)
@@ -129,31 +133,27 @@ export default function CostCenter() {
   }
 
 
-
-
-
-
-/* 
-==========================================================================================================
-                                        Filters's Functions
-==========================================================================================================
-*/ 
-  async function handleFilterArea(){
+  /* 
+  ==========================================================================================================
+                                          Filters's Functions
+  ==========================================================================================================
+  */
+  async function handleFilterArea() {
     let filter = ''
 
-    if (nomeFilter){
-      
-      if(filter.length != 0 ) filter += '&'
+    if (nomeFilter) {
+
+      if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
-    if (descricaoFilter){
-      
+    if (descricaoFilter) {
 
-      if(filter.length != 0 ) filter += '&'
+
+      if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
-      
+
     }
-   
+
 
     let areaFilted = await centroCustos.listWithManyFilters(filter)
 
@@ -163,13 +163,11 @@ export default function CostCenter() {
   }
 
 
-
-
-/* 
-==========================================================================================================
-                                          UseEffect
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                            UseEffect
+  ==========================================================================================================
+  */
 
   useEffect(() => {
     handleLoadCostCenter()
@@ -191,9 +189,9 @@ export default function CostCenter() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button 
-             
-              onClick={openModalFilter}>
+              <button
+
+                onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
@@ -212,17 +210,17 @@ export default function CostCenter() {
               <S.TrTitle>
                 <td>Nome</td>
                 <td>Descrição</td>
-                <td>Cargo</td>
+                {/* <td>Cargo</td> */}
               </S.TrTitle>
               {cost.map((c: any, index) => (
                 <S.TrSecond key={index}>
                   <td>{c.nome}</td>
                   <td>{c.descricao}</td>
-                  <td>
+                  {/* <td>
                     {c.cargos.map((cgo: any, index: any) => (
                       <p key={index}>{cgo.nome}</p>
                     ))}
-                  </td>
+                  </td> */}
                   {/* <td>
                     <button>
                       <Link to='/'>
@@ -359,11 +357,19 @@ export default function CostCenter() {
               </S.Options>
             ))}
           </S.Select>
+
+          <label htmlFor="">Código</label>
+          <input
+            type='number'
+            placeholder='Código'
+            onChange={(e) => setCodigo(Number(e.target.value))}
+          />
+
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
-      
+
       <Modal
         isOpen={modalIsOpenFilter}
         onRequestClose={closeModalFilter}
@@ -400,7 +406,7 @@ export default function CostCenter() {
             onChange={(e) => setDescricaoFilter(e.target.value)}
           />
 
-{/*<label htmlFor="">Cargo</label>
+          {/*<label htmlFor="">Cargo</label>
           <S.Select
             placeholder='Cargo'
             id='cargo'
@@ -416,7 +422,7 @@ export default function CostCenter() {
               </S.Options>
             ))}
           </S.Select> */ }
-          
+
           <button type='submit'>Enviar</button>
         </S.ContainerForm>
       </Modal>
