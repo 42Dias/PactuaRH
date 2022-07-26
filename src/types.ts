@@ -1,3 +1,12 @@
+import { ReactNode } from 'react';
+
+export interface ReactProps {
+  children?: ReactNode
+}
+
+
+
+
 export interface iDependent {
   nome: string
   cpf: string
@@ -31,6 +40,7 @@ export interface iNiveis extends iData {
 }
 
 export interface iQuestoes extends iData {
+  forma: string;
   avaliacaoScore: any
   nome: string
   pergunta: string
@@ -53,6 +63,7 @@ export interface iQuestoes extends iData {
   resposta?: string
   resultado?: string | number | readonly string[] | undefined
   formato?: string | number | readonly string[] | undefined
+  avaliacaoId: string;
   
   
 
@@ -86,4 +97,11 @@ export interface PropsModal {
 
 export interface PropsCheckBox extends PropsModal {
   checked?: boolean;
+}
+
+
+export interface PropsScoreComponent extends PropsModal{
+  handleDeleteSubItem: (id: string) => void;
+  handleSetValuesAndOpenEditScore: (id: string ,from: string | number ,to: string | number ,titleAvaliation: string) => void;
+  kindOfAvaliation: string;
 }

@@ -12,7 +12,6 @@ export default async function responseHandler(
         mensagemSeOk ? toast.success(mensagemSeOk) : toast.success("Ação feita com sucesso!") 
     }
     else {
-    //else if (responseStatus != 200 ){
         mensagemSeNaoOk ? toast.error(mensagemSeNaoOk) : toast.error("Algo deu errado :(") 
     }
 
