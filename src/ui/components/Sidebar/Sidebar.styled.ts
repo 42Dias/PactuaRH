@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
+
   #header {
     position: absolute;
     /*
@@ -23,11 +24,11 @@ export const Container = styled.div`
     cursor: pointer;
   }
   #header .pro-sidebar {
-    width: 100%;
+    width: calc(100% - 5px);
     min-width: 100%;
   }
   #header .pro-sidebar.collapsed {
-    width: 80px;
+    width: calc(80px - 5px);
     min-width: 80px;
   }
   #header .pro-sidebar-inner {
@@ -93,7 +94,39 @@ export const Container = styled.div`
 
   .open .react-slidedown{
     height: 60vh !important;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+
+     /* width */
+    ::-webkit-scrollbar{
+        width: 5px;
+      }
+        
+
+
+    /* Track */
+    ::-webkit-scrollbar-track{
+        background: transparent;
+        border-radius: 10px;
+
+    }
+        
+    /* Handle */
+    ::-webkit-scrollbar-thumb{
+        background: #ffffff3d;
+        border-radius: 10px;
+    }
+        
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover{
+        background: transparent;
+    }
+        
+
+    ::-webkit-scrollbar-track {
+      border-radius: 5px ;
+    }
   }
 
   /* @media only screen and (max-width: 720px) {
