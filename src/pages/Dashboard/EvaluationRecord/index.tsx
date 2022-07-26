@@ -457,7 +457,7 @@ export function EvaluationRecord() {
            ( questioryItem: iQuestoes ) => (
 
             <div className='box-avaliacoes' key={questioryItem.id}>
-              <Link to={`/questionario/${questioryItem.id}`}>{questioryItem.nome}</Link>
+              <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
                   <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0], questioryItem.id)} className='settings'>
                   <FiSettings />

@@ -6,7 +6,7 @@ import { Switch } from 'antd'
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes } from 'types'
-import questionarios from 'service/questionarios/questionarios'
+import questionarios from 'service/questionarios/'
 import avaliacoes from 'service/avaliacoes/avaliacoes'
 
 

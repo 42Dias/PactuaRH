@@ -15,7 +15,7 @@ import { toast } from 'react-toastify'
 import InputComponent from 'ui/components/InputComponent'
 import { iQuestoes, PropsModal } from 'types'
 import TextAreaComponent from 'ui/components/TextAreaComponent'
-import questionarios from 'service/questionarios/questionarios'
+import questionarios from 'service/questionarios/'
 import Status from 'ui/components/Status'
 
 

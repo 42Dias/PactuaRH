@@ -4,7 +4,7 @@ import { FiPlus, FiEdit, FiTrash, FiX, FiFilter } from 'react-icons/fi'
 import * as S from './Questionnaires.styled'
 import { useEffect, useState } from 'react'
 import { fullName } from 'service/api'
-import questionarios from 'service/questionarios/questionarios'
+import questionarios from 'service/questionarios/'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import { iQuestoes } from 'types'

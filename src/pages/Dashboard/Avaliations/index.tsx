@@ -11,7 +11,7 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 import stateHandler from 'utils/changeStatesHandlers'
 // import cargos from 'service/cargos/cargos'
-import questionarios from 'service/questionarios/questionarios'
+import questionarios from 'service/questionarios/'
 
 export default function Avaliations() {
   /*
