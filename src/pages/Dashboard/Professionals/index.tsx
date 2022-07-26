@@ -204,7 +204,6 @@ export default function Professionals() {
       centroCustoId: centroCustoId
       // complemento: complemento,
     }
-    console.log(data, 'data')
     const isCreated = await profissional.create(data)
 
     handleLoadProfessionals()
