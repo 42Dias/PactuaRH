@@ -43,7 +43,7 @@ export const LinksScore = styled.div`
   border-radius: 5px;
 
 
-  margin: 14px 0;
+  margin: 14px auto;
 
   position: relative;
 

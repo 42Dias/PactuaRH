@@ -567,8 +567,8 @@ export function EvaluationRecord() {
                     <ScoreComponent
                       id={item.id}
                       titleAvaliation={item.nome}
-                      from={item.ate}
-                      to={item.de}
+                      from={item.de}
+                      to={item.ate}
                     />
                   </div>
                 )
