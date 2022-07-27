@@ -1,9 +1,14 @@
+import React from 'react'
 import * as S from './SubmitButton.styled'
 
-export function SubmitButton() {
+interface IProps {
+  className?: string
+}
+
+export function SubmitButton({ className }: IProps) {
   return (
     <S.Container>
-      <button type='submit'>Entrar</button>
+      <button type='submit' className={className}>Entrar</button>
     </S.Container>
   )
 }
