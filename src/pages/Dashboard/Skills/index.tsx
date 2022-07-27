@@ -194,11 +194,18 @@ export default function Skills() {
                 <td>Nome do habilidades</td>
                 <td>Descrição</td>
               </S.TrTitle>
+              
 
             {skills.map((skills) => (
                 <S.TrSecond>
                   <td>{skills.nome}</td>
-                  <td>{skills.descricao}</td>
+
+                  <td>
+                    <span>{skills.descricao}</span>
+                    </td>
+
+
+
                   <td>
                     <button
                       onClick={() => {
