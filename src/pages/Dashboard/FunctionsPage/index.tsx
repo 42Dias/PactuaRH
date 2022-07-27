@@ -191,7 +191,13 @@ export default function FunctionsPage() {
               {allFuncoes.map((func: any, index) => (
                 <S.TrSecond key={index}>
                   <td>{func.nome}</td>
-                  <td>{func.descricao}</td>
+                  <td>
+
+                    <span>
+                      {func.descricao}
+                    </span>
+                  
+                  </td>
                   <td>
                     <button
                       onClick={() => {
