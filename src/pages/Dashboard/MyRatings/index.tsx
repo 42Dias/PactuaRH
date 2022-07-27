@@ -78,36 +78,6 @@ export function MyRatings() {
     <>
       <S.Body>
         <Sidebar />
-        <S.Title>
-          <S.Container>
-            <S.LinksScore>
-              <div>
-                <Status />
-                <small>Avaliação</small>
-              </div>
-
-              <div>
-                <Status />
-                <small>Score</small>
-              </div>
-
-              <div>
-                <Status />
-                <small>Iniciativa ou KPI</small>
-              </div>
-
-              <div>
-                <Status />
-                <small>Score</small>
-              </div>
-
-              <div>
-                <Status />
-                <small>Perguntas</small>
-              </div>
-            </S.LinksScore>
-          </S.Container>
-        </S.Title>
 
         <S.Container>
           <S.LinksContainer>
