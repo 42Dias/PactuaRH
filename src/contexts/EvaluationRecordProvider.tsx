@@ -52,7 +52,7 @@ export default function EvaluationRecordProvider({ children }: ReactProps) {
 
     const isUpdated = await questionarioRespository.update(id, data)
     
-    const isUpdatedScore = await updateQuestionarioScore(data.id,  data)
+    const isUpdatedScore = await updateQuestionarioScore(isUpdated.avaliacaoScore[0].id,  data)
     
     if (isUpdated && isUpdatedScore)
       await loadQuestionario()

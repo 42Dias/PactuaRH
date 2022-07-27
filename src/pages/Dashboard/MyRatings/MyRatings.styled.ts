@@ -14,24 +14,16 @@ export const LinksScore = styled.div`
   div {
     position: relative;
     
-    &:first-child {
+    &:nth-child(1) {
       left: 1%;
     }
 
+
     &:nth-child(2) {
-      left: 25%;
-    }
-
-    &:nth-child(3) {
-      left: 50%;
-    }
-
-    &:nth-child(4) {
-      left: 75%;
-    }
-
-    &:nth-child(5) {
       left: 94%;
+      small {
+        left: -5%;
+      }
     }
 
     small {

@@ -2,36 +2,30 @@ import styled from 'styled-components'
 import { theme } from 'config'
 
 export const LinksScore = styled.div`
-  width: 100%;
+  width: 40%;
   height: 10px;
   background: rgba(80, 200, 120, 0.4);
   border-radius: 5px;
 
-  margin: 14px 0;
+
+  margin: 14px auto;
+  /* margin: 14px auto; */
 
   position: relative;
 
   div {
     position: relative;
     
-    &:first-child {
+    &:nth-child(1) {
       left: 1%;
     }
 
+
     &:nth-child(2) {
-      left: 25%;
-    }
-
-    &:nth-child(3) {
-      left: 50%;
-    }
-
-    &:nth-child(4) {
-      left: 75%;
-    }
-
-    &:nth-child(5) {
-      left: 94%;
+      left: 89%;
+      small {
+        left: -5%;
+      }
     }
 
     small {
@@ -93,6 +87,10 @@ export const Container = styled.div`
     a {
       color: black;
       text-decoration: underline;
+    }
+
+    p{
+      margin: 0;
     }
 
     .flex-configs {
@@ -361,7 +359,8 @@ export const ContainerForm = styled.form`
         justify-content: center;
         background-color: white;
         border: 0;
-
+        
+        /* 
         &:first-child {
           background: #cc0044;
           color: white;
@@ -371,7 +370,7 @@ export const ContainerForm = styled.form`
           &:hover {
             filter: brightness(0.9);
           }
-        }
+        } */
 
         &:last-child {
           border: 1px solid #000000;

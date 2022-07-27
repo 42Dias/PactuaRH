@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { iQuestoes, PropsModal } from 'types'
 import questionario from 'service/avaliacoes'
-import questionarioScoreItem from 'service/questionariosScoreItem/questionariosScoreItem'
+import avaliacaoScoreItem from 'service/avaliacaoScoreItem/avaliacaoScoreItem'
 import InputComponent from 'ui/components/InputComponent'
 import CheckBox from 'ui/components/CheckBox' 
 import { toast } from 'react-toastify'
@@ -15,6 +15,7 @@ import questionarioScores from 'service/questionariosScore/questionariosScore'
 import LoadingLayer from 'ui/components/LoadingLayer'
 import Status from 'ui/components/Status'
 import { useEvaluationRecord } from 'contexts/EvaluationRecordProvider'
+import avaliacaoScores from 'service/avaliacaoScore/avaliacaoScore'
 
 export function EvaluationRecord() {
   const {
@@ -47,7 +48,7 @@ export function EvaluationRecord() {
   const [id             , setId             ] = useState<string | undefined>("")
   const [nome           , setNome           ] = useState<string | undefined>('')
   const [subItens        , setSubItens      ] = useState<any[] | undefined>()
-  const [score         , setScore  ] = useState<string>("")
+  const [score         , setScore  ] = useState<any>("")
   const [titulo        , setTitulo ] = useState<string>("")
   const [de            , setDe     ] = useState<string | number>("")
   const [ate           , setAte    ] = useState<string | number>("")
@@ -56,7 +57,7 @@ export function EvaluationRecord() {
 
 
   //Avaliation States
-  const [formato, setFormato] = useState<string>('')
+  const [formato, setFormato] = useState<string | any>('')
   const [tipo,    setTipo   ] = useState<string>('')
   const [forma,    setForma ] = useState<string>('')
 
@@ -111,9 +112,13 @@ export function EvaluationRecord() {
   }
 
 
-  function handleOpenEditModal(id: string, nome: string){
+  function handleOpenEditModal(id: string, nome: string, score: iQuestoes){
     setId(id)
     setNome(nome)
+
+    setSelectedScore(score)
+    console.log(score)
+    setForma(score?.forma!)
         
     openModal(3)
   }
@@ -183,7 +188,7 @@ export function EvaluationRecord() {
     
     console.log("selectedQuestionario")
     console.log(selectedQuestionario)
-    handleOpenSettingsModal(selectedQuestionario.id, selectedQuestionario.questionarioScore[0], selectedQuestionario.nome)
+    handleOpenSettingsModal(selectedQuestionario.id, selectedQuestionario.avaliacaoScore[0], selectedQuestionario.nome)
 
     // setActiveTabKey(2)
 
@@ -216,7 +221,8 @@ export function EvaluationRecord() {
     
     const data = {
       nome: nome,
-      scoreItem: scaffoldScoreItems
+      scoreItem: scaffoldScoreItems,
+      forma: forma
     }
     
     
@@ -228,17 +234,25 @@ export function EvaluationRecord() {
   }
 
   async function handleUpdate() {
-    const data = {
-      nome: nome,
-    }
+    const data = selectedScore
 
-    const isUpdated = await updateQuestionario(id, data)
-    if (isUpdated) closeModal()
+    data.nome  = nome
+    data.forma = forma
+    
+
+    const isUpdated = await updateQuestionario(id, data) 
+    if (isUpdated) handleGetAndSetSettingsModal(isUpdated.id)
+    // closeModal()
+
+
     await handleLoadQuestionario()
   }
  
   async function handleDelete(id: string) {
     await deleteQuestionario(id)
+
+    handleGetAndSetSettingsModal(id!)
+
     handleLoadQuestionario()
   }
 
@@ -259,9 +273,10 @@ export function EvaluationRecord() {
       questionarioScore: selectedScore,
     }
 
-    const isUpdated = await questionarioScores.update(selectedScore, data)
+    const isUpdated = await avaliacaoScores.update(selectedScore, data)
 
-    if (isUpdated) closeModal()
+    // if (isUpdated)
+    // closeModal()
 
     await handleLoadQuestionario()
   }
@@ -271,14 +286,14 @@ export function EvaluationRecord() {
 
   async function handleCreateSubItem(){
     let data = {
-      de: de, 
+      de:   de, 
       ate: ate,
       nome: titulo,
       score: score,
       questionariorioScoreId: selectedScore,
     }
 
-    const isCreated = await questionarioScoreItem.create(data)
+    const isCreated = await avaliacaoScoreItem.create(data)
     if (isCreated) closeModal()
 
     await handleLoadQuestionario()
@@ -287,23 +302,24 @@ export function EvaluationRecord() {
   async function handleEditSubItem(){
 
     let data = {
-      de: de, 
-      ate: ate,
+      de:  Number(de), 
+      ate: Number(ate),
       nome: titulo,
       score: score,
       questionariorioScoreId: selectedScore,
       questionarioScore: selectedScore,
     }
 
-    const isCreated = await questionarioScoreItem.update(selectedScoreItem, data)
-    if (isCreated) closeModal()
+    const isCreated = await avaliacaoScoreItem.update(selectedScoreItem, data)
+
+    if (isCreated) handleGetAndSetSettingsModal(id!)
 
     await handleLoadQuestionario()
   }
   
 
   async function handleDeleteSubItem(id: string) {
-    await questionarioScoreItem.delete(id)
+    await avaliacaoScoreItem.delete(id)
     closeModal()
 
     handleLoadQuestionario()
@@ -331,14 +347,14 @@ export function EvaluationRecord() {
           <span>{from}{tipo === "porcentagem" && "%"}</span>
           <span>{to}  {tipo === "porcentagem" && "%"}</span>
           <div>
-            <button onClick={() => handleDeleteSubItem(id!)}>
+            {/* <button onClick={() => handleDeleteSubItem(id!)}>
               <FiTrash2 />
-            </button>
+            </button> */}
             <button onClick={() => {
               
               setSelectedScoreItem(id)
-              setDe(to!)
-              setAte(from!)
+              setDe(from!)
+              setAte(to!)
               setTitulo(titleAvaliation!)
 
               openModal(5)
@@ -394,23 +410,10 @@ export function EvaluationRecord() {
 
               <div>
                 <Status />
-                <small>Score</small>
-              </div>
-
-              <div>
-                <Status />
                 <small>Iniciativa ou KPI</small>
               </div>
 
-              <div>
-                <Status />
-                <small>Score</small>
-              </div>
 
-              <div>
-                <Status />
-                <small>Perguntas</small>
-              </div>
             </S.LinksScore>
           </S.Container>
         </S.Title>
@@ -419,7 +422,7 @@ export function EvaluationRecord() {
           <S.LinksContainer>
             <Link
             className='active-class'
-            to='/cadastro-de-questionario'
+            to='/cadastro-de-avaliacao'
             >
               Avaliação &gt;
             </Link>
@@ -450,14 +453,18 @@ export function EvaluationRecord() {
             <div className='box-avaliacoes' key={questioryItem.id}>
               <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
               <div className='flex-configs'>
-                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0], questioryItem.id)} className='settings'>
+
+                {/*
+                <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.avaliacaoScore[0], questioryItem.id)} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
+                */}
+
                 <button className='delete' onClick={() => handleDelete(questioryItem.id)}>
                   <FiTrash2 />
                 </button>
-                <button onClick={() => handleOpenEditModal(questioryItem.id, questioryItem.nome)} className='edit'>
+                <button onClick={() => handleOpenEditModal(questioryItem.id, questioryItem.nome, questioryItem?.avaliacaoScore[0])} className='edit'>
                   <FiEdit2 />
                 </button>
               </div>
@@ -501,6 +508,14 @@ export function EvaluationRecord() {
 						<>
               <TitleComponent title='Adicionar avaliação' />
               <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
+
+              <ConfigCheckTitle titleConfig='Esta Avaliação é' />
+              <div className="checkContainer">
+                <CheckBox value="PDI"                     checkBoxTitle='PDI'                         onChange={() => setForma("PDI")}                      checked={forma === "PDI" } />
+                <CheckBox value="PMP"                     checkBoxTitle='PMP'                         onChange={() => setForma("PMP")}                      checked={forma === "PMP" }  />
+                <CheckBox value="questionarioDesempenho"  checkBoxTitle='Avaliacação Desempenho'      onChange={() => setForma("questionarioDesempenho")}   checked={forma === "questionarioDesempenho" }  />
+              </div>
+
             </>
 					)}
 
@@ -509,12 +524,7 @@ export function EvaluationRecord() {
               <TitleComponent title='Configurar' />
               {/* <ConfigCheckTitle titleConfig='Avaliação' /> */}
 
-              <ConfigCheckTitle titleConfig='Esta Avaliação é' />
-              <div className="checkContainer">
-                <CheckBox value="porcentagem" checkBoxTitle='PDI'                       onChange={() => setForma("PDI")}                   checked={forma === "PDI" } />
-                <CheckBox value="quantidade"  checkBoxTitle='PMP'                       onChange={() => setForma("PMP")}                   checked={forma === "PMP" }  />
-                <CheckBox value="quantidade"  checkBoxTitle='Avaliação Desempenho'      onChange={() => setForma("questionarioDesempenho")}   checked={forma === "questionarioDesempenho" }  />
-              </div>
+              
 
               <ConfigCheckTitle titleConfig='Formato' />
               <div className="checkContainer">
@@ -531,12 +541,15 @@ export function EvaluationRecord() {
               <div className="flexBtn">
                 <h2>Score</h2>
 
+                {/*
                 <button onClick={() => {
                   openModal(4)
                   setTitulo("")
                   setDe("")
                   setAte("")
-                  }}><FiPlus /> Novo</button>
+                  }}><FiPlus /> Novo
+                  </button>  
+                */}
               </div>
 
               <div className="gridScore">
@@ -554,8 +567,8 @@ export function EvaluationRecord() {
                     <ScoreComponent
                       id={item.id}
                       titleAvaliation={item.nome}
-                      from={item.de}
-                      to={item.ate}
+                      from={item.ate}
+                      to={item.de}
                     />
                   </div>
                 )
@@ -568,6 +581,13 @@ export function EvaluationRecord() {
             <>
               <TitleComponent title='Editar avaliação ' />
               <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
+            
+              <ConfigCheckTitle titleConfig='Esta Avaliação é' />
+              <div className="checkContainer">
+                <CheckBox value="PDI"                     checkBoxTitle='PDI'                         onChange={() => setForma("PDI")}                      checked={forma === "PDI" } />
+                <CheckBox value="PMP"                     checkBoxTitle='PMP'                         onChange={() => setForma("PMP")}                      checked={forma === "PMP" }  />
+                <CheckBox value="questionarioDesempenho"  checkBoxTitle='Avaliacação Desempenho'      onChange={() => setForma("questionarioDesempenho")}   checked={forma === "questionarioDesempenho" }  />
+              </div>
             </>
           )}
 

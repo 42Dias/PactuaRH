@@ -14,6 +14,7 @@ import { toast } from 'react-toastify'
 import questionariosScores from 'service/questionariosScore/questionariosScore'
 import LoadingLayer from 'ui/components/LoadingLayer'
 import Status from 'ui/components/Status'
+import avaliacoes from 'service/avaliacoes'
 
 export function Evaluation() {
 
@@ -30,6 +31,8 @@ export function Evaluation() {
   const [activeKey, setActiveTabKey] = useState<number>(0);
 
   //PageComponents States
+  const [avaliacaoScoreKind, setavaliacaoScoreKind] = useState<iQuestoes[] | any>([])
+
   const [questionario     , setQuestionario     ] = useState<iQuestoes[] | any>([])
   const [selectedScore    , setSelectedScore    ] = useState<iQuestoes[] | any>([])
   const [selectedScoreItem, setSelectedScoreItem] = useState<iQuestoes[] | any>([])
@@ -66,17 +69,17 @@ export function Evaluation() {
 	const openModal = (activeKey:any) => {
 		if (activeKey === 1) {
       setActiveTabKey(activeKey)
-			setIsOpen(!modalIsOpen);
+			setIsOpen(true);
 		}
     
     else if(activeKey === 2) {
       setActiveTabKey(activeKey)
-      setIsOpen(!modalIsOpen);
+      setIsOpen(true);
     }
     
     else if (activeKey === 3) {
       setActiveTabKey(activeKey)
-      setIsOpen(!modalIsOpen);
+      setIsOpen(true);
     }
     
     else if (activeKey === 4) {
@@ -105,9 +108,16 @@ export function Evaluation() {
   }
 
 
-  function handleOpenEditModal(id: string, nome: string){
+  function handleOpenEditModal(id: string, nome: string, score: iQuestoes){
     setId(id)
     setNome(nome)
+
+
+    setSelectedScore(score)
+    console.log(score)
+
+    //@ts-ignore
+    setFormato(score?.formato!)
         
     openModal(3)
   }
@@ -117,7 +127,7 @@ export function Evaluation() {
 
     setId(id)
     setSelectedScore(score?.id)
-    setSubItens(score?.item)      
+    setSubItens(score?.item.sort((previous: any,next: any) => (previous.de > next.de) ? 1 : ((next.de > previous.de) ? -1 : 0)))         
     setFormato(score?.formato)
     setTipo(score?.tipo)
 
@@ -190,15 +200,66 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
     setLoading(false)
   }
 
+  async function handleFindAvaliacao() {
+    const avaliacao = await avaliacoes.find(avaliationId)    
+
+    console.log(avaliacao)
+
+    console.log(avaliacao.avaliacaoScore[0].forma)
+    setavaliacaoScoreKind(avaliacao.avaliacaoScore[0].forma)
+
+    setLoading(false)
+  }
+
+  async function handleGetAndSetSettingsModal(id: string){
+    const selectedQuestionario = await questionarios.find(id)
+    
+    console.log("selectedQuestionario")
+    console.log(selectedQuestionario)
+    handleOpenSettingsModal(selectedQuestionario.id, selectedQuestionario.questionarioScore[0], selectedQuestionario.nome)
+
+    // setActiveTabKey(2)
+
+  }
+
   async function handleCreate() {
+    const scaffoldScoreItems = [
+      {
+        nome: "Acima do esperado",
+        pontuacao: 0,
+        descricao: 0,
+        de: 5,
+        ate: 10,
+      },
+      {
+        nome: "Estático",
+        pontuacao: 0,
+        descricao: 0,
+        de: 3,
+        ate: 4,
+      },
+      {
+        nome: "Abaixo do esperado",
+        pontuacao: 0,
+        descricao: 0,
+        de: 0,
+        ate: 2,
+      }
+    ]
+    
     const data = {
       nome: nome,
-      avaliacaoId: avaliationId,
+      scoreItem: scaffoldScoreItems,
+      formato: formato,
+      avaliacaoId: avaliationId
     }
 
     const isCreated = await questionarios.create(data)
 
-    if (isCreated) closeModal()
+    // const isCreatedScore = await questionariosScores.create(data)
+
+
+    if (isCreated) handleGetAndSetSettingsModal(isCreated.id)
     await handleLoadQuestionario()
   }
 
@@ -209,11 +270,15 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
       avaliacaoId: avaliationId,
     }
 
-    
+    const scoreData = selectedScore;
+
+    scoreData.formato = formato
 
     const isUpdated = await questionarios.update(id, data)
 
-    if (isUpdated) closeModal()
+    const isUpdatedScore = await questionariosScores.update(scoreData.id, scoreData)
+
+    if (isUpdated && isUpdatedScore) handleGetAndSetSettingsModal(isUpdated.id)
 
     await handleLoadQuestionario()
   }
@@ -243,7 +308,9 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
 
     const isUpdated = await questionariosScores.update(selectedScore, data)
 
-    if (isUpdated) closeModal()
+    // if (isUpdated) closeModal()
+
+    if (isUpdated) handleGetAndSetSettingsModal(id!)
 
     await handleLoadQuestionario()
   }
@@ -269,8 +336,8 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
   async function handleEditSubItem(){
 
     let data = {
-      de: de, 
-      ate: ate,
+      de:  Number(de), 
+      ate: Number(ate),
       nome: titulo,
       score: score,
       questionariosrioScoreId: selectedScore,
@@ -278,7 +345,9 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
     }
 
     const isCreated = await questionariosScoreItem.update(selectedScoreItem, data)
-    if (isCreated) closeModal()
+
+
+    if (isCreated) handleGetAndSetSettingsModal(id!)
 
     await handleLoadQuestionario()
   }
@@ -286,7 +355,7 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
 
   async function handleDeleteSubItem(id: string) {
     await questionariosScoreItem.delete(id)
-    closeModal()
+    handleGetAndSetSettingsModal(id!)
 
     handleLoadQuestionario()
   }
@@ -313,9 +382,9 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
           <span>{from} {tipo === "porcentagem" && "%"} </span>
           <span>{to  } {tipo === "porcentagem" && "%"} </span>
           <div>
-            <button onClick={() => handleDeleteSubItem(id!)}>
+            {/* <button onClick={() => handleDeleteSubItem(id!)}>
               <FiTrash2 />
-            </button>
+            </button> */}
             <button onClick={() => handleSetValuesAndOpenEditScore(id! ,from! ,to! ,titleAvaliation!)   
             }>
               <FiEdit />
@@ -345,6 +414,8 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
 
   useEffect(() => {
     handleLoadQuestionario()
+
+    handleFindAvaliacao()
   }, [])
 
 
@@ -360,29 +431,15 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
           <S.Container>
             <S.LinksScore>
               <div>
-                <Status />
+                <Status active={true} />
                 <small>Avaliação</small>
-              </div>
-
-              <div>
-                <Status />
-                <small>Score</small>
               </div>
 
               <div>
                 <Status active={true} />
                 <small>Iniciativa ou KPI</small>
               </div>
-
-              <div>
-                <Status />
-                <small>Score</small>
-              </div>
-
-              <div>
-                <Status />
-                <small>Perguntas</small>
-              </div>
+          
             </S.LinksScore>
           </S.Container>
         </S.Title>
@@ -417,16 +474,19 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
            ( questioryItem: iQuestoes ) => (
 
             <div className='box-avaliacoes' key={questioryItem.id}>
-              <Link to={`/perguntas/${questioryItem.id}`}>{questioryItem.nome}</Link>
+              {/* <Link to={`/perguntas/${questioryItem.id}`}>{questioryItem.nome}</Link> */}
+              <p>{questioryItem.nome}</p>
               <div className='flex-configs'>
-                  <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0], questioryItem.nome)} className='settings'>
+                {/*
+                <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.questionarioScore[0], questioryItem.nome)} className='settings'>
                   <FiSettings />
                   <span>Configurar</span>
                 </button>
+                */}
                 <button className='delete' onClick={() => handleDelete(questioryItem.id)}>
                   <FiTrash2 />
                 </button>
-                <button onClick={() => handleOpenEditModal(questioryItem.id, questioryItem.nome)} className='edit'>
+                <button onClick={() => handleOpenEditModal(questioryItem.id, questioryItem.nome, questioryItem.questionarioScore[0])} className='edit'>
                   <FiEdit2 />
                 </button>
               </div>
@@ -461,24 +521,23 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
 						<>
               <TitleComponent title='Adicionar avaliação' />
               <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
+
+              <ConfigCheckTitle titleConfig='Avaliação' />
+              <div className="checkContainer">
+                
+                <CheckBox value="numerico"     checkBoxTitle='KPI / Númerico'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}      />
+                
+                {
+                avaliacaoScoreKind == "questionarioDesempenho" && <CheckBox value="naoNumerico"  checkBoxTitle='Iniciativa / Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" }  />
+                }
+              </div>
+
             </>
 					)}
 
           {activeKey === 2 && (
 						<div className='confgContainer'>
               <TitleComponent title='Configurar' />
-
-              <br />
-              <br />
-              <br />
-              <br />
-
-              
-              <ConfigCheckTitle titleConfig='Avaliação' />
-              <div className="checkContainer">
-                <CheckBox value="numerico"     checkBoxTitle='Númerico (KPI)'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}      />
-                <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" }  />
-              </div>
 
               <ConfigCheckTitle titleConfig='Tipo de pontuação' />
               <div className="checkContainer">
@@ -489,7 +548,7 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
               <div className="flexBtn">
                 <h2>Score</h2>
 
-                <button onClick={() => handleClearValuesAndOpenCreateScore()}><FiPlus /> Novo</button>
+                {/* <button onClick={() => handleClearValuesAndOpenCreateScore()}><FiPlus /> Novo</button> */}
               </div>
 
               <div className="gridScore">
@@ -521,6 +580,13 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
             <>
               <TitleComponent title='Editar avaliação ' />
               <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
+
+              <ConfigCheckTitle titleConfig='Avaliação' />
+              <div className="checkContainer">
+                <CheckBox value="numerico"     checkBoxTitle='KPI / Númerico'     onChange={() => setFormato("numerico")}    checked={formato === "numerico"}      />
+                <CheckBox value="naoNumerico"  checkBoxTitle='Iniciativa / Não númerico' onChange={() => setFormato("naoNumerico")} checked={formato === "naoNumerico" }  />
+              </div>
+
             </>
           )}
 
@@ -528,8 +594,8 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
             <>
               <TitleComponent title='Adicionar score' onChange={(text: any) => setScore(text)}  value={score} />
               <InputComponent title='Titulo'          onChange={(text: any) => setTitulo(text)} value={titulo}    />
-              <InputComponent title='De *%*'          onChange={(text: any) => setDe(text)}     value={de}        />
-              <InputComponent title='Até *%*'         onChange={(text: any) => setAte(text)}    value={ate}       />
+              <InputComponent title='De'          onChange={(text: any) => setDe(text)}     value={de}        />
+              <InputComponent title='Até'         onChange={(text: any) => setAte(text)}    value={ate}       />
             </>
           )}
 
@@ -537,8 +603,8 @@ function handleSetValuesAndOpenEditScore(id: string, to: string | number, from: 
             <>
               <TitleComponent title='Editar score' onChange={(text: any) => setScore(text)}  value={score} />
               <InputComponent title='Titulo'       onChange={(text: any) => setTitulo(text)} value={titulo}    />
-              <InputComponent title='De *%*'       onChange={(text: any) => setDe(text)}     value={de}        />
-              <InputComponent title='Até *%*'      onChange={(text: any) => setAte(text)}    value={ate}       />
+              <InputComponent title='De'       onChange={(text: any) => setDe(text)}     value={de}        />
+              <InputComponent title='Até'      onChange={(text: any) => setAte(text)}    value={ate}       />
             </>
           )}
 

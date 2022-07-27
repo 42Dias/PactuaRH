@@ -327,6 +327,8 @@ export function   Questions() {
         <S.Title>
           <S.Container>
             <S.LinksScore>
+
+              
               <div>
                 <Status />
                 <small>Avaliação</small>
@@ -334,23 +336,10 @@ export function   Questions() {
 
               <div>
                 <Status />
-                <small>Score</small>
-              </div>
-
-              <div>
-                <Status />
                 <small>Iniciativa ou KPI</small>
               </div>
 
-              <div>
-                <Status />
-                <small>Score</small>
-              </div>
 
-              <div>
-                <Status active={true}/>
-                <small>Perguntas</small>
-              </div>
             </S.LinksScore>
           </S.Container>
         </S.Title>
