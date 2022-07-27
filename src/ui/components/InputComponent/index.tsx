@@ -14,3 +14,4 @@ export default function InputComponent({ title, onChange, value }: PropsModal) {
     )
   }
   
+  

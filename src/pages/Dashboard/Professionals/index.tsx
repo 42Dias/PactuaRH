@@ -21,6 +21,7 @@ import dependente from 'service/dependente/dependente'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import LoadingLayer from 'ui/components/LoadingLayer'
+import InputsContainer from 'ui/components/InputsContainer'
 import centroCustos from 'service/centroCustos/centroCustos'
 
 interface iDependent {
@@ -905,13 +906,15 @@ export default function Professionals() {
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
           />
-          {/* <InputMask
+        
+        {/* <InputMask
             mask='99/99/9999'
             placeholder='Data de nascimento'
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
           /> */}
 
+        <div>
           <label htmlFor="">Data de nascimento</label>
           <input
             type='date'
@@ -919,8 +922,11 @@ export default function Professionals() {
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
           />
+        </div>
+      
 
-
+      <InputsContainer>
+        <div>
           <label htmlFor="">Nome da mãe</label>
           {/* These are not saved in user data */}
           <input
@@ -929,7 +935,10 @@ export default function Professionals() {
             value={nomeMae}
             onChange={(e) => setNomeMae(e.target.value)}
           />
+        </div>
 
+
+        <div>
           <label htmlFor="">Seu telefone</label>
           <InputMask
             className='masked-input'
@@ -939,7 +948,11 @@ export default function Professionals() {
             placeholder='Telefone'
             onChange={(e) => setTelefone(e.target.value)}
           />
+        </div>
+      </InputsContainer>
 
+      <InputsContainer>
+        <div>
           <label htmlFor="">Telefone 2</label>
           <InputMask
             className='masked-input'
@@ -949,12 +962,14 @@ export default function Professionals() {
             placeholder='Telefone 2'
             onChange={(e) => setTelefone2(e.target.value)}
           />
-          {/*
+        </div>
+        {/*
 
           ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
 
 
           */}
+        <div>
           <label htmlFor="">Cargo</label>
           <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
             <option hidden>Cargo</option>
@@ -962,8 +977,11 @@ export default function Professionals() {
               <option key={position.id} value={position.id}>{position.nome}</option>
             ))}
           </select>
+        </div>
+      </InputsContainer>
 
-
+      <InputsContainer>
+        <div>
           <label htmlFor="">CEP</label>
           <InputMask
             onChange={(e) => setCep(e.target.value)}
@@ -981,7 +999,12 @@ export default function Professionals() {
             value={cidade}
             onChange={(e) => setCidade(e.target.value)}
           />
+        </div>
+      </InputsContainer>
 
+
+      <InputsContainer>
+        <div>
           <label htmlFor="">Bairro</label>
           <input
             type='text'
@@ -989,7 +1012,8 @@ export default function Professionals() {
             value={bairro}
             onChange={(e) => setBairro(e.target.value)}
           />
-
+        </div>
+        <div>
           <label htmlFor="">Logradouro</label>
           <input
             type='text'
@@ -997,7 +1021,11 @@ export default function Professionals() {
             value={logradouro}
             onChange={(e) => setLogradouro(e.target.value)}
           />
+        </div>
+      </InputsContainer>
 
+      <InputsContainer>
+        <div>
           <label htmlFor="">Número</label>
           <input
             type='number'
@@ -1005,8 +1033,9 @@ export default function Professionals() {
             value={numero}
             onChange={(e) => setNumero(e.target.value.replace(/\D/g, ""))}
           />
+        </div>
 
-
+        <div>
           <label htmlFor="">Email</label>
           <input
             type='text'
@@ -1014,6 +1043,11 @@ export default function Professionals() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+        </div>
+      </InputsContainer>
+
+      <InputsContainer>
+        <div>
           <label htmlFor="">Gênero</label>
           <select name='' id=''
             onChange={(e) => {
@@ -1032,7 +1066,8 @@ export default function Professionals() {
               Prefiro não responder
             </option>
           </select>
-
+        </div>
+        <div>
           <label htmlFor="">Estado civil</label>
           <select
             name=''
@@ -1054,205 +1089,207 @@ export default function Professionals() {
             </option>
 
           </select>
+        </div>
+      </InputsContainer>
 
-          <label htmlFor="">Centro de custo</label>
-          <select
-            name=''
-            id=''
-            required
-            onChange={(e) => setCentroCustoId(e.target.value)}
-          >
-            <option hidden>Centro de custo</option>
-            {centroCustoList && centroCustoList.map(item => (
-              <option key={item.id} value={item.id}>
-                {item.nome} - {item.codigo}
-              </option>
-            ))}
-
-          </select>
-
-          <S.divCheck>
-            <Checkbox
-              type='checkbox'
-              placeholder='Sub-Área?'
-              defaultChecked={hasDependente}
-              onChange={() => setHasDependente(!hasDependente)}
-            />
-            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
-          </S.divCheck>
-          {hasDependente && (
-            <>
-              {dependentes.map((e, index) => (
-                <div key={index} className='border'>
-                  <label htmlFor="">Nome do Dependente</label>
-                  <input
-                    type='text'
-                    placeholder='Nome do Dependente'
-                    name='nome'
-                    onChange={(e) => handleChangeDependente(index, e)}
-                  />
-
-                  <label htmlFor="">CPF do Dependente</label>
-                  <InputMask
-                    name='cpf'
-                    mask='999.999.999-99'
-                    placeholder='CPF do Dependente'
-                    onChange={(e) => {
-                      handleChangeDependente(index, e)
-
-                      const cpfWithLetters = e.target.value
-                      const clearedCpf = cpfWithLetters.replace(/\D/g, '')
-
-                      if (clearedCpf.length != 11) return
-
-                      checkCPF(clearedCpf)
-                    }}
-                  />
-
-                  <label htmlFor="">RG do dependente</label>
-                  <InputMask
-                    name='rg'
-                    mask='99.999.999-9'
-                    placeholder='RG do Dependente'
-                    onChange={(e) => handleChangeDependente(index, e)}
-                  />
-
-                  <label htmlFor="">Data de Nascimento do Dependente</label>
-                  <div className="return">
-                    <input
-                      name='dataNas'
-                      type='date'
-                      placeholder='Data de Nascimento do Dependente'
-                      onChange={(e) => handleChangeDependente(index, e)}
-                    />
-                    <button
-                      className='btn-actions btn-trash'
-                      type='button'
-                      onClick={() => removeFormFields(index)}
-                    >
-                      <FiTrash />
-                    </button>
-                  </div>
-                </div>
-              ))}
-              <button
-                type='button'
-                className='btn-actions btn-plus'
-                onClick={() => addFormFields()}
-              >
-                <FiPlus />
-              </button>
-            </>
-          )}
-
-          <button type='submit'>Enviar</button>
-        </S.ContainerForm>
-      </Modal>
-
-      <Modal
-        isOpen={modalIsOpenFilter}
-        onRequestClose={closeModalFilter}
-        overlayClassName='react-modal-overlay'
-        className='react-modal-content'
+      <label htmlFor="">Centro de custo</label>
+      <select
+        name=''
+        id=''
+        required
+        onChange={(e) => setCentroCustoId(e.target.value)}
       >
-        <button
-          className='react-modal-close'
-          type='button'
-          onClick={closeModalFilter}
-        >
-          <FiX />
-        </button>
+        <option hidden>Centro de custo</option>
+        {centroCustoList && centroCustoList.map(item => (
+          <option key={item.id} value={item.id}>
+            {item.nome} - {item.codigo}
+          </option>
+        ))}
 
-        <S.ContainerForm
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleFilterProfessionals()
-          }}
-        >
-          <h2>Filtros</h2>
+      </select>
+
+      <S.divCheck>
+        <Checkbox
+          type='checkbox'
+          placeholder='Sub-Área?'
+          defaultChecked={hasDependente}
+          onChange={() => setHasDependente(!hasDependente)}
+        />
+        <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
+      </S.divCheck>
+      {hasDependente && (
+        <>
+          {dependentes.map((e, index) => (
+            <div key={index} className='border'>
+              <label htmlFor="">Nome do Dependente</label>
+              <input
+                type='text'
+                placeholder='Nome do Dependente'
+                name='nome'
+                onChange={(e) => handleChangeDependente(index, e)}
+              />
+
+              <label htmlFor="">CPF do Dependente</label>
+              <InputMask
+                name='cpf'
+                mask='999.999.999-99'
+                placeholder='CPF do Dependente'
+                onChange={(e) => {
+                  handleChangeDependente(index, e)
+
+                  const cpfWithLetters = e.target.value
+                  const clearedCpf = cpfWithLetters.replace(/\D/g, '')
+
+                  if (clearedCpf.length != 11) return
+
+                  checkCPF(clearedCpf)
+                }}
+              />
+
+              <label htmlFor="">RG do dependente</label>
+              <InputMask
+                name='rg'
+                mask='99.999.999-9'
+                placeholder='RG do Dependente'
+                onChange={(e) => handleChangeDependente(index, e)}
+              />
+
+              <label htmlFor="">Data de Nascimento do Dependente</label>
+              <div className="return">
+                <input
+                  name='dataNas'
+                  type='date'
+                  placeholder='Data de Nascimento do Dependente'
+                  onChange={(e) => handleChangeDependente(index, e)}
+                />
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeFormFields(index)}
+                >
+                  <FiTrash />
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            type='button'
+            className='btn-actions btn-plus'
+            onClick={() => addFormFields()}
+          >
+            <FiPlus />
+          </button>
+        </>
+      )}
+
+      <button type='submit'>Enviar</button>
+    </S.ContainerForm>
+      </Modal >
+
+    <Modal
+      isOpen={modalIsOpenFilter}
+      onRequestClose={closeModalFilter}
+      overlayClassName='react-modal-overlay'
+      className='react-modal-content'
+    >
+      <button
+        className='react-modal-close'
+        type='button'
+        onClick={closeModalFilter}
+      >
+        <FiX />
+      </button>
+
+      <S.ContainerForm
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleFilterProfessionals()
+        }}
+      >
+        <h2>Filtros</h2>
 
 
 
 
-          <label htmlFor="">Nome completo</label>
-          <input
-            type='text'
-            defaultValue={userSelected?.fullName}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome'
-          />
+        <label htmlFor="">Nome completo</label>
+        <input
+          type='text'
+          defaultValue={userSelected?.fullName}
+          onChange={(e) => setNome(e.target.value)}
+          placeholder='Nome'
+        />
 
-          <label htmlFor="">CPF</label>
-          <InputMask
-            onChange={(e) => setCpf(e.target.value)}
-            mask='999.999.999-99'
-            placeholder='Seu CPF'
-            value={cpf}
-          />
+        <label htmlFor="">CPF</label>
+        <InputMask
+          onChange={(e) => setCpf(e.target.value)}
+          mask='999.999.999-99'
+          placeholder='Seu CPF'
+          value={cpf}
+        />
 
-          <label htmlFor="">RG</label>
-          <InputMask
-            onChange={(e) => setRg(e.target.value)}
-            mask='99.999.999-9'
-            placeholder='Seu RG'
-            value={rg}
-          />
+        <label htmlFor="">RG</label>
+        <InputMask
+          onChange={(e) => setRg(e.target.value)}
+          mask='99.999.999-9'
+          placeholder='Seu RG'
+          value={rg}
+        />
 
-          <label htmlFor="">Data de nascimento</label>
-          <input
-            type='date'
-            placeholder='Data de nascimento'
-            value={nascimento}
-            onChange={(e) => setNascimento(e.target.value)}
-          />
-
-
-          <label htmlFor="">Nome da mãe</label>
-          <input
-            type='text'
-            placeholder='Nome da mãe'
-            value={nomeMae}
-            onChange={(e) => setNomeMae(e.target.value)}
-          />
-
-          <label htmlFor="">Cargo</label>
-          <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
-            <option hidden>Cargo</option>
-            {allPositions.map((position) => (
-              <option key={position.id} value={position.id}>{position.nome}</option>
-            ))}
-          </select>
+        <label htmlFor="">Data de nascimento</label>
+        <input
+          type='date'
+          placeholder='Data de nascimento'
+          value={nascimento}
+          onChange={(e) => setNascimento(e.target.value)}
+        />
 
 
-          <label htmlFor="">CEP</label>
-          <InputMask
-            onChange={(e) => setCep(e.target.value)}
-            onBlur={(ev) => handleChangeCep(ev.target.value)}
-            mask='99999-999'
-            placeholder='CEP*'
-            value={cep}
-          />
+        <label htmlFor="">Nome da mãe</label>
+        <input
+          type='text'
+          placeholder='Nome da mãe'
+          value={nomeMae}
+          onChange={(e) => setNomeMae(e.target.value)}
+        />
+
+        <label htmlFor="">Cargo</label>
+        <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
+          <option hidden>Cargo</option>
+          {allPositions.map((position) => (
+            <option key={position.id} value={position.id}>{position.nome}</option>
+          ))}
+        </select>
 
 
-          <label htmlFor="">Cidade</label>
-          <input
-            type='text'
-            placeholder='Cidade*'
-            value={cidade}
-            onChange={(e) => setCidade(e.target.value)}
-          />
+        <label htmlFor="">CEP</label>
+        <InputMask
+          onChange={(e) => setCep(e.target.value)}
+          onBlur={(ev) => handleChangeCep(ev.target.value)}
+          mask='99999-999'
+          placeholder='CEP*'
+          value={cep}
+        />
 
-          <label htmlFor="">Bairro</label>
-          <input
-            type='text'
-            placeholder='Bairro*'
-            value={bairro}
-            onChange={(e) => setBairro(e.target.value)}
-          />
 
-          <button type='submit'>Enviar</button>
-        </S.ContainerForm>
-      </Modal>
+        <label htmlFor="">Cidade</label>
+        <input
+          type='text'
+          placeholder='Cidade*'
+          value={cidade}
+          onChange={(e) => setCidade(e.target.value)}
+        />
+
+        <label htmlFor="">Bairro</label>
+        <input
+          type='text'
+          placeholder='Bairro*'
+          value={bairro}
+          onChange={(e) => setBairro(e.target.value)}
+        />
+
+        <button type='submit'>Enviar</button>
+      </S.ContainerForm>
+    </Modal>
     </>
   )
 }
