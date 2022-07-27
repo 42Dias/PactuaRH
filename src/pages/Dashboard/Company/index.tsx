@@ -16,23 +16,23 @@ import InputsContainer from 'ui/components/InputsContainer'
 
 
 export default function Company() {
-  
-  
+
+
   //===================================== Modal's States
   const [modalIsOpen, setIsOpen] = useState(false)
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
+  const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
 
   //===================================== CRUD's States
-  const [cnpj       , setCnpj       ] = useState<string>("")
-  const [id         , setId         ] = useState<string>("")
-  const [cnac       , setCnac       ] = useState<string>("")
-  const [nome       , setNome       ] = useState<string>("")
+  const [cnpj, setCnpj] = useState<string>("")
+  const [id, setId] = useState<string>("")
+  const [cnac, setCnac] = useState<string>("")
+  const [nome, setNome] = useState<string>("")
   const [razaoSocial, setRazaoSocial] = useState<string>("")
-  const [cep        , setCep        ] = useState<string>("")
-  const [logradouro , setLogradouro ] = useState<string>("")
-  const [allEmpresa , setAllEmpresa ] = useState<any[]>([])
-  const [empresaEdit, setEmpresaEdit ] = useState<any>({})
+  const [cep, setCep] = useState<string>("")
+  const [logradouro, setLogradouro] = useState<string>("")
+  const [allEmpresa, setAllEmpresa] = useState<any[]>([])
+  const [empresaEdit, setEmpresaEdit] = useState<any>({})
   const [inscricaoEstadual, setInscricaoEstadual] = useState<string>("")
   const [inscricaoMunicipal, setInscricaoMunicipal] = useState<string>("")
 
@@ -43,12 +43,12 @@ export default function Company() {
 
 
 
-/* 
-==========================================================================================================
-                                        Modal's Functions
-==========================================================================================================
-*/ 
-function clearFields(){
+  /* 
+  ==========================================================================================================
+                                          Modal's Functions
+  ==========================================================================================================
+  */
+  function clearFields() {
     setCnpj("")
     setCnac("")
     setNome("")
@@ -94,151 +94,151 @@ function clearFields(){
 
 
 
-/* 
-==========================================================================================================
-                                        Crud's Functions
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                          Crud's Functions
+  ==========================================================================================================
+  */
   /*
   IMPORTANT OBS.: This plataform works as Multi-Tenant so a admin can only see its own employees,
   HE CANNOT SEE ANY OTHER EMPLOYEE INSTEAD OF ITS OWN! 
-  */ 
+  */
 
   /*
     IT CREATES A ENTERPRISE WITH ADMIN's TENANTID 
   */
-    async function handleLoaderEmpresa(){
-      
-      
-      const empresaCadastradas = await empresa.loadEmpresas();
-      setAllEmpresa(empresaCadastradas);
-      
-      setLoading(false)
-    }
+  async function handleLoaderEmpresa() {
 
 
-    async function cadastrarEmpresa() {
-      let data = {
-        user: id,
-        nome: nome,
-        cnpj: cnpj,
-        cnac: cnac,
-        razaoSocial: razaoSocial,
-        cep: cep,
-        logradouro: logradouro,
-        inscricaoMunicipal: inscricaoMunicipal,
-        inscricaoEstadual: inscricaoEstadual,
-      }
+    const empresaCadastradas = await empresa.loadEmpresas();
+    setAllEmpresa(empresaCadastradas);
 
-      //alert(data.cnpj);
-
-      let isCreated =  await empresa.cadastrarEmpresa(data)
-
-      if(!isCreated) return;
-
-      closeModalNew()
-      await handleLoaderEmpresa()
-      
-    }
-
-    async function updateEmpresas(empresaId: string){
-      let data = {
-        nome: nome,
-        cnpj: cnpj,
-        cnac: cnac,
-        razaoSocial: razaoSocial,
-        cep: cep,
-        logradouro: logradouro,
-        inscricaoEstadual: inscricaoEstadual,
-        inscricaoMunicipal: inscricaoMunicipal,
-        user: id
-      }
-
-      let updateEmpresas = await empresa.changeEmpresa(empresaId, data)
-
-      if(updateEmpresas) closeModal()
-
-      await handleLoaderEmpresa();
-    }
-
-    async function deleteEmpresa(empresaId: string){
-      await empresa.deleteEmpresa(empresaId)
-      await handleLoaderEmpresa()
-
-    }
-
-
-/* 
-==========================================================================================================
-                                        Filters's Functions
-==========================================================================================================
-*/ 
-  
-    async function handleFilterEmpresa(){
-
-      let filter = ''
-  
-      if (nome){
-        
-        if(filter.length != 0 ) filter += '&'
-        filter += `filter%5Bnome%5D=${nome}`
-      }
-
-      if (cnpj) {
-        if (filter.length != 0) filter += '&'
-        filter += `filter%5Bcnpj%5D=${cnpj}`
-      }
-      if (cnac) {
-        if (filter.length != 0) filter += '&'
-        filter += `filter%5Bcnac%5D=${cnac}`
-      }
-      if (razaoSocial) {
-        if (filter.length != 0) filter += '&'
-        filter += `filter%5BrazaoSocial%5D=${razaoSocial}`
-      }
-      if (logradouro) {
-        if (filter.length != 0) filter += '&'
-        filter += `filter%5Blogradouro%5D=${logradouro}`
-      }
-      if (inscricaoEstadual) {
-        if (filter.length != 0) filter += '&'
-        filter += `filter%5BinscricaoEstadual%5D=${inscricaoEstadual}`
-      }
-
-      if (inscricaoMunicipal) {
-        if (filter.length != 0) filter += '&'
-        filter += `filter%5BinscricaoMunicipal%5D=${inscricaoMunicipal}`
-      }
-  
-      let empresaFilted = await empresa.listWithManyFilters(filter)
-  
-      setAllEmpresa(empresaFilted)
-  
-      closeModalFilter()
-    }
-  // 
-  function handleChangeCnpj(cnpjEntered: string){
-    setCnpj(cnpjEntered)
-
-    let cnpjCleanered = cnpjEntered.replace(/[^\d]+/g,'')
-
-
-    if(cnpjCleanered.length != 14) return;
-
-    let isValid = checkCNPJ(cnpjEntered)
-    if(!isValid) toast.error(" CNPJ Inválido")
-    else toast.success("CNPJ Válido") 
+    setLoading(false)
   }
 
-/* 
-==========================================================================================================
-                                          UseEffect
-==========================================================================================================
-*/ 
+
+  async function cadastrarEmpresa() {
+    let data = {
+      user: id,
+      nome: nome,
+      cnpj: cnpj,
+      cnac: cnac,
+      razaoSocial: razaoSocial,
+      cep: cep,
+      logradouro: logradouro,
+      inscricaoMunicipal: inscricaoMunicipal,
+      inscricaoEstadual: inscricaoEstadual,
+    }
+
+    //alert(data.cnpj);
+
+    let isCreated = await empresa.cadastrarEmpresa(data)
+
+    if (!isCreated) return;
+
+    closeModalNew()
+    await handleLoaderEmpresa()
+
+  }
+
+  async function updateEmpresas(empresaId: string) {
+    let data = {
+      nome: nome,
+      cnpj: cnpj,
+      cnac: cnac,
+      razaoSocial: razaoSocial,
+      cep: cep,
+      logradouro: logradouro,
+      inscricaoEstadual: inscricaoEstadual,
+      inscricaoMunicipal: inscricaoMunicipal,
+      user: id
+    }
+
+    let updateEmpresas = await empresa.changeEmpresa(empresaId, data)
+
+    if (updateEmpresas) closeModal()
+
+    await handleLoaderEmpresa();
+  }
+
+  async function deleteEmpresa(empresaId: string) {
+    await empresa.deleteEmpresa(empresaId)
+    await handleLoaderEmpresa()
+
+  }
+
+
+  /* 
+  ==========================================================================================================
+                                          Filters's Functions
+  ==========================================================================================================
+  */
+
+  async function handleFilterEmpresa() {
+
+    let filter = ''
+
+    if (nome) {
+
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bnome%5D=${nome}`
+    }
+
+    if (cnpj) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bcnpj%5D=${cnpj}`
+    }
+    if (cnac) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bcnac%5D=${cnac}`
+    }
+    if (razaoSocial) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5BrazaoSocial%5D=${razaoSocial}`
+    }
+    if (logradouro) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Blogradouro%5D=${logradouro}`
+    }
+    if (inscricaoEstadual) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5BinscricaoEstadual%5D=${inscricaoEstadual}`
+    }
+
+    if (inscricaoMunicipal) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5BinscricaoMunicipal%5D=${inscricaoMunicipal}`
+    }
+
+    let empresaFilted = await empresa.listWithManyFilters(filter)
+
+    setAllEmpresa(empresaFilted)
+
+    closeModalFilter()
+  }
+  // 
+  function handleChangeCnpj(cnpjEntered: string) {
+    setCnpj(cnpjEntered)
+
+    let cnpjCleanered = cnpjEntered.replace(/[^\d]+/g, '')
+
+
+    if (cnpjCleanered.length != 14) return;
+
+    let isValid = checkCNPJ(cnpjEntered)
+    if (!isValid) toast.error(" CNPJ Inválido")
+    else toast.success("CNPJ Válido")
+  }
+
+  /* 
+  ==========================================================================================================
+                                            UseEffect
+  ==========================================================================================================
+  */
   useEffect(
     () => {
       handleLoaderEmpresa()
-    },[]
+    }, []
   )
 
 
@@ -254,12 +254,12 @@ function clearFields(){
         <S.Container>
           <S.FlexButtons>
             <div>
-            <button onClick={openModalNew}>
+              <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button 
-             
-              onClick={openModalFilter}>
+              <button
+
+                onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
@@ -289,107 +289,141 @@ function clearFields(){
                   <td>{empresa.cnac}</td>
                   <td>
 
-                  <button onClick={() => {openModal()
-                    setEmpresaEdit(empresa)
-                  }}>
-                    <FiEdit size={18} />
-                  </button> 
+                    <button onClick={() => {
+                      openModal()
+                      setEmpresaEdit(empresa)
+                    }}>
+                      <FiEdit size={18} />
+                    </button>
                   </td>
-                  
+
                   <td>
-                    <button onClick={()=>deleteEmpresa(empresa.id)}>
+                    <button onClick={() => deleteEmpresa(empresa.id)}>
                       <FiTrash size={18} />
                     </button>
                   </td>
                 </S.TrSecond>
               )
             )}
-            
+
           </S.Table>
         </S.Container>
       </S.Body>
 
-          <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          overlayClassName='react-modal-overlay'
-          className='react-modal-content'
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModal}
         >
-          <button
-            className='react-modal-close'
-            type='button'
-            onClick={closeModal}
-          >
-            <FiX />
-          </button>
-          <S.ContainerForm
+          <FiX />
+        </button>
+        <S.ContainerForm
           onSubmit={
-            (e: any)=>{
+            (e: any) => {
               e.preventDefault()
               updateEmpresas(empresaEdit.id)
             }
           }
-          >
-            <h2>Editar Empresa</h2>
+        >
+          <h2>Editar Empresa</h2>
           
-            <InputMask
+          <InputsContainer>
+          <div>
+          <label htmlFor=''>CNPJ</label>
+          <InputMask
             required
             defaultValue={empresaEdit?.cnpj}
-            mask="99.999.999/9999-99"  
+            mask="99.999.999/9999-99"
             placeholder='CNPJ'
             onChange={(e) => handleChangeCnpj(e.target.value)
             }
-            />
-             
-            <input
+          />
+          </div>
+          
+          <div>
+          <label htmlFor=''>Razão Social</label>
+          <input
             type='text'
             defaultValue={empresaEdit?.razaoSocial}
-            onChange={(e)=> setRazaoSocial(e.target.value)}
-             />
-             
-            <input
+            onChange={(e) => setRazaoSocial(e.target.value)}
+          />
+          </div>
+          </InputsContainer>
+           
+          
+          <InputsContainer>
+          <div>
+          <label htmlFor=''>Nome</label>
+          
+          <input
             type='text'
             defaultValue={empresaEdit?.nome}
-            onChange={(e)=> setNome(e.target.value)}
-             />
-             
-            <InputMask
+            onChange={(e) => setNome(e.target.value)}
+          />
+          </div>
+          <div>
+          <label htmlFor=''>Inscrição Estadual</label>
+          <InputMask
             required
-            mask="999.999.999.999" 
+            mask="999.999.999.999"
             type='text'
             defaultValue={empresaEdit?.inscricaoEstadual}
-            onChange={(e)=> setInscricaoEstadual(e.target.value)}
-             />
-             
-            <input
+            onChange={(e) => setInscricaoEstadual(e.target.value)}
+          />
+          </div>
+          </InputsContainer>
+          
+          <InputsContainer>
+          <div>
+          <label htmlFor=''>Inscrição Municipal</label>
+          <input
             type='text'
             defaultValue={empresaEdit?.inscricaoMunicipal}
-            onChange={(e)=> setInscricaoMunicipal(e.target.value)}
-             />
-             
-            <input
+            onChange={(e) => setInscricaoMunicipal(e.target.value)}
+          />
+          </div>
+          <div>
+          <label htmlFor=''>CNAC</label>
+          <input
             type='text'
             defaultValue={empresaEdit?.cnac}
-            onChange={(e)=> setCnac(e.target.value)}
-             />
-             
-            <input
+            onChange={(e) => setCnac(e.target.value)}
+          />
+          </div>
+          </InputsContainer>
+          
+          <InputsContainer>
+          
+          <div>
+          <label htmlFor=''>CEP</label>
+          <input
             type='text'
             defaultValue={empresaEdit?.cep}
-            onChange={(e)=> setCep(e.target.value)}
-             />
-             
-            <input
+            onChange={(e) => setCep(e.target.value)}
+          />
+          </div>
+          
+          <div>
+          <label htmlFor=''>Logradouro</label>
+          <input
             type='text'
             defaultValue={empresaEdit?.logradouro}
-            onChange={(e)=> setLogradouro(e.target.value)}
-             />
-             
-            <button type="submit">Enviar</button>
-          </S.ContainerForm>
-         
-        </Modal>
-        
+            onChange={(e) => setLogradouro(e.target.value)}
+          />
+          </div>
+          </InputsContainer>
+
+          <button type="submit">Enviar</button>
+        </S.ContainerForm>
+
+      </Modal>
+
       <Modal
         isOpen={modalIsOpenNew}
         onRequestClose={closeModalNew}
@@ -405,7 +439,8 @@ function clearFields(){
         </button>
 
         <S.ContainerForm
-          onSubmit={(e)=>{cadastrarEmpresa()
+          onSubmit={(e) => {
+            cadastrarEmpresa()
             e.preventDefault()
           }}
         >
@@ -416,15 +451,15 @@ function clearFields(){
           <label htmlFor="">CNPJ</label>
 
           <InputMask
-          required
-          mask="99.999.999/9999-99"  
-          placeholder='CNPJ'
-          onChange={(e) => handleChangeCnpj(e.target.value)}
+            required
+            mask="99.999.999/9999-99"
+            placeholder='CNPJ'
+            onChange={(e) => handleChangeCnpj(e.target.value)}
           />
           </div>
           <div>
           <label
-          htmlFor="">Razão social</label>
+            htmlFor="">Razão social</label>
           <input
           type='text' placeholder='Razão Social'  onChange={(e) => setRazaoSocial(e.target.value)}/>
           </div>
@@ -433,7 +468,7 @@ function clearFields(){
           <InputsContainer>
           <div>
           <label
-          htmlFor="">Nome fantasia</label>
+            htmlFor="">Nome fantasia</label>
           <input
           type='text'
           placeholder='Nome fantasia'
@@ -441,7 +476,7 @@ function clearFields(){
           </div>
           <div>
           <label
-          htmlFor="">Inscrição Estadual</label>
+            htmlFor="">Inscrição Estadual</label>
           <InputMask
           mask="999.999.999.999" 
           type='text'
@@ -453,7 +488,7 @@ function clearFields(){
           <InputsContainer>
           <div>
           <label
-          htmlFor="">Inscrição municipal</label>
+            htmlFor="">Inscrição municipal</label>
           <input
           type='text'
           placeholder='Inscrição Municipal'
@@ -462,11 +497,11 @@ function clearFields(){
 
           <div>
           <label
-          htmlFor="">CNAE</label>
+            htmlFor="">CNAE</label>
           <input
           type='text' 
           placeholder='CNAE'
-          onChange={(e) => setCnac(e.target.value)}/>
+          onChange={(e) => setCnac(e.target.value.replace(/[^0-9-./]/g, ''))}/>
           </div>
           </InputsContainer>
           
@@ -496,7 +531,7 @@ function clearFields(){
         </S.ContainerForm>
       </Modal>
 
-      
+
       <Modal
         isOpen={modalIsOpenFilter}
         onRequestClose={closeModalFilter}
@@ -512,22 +547,22 @@ function clearFields(){
         </button>
 
         <S.ContainerForm
-          onSubmit={(e)=>{
+          onSubmit={(e) => {
             e.preventDefault()
             handleFilterEmpresa()
           }}
         >
           <h2>Filtro</h2>
 
-          
-          <label 
-          htmlFor="">CNPJ</label>
+
+          <label
+            htmlFor="">CNPJ</label>
           <InputMask
-        
-          mask="99.999.999/9999-99"  
-          // type='number'
-          placeholder='CNPJ'
-          onChange={(e) => handleChangeCnpj(e.target.value)}
+
+            mask="99.999.999/9999-99"
+            // type='number'
+            placeholder='CNPJ'
+            onChange={(e) => handleChangeCnpj(e.target.value)}
           />
           
           
@@ -540,38 +575,38 @@ function clearFields(){
           placeholder='Razão Social' 
           onChange={(e) => setRazaoSocial(e.target.value)}
           />
-          
-          <label 
-          htmlFor="">Nome fantasia</label>
-          <input 
-          type='text'
-          placeholder='Nome fantasia'
-          onChange={(e) => setNome(e.target.value)}
+
+          <label
+            htmlFor="">Nome fantasia</label>
+          <input
+            type='text'
+            placeholder='Nome fantasia'
+            onChange={(e) => setNome(e.target.value)}
           />
-          
-          <label 
-          htmlFor="">Inscrição Estadual</label>
+
+          <label
+            htmlFor="">Inscrição Estadual</label>
           <InputMask
-        
-          mask="999.999.999.999" 
-          placeholder='Inscrição Estadual'
-          onChange={(e) => setInscricaoEstadual(e.target.value)}
+
+            mask="999.999.999.999"
+            placeholder='Inscrição Estadual'
+            onChange={(e) => setInscricaoEstadual(e.target.value)}
           />
-          
-          <label 
-          htmlFor="">Inscrição municipal</label>
-          <input 
-          type='text'
-          placeholder='Inscrição Municipal'
-          onChange={(e) => setInscricaoMunicipal(e.target.value)}
+
+          <label
+            htmlFor="">Inscrição municipal</label>
+          <input
+            type='text'
+            placeholder='Inscrição Municipal'
+            onChange={(e) => setInscricaoMunicipal(e.target.value)}
           />
-          
-          <label 
-          htmlFor="">CNAE</label>
-          <input 
-          type='text'
-          placeholder='CNAE' 
-          onChange={(e) => setCnac(e.target.value)}
+
+          <label
+            htmlFor="">CNAE</label>
+          <input
+            type='text'
+            placeholder='CNAE'
+            onChange={(e) => setCnac(e.target.value)}
           />
           
           <label 

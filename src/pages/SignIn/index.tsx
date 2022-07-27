@@ -19,6 +19,7 @@ type FormData = {
 export default function SignIn() {
 
   const [textPass, setTextPass] = useState(true)
+  const [passwordErr, setPasswordErr] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
@@ -29,14 +30,14 @@ export default function SignIn() {
   } = useForm<FormData>()
 
   async function onSubmit(data: FormData) {
-    console.log(data)
 
     const canLogin = await user.login(data.email, data.password)
 
-    console.log("canLogin")
-    console.log(canLogin)
 
-    if (!canLogin) return
+    if (!canLogin) {
+      setPasswordErr(true)
+      return
+    }
 
     navigate('/dashboard', {})
 
@@ -90,8 +91,11 @@ export default function SignIn() {
               <FiEye size={20} />
             </button>
           </S.Password>
-          <SubmitButton />
+
+
+          <SubmitButton className='btn' />
         </form>
+        {passwordErr && <Link to='/passwordrecovery'>Esqueceu a senha ?</Link>}
         <Link to='/cadastro'>Cadastre-se</Link>
       </S.Content>
     </S.Container>

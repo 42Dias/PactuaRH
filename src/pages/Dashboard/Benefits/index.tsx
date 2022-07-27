@@ -14,37 +14,38 @@ import LoadingLayer from 'ui/components/LoadingLayer'
 export default function Benefits() {
 
   //===================================== CRUD States
-  const [modalIsOpen       , setIsOpen] = useState(false)
-  const [modalIsOpenNew    , setIsOpenNew] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
-  const [nome              , setNome] = useState<string>('')
-  const [descricao         , setDescricao] = useState<string>('')
-  const [id                , setId] = useState<string>('')
-  const [benefits          , setBenefits] = useState<any[]>([])
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [modalIsOpenNew, setIsOpenNew] = useState(false)
+  const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
+  const [nome, setNome] = useState<string>('')
+  const [descricao, setDescricao] = useState<string>('')
+  const [id, setId] = useState<string>('')
+  const [benefits, setBenefits] = useState<any[]>([])
 
   //===================================== Filter States
-  const [nomeFilter           ,setNomeFilter     ] = useState<string>('')
-  const [descricaoFilter      ,setDescricaoFilter] = useState<string>('')
+  const [nomeFilter, setNomeFilter] = useState<string>('')
+  const [descricaoFilter, setDescricaoFilter] = useState<string>('')
 
 
   //===================================== Loading States
   const [loading, setLoading] = useState(true);
+  const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false)
 
-/* 
-==========================================================================================================
-                                        Modal's Functions
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                          Modal's Functions
+  ==========================================================================================================
+  */
   function openModalFilter() {
     setIsOpenFilter(true)
   }
 
   function closeModalFilter() {
     setIsOpenFilter(false)
-     setNomeFilter('')
+    setNomeFilter('')
     setDescricaoFilter('')
   }
-  
+
   function openModal() {
     setIsOpen(true)
   }
@@ -61,18 +62,18 @@ export default function Benefits() {
     setIsOpenNew(false)
   }
 
-   // open the edit modal
-   function openEditModal(selectedValue: any){
+  // open the edit modal
+  function openEditModal(selectedValue: any) {
     setId(selectedValue.id)
     setNome(selectedValue.nome)
     setDescricao(selectedValue.descricao)
     openModal()
   }
-/* 
-==========================================================================================================
-                                        Crud's Functions
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                          Crud's Functions
+  ==========================================================================================================
+  */
 
   async function handleLoadBenefits() {
     const allBenefits = await beneficio.list()
@@ -82,6 +83,7 @@ export default function Benefits() {
   }
 
   async function handleCreate() {
+    setLoadingSubmit(true)
     const data = {
       nome: nome,
       descricao: descricao,
@@ -89,7 +91,10 @@ export default function Benefits() {
 
     const isCreated = await beneficio.create(data)
 
-    if (isCreated) closeModalNew()
+    if (isCreated) {
+      closeModalNew()
+      setLoadingSubmit(false)
+    }
     await handleLoadBenefits()
   }
 
@@ -101,32 +106,34 @@ export default function Benefits() {
 
     const isUpdated = await beneficio.update(id, data)
 
-    if (isUpdated) closeModal()
+    if (isUpdated) {
+      closeModal()
+    }
     await handleLoadBenefits()
   }
 
-/* 
-==========================================================================================================
-                                        Filters's Functions
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                          Filters's Functions
+  ==========================================================================================================
+  */
 
-  async function handleFilterArea(){
+  async function handleFilterArea() {
     let filter = ''
 
-    if (nomeFilter){
-      
-      if(filter.length != 0 ) filter += '&'
+    if (nomeFilter) {
+
+      if (filter.length != 0) filter += '&'
       filter += `filter%5Bnome%5D=${nomeFilter}`
     }
-    if (descricaoFilter){
-      
+    if (descricaoFilter) {
 
-      if(filter.length != 0 ) filter += '&'
+
+      if (filter.length != 0) filter += '&'
       filter += `filter%5Bdescricao%5D=${descricaoFilter}`
-      
+
     }
-  
+
 
     let beneficioFilted = await beneficio.listWithManyFilters(filter)
 
@@ -136,11 +143,11 @@ export default function Benefits() {
     closeModalFilter()
   }
 
-/* 
-==========================================================================================================
-                                          UseEffect
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                            UseEffect
+  ==========================================================================================================
+  */
 
   useEffect(() => {
     handleLoadBenefits()
@@ -151,7 +158,7 @@ export default function Benefits() {
     handleLoadBenefits()
   }
 
-  
+
   return (
     <>
       <S.Body>
@@ -167,9 +174,9 @@ export default function Benefits() {
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button 
-             
-              onClick={openModalFilter}>
+              <button
+
+                onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
@@ -211,11 +218,11 @@ export default function Benefits() {
             ))}
           </S.Table>
 
-       
+
         </S.Container>
       </S.Body>
 
-{/*
+      {/*
 ===========================================================================================================
                                       UPDATE MODAL
 ===========================================================================================================
@@ -247,7 +254,7 @@ export default function Benefits() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
-           <textarea
+          <textarea
             placeholder='Descrição'
             defaultValue={descricao}
             onChange={(e) => setDescricao(e.target.value)}
@@ -257,7 +264,7 @@ export default function Benefits() {
         </S.ContainerForm>
       </Modal>
 
-{/*
+      {/*
 ===========================================================================================================
                                       CREATION MODAL
 ===========================================================================================================
@@ -298,7 +305,7 @@ export default function Benefits() {
             required
           />
 
-          <button type='submit'>Enviar</button>
+          <button type='submit' disabled={loadingSubmit ?? true}>Enviar</button>
         </S.ContainerForm>
       </Modal>
 
@@ -329,13 +336,13 @@ export default function Benefits() {
             type='text'
             onChange={(e) => setNomeFilter(e.target.value)}
             placeholder='Nome do benefício'
-      
+
           />
           <input
             type='text'
             onChange={(e) => setDescricaoFilter(e.target.value)}
             placeholder='Descrição'
-            
+
           />
 
           <button type='submit'>Enviar</button>
