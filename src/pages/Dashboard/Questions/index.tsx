@@ -366,15 +366,6 @@ export function   Questions() {
             >
               Iniciativa ou KPI &gt;
             </Link>
-            <p
-            className='active-class'
-            // to='/perguntas'
-            >
-              Perguntas &gt;</p>
-            <p
-            // to='/'
-            >
-              Resposta</p>
           </S.LinksContainer>
 
           <S.FlexInit>

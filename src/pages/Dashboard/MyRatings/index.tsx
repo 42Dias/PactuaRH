@@ -121,16 +121,6 @@ export function MyRatings() {
             // to='/avaliacao'
             >
               Iniciativa ou KPI &gt;
-              </p>
-            <p
-            // to='/perguntas'
-            >
-              Perguntas &gt;
-              </p>
-            <p
-            // to='/'
-            >
-              Resposta
             </p>
           </S.LinksContainer>
 
@@ -144,7 +134,7 @@ export function MyRatings() {
                 <div className='box-avaliacoes' key={id}>
                   <span>{nome}</span>
                   <div className='flex-configs'>
-                    <Link to={`/responder-questionarios/${id}`} className='settings'>
+                    <Link to={`/responder/${id}`}className='settings'>
                       <FiPlay />
                       <span>Iniciar</span>
                     </Link>

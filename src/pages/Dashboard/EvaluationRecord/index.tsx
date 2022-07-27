@@ -428,16 +428,7 @@ export function EvaluationRecord() {
             >
               Iniciativa ou KPI &gt;
             </p>
-            <p
-            // to='/perguntas'
-            >
-              Perguntas &gt;
-            </p>
-            <p
-            // to='/'
-            >
-              Resposta
-            </p>
+            
           </S.LinksContainer>
 
           <S.FlexInit>

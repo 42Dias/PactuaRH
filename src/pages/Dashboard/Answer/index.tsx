@@ -23,7 +23,7 @@ export function Answer() {
   const [modalIsOpen      , setIsOpen          ] = useState(false)
   const [questions        , setQuestions       ] = useState<iQuestoes[]>([])
   const [userAnweser      , setUserAnweser    ] = useState<any>()
-  const [questionAnwesers , setQuestionAnwesers] = useState<iQuestoes[]>([])
+  const [questionAnweser , setquestionAnweser] = useState<iQuestoes>()
   const [selectedQuestion, setSelectedQuestion ] = useState<iQuestoes>()
 
 
@@ -55,13 +55,13 @@ export function Answer() {
     }, []
   )
 
-/*
-==========================================================================================================
-                                      Modal Functions 
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                        Modal Functions 
+  ==========================================================================================================
+  */
 
-  function openModal () {
+  function openModal() {
     setIsOpen(!modalIsOpen);
   }
 
@@ -69,11 +69,11 @@ export function Answer() {
     setIsOpen(false)
   }
 
-/*
-==========================================================================================================
-                                Page's SubComponents 
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                  Page's SubComponents 
+  ==========================================================================================================
+  */
 
   function Status() {
     const [isActiveColor, setIsActiveColor] = useState(false)
@@ -96,14 +96,14 @@ export function Answer() {
 
 
 
-/*
-==========================================================================================================
-                                      Functions 
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                        Functions 
+  ==========================================================================================================
+  */
 
-  function handleOpenModal(selectedQuestion: iQuestoes){
-    setQuestionAnwesers(selectedQuestion?.questionarioResposta!)
+  function handleOpenModal(selectedQuestion: iQuestoes) {
+    setquestionAnweser(selectedQuestion)
     console.log(selectedQuestion?.questionarioResposta!)
     handleSetDefaultValues(selectedQuestion)
     setSelectedQuestion(selectedQuestion)
@@ -111,8 +111,8 @@ export function Answer() {
   }
 
 
-  function handleSetDefaultValues(allAnswerQuestionary: iQuestoes){
-    const {questionarioId, id, questionarioResposta} = allAnswerQuestionary
+  function handleSetDefaultValues(allAnswerQuestionary: iQuestoes) {
+    const { questionarioId, id, questionarioResposta } = allAnswerQuestionary
     let isAnswered = false;
 
     console.log(allAnswerQuestionary)
@@ -121,15 +121,15 @@ export function Answer() {
       (answer) => {
         console.log(answer)
         console.log(answer.questionarioPonto?.length! >= 1)
-        if( answer.questionarioPonto?.length! >= 1) isAnswered = true
+        if (answer.questionarioPonto?.length! >= 1) isAnswered = true
       }
     )
 
     const defaultAnswer = {
-      questionarioId:     questionarioId,
+      questionarioId: questionarioId,
       // questionarioId: id,
-      respostaId:         '',
-      pontuacao:          0,
+      respostaId: '',
+      pontuacao: 0,
       isAnswered: isAnswered,
     }
 
@@ -137,21 +137,21 @@ export function Answer() {
   }
 
 
-  function handleSetAnwser(value: string , id: string){
+  function handleSetAnwser(value: string, id: string) {
     let awnsers = userAnweser
 
-    awnsers.resposta               = value
+    awnsers.resposta = value
     awnsers.questionarioRespostaId = id
-    
+
     setUserAnweser(awnsers)
   }
 
 
-  async function handleSubmitAnswer(e: React.FormEvent<HTMLFormElement>){
+  async function handleSubmitAnswer(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
     await questionarioPonto.create(userAnweser)
-    
+
     toast.success("Resposta enviada com sucesso")
 
     handleLoadAnswerQuestionary()
@@ -242,77 +242,65 @@ export function Answer() {
         >
           <FiX />
         </button>
+        <S.ContainerForm
+          onSubmit={(e) => handleSubmitAnswer(e)}
+        >
+          {
+            "numerico" ? (
 
-        {"numerico" ? (
-          <S.ContainerForm
-            onSubmit={(e) => handleSubmitAnswer(e)}
-          >
+              <>
+                <h1>{selectedQuestion?.nome}</h1>
+                <S.AnswersContainer key={questionAnweser?.id}>
+                  <input
+                    type="text"
 
-            <h1>{selectedQuestion?.nome}</h1>
-            {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
-          <textarea placeholder="Responda aqui...."></textarea> */}
-            {
-              questionAnwesers.map(
-                (answer) => (
-                  <S.AnswersContainer key={answer.id}>
-                    <input
-                      type="text"
+                    required
+                    id={questionAnweser?.id}
 
-                      required
-                      id={answer?.id}
+                    pattern="[0-9]*"
 
-                      pattern="[0-9]*"
+                    disabled={!!questionAnweser?.resposta!}
 
-                      //@ts-ignore
-                      defaultValue={answer?.questionarioPonto[0]?.resposta!}
-                      placeholder="Responda aqui...."
+                    //@ts-ignore
+                    defaultValue={questionAnweser?.resposta!}
+                    placeholder="Responda aqui...."
 
-                      onChange={
-                        ({ target }) => {
-                          target.value = target.value.replace(/\D/g, "");
-                          handleSetAnwser(target.value, target.id);
-                        }
+                    onChange={
+                      ({ target }) => {
+                        target.value = target.value.replace(/\D/g, "");
+                        handleSetAnwser(target.value, target.id);
                       }
-                    />
-                  </S.AnswersContainer>
-                )
-              )
-            }
-            <button className='send' type='submit'>Cadastrar</button>
-          </S.ContainerForm>
-        ) : (
-          <S.ContainerForm
-            onSubmit={(e) => handleSubmitAnswer(e)}
-          >
+                    }
+                  />
+                </S.AnswersContainer>
+                <button className='send' type='submit'>Cadastrar</button>
+              </>
 
-            <h1>{selectedQuestion?.nome}</h1>
-            {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
-          <textarea placeholder="Responda aqui...."></textarea> */}
-            {
-              questionAnwesers.map(
-                (answer) => (
-                  <S.AnswersContainer key={answer.id}>
-                    <textarea
-                      required
-                      id={answer?.id}
-                      //@ts-ignore
-                      defaultValue={answer?.questionarioPonto[0]?.resposta!}
-                      placeholder="Responda aqui...."
+            ) : (
+              <>
+                <h1>{selectedQuestion?.nome}</h1>
+                <S.AnswersContainer key={questionAnweser?.id}>
+                  <textarea
+                    required
+                    id={questionAnweser?.id}
+                    //@ts-ignore
+                    defaultValue={questionAnweser?.resposta!}
+                    placeholder="Responda aqui...."
 
-                      //@ts-ignore
-                      disabled={!!answer?.questionarioPonto[0]?.resposta!}
-                      onChange={
-                        ({ target }) => handleSetAnwser(target.value, target.id)
-                      }
-                    ></textarea>
-                  </S.AnswersContainer>
-                )
-              )
-            }
-            <button className='send' type='submit'>Cadastrar</button>
-          </S.ContainerForm>
-        )
-        }
+                    //@ts-ignore
+                    disabled={!!questionAnweser?.resposta!}
+                    onChange={
+                      ({ target }) => handleSetAnwser(target.value, target.id)
+                    }
+                  >
+                  </textarea>
+                </S.AnswersContainer>
+                <button className='send' type='submit'>Cadastrar</button>
+              </>
+            )
+
+          }
+        </S.ContainerForm>
       </Modal>
     </>
   )

@@ -121,16 +121,6 @@ export function MyQuestionaries() {
             // to='/avaliacao'
             >
               Iniciativa ou KPI &gt;
-              </p>
-            <p
-            // to='/perguntas'
-            >
-              Perguntas &gt;
-              </p>
-            <p
-            // to='/'
-            >
-              Resposta
             </p>
           </S.LinksContainer>
 
