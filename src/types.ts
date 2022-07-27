@@ -41,32 +41,27 @@ export interface iNiveis extends iData {
 
 export interface iQuestoes extends iData {
   forma: string;
-  avaliacaoScore: any
-  nome: string
-  pergunta: string
-  tipoDeResposta: string
-  obrigatorio: boolean
-  tipo: string
-  
-  de:   number | undefined,
-  ate:  number | undefined,
-  
-
-  pontos: iQuestoes[]
-  questionarioScore: iQuestoes[]
-  item: iQuestoes
-  questionarioResposta?: iQuestoes[]
-  questionarioPonto?: iQuestoes[]
-  pontuacao?: string | number
-  questionarioRespostaId?: string
-  questionarioId?: string
-  resposta?: string
-  resultado?: string | number | readonly string[] | undefined
-  formato?: string | number | readonly string[] | undefined
+  avaliacaoScore: any;
+  nome: string;
+  pergunta: string;
+  tipoDeResposta: string;
+  obrigatorio: boolean;
+  tipo: string;
+  de:   number;
+  ate:  number;
+  isFinalizada?: boolean;
+  pontos: iQuestoes[];
+  questionarioScore: iQuestoes[];
+  item: iQuestoes[];
+  questionarioResposta?: iQuestoes[];
+  questionarioPonto: iQuestoes[];
+  pontuacao?: string | number;
+  questionarioRespostaId?: string;
+  questionarioId?: string;
+  resposta?: string;
+  resultado?: string | number;
+  formato?:   string | number;
   avaliacaoId: string;
-  
-  
-
 }
 
 
