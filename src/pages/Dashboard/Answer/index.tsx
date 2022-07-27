@@ -8,6 +8,7 @@ import questionario from 'service/questionarios/'
 import { iQuestoes, iQuestoesPeguntas } from 'types'
 import questionarioPonto from 'service/questionarioPonto/questionarioPonto'
 import { toast } from 'react-toastify'
+import avaliacoes from 'service/avaliacoes/avaliacoes'
 
 export function Answer() {
 
@@ -26,6 +27,10 @@ export function Answer() {
   const [questionAnweser , setquestionAnweser] = useState<iQuestoes>()
   const [selectedQuestion, setSelectedQuestion ] = useState<iQuestoes>()
 
+  const [answerAlreadyMade, setAnswerAlreadyMade ] = useState<iQuestoes>()
+
+  const [format, setFormat ] = useState<string | any>()
+
 
 
 /*
@@ -40,6 +45,8 @@ export function Answer() {
 
     console.log(allAnswerQuestionary)
     setQuestions(allAnswerQuestionary)
+
+    await checkIfAvaliationIsDone(allAnswerQuestionary)
   }
 
 
@@ -55,6 +62,7 @@ export function Answer() {
     }, []
   )
 
+
   /*
   ==========================================================================================================
                                         Modal Functions 
@@ -67,6 +75,7 @@ export function Answer() {
 
   function closeModal() {
     setIsOpen(false)
+    setAnswerAlreadyMade(undefined)
   }
 
   /*
@@ -102,41 +111,58 @@ export function Answer() {
   ==========================================================================================================
   */
 
+  /*
+  ========== handleOpenModal ==========
+
+  when the modal is open it sets all the states required, such as answer, question and so on
+  */ 
+
   function handleOpenModal(selectedQuestion: iQuestoes) {
+    const { questionarioPonto, questionarioScore } = selectedQuestion 
+
+    setFormat(questionarioScore[0]?.formato!)
+
+
+    if(questionarioPonto[0]){
+      console.log("JÁ RESPONDEU HEIN RAPAZ!")
+      console.log(questionarioPonto[0])
+      setAnswerAlreadyMade(questionarioPonto[0])
+    }
+    
     setquestionAnweser(selectedQuestion)
-    console.log(selectedQuestion?.questionarioResposta!)
     handleSetDefaultValues(selectedQuestion)
     setSelectedQuestion(selectedQuestion)
+
+
     openModal()
   }
 
 
+  /*
+  ========== handleSetDefaultValues ==========
+
+  Sets a default json and values to be sent after submit
+  */ 
   function handleSetDefaultValues(allAnswerQuestionary: iQuestoes) {
-    const { questionarioId, id, questionarioResposta } = allAnswerQuestionary
-    let isAnswered = false;
-
-    console.log(allAnswerQuestionary)
-
-    questionarioResposta?.map(
-      (answer) => {
-        console.log(answer)
-        console.log(answer.questionarioPonto?.length! >= 1)
-        if (answer.questionarioPonto?.length! >= 1) isAnswered = true
-      }
-    )
+    const { id } = allAnswerQuestionary
 
     const defaultAnswer = {
-      questionarioId: questionarioId,
-      // questionarioId: id,
-      respostaId: '',
+      questionarioId: id,
       pontuacao: 0,
-      isAnswered: isAnswered,
+      isAnswered: true,
     }
 
     setUserAnweser(defaultAnswer)
   }
 
 
+
+  /*
+  ========== handleSetAnwser ==========
+
+  Sets the user answer into the default json
+  ========== =============== ==========
+  */ 
   function handleSetAnwser(value: string, id: string) {
     let awnsers = userAnweser
 
@@ -146,7 +172,12 @@ export function Answer() {
     setUserAnweser(awnsers)
   }
 
+  /*
+  ========== handleSubmitAnswer ==========
 
+  saves the user's answer into the database
+  ========== =================== ==========
+  */ 
   async function handleSubmitAnswer(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
@@ -159,7 +190,41 @@ export function Answer() {
   }
 
 
-  // console.log(userAnweser)
+  /*
+  ========== checkIfAvaliationIsDone ==========
+
+  after the questions are answered, it sets the
+  avaliation as done into database!
+  ========== ======================= ==========
+  */ 
+
+  async function checkIfAvaliationIsDone(questions: iQuestoes[]){
+    let questionsAnswered = questions.length
+
+    questions.map(
+      (e) => e.questionarioPonto[0] && questionsAnswered--
+    )
+
+    console.log(questionsAnswered, "ainda não foram finalizadas")
+
+    const avaliationDefaultValues = await avaliacoes.find(id) 
+
+
+    console.log("avaliationDefaultValues")
+    console.log(avaliationDefaultValues)
+
+
+    if(questionsAnswered != 0) return;
+    
+
+
+    avaliationDefaultValues.isFinalizada = true
+
+    console.log("avaliationDefaultValues")
+    console.log(avaliationDefaultValues)
+
+    avaliacoes.update(id, avaliationDefaultValues)
+  }
 
 
 
@@ -213,7 +278,8 @@ export function Answer() {
           }
 
 
-          {/* <div className='box-avaliacoes'>
+          {/*
+          <div className='box-avaliacoes'>
             <span>...?</span>
 
             <div className='flex-configs'>
@@ -246,8 +312,7 @@ export function Answer() {
           onSubmit={(e) => handleSubmitAnswer(e)}
         >
           {
-            "numerico" ? (
-
+            format === "numerico" ? (
               <>
                 <h1>{selectedQuestion?.nome}</h1>
                 <S.AnswersContainer key={questionAnweser?.id}>
@@ -255,14 +320,14 @@ export function Answer() {
                     type="text"
 
                     required
-                    id={questionAnweser?.id}
+                    id={answerAlreadyMade?.id}
 
                     pattern="[0-9]*"
 
-                    disabled={!!questionAnweser?.resposta!}
+                    disabled={!!answerAlreadyMade?.resposta!}
 
                     //@ts-ignore
-                    defaultValue={questionAnweser?.resposta!}
+                    defaultValue={answerAlreadyMade?.resposta!}
                     placeholder="Responda aqui...."
 
                     onChange={
@@ -273,29 +338,39 @@ export function Answer() {
                     }
                   />
                 </S.AnswersContainer>
-                <button className='send' type='submit'>Cadastrar</button>
+                <button
+                className='send'
+                disabled={!!answerAlreadyMade?.resposta!}
+                type='submit'>
+                  Cadastrar
+                </button>
               </>
 
             ) : (
               <>
                 <h1>{selectedQuestion?.nome}</h1>
-                <S.AnswersContainer key={questionAnweser?.id}>
+                <S.AnswersContainer key={answerAlreadyMade?.id}>
                   <textarea
                     required
-                    id={questionAnweser?.id}
+                    id={answerAlreadyMade?.id}
                     //@ts-ignore
-                    defaultValue={questionAnweser?.resposta!}
+                    defaultValue={answerAlreadyMade?.resposta!}
                     placeholder="Responda aqui...."
 
                     //@ts-ignore
-                    disabled={!!questionAnweser?.resposta!}
+                    disabled={!!answerAlreadyMade?.resposta!}
                     onChange={
                       ({ target }) => handleSetAnwser(target.value, target.id)
                     }
                   >
                   </textarea>
                 </S.AnswersContainer>
-                <button className='send' type='submit'>Cadastrar</button>
+                <button
+                className='send'
+                disabled={!!answerAlreadyMade?.resposta!}
+                type='submit'>
+                  Cadastrar
+                </button>
               </>
             )
 
