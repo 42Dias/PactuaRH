@@ -16,7 +16,7 @@ export const Container = styled.div`
 export const Content = styled.div`
   position: absolute;
   left: 52%;
-  top: 20%;
+  top: 10%;
   max-width: 345px;
 
   a {
@@ -26,7 +26,7 @@ export const Content = styled.div`
     text-align: center;
     display: block;
     max-width: 345px;
-    margin: 30px 0;
+    /* margin: 30px 0; */
   }
 
   @media (max-width: 940px) {
@@ -46,6 +46,10 @@ export const Content = styled.div`
 
   .btn {
     background: ${theme.colors.button.normal};
+    margin: 0;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: bold;
   }
 `;
 
