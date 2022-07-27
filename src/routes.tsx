@@ -40,43 +40,44 @@ import { MyRatings } from 'pages/Dashboard/MyRatings'
 import { Answer } from 'pages/Dashboard/Answer'
 import { MyQuestionaries } from 'pages/Dashboard/MyQuestionaries'
 import { AnswerNotNumeric } from 'pages/Dashboard/AnswerNotNumeric'
+import EvaluationRecordProvider from 'contexts/EvaluationRecordProvider'
 
 const RoutesApp = () => {
   return (
-    <>
+    <EvaluationRecordProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/'                     element={<SignIn />} />
-          <Route path='/cadastro'             element={<SignUp />} />
-          <Route path='/termos'               element={<Terms />} />
-          <Route path='/dashboard'            element={<Home />} />
+          <Route path='/'                     element={<SignIn />}           />
+          <Route path='/cadastro'             element={<SignUp />}           />
+          <Route path='/termos'               element={<Terms />}            />
+          <Route path='/dashboard'            element={<Home />}             />
           <Route path='/cadastrar-usuario'    element={<UserRegistration />} />
-          <Route path='/cadastro-da-empresa'  element={<Company />} />
-          <Route path='/status-de-usuario'    element={<UserStatus />} />
-          <Route path='/profissionais'        element={<Professionals />} />
-          <Route path='/cargos'               element={<Positions />} />
-          <Route path='/funcoes'              element={<FunctionsPage />} />
-          <Route path='/centroCustos'         element={<CostCenter />} />
-          <Route path='/area'                 element={<Area />} />
-          <Route path='/beneficios'           element={<Benefits />} />
-          <Route path='/questionarios'        element={<Questionnaires />} />
-          <Route path='/habilidades'          element={<Skills />} />
-          <Route path='/escolaridade'         element={<Education />} />
-          <Route path='/planos'               element={<Plans />} />
-          <Route path='/desempenho'           element={<Performance />} />
-          <Route path='/avaliacao-geral'      element={<GeneralEvaluation />} />
-          <Route path='/relatorio-9box'       element={<Box />} />
-          <Route path='/plano-de-carreira'    element={<Career />} />
-          <Route path='/avaliacoes'           element={<Avaliations />} />
-          <Route path='/pdi'                  element={<Pdi />} />
-          <Route path='/pdi-item/:id'         element={<PdiItem />} />
-          <Route path='/pri-item/:id'         element={<PriItem />} />
-          <Route path='/pri'                  element={<Pri />} />
-          <Route path='/checkpoints'          element={<Checkpoints />} />
+          <Route path='/cadastro-da-empresa'  element={<Company />}          />
+          <Route path='/status-de-usuario'    element={<UserStatus />}       />
+          <Route path='/profissionais'        element={<Professionals />}    />
+          <Route path='/cargos'               element={<Positions />}        />
+          <Route path='/funcoes'              element={<FunctionsPage />}    />
+          <Route path='/centroCustos'         element={<CostCenter />}       />
+          <Route path='/area'                 element={<Area />}             />
+          <Route path='/beneficios'           element={<Benefits />}         />
+          <Route path='/questionarios'        element={<Questionnaires />}   />
+          <Route path='/habilidades'          element={<Skills />}           />
+          <Route path='/escolaridade'         element={<Education />}        />
+          <Route path='/planos'               element={<Plans />}            />
+          <Route path='/desempenho'           element={<Performance />}      />
+          <Route path='/avaliacao-geral'      element={<GeneralEvaluation />}/>
+          <Route path='/relatorio-9box'       element={<Box />}              />
+          <Route path='/plano-de-carreira'    element={<Career />}           />
+          <Route path='/avaliacoes'           element={<Avaliations />}      />
+          <Route path='/pdi'                  element={<Pdi />}              />
+          <Route path='/pdi-item/:id'         element={<PdiItem />}          />
+          <Route path='/pri-item/:id'         element={<PriItem />}          />
+          <Route path='/pri'                  element={<Pri />}              />
+          <Route path='/checkpoints'          element={<Checkpoints />}      />
+          <Route path='/respostas/:id'        element={<MyAvaliations />}    />
+          <Route path='/MyAvaliations'        element={<MyAvaliations />}    />
           <Route path='/responder-questionario/:id' element={<AnswerQuestionary />} />
-          <Route path='/respostas/:id'        element={<QuestionnairesAnswer />} />
-          <Route path='/respostas/:id'        element={<MyAvaliations />} />
-          <Route path='/MyAvaliations'        element={<MyAvaliations />} />
+          <Route path='/respostas/:id'        element={<QuestionnairesAnswer />}    />
           <Route
           path='/questionario-perguntas/:id' element={<QuestionaryQuestions />}
           />
@@ -95,10 +96,10 @@ const RoutesApp = () => {
           <Route path='/responder-questionarios/:id'element={<MyQuestionaries />}  /> 
           <Route path='/respostas'                  element={<Answer    />}        />
           <Route path='/responder/:id'              element={<Answer    />}        />
-          <Route path='/responder-nao-numerico/:id' element={<AnswerNotNumeric/>}  />
+          {/* <Route path='/responder-nao-numerico/:id' element={<AnswerNotNumeric/>}  /> */}
         </Routes>
       </BrowserRouter>
-    </>
+    </EvaluationRecordProvider>
   )
 }
 

@@ -288,6 +288,7 @@ export function Answer() {
             <h1>{selectedQuestion?.nome}</h1>
             {/* <label htmlFor="">Com que frequência você se sente deprimido?</label>
           <textarea placeholder="Responda aqui...."></textarea> */}
+            true ? ():()
             {
               questionAnwesers.map(
                 (answer) => (

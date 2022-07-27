@@ -36,6 +36,9 @@ import {
 // import sidebar css from react-pro-sidebar module and our custom css
 import 'react-pro-sidebar/dist/css/styles.css'
 import { Link } from 'react-router-dom'
+import { logo, logocor } from 'assets'
+
+
 
 const Sidebar = () => {
   // create initial menuCollapse state using useState hook
@@ -48,16 +51,17 @@ const Sidebar = () => {
   }
 
 
-  async function logOut(){
+  async function logOut() {
     localStorage.clear()
     window.location.pathname = '/'
-    
+
   }
 
   return (
     <>
       <S.Container>
         <div id='header'>
+
           {/* collapsed props to change menu size using menucollapse state */}
           <ProSidebar collapsed={menuCollapse}>
             <SidebarHeader>
@@ -73,11 +77,12 @@ const Sidebar = () => {
             </SidebarHeader>
             <SidebarContent>
               <Menu iconShape='square'>
+
                 <MenuItem active={true} icon={<FiHome />}>
                   <Link to='/dashboard'>Inicío</Link>
                 </MenuItem>
                 <SubMenu title='Cadastros' icon={<FiEdit />}>
-        
+
                   <MenuItem>
                     <Link to='/area'>Área</Link>
                   </MenuItem>
@@ -94,8 +99,8 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/centroCustos'>Centro de Custos</Link>
                   </MenuItem>
-        
-                  <MenuItem>  
+
+                  <MenuItem>
                     <Link to='/escolaridade'>Escolaridade</Link>
                   </MenuItem>
 
@@ -107,24 +112,24 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/habilidades'>Habilidades</Link>
                   </MenuItem>
-        
-                  <MenuItem>  
+
+                  {/* <MenuItem>
                     <Link to='/plano-de-carreira'>Plano de Carreira</Link>
-                  </MenuItem>
+                  </MenuItem> */}
 
                   <MenuItem>
                     <Link to='/profissionais'>Profissionais</Link>
                   </MenuItem>
 
 
-                  <MenuItem>Relatórios*</MenuItem>
+                  {/* <MenuItem>Relatórios*</MenuItem> */}
 
-                
-                 
+
+
                 </SubMenu>
 
                 <SubMenu title='Parâmetros' icon={<FiChevronsRight />}>
-                <MenuItem>
+                  <MenuItem>
                     <Link to='/cadastro-de-avaliacao'>Avaliações</Link>
                   </MenuItem>
 
@@ -140,7 +145,7 @@ const Sidebar = () => {
                   <MenuItem>
                     <Link to='/pri'>Pri</Link>
                   </MenuItem>
-                  
+
                   {/* 
                   <MenuItem>
                     <Link to='/questionarios'>Questionários</Link>
@@ -150,32 +155,32 @@ const Sidebar = () => {
 
 
                 <SubMenu title='Admin' icon={<FiUser />}>
-                    <MenuItem>
-                      <Link to='/cadastro-da-empresa'>Empresas</Link>
-                    </MenuItem>
+                  <MenuItem>
+                    <Link to='/cadastro-da-empresa'>Empresas</Link>
+                  </MenuItem>
 
-                    <MenuItem>
-                      <Link to='/cadastrar-usuario'>Usuário</Link>
-                    </MenuItem>
+                  <MenuItem>
+                    <Link to='/cadastrar-usuario'>Usuário</Link>
+                  </MenuItem>
                 </SubMenu>
 
 
                 <SubMenu title='Relatórios' icon={<FiTrendingUp />}>
 
                   <MenuItem>
-                      <Link to='/desempenho'> Desempenho</Link>
+                    <Link to='/desempenho'> Desempenho</Link>
                   </MenuItem>
 
                   <MenuItem>
-                      <Link to='/myAvaliations'> Minhas avaliações</Link>
+                    <Link to='/myAvaliations'> Minhas avaliações</Link>
                   </MenuItem>
 
                   <MenuItem>
-                      <Link to='/responder-avaliacoes'>(Novo) Minhas avaliações</Link>
+                    <Link to='/responder-avaliacoes'>(Novo) Minhas avaliações</Link>
                   </MenuItem>
-                  
+
                   <MenuItem>
-                      <Link to='/relatorio-9box'> 9box </Link>
+                    <Link to='/relatorio-9box'> 9box </Link>
                   </MenuItem>
 
                 </SubMenu>
@@ -183,8 +188,8 @@ const Sidebar = () => {
             </SidebarContent>
             <SidebarFooter>
               <Menu
-              onClick={() => logOut()}
-              iconShape='square'>
+                onClick={() => logOut()}
+                iconShape='square'>
                 <MenuItem icon={<FiLogOut />}>
                   <p >Sair</p>
                 </MenuItem>

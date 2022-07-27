@@ -5,7 +5,7 @@ import { FiEye } from 'react-icons/fi'
 
 import { SubmitButton } from 'ui/components/SubmitButton'
 import { TextField } from 'ui/components/TextField'
-import { login } from 'assets'
+import { login, logocor } from 'assets'
 
 import * as S from './SignIn.styled'
 import user from 'service/user/user'
@@ -36,20 +36,20 @@ export default function SignIn() {
     console.log("canLogin")
     console.log(canLogin)
 
-    if(!canLogin) return
-    
-    navigate('/dashboard', { })
+    if (!canLogin) return
+
+    navigate('/dashboard', {})
 
   }
 
-  function checkIfIsLogged(){
-    if(token) window.location.pathname = '/dashboard'
+  function checkIfIsLogged() {
+    if (token) window.location.pathname = '/dashboard'
   }
 
   useLayoutEffect(
     () => {
       checkIfIsLogged()
-    },[]
+    }, []
   )
 
   return (
@@ -57,6 +57,8 @@ export default function SignIn() {
       <img src={login} alt='image sign in' />
 
       <S.Content>
+        <img className='logo' src={logocor} alt='image sign in' />
+
         <h1>Login</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField

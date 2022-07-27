@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 import { FiX } from 'react-icons/fi'
 import * as S from './AnswerQuestionary.styled'
 import { useEffect, useState } from 'react'
-import questionarios from 'service/questionarios/questionarios'
+import questionarios from 'service/questionarios/'
 import { fullName } from 'service/api'
 //@ts-ignore
 import { useNavigate, useParams } from 'react-router-dom'

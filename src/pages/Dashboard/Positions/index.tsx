@@ -484,7 +484,8 @@ export default function Positions() {
         {/* EDITAR CARGO */}
         <S.ContainerForm onSubmit={handleSubmit(handleUpdatePosition)}>
           <h2>Editar Cargo</h2>
-
+          <InputsContainer>
+          <div>
           <label htmlFor=''>Nome</label>
           <input
             defaultValue={cargoSelected?.nome}
@@ -492,7 +493,8 @@ export default function Positions() {
             placeholder='Nome'
             {...register('nome')}
           />
-
+          </div>
+          <div>
           <label htmlFor=''>Descrição</label>
           <input
             defaultValue={cargoSelected?.nome}
@@ -500,7 +502,11 @@ export default function Positions() {
             placeholder='Descrição'
             {...register('desc')}
           />
+          </div>
+          </InputsContainer>
 
+          <InputsContainer>
+          <div>
           <label htmlFor=''>Liderança</label>
           <select
             defaultValue={cargoSelected?.lideranca}
@@ -510,6 +516,8 @@ export default function Positions() {
             <option value={'false'}> Não </option>
             <option value={'true'}> Sim </option>
           </select>
+          </div>
+          <div>
           <label htmlFor=''>Código Brasileiro de Ocupações</label>
           <select
             defaultValue={cargoSelected?.cbo || 'Não cadastrado'}
@@ -517,7 +525,11 @@ export default function Positions() {
           >
             <option>Código Brasileiro de Ocupações</option>
           </select>
-
+          </div>
+          </InputsContainer>
+           
+          <InputsContainer>
+          <div>
           <label htmlFor=''>Código de Ocupação conforme IR</label>
 
           <select
@@ -526,7 +538,9 @@ export default function Positions() {
           >
             <option>Código de Ocupação conforme IR</option>
           </select>
-
+          </div>
+          
+          <div>
           <label htmlFor=''>Área</label>
           <select
             defaultValue={cargoSelected?.area?.id}
@@ -539,7 +553,11 @@ export default function Positions() {
               </option>
             ))}
           </select>
-
+          </div>
+          </InputsContainer>
+          
+          <InputsContainer>
+          <div>
           <label htmlFor=''>Cargo Liderado</label>
           <select
             defaultValue={cargoSelected?.ir || 'Não cadastrado'}
@@ -553,7 +571,9 @@ export default function Positions() {
               </option>
             ))}
           </select>
+          </div>
 
+          <div>
           <label htmlFor=''>Habilidade</label>
           <select {...register('habilidadeId')}>
             <option hidden>Habilidade</option>
@@ -563,6 +583,8 @@ export default function Positions() {
               </option>
             ))}
           </select>
+          </div>
+          </InputsContainer>
 
           <label htmlFor=''>Habilidades</label>
 

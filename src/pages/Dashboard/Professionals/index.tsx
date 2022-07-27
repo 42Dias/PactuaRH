@@ -22,66 +22,80 @@ import dependente from 'service/dependente/dependente'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import LoadingLayer from 'ui/components/LoadingLayer'
 import InputsContainer from 'ui/components/InputsContainer'
+import centroCustos from 'service/centroCustos/centroCustos'
 
+interface iDependent {
+  id?: string
+  nome: string
+  cpf: string
+  rg: string
+  dataNas: string
+}
+
+interface ICentroCustos {
+  id?: string
+  nome: string
+  descricao: string
+  importHash: string
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date
+  tenantId: string
+  createdById: string
+  updatedById: string
+  codigo: number
+}
 
 export default function Professionals() {
-  interface iDependent {
-    id?: string
-    nome: string
-    cpf: string
-    rg: string
-    dataNas: string
-  }
 
-  
+
+
   //===================================== Modal's States
   const [modalIsOpenNew, setIsOpenNew] = useState(false)
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [modalIsOpenFilter ,setIsOpenFilter] = useState(false)
-  
+  const [modalIsOpenFilter, setIsOpenFilter] = useState(false)
+
   //===================================== Crud's States
   const [allUsers, setAllUsers] = useState<any[]>([])
   const [userSelected, setUserSelected] = useState<any>()
   const [selectedProfessional, setSelectedProfessional] = useState<any>()
-  
   const [profissionals, setProfissionals] = useState<any[]>([])
   const [descricao, setDescricao] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const [nascimento , setNascimento ] = useState<string>('')
-  const [genero     , setGenero     ] = useState<string>('')
-  const [estado     , setEstado     ] = useState<string>('')
-  const [nome       , setNome       ] = useState<string>('')
-  const [rg         , setRg         ] = useState<string>('')
-  const [cpf        , setCpf        ] = useState<string>('')
-  const [nomeMae    , setNomeMae    ] = useState<string>('')
-  const [cargo      , setCargo      ] = useState<string>('')
-  const [cep        , setCep        ] = useState<string>('')
-  const [logradouro , setLogradouro ] = useState<string>('')
-  const [bairro     , setBairro     ] = useState<string>('')
-  const [numero     , setNumero     ] = useState<string>('')
-  const [cidade     , setCidade     ] = useState<string>('')
-  const [telefone   , setTelefone   ] = useState<string>('')
-  const [telefone2  , setTelefone2  ] = useState<string>('')
+  const [nascimento, setNascimento] = useState<string>('')
+  const [genero, setGenero] = useState<string>('')
+  const [estado, setEstado] = useState<string>('')
+  const [nome, setNome] = useState<string>('')
+  const [rg, setRg] = useState<string>('')
+  const [cpf, setCpf] = useState<string>('')
+  const [nomeMae, setNomeMae] = useState<string>('')
+  const [cargo, setCargo] = useState<string>('')
+  const [cep, setCep] = useState<string>('')
+  const [logradouro, setLogradouro] = useState<string>('')
+  const [bairro, setBairro] = useState<string>('')
+  const [numero, setNumero] = useState<string>('')
+  const [cidade, setCidade] = useState<string>('')
+  const [telefone, setTelefone] = useState<string>('')
+  const [telefone2, setTelefone2] = useState<string>('')
   const [estadoCivil, setEstadoCivil] = useState<string>('')
   const [hasDependente, setHasDependente] = useState<boolean>(false)
-  
+  const [centroCustoId, setCentroCustoId] = useState<string>()
+
   // n-m association
-  const [dependentes  , setDependentes  ] = useState<iDependent[]>([])
+  const [dependentes, setDependentes] = useState<iDependent[]>([])
   const [dependentesNew, setDependentesNew] = useState<iDependent[]>([])
-
   const [allPositions, setAllPositions] = useState<iCargo[]>([])
-
+  const [centroCustoList, setCentroCustoslist] = useState<ICentroCustos[]>()
 
   //===================================== Loading's States
   const [loading, setLoading] = useState(true);
 
-
-/* 
-==========================================================================================================
-                                        Modal's Functions
-==========================================================================================================
-*/ 
-  function clearFields(){
+  /* 
+  ==========================================================================================================
+                                          Modal's Functions
+  ==========================================================================================================
+  */
+  function clearFields() {
     setDependentes([])
     setDependentesNew([])
     setDescricao("")
@@ -134,11 +148,11 @@ export default function Professionals() {
   }
 
 
-/* 
-==========================================================================================================
-                                        Crud's Functions
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                          Crud's Functions
+  ==========================================================================================================
+  */
 
   async function handleChangeCep(cepText: string) {
     const cep = cepText.replace(/[^0-9]/g, '')
@@ -156,8 +170,8 @@ export default function Professionals() {
   // ============================== Main Functions
 
   async function handleLoadProfessionals() {
-    
-    
+
+
     const allProfissionals = await profissional.list()
     setProfissionals(allProfissionals)
 
@@ -168,35 +182,34 @@ export default function Professionals() {
     if (userSelected) setEmail(userSelected.email)
 
     const data = {
-      nome:        nome || userSelected?.fullname,
-      cpf:         cpf,
-      rg:          rg,
-      descricao:   descricao,
-      dataNasc:    nascimento,
-      nomeMae:     nomeMae,
-      cep:         cep,
-      email:       email,
-      cidade:      cidade,
-      bairro:      bairro,
-      logradouro:  logradouro,
-      numero:      numero,
-      telefone1:   telefone,
-      telefone2:   telefone2,
+      nome: nome || userSelected?.fullname,
+      cpf: cpf,
+      rg: rg,
+      descricao: descricao,
+      dataNasc: nascimento,
+      nomeMae: nomeMae,
+      cep: cep,
+      email: email,
+      cidade: cidade,
+      bairro: bairro,
+      logradouro: logradouro,
+      numero: numero,
+      telefone1: telefone,
+      telefone2: telefone2,
       dependentes: dependentes,
-      cargo:       cargo,
-      userId:      userSelected.id,
-      genero:      genero,
-      estado:      estado,
+      cargo: cargo,
+      userId: userSelected.id,
+      genero: genero,
+      estado: estado,
       estadoCivil: estadoCivil,
+      centroCustoId: centroCustoId
       // complemento: complemento,
     }
-
-
     const isCreated = await profissional.create(data)
 
     handleLoadProfessionals()
 
-    if(isCreated) closeModalNew()
+    if (isCreated) closeModalNew()
   }
 
   async function handleDelete(id: string) {
@@ -208,25 +221,27 @@ export default function Professionals() {
     const id = selectedProfessional.id
 
     const data = {
-      nome:        nome        || selectedProfessional?.nome,
-      cpf:         cpf         || selectedProfessional?.cpf,
-      descricao:   descricao   || selectedProfessional?.descricao,
-      rg:          rg          || selectedProfessional?.rg,
-      userId:      ''          || selectedProfessional?.userId,
-      dataNasc:    nascimento  || selectedProfessional?.dataNas,
-      nomeMae:     nomeMae     || selectedProfessional?.nomeMae,
-      cep:         cep         || selectedProfessional?.cep,
+      nome: nome || selectedProfessional?.nome,
+      cpf: cpf || selectedProfessional?.cpf,
+      descricao: descricao || selectedProfessional?.descricao,
+      rg: rg || selectedProfessional?.rg,
+      userId: '' || selectedProfessional?.userId,
+      dataNasc: nascimento || selectedProfessional?.dataNas,
+      nomeMae: nomeMae || selectedProfessional?.nomeMae,
+      cep: cep || selectedProfessional?.cep,
       estadoCivil: estadoCivil || selectedProfessional?.estadoCivil,
-      email:       email       || selectedProfessional?.email,
-      cidade:      cidade      || selectedProfessional?.cidade,
-      bairro:      bairro      || selectedProfessional?.bairro,
-      logradouro:  logradouro  || selectedProfessional?.logradouro,
-      numero:      numero      || selectedProfessional?.numero,
-      telefone1:   telefone    || selectedProfessional?.telefone1,
-      telefone2:   telefone2   || selectedProfessional?.telefone2,
-      cargo:       cargo       || selectedProfessional?.cargo.id,
+      email: email || selectedProfessional?.email,
+      cidade: cidade || selectedProfessional?.cidade,
+      bairro: bairro || selectedProfessional?.bairro,
+      logradouro: logradouro || selectedProfessional?.logradouro,
+      numero: numero || selectedProfessional?.numero,
+      telefone1: telefone || selectedProfessional?.telefone1,
+      telefone2: telefone2 || selectedProfessional?.telefone2,
+      cargo: cargo || selectedProfessional?.cargo.id,
       dependentes: dependentes || selectedProfessional?.dependentes,
       dependentesNew: dependentesNew,
+      centroCustoId: centroCustoId || selectedProfessional?.centroCustoId
+
     }
     const isUpdated = await profissional.update(id, data)
 
@@ -235,6 +250,10 @@ export default function Professionals() {
     closeModal()
   }
 
+  async function handleCentroCustos() {
+    const allCostCenter = await centroCustos.list()
+    setCentroCustoslist(allCostCenter)
+  }
 
   // ============================== Handle Change Screen elements
   const addFormFields = () => {
@@ -299,100 +318,103 @@ export default function Professionals() {
 
 
 
-/* 
-==========================================================================================================
-                                          UseEffect
-==========================================================================================================
-*/ 
+  /* 
+  ==========================================================================================================
+                                            UseEffect
+  ==========================================================================================================
+  */
 
 
   useEffect(() => {
+    handleCentroCustos()
     handleLoadPosition()
   }, [])
 
   useEffect(() => {
     getUsers()
   }, [])
+
   useEffect(() => {
     handleLoadProfessionals()
   }, [])
 
 
 
- /* 
-==========================================================================================================
-                                            Filter
-==========================================================================================================
-*/ 
+  /* 
+ ==========================================================================================================
+                                             Filter
+ ==========================================================================================================
+ */
 
-async function handleFilterProfessionals(){
+  async function handleFilterProfessionals() {
 
-  let filter = ''
+    let filter = ''
 
-  if (nome){
-    filter += `filter%5Bnome%5D=${nome}`
+    if (nome) {
+      filter += `filter%5Bnome%5D=${nome}`
+    }
+    if (cpf) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bcpf%5D=${cpf}`
+
+    }
+
+    if (rg) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Brg%5D=${rg}`
+
+    }
+
+    if (nascimento) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5BdataNasc%5D=${nascimento}`
+
+    }
+
+    if (nomeMae) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5BnomeMae%5D=${nomeMae}`
+
+    }
+
+    if (cep) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bcep%5D=${cep}`
+
+    }
+
+    if (estadoCivil) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5BestadoCivil%5D=${estadoCivil}`
+
+    }
+
+    if (email) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bemail%5D=${email}`
+
+    }
+
+    if (cidade) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bcidade%5D=${cidade}`
+
+    }
+    if (cargo) {
+      if (filter.length != 0) filter += '&'
+      filter += `filter%5Bcargo%5D=${cargo}`
+
+    }
+
+
+    let professionalsFiltered = await profissional.listWithManyFilters(filter)
+
+    setProfissionals(professionalsFiltered)
+
+    closeModalFilter()
+
   }
-  if (cpf){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5Bcpf%5D=${cpf}`
-    
-  }
 
-  if (rg){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5Brg%5D=${rg}`
-    
-  }
-
-  if (nascimento){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5BdataNasc%5D=${nascimento}`
-    
-  }
-
-  if (nomeMae){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5BnomeMae%5D=${nomeMae}`
-  
-  }
-
-  if (cep){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5Bcep%5D=${cep}`
-    
-  }
-
-  if (estadoCivil){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5BestadoCivil%5D=${estadoCivil}`
-    
-  }
-
-  if (email){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5Bemail%5D=${email}`
-    
-  }
-
-  if (cidade){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5Bcidade%5D=${cidade}`
-    
-  }
-  if (cargo){
-    if(filter.length != 0 ) filter += '&'
-    filter += `filter%5Bcargo%5D=${cargo}`
-    
-  }
-
-
-  let professionalsFiltered = await profissional.listWithManyFilters(filter)
-
-  setProfissionals(professionalsFiltered)
-
-  closeModalFilter()
-
-}
   return (
     <>
       <S.Body>
@@ -408,9 +430,9 @@ async function handleFilterProfessionals(){
               <button onClick={openModalNew}>
                 Novo <FiPlus size={18} color='#fff' />
               </button>
-              <button 
-             
-              onClick={openModalFilter}>
+              <button
+
+                onClick={openModalFilter}>
                 Filtros
                 <FiFilter size={18} />
               </button>
@@ -575,21 +597,19 @@ async function handleFilterProfessionals(){
           >
             <option hidden>Cargo</option>
             {allPositions.map((position) => (
-              <option value={position.id}>{position.nome}</option>
+              <option key={position.id} value={position.id}>{position.nome}</option>
             ))}
           </select>
 
-          <input
-            type='text'
-            placeholder='CEP*'
-            // value={cep}
-            required
-            defaultValue={selectedProfessional?.cep}
-            onChange={(e) => {
-              setCep(e.target.value)
-            }}
+          <InputMask
+            onChange={(e) => setCep(e.target.value)}
             onBlur={(ev) => handleChangeCep(ev.target.value)}
+            mask='99999-999'
+            placeholder='CEP*'
+            defaultValue={selectedProfessional?.cep}
+            value={cep}
           />
+
 
           <input
             type='text'
@@ -653,6 +673,23 @@ async function handleFilterProfessionals(){
             </>
           )}
 
+          <label htmlFor="">Centro de custo</label>
+          <select
+            name=''
+            id=''
+            required
+            defaultValue={selectedProfessional?.centroCustoId}
+            onChange={(e) => setCentroCustoId(e.target.value)}
+          >
+            <option hidden>Centro de custo</option>
+            {centroCustoList && centroCustoList.map(item => (
+              <option key={item.id} value={item.id}>
+                {item.nome} - {item.codigo}
+              </option>
+            ))}
+
+          </select>
+
           <S.divCheck>
             <Checkbox
               type='checkbox'
@@ -665,7 +702,7 @@ async function handleFilterProfessionals(){
           {hasDependente && (
             <>
               {dependentes.map((dependent, index) => (
-                <div className='border'>
+                <div key={index} className='border'>
                   <input
                     type='text'
                     placeholder='Nome do Dependente'
@@ -728,7 +765,7 @@ async function handleFilterProfessionals(){
           {hasDependente && (
             <>
               {dependentesNew.map((dependent, index) => (
-                <div className='border'>
+                <div key={index} className='border'>
                   <input
                     type='text'
                     placeholder='Nome do Dependente'
@@ -815,86 +852,69 @@ async function handleFilterProfessionals(){
           <h2>Cadastrar profissional</h2>
 
           <h4>Selecione um profissional</h4>
-          
-          <InputsContainer>
-            <div>
-              <select
-                onChange={(e) => {
-                  const userIndex: number = parseInt(e.target.value)
-                  const newUserSelected = allUsers[userIndex]
-                  setUserSelected(newUserSelected)
-                  // (newUserSelected.fullName)
-                  setNome(newUserSelected.fullName)
-                  setEmail(newUserSelected.email)
-                }}
-                placeholder='Usuário Cadastrado'
-              >
-            
-            
-                <option hidden>Selecione usuário</option>
-                {allUsers.map((user, i) => (
-                  <option value={i}>
-                    {user.fullName} | {user.email}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-            
-                <label htmlFor="">Nome completo</label>
-                <input
-            
-                  type='text'
-                  defaultValue={userSelected?.fullName}
-                  onChange={(e) => setNome(e.target.value)}
-                  placeholder='Nome'
-                />
-              </div>
-          </InputsContainer>
-          
-        
-          <InputsContainer>
-          <div>
-            <label htmlFor="">CPF</label>
-            <InputMask
-              // defaultValue={userSelected?.cpf}
-              onChange={(e) => setCpf(e.target.value)}
-              mask='999.999.999-99'
-              placeholder='Seu CPF'
-              value={cpf}
-            />
-          </div>
-          <div>
-            <label htmlFor="">RG</label>
-            <InputMask
-              // defaultValue={userSelected?.rg}
-              onChange={(e) => setRg(e.target.value)}
-              mask='9999-999'
-              placeholder='Seu RG'
-              value={rg}
-            />
-            
-          </div>
-          </InputsContainer>
-          
-          <InputsContainer>
-          <div>
-          <label htmlFor="">Descrição</label>
+          <select
+            onChange={(e) => {
+              const userIndex: number = parseInt(e.target.value)
+
+
+              const newUserSelected = allUsers[userIndex]
+              setUserSelected(newUserSelected)
+              // (newUserSelected.fullName)
+              setNome(newUserSelected.fullName)
+              setEmail(newUserSelected.email)
+            }}
+            placeholder='Usuário Cadastrado'
+          >
+            <option hidden>Selecione usuário</option>
+
+            {allUsers.map((user, i) => (
+              <option key={i} value={i}>
+                {user.fullName} | {user.email}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="">Nome completo</label>
+          <input
+            type='text'
+            defaultValue={userSelected?.fullName}
+            onChange={(e) => setNome(e.target.value)}
+            placeholder='Nome'
+          />
+
+          <label htmlFor="">CPF</label>
+          <InputMask
+            // defaultValue={userSelected?.cpf}
+            onChange={(e) => setCpf(e.target.value)}
+            mask='999.999.999-99'
+            placeholder='Seu CPF'
+            value={cpf}
+          />
+
+          <label htmlFor="">RG</label>
+          <InputMask
+            // defaultValue={userSelected?.rg}
+            onChange={(e) => setRg(e.target.value)}
+            mask='99.999.999-9'
+            placeholder='Seu RG'
+            value={rg}
+          />
+
           <input
             type='text'
             defaultValue={userSelected?.descricao}
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
           />
-          </div>
-          {/* <InputMask
+        
+        {/* <InputMask
             mask='99/99/9999'
             placeholder='Data de nascimento'
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
           /> */}
-          
-          <div>
+
+        <div>
           <label htmlFor="">Data de nascimento</label>
           <input
             type='date'
@@ -902,11 +922,11 @@ async function handleFilterProfessionals(){
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
           />
-          </div>
-          </InputsContainer>
-          
-          <InputsContainer>
-          <div>
+        </div>
+      
+
+      <InputsContainer>
+        <div>
           <label htmlFor="">Nome da mãe</label>
           {/* These are not saved in user data */}
           <input
@@ -915,10 +935,10 @@ async function handleFilterProfessionals(){
             value={nomeMae}
             onChange={(e) => setNomeMae(e.target.value)}
           />
-          </div>
+        </div>
 
-        
-          <div>
+
+        <div>
           <label htmlFor="">Seu telefone</label>
           <InputMask
             className='masked-input'
@@ -928,11 +948,11 @@ async function handleFilterProfessionals(){
             placeholder='Telefone'
             onChange={(e) => setTelefone(e.target.value)}
           />
-          </div>
-          </InputsContainer>
+        </div>
+      </InputsContainer>
 
-          <InputsContainer>
-          <div>
+      <InputsContainer>
+        <div>
           <label htmlFor="">Telefone 2</label>
           <InputMask
             className='masked-input'
@@ -942,37 +962,36 @@ async function handleFilterProfessionals(){
             placeholder='Telefone 2'
             onChange={(e) => setTelefone2(e.target.value)}
           />
-          </div>
-          {/*
+        </div>
+        {/*
 
           ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
 
 
           */}
-          <div>
+        <div>
           <label htmlFor="">Cargo</label>
           <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
             <option hidden>Cargo</option>
             {allPositions.map((position) => (
-              <option value={position.id}>{position.nome}</option>
+              <option key={position.id} value={position.id}>{position.nome}</option>
             ))}
           </select>
-          </div>
-          </InputsContainer>
+        </div>
+      </InputsContainer>
 
-          <InputsContainer>
-          <div>
+      <InputsContainer>
+        <div>
           <label htmlFor="">CEP</label>
           <InputMask
-            type='text'
-            placeholder='CEP*'
-            mask='99.999-999 '
-            value={cep}
             onChange={(e) => setCep(e.target.value)}
             onBlur={(ev) => handleChangeCep(ev.target.value)}
+            mask='99999-999'
+            placeholder='CEP*'
+            value={cep}
           />
-          </div>
-          <div>
+
+
           <label htmlFor="">Cidade</label>
           <input
             type='text'
@@ -980,12 +999,12 @@ async function handleFilterProfessionals(){
             value={cidade}
             onChange={(e) => setCidade(e.target.value)}
           />
-          </div>
-          </InputsContainer>
+        </div>
+      </InputsContainer>
 
 
-          <InputsContainer>
-          <div>
+      <InputsContainer>
+        <div>
           <label htmlFor="">Bairro</label>
           <input
             type='text'
@@ -993,8 +1012,8 @@ async function handleFilterProfessionals(){
             value={bairro}
             onChange={(e) => setBairro(e.target.value)}
           />
-          </div>
-          <div>
+        </div>
+        <div>
           <label htmlFor="">Logradouro</label>
           <input
             type='text'
@@ -1002,21 +1021,21 @@ async function handleFilterProfessionals(){
             value={logradouro}
             onChange={(e) => setLogradouro(e.target.value)}
           />
-          </div>
-          </InputsContainer>
+        </div>
+      </InputsContainer>
 
-          <InputsContainer>
-          <div>
+      <InputsContainer>
+        <div>
           <label htmlFor="">Número</label>
           <input
-            type='text'
+            type='number'
             placeholder='Número*'
             value={numero}
-            onChange={(e) => setNumero(e.target.value)}
+            onChange={(e) => setNumero(e.target.value.replace(/\D/g, ""))}
           />
-          </div>
+        </div>
 
-          <div>
+        <div>
           <label htmlFor="">Email</label>
           <input
             type='text'
@@ -1024,17 +1043,17 @@ async function handleFilterProfessionals(){
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          </div>
-          </InputsContainer>
+        </div>
+      </InputsContainer>
 
-          <InputsContainer>
-          <div>
+      <InputsContainer>
+        <div>
           <label htmlFor="">Gênero</label>
           <select name='' id=''
-          onChange={(e) => {
-            setGenero(e.target.value)
-              
-          }
+            onChange={(e) => {
+              setGenero(e.target.value)
+
+            }
             }>
             <option hidden>Gênero</option>
             <option value='Mulher'>
@@ -1047,8 +1066,8 @@ async function handleFilterProfessionals(){
               Prefiro não responder
             </option>
           </select>
-          </div>
-          <div>
+        </div>
+        <div>
           <label htmlFor="">Estado civil</label>
           <select
             name=''
@@ -1070,190 +1089,207 @@ async function handleFilterProfessionals(){
             </option>
 
           </select>
-          </div>
-          </InputsContainer>
+        </div>
+      </InputsContainer>
 
-          <S.divCheck>
-            <Checkbox
-              type='checkbox'
-              placeholder='Sub-Área?'
-              defaultChecked={hasDependente}
-              onChange={() => setHasDependente(!hasDependente)}
-            />
-            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
-          </S.divCheck>
-          {hasDependente && (
-            <>
-              {dependentes.map((e, index) => (
-                <div className='border'>
-                  <label htmlFor="">Nome do Dependente</label>
-                  <input
-                    type='text'
-                    placeholder='Nome do Dependente'
-                    name='nome'
-                    onChange={(e) => handleChangeDependente(index, e)}
-                  />
-
-                  <label htmlFor="">CPF do Dependente</label>
-                  <InputMask
-                    name='cpf'
-                    mask='999.999.999-99'
-                    placeholder='CPF do Dependente'
-                    onChange={(e) => {
-                      handleChangeDependente(index, e)
-
-                      const cpfWithLetters = e.target.value
-                      const clearedCpf = cpfWithLetters.replace(/\D/g, '')
-
-                      if (clearedCpf.length != 11) return
-
-                      checkCPF(clearedCpf)
-                    }}
-                  />
-
-                  <label htmlFor="">RG do dependente</label>
-                  <InputMask
-                    name='rg'
-                    mask='99.999.999-9'
-                    placeholder='RG do Dependente'
-                    onChange={(e) => handleChangeDependente(index, e)}
-                  />
-
-                  <label htmlFor="">Data de Nascimento do Dependente</label>
-                  <div className="return">
-                    <input
-                      name='dataNas'
-                      type='date'
-                      placeholder='Data de Nascimento do Dependente'
-                      onChange={(e) => handleChangeDependente(index, e)}
-                    />
-                    <button
-                      className='btn-actions btn-trash'
-                      type='button'
-                      onClick={() => removeFormFields(index)}
-                    >
-                      <FiTrash />
-                    </button>
-                  </div>
-                </div>
-              ))}
-              <button
-                type='button'
-                className='btn-actions btn-plus'
-                onClick={() => addFormFields()}
-              >
-                <FiPlus />
-              </button>
-            </>
-          )}
-
-          <button type='submit'>Enviar</button>
-        </S.ContainerForm>
-      </Modal>
-
-      <Modal
-        isOpen={modalIsOpenFilter}
-        onRequestClose={closeModalFilter}
-        overlayClassName='react-modal-overlay'
-        className='react-modal-content'
+      <label htmlFor="">Centro de custo</label>
+      <select
+        name=''
+        id=''
+        required
+        onChange={(e) => setCentroCustoId(e.target.value)}
       >
-        <button
-          className='react-modal-close'
-          type='button'
-          onClick={closeModalFilter}
-        >
-          <FiX />
-        </button>
+        <option hidden>Centro de custo</option>
+        {centroCustoList && centroCustoList.map(item => (
+          <option key={item.id} value={item.id}>
+            {item.nome} - {item.codigo}
+          </option>
+        ))}
 
-        <S.ContainerForm
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleFilterProfessionals()
-          }}
-        >
-          <h2>Filtros</h2>
+      </select>
 
-          
+      <S.divCheck>
+        <Checkbox
+          type='checkbox'
+          placeholder='Sub-Área?'
+          defaultChecked={hasDependente}
+          onChange={() => setHasDependente(!hasDependente)}
+        />
+        <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
+      </S.divCheck>
+      {hasDependente && (
+        <>
+          {dependentes.map((e, index) => (
+            <div key={index} className='border'>
+              <label htmlFor="">Nome do Dependente</label>
+              <input
+                type='text'
+                placeholder='Nome do Dependente'
+                name='nome'
+                onChange={(e) => handleChangeDependente(index, e)}
+              />
 
-          
-          <label htmlFor="">Nome completo</label>
-          <input
-            type='text'
-            defaultValue={userSelected?.fullName}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome'
-          />
+              <label htmlFor="">CPF do Dependente</label>
+              <InputMask
+                name='cpf'
+                mask='999.999.999-99'
+                placeholder='CPF do Dependente'
+                onChange={(e) => {
+                  handleChangeDependente(index, e)
 
-          <label htmlFor="">CPF</label>
-          <InputMask
-            onChange={(e) => setCpf(e.target.value)}
-            mask='999.999.999-99'
-            placeholder='Seu CPF'
-            value={cpf}
-          />
+                  const cpfWithLetters = e.target.value
+                  const clearedCpf = cpfWithLetters.replace(/\D/g, '')
 
-          <label htmlFor="">RG</label>
-          <InputMask
-            onChange={(e) => setRg(e.target.value)}
-            mask='99.999.999-9'
-            placeholder='Seu RG'
-            value={rg}
-          />
+                  if (clearedCpf.length != 11) return
 
-          <label htmlFor="">Data de nascimento</label>
-          <input
-            type='date'
-            placeholder='Data de nascimento'
-            value={nascimento}
-            onChange={(e) => setNascimento(e.target.value)}
-          />
+                  checkCPF(clearedCpf)
+                }}
+              />
+
+              <label htmlFor="">RG do dependente</label>
+              <InputMask
+                name='rg'
+                mask='99.999.999-9'
+                placeholder='RG do Dependente'
+                onChange={(e) => handleChangeDependente(index, e)}
+              />
+
+              <label htmlFor="">Data de Nascimento do Dependente</label>
+              <div className="return">
+                <input
+                  name='dataNas'
+                  type='date'
+                  placeholder='Data de Nascimento do Dependente'
+                  onChange={(e) => handleChangeDependente(index, e)}
+                />
+                <button
+                  className='btn-actions btn-trash'
+                  type='button'
+                  onClick={() => removeFormFields(index)}
+                >
+                  <FiTrash />
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            type='button'
+            className='btn-actions btn-plus'
+            onClick={() => addFormFields()}
+          >
+            <FiPlus />
+          </button>
+        </>
+      )}
+
+      <button type='submit'>Enviar</button>
+    </S.ContainerForm>
+      </Modal >
+
+    <Modal
+      isOpen={modalIsOpenFilter}
+      onRequestClose={closeModalFilter}
+      overlayClassName='react-modal-overlay'
+      className='react-modal-content'
+    >
+      <button
+        className='react-modal-close'
+        type='button'
+        onClick={closeModalFilter}
+      >
+        <FiX />
+      </button>
+
+      <S.ContainerForm
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleFilterProfessionals()
+        }}
+      >
+        <h2>Filtros</h2>
 
 
-          <label htmlFor="">Nome da mãe</label>
-          <input
-            type='text'
-            placeholder='Nome da mãe'
-            value={nomeMae}
-            onChange={(e) => setNomeMae(e.target.value)}
-          />
-
-          <label htmlFor="">Cargo</label>
-          <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
-            <option hidden>Cargo</option>
-            {allPositions.map((position) => (
-              <option value={position.id}>{position.nome}</option>
-            ))}
-          </select>
 
 
-          <label htmlFor="">CEP</label>
-          <input
-            type='text'
-            placeholder='CEP*'
-            value={cep}
-            onChange={(e) => setCep(e.target.value)}
-            onBlur={(ev) => handleChangeCep(ev.target.value)}
-          />
+        <label htmlFor="">Nome completo</label>
+        <input
+          type='text'
+          defaultValue={userSelected?.fullName}
+          onChange={(e) => setNome(e.target.value)}
+          placeholder='Nome'
+        />
 
-          <label htmlFor="">Cidade</label>
-          <input
-            type='text'
-            placeholder='Cidade*'
-            value={cidade}
-            onChange={(e) => setCidade(e.target.value)}
-          />
+        <label htmlFor="">CPF</label>
+        <InputMask
+          onChange={(e) => setCpf(e.target.value)}
+          mask='999.999.999-99'
+          placeholder='Seu CPF'
+          value={cpf}
+        />
 
-          <label htmlFor="">Bairro</label>
-          <input
-            type='text'
-            placeholder='Bairro*'
-            value={bairro}
-            onChange={(e) => setBairro(e.target.value)}
-          />
+        <label htmlFor="">RG</label>
+        <InputMask
+          onChange={(e) => setRg(e.target.value)}
+          mask='99.999.999-9'
+          placeholder='Seu RG'
+          value={rg}
+        />
 
-          <button type='submit'>Enviar</button>
-        </S.ContainerForm>
-      </Modal>
+        <label htmlFor="">Data de nascimento</label>
+        <input
+          type='date'
+          placeholder='Data de nascimento'
+          value={nascimento}
+          onChange={(e) => setNascimento(e.target.value)}
+        />
+
+
+        <label htmlFor="">Nome da mãe</label>
+        <input
+          type='text'
+          placeholder='Nome da mãe'
+          value={nomeMae}
+          onChange={(e) => setNomeMae(e.target.value)}
+        />
+
+        <label htmlFor="">Cargo</label>
+        <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
+          <option hidden>Cargo</option>
+          {allPositions.map((position) => (
+            <option key={position.id} value={position.id}>{position.nome}</option>
+          ))}
+        </select>
+
+
+        <label htmlFor="">CEP</label>
+        <InputMask
+          onChange={(e) => setCep(e.target.value)}
+          onBlur={(ev) => handleChangeCep(ev.target.value)}
+          mask='99999-999'
+          placeholder='CEP*'
+          value={cep}
+        />
+
+
+        <label htmlFor="">Cidade</label>
+        <input
+          type='text'
+          placeholder='Cidade*'
+          value={cidade}
+          onChange={(e) => setCidade(e.target.value)}
+        />
+
+        <label htmlFor="">Bairro</label>
+        <input
+          type='text'
+          placeholder='Bairro*'
+          value={bairro}
+          onChange={(e) => setBairro(e.target.value)}
+        />
+
+        <button type='submit'>Enviar</button>
+      </S.ContainerForm>
+    </Modal>
     </>
   )
 }

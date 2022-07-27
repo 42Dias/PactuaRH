@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import styled from 'styled-components'
-import { theme } from 'config'
+import { useEffect } from "react";
+import styled from "styled-components/macro";
+import { theme } from "config";
 
 export const Body = styled.body`
   width: 100vw;
   height: 100vh;
-`
+`;
 
 export const Title = styled.h2`
   font-size: 24px;
@@ -16,30 +16,30 @@ export const Title = styled.h2`
     position: relative;
     left: 37px;
   }
-`
+`;
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
- 
+
   max-width: 980px;
   margin: 0 auto;
 
   @media (max-width: 970px) {
     padding: 0 12%;
   }
-`
+`;
 
 export const ContainerCall = styled.div`
   width: 100%;
   height: 239px;
-  
+
   margin: 40px 0;
 
-  background-color: #000;
+  background-color: ${theme.colors.gray.gray7};
   border-radius: 10px;
 
-  color: white !important;
+  color: ${theme.colors.gray.gray12};
 
   display: flex;
   justify-content: space-between;
@@ -58,22 +58,18 @@ export const ContainerCall = styled.div`
     padding: 10px 0;
   }
 
-  h2 {
-    /* padding: 10px 0;*/
-    color: white !important;
-  }
-
   a {
     width: 176px;
     height: 43px;
 
-    background: #ffffff;
+    background: ${theme.colors.button.normal};
     border-radius: 5px;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    color: black;
+    color: ${theme.colors.orange.orange1};
+    font-weight: bold;
   }
 
   img {
@@ -86,7 +82,7 @@ export const ContainerCall = styled.div`
       width: 100%;
     }
   }
-`
+`;
 
 export const GridDetails = styled.div`
   display: grid;
@@ -94,7 +90,6 @@ export const GridDetails = styled.div`
   gap: 50px;
 
   @media (max-width: 895px) {
-    
     grid-template-columns: 1fr;
   }
 
@@ -102,7 +97,7 @@ export const GridDetails = styled.div`
     position: relative;
     left: 37px;
   }
-`
+`;
 
 export const ContentUsers = styled.div`
   background: white;
@@ -111,7 +106,7 @@ export const ContentUsers = styled.div`
   overflow-y: auto;
 
   margin: 0 0 20px 0;
-  
+
   /* width */
   ::-webkit-scrollbar {
     width: 10px;
@@ -132,7 +127,7 @@ export const ContentUsers = styled.div`
   ::-webkit-scrollbar-thumb:hover {
     background: #1b1b1b;
   }
-`
+`;
 
 export const DetailsUser = styled.div`
   background: white;
@@ -151,7 +146,7 @@ export const DetailsUser = styled.div`
     position: relative;
     left: 37px;
   }
-`
+`;
 
 export const Content = styled.div`
   width: 100%;
@@ -192,7 +187,6 @@ export const Content = styled.div`
     }
   }
 
-
   a {
     width: 96px;
     height: 48px;
@@ -222,17 +216,16 @@ export const Content = styled.div`
     }
   }
 
-  .flex-buttons{
+  .flex-buttons {
     display: flex;
   }
-
 
   @media (max-width: 800px) {
     padding-left: 10%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+
     text-align: center;
 
     button {
@@ -241,14 +234,12 @@ export const Content = styled.div`
         margin: 0;
       }
     }
-    
 
     a {
       margin: 10px 0;
     }
-    
   }
-`
+`;
 
 export const Photo = styled.div`
   img {
@@ -258,7 +249,7 @@ export const Photo = styled.div`
     background: #222;
     object-fit: cover;
   }
-`
+`;
 
 export const TitleUser = styled.div`
   h2 {
@@ -266,7 +257,7 @@ export const TitleUser = styled.div`
   }
 
   margin-top: 30px;
-`
+`;
 
 export const FlexPhoto = styled.div`
   display: flex;
@@ -276,17 +267,17 @@ export const FlexPhoto = styled.div`
     font-size: 15px;
     margin-left: 10px;
   }
-`
+`;
 
 export const TextDetails = styled.div`
   display: flex;
   align-items: center;
   font-size: 14px;
   margin-top: 6px;
-  
+
   p {
     color: ${theme.colors.textSecondary};
     margin-left: 10px;
     font-size: 14px;
   }
-`
+`;
