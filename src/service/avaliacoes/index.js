@@ -55,7 +55,7 @@ export default class avaliacoes {
 
     let response = await api.delete(`avaliacao/${id}`)
 
-    let status = res.status
+    let status = response.status
     let mensagemOk = 'Modulo apagado com sucesso!'
     let mensagemNaoOK = 'Algo deu errado :('
 
