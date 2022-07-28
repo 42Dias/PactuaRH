@@ -252,8 +252,8 @@ export default function Education() {
             defaultValue={nome}
             onChange={(e) => setNome(e.target.value)}
           />
-          <input
-            type='text'
+          <textarea
+            
             onChange={(e) => setDesc(e.target.value)}
             defaultValue={desc}
             placeholder='Descrição da escolaridade'
@@ -300,8 +300,8 @@ export default function Education() {
           />
 
           <label htmlFor="">Descrição da escolaridade</label>
-          <input
-            type='text'
+          <textarea
+            
             onChange={(e) => setDesc(e.target.value)}
             placeholder='Descrição da escolaridade'
             required

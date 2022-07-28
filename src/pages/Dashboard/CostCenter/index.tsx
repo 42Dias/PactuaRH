@@ -335,8 +335,8 @@ export default function CostCenter() {
           />
 
           <label htmlFor="">Descrição</label>
-          <input
-            type='text'
+          <textarea
+          
             placeholder='Descrição'
             onChange={(e) => setDescricao(e.target.value)}
           />

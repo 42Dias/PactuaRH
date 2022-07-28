@@ -852,6 +852,9 @@ export default function Professionals() {
           <h2>Cadastrar profissional</h2>
 
           <h4>Selecione um profissional</h4>
+
+          <InputsContainer>
+          <div>
           <select
             onChange={(e) => {
               const userIndex: number = parseInt(e.target.value)
@@ -873,7 +876,8 @@ export default function Professionals() {
               </option>
             ))}
           </select>
-
+          </div>
+          <div>
           <label htmlFor="">Nome completo</label>
           <input
             type='text'
@@ -881,7 +885,11 @@ export default function Professionals() {
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome'
           />
-
+          </div>
+          </InputsContainer>
+    
+          <InputsContainer>
+          <div>
           <label htmlFor="">CPF</label>
           <InputMask
             // defaultValue={userSelected?.cpf}
@@ -890,7 +898,9 @@ export default function Professionals() {
             placeholder='Seu CPF'
             value={cpf}
           />
-
+          </div>
+       
+          <div>
           <label htmlFor="">RG</label>
           <InputMask
             // defaultValue={userSelected?.rg}
@@ -899,13 +909,18 @@ export default function Professionals() {
             placeholder='Seu RG'
             value={rg}
           />
+          </div>
+          </InputsContainer>
 
+          <InputsContainer>
+          <div>
           <input
             type='text'
             defaultValue={userSelected?.descricao}
             onChange={(e) => setDescricao(e.target.value)}
             placeholder='Descrição'
           />
+          </div>
         
         {/* <InputMask
             mask='99/99/9999'
@@ -913,7 +928,7 @@ export default function Professionals() {
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
           /> */}
-
+        <div>
         <div>
           <label htmlFor="">Data de nascimento</label>
           <input
@@ -923,6 +938,8 @@ export default function Professionals() {
             onChange={(e) => setNascimento(e.target.value)}
           />
         </div>
+        </div>
+        </InputsContainer>
       
 
       <InputsContainer>
