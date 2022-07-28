@@ -1,32 +1,30 @@
-import { FiEdit, FiEdit2, FiPlay, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
-import { Link, useParams } from 'react-router-dom'
+import { FiCheck, FiPlay } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './MyRatings.styled'
-import { Switch } from 'antd'
 import { useEffect, useState } from 'react'
-import Modal from 'react-modal'
 import { iQuestoes } from 'types'
-import questionarios from 'service/questionarios/'
 import avaliacoes from 'service/avaliacoes/avaliacoes'
+import InfoHover from 'ui/components/HoverInfo'
 
 
 export function MyRatings() {
 
 
 
-/*
-==========================================================================================================
-                                        STATES
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                          STATES
+  ==========================================================================================================
+  */
   //PageComponents States
-  const [avaliations     , setAvaliations     ] = useState<iQuestoes[]>([])
+  const [avaliations, setAvaliations] = useState<iQuestoes[]>([])
 
-/*
-==========================================================================================================
-                                    CRUD FUNCTIONS 
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                      CRUD FUNCTIONS 
+  ==========================================================================================================
+  */
 
   async function handleLoadAnswerQuestionary() {
 
@@ -37,11 +35,11 @@ export function MyRatings() {
 
 
 
-/*
-==========================================================================================================
-                                    Page's SubComponents 
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                      Page's SubComponents 
+  ==========================================================================================================
+  */
   function Status() {
     const [isActiveColor, setIsActiveColor] = useState(false)
 
@@ -62,11 +60,11 @@ export function MyRatings() {
   }
 
 
-/*
-==========================================================================================================
-                                        UseEffects 
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                          UseEffects 
+  ==========================================================================================================
+  */
 
 
   useEffect(() => {
@@ -82,8 +80,8 @@ export function MyRatings() {
         <S.Container>
           <S.LinksContainer>
             <Link
-            className='active-class'
-            to='/cadastro-de-avaliacao'
+              className='active-class'
+              to='/cadastro-de-avaliacao'
             >
               Avaliação &gt;
             </Link>
@@ -100,22 +98,40 @@ export function MyRatings() {
 
           {
             avaliations.map(
-              ({nome, id}) => (
+              ({ nome, id, isFinalizada }) => (
                 <div className='box-avaliacoes' key={id}>
                   <span>{nome}</span>
                   <div className='flex-configs'>
-                    <Link to={`/responder/${id}`}className='settings'>
-                      <FiPlay />
-                      <span>Iniciar</span>
-                    </Link>
+                    {
+                      isFinalizada ? (
+                        <InfoHover
+                            infoContent="Avaliação finalizada, não é possivel refazê-la"
+                            >
+                              <div className="settings">
+                                Finalizada
+                                <FiCheck size={18} />
+                              </div>
+                          </InfoHover>
+                      ) : (
+
+                        <Link
+                          to={`/responder/${id}`}
+                          className='settings'>
+                          <FiPlay />
+                          <span>Iniciar</span>
+                        </Link>
+
+                      )
+                    }
                   </div>
                 </div>
               )
             )
           }
 
+
         </S.Container>
-      </S.Body>      
+      </S.Body>
     </>
   )
 }
