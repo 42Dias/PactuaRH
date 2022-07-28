@@ -303,9 +303,9 @@ export default function FunctionsPage() {
             onChange={(e) => setNome(e.target.value)}
           />
 
-          <input
-            type='text'
-            placeholder='Descrção'
+          <textarea
+          
+            placeholder='Descrição'
             onChange={(e) => setDescricao(e.target.value)}
           />
           {/* <input type='text' placeholder='Mão de obra' />

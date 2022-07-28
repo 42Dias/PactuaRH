@@ -293,8 +293,8 @@ export default function Benefits() {
           <h2>Cadastrar benefício</h2>
 
           <label htmlFor="">Nome do benefício</label>
-          <input
-            type='text'
+          <textarea
+            
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome do benefício'
             required
