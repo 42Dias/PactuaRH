@@ -1,4 +1,4 @@
-import { FiEdit, FiEdit2, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
+import { FiCheck, FiEdit, FiEdit2, FiPlus, FiSettings, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import Sidebar from 'ui/components/Sidebar'
 import * as S from './EvaluationRecord.styled'
@@ -9,13 +9,15 @@ import { iQuestoes, PropsModal } from 'types'
 import questionario from 'service/avaliacoes'
 import avaliacaoScoreItem from 'service/avaliacaoScoreItem/avaliacaoScoreItem'
 import InputComponent from 'ui/components/InputComponent'
-import CheckBox from 'ui/components/CheckBox' 
+import CheckBox from 'ui/components/CheckBox'
 import { toast } from 'react-toastify'
 import questionarioScores from 'service/questionariosScore/questionariosScore'
 import LoadingLayer from 'ui/components/LoadingLayer'
 import Status from 'ui/components/Status'
 import { useEvaluationRecord } from 'contexts/EvaluationRecordProvider'
 import avaliacaoScores from 'service/avaliacaoScore/avaliacaoScore'
+import InfoHover from 'ui/components/HoverInfo'
+import { TrTitle } from '../UserRegistration/UserRegistration.styled'
 
 export function EvaluationRecord() {
   const {
@@ -31,11 +33,11 @@ export function EvaluationRecord() {
 
 
 
-/*
-==========================================================================================================
-                                        STATES
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                          STATES
+  ==========================================================================================================
+  */
 
   //===================================== Modal's States
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -58,52 +60,52 @@ export function EvaluationRecord() {
 
   //Avaliation States
   const [formato, setFormato] = useState<string | any>('')
-  const [tipo,    setTipo   ] = useState<string>('')
-  const [forma,    setForma ] = useState<string>('')
+  const [tipo, setTipo] = useState<string>('')
+  const [forma, setForma] = useState<string>('')
 
   //Loading State
   const [loading, setLoading] = useState(true);
 
 
-/*
-==========================================================================================================
-                                        Modal Functions
-==========================================================================================================
-*/
+  /*
+  ==========================================================================================================
+                                          Modal Functions
+  ==========================================================================================================
+  */
 
-	const openModal = (activeKey:any) => {
-		if (activeKey === 1) {
-      setActiveTabKey(activeKey)
-			setIsOpen(true);
-		}
-    
-    else if(activeKey === 2) {
+  const openModal = (activeKey: any) => {
+    if (activeKey === 1) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
     }
-    
+
+    else if (activeKey === 2) {
+      setActiveTabKey(activeKey)
+      setIsOpen(true);
+    }
+
     else if (activeKey === 3) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
     }
-    
+
     else if (activeKey === 4) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
     }
-    
+
     else if (activeKey === 5) {
       setActiveTabKey(activeKey)
       setIsOpen(true);
     }
-	};
+  };
 
   function closeModal() {
     setIsOpen(false)
   }
 
 
-  function handleOpenCreateModal(){
+  function handleOpenCreateModal() {
     openModal(1)
     //Clean the id
     setId("")
@@ -112,25 +114,25 @@ export function EvaluationRecord() {
   }
 
 
-  function handleOpenEditModal(id: string, nome: string, score: iQuestoes){
+  function handleOpenEditModal(id: string, nome: string, score: iQuestoes) {
     setId(id)
     setNome(nome)
 
     setSelectedScore(score)
     console.log(score)
     setForma(score?.forma!)
-        
+
     openModal(3)
   }
 
 
-  function handleOpenSettingsModal(id: string, score?: any, nome?: string){
+  function handleOpenSettingsModal(id: string, score?: any, nome?: string) {
 
     console.log(id, score, nome)
 
     setId(id)
     setSelectedScore(score?.id)
-    setSubItens(score?.item.sort((previous: any,next: any) => (previous.de > next.de) ? 1 : ((next.de > previous.de) ? -1 : 0)))      
+    setSubItens(score?.item.sort((previous: any, next: any) => (previous.de > next.de) ? 1 : ((next.de > previous.de) ? -1 : 0)))
     setFormato(score?.formato)
     setForma(score?.forma)
     setTipo(score?.tipo)
@@ -143,17 +145,21 @@ export function EvaluationRecord() {
 
 
 
-/*
-==========================================================================================================
+  /*
+  ==========================================================================================================
+                                            CRUD FUNCTIONS 
                                           CRUD FUNCTIONS 
-==========================================================================================================
-*/
+                                            CRUD FUNCTIONS 
+                                          CRUD FUNCTIONS 
+                                            CRUD FUNCTIONS 
+  ==========================================================================================================
+  */
 
   //necessary by the single page's modal
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    
+
     switch (activeKey) {
       case 1:
         handleCreate()
@@ -166,14 +172,14 @@ export function EvaluationRecord() {
         break;
       case 4:
         handleCreateSubItem()
-      break;
+        break;
       case 5:
         handleEditSubItem()
-      break;
+        break;
       default:
         toast.error(`nada configurado para activeKey == ${activeKey}.`);
     }
-    
+
   }
 
   async function handleLoadQuestionario() {
@@ -183,9 +189,9 @@ export function EvaluationRecord() {
     setLoading(false)
   }
 
-  async function handleGetAndSetSettingsModal(id: string){
+  async function handleGetAndSetSettingsModal(id: string) {
     const selectedQuestionario = await findQuestionario(id)
-    
+
     console.log("selectedQuestionario")
     console.log(selectedQuestionario)
     handleOpenSettingsModal(selectedQuestionario.id, selectedQuestionario.avaliacaoScore[0], selectedQuestionario.nome)
@@ -200,58 +206,62 @@ export function EvaluationRecord() {
         nome: "Acima do esperado",
         pontuacao: 0,
         descricao: 0,
-        de: 5,
-        ate: 10,
+        ordem: 2,
+        de: 75,
+        ate: 100,
       },
       {
-        nome: "Estático",
+        nome: "Sólido",
         pontuacao: 0,
         descricao: 0,
-        de: 3,
-        ate: 4,
+        ordem: 1,
+        de: 25,
+        ate: 75,
       },
       {
         nome: "Abaixo do esperado",
         pontuacao: 0,
         descricao: 0,
+        ordem: 0,
         de: 0,
-        ate: 2,
+        ate: 25,
       }
     ]
-    
+
     const data = {
       nome: nome,
       scoreItem: scaffoldScoreItems,
-      forma: forma
+      forma: forma,
+      tipo: "porcentagem",
     }
-    
-    
+
+
     const isCreated = await createQuestionario(data)
-    
+
     if (isCreated) handleGetAndSetSettingsModal(isCreated.id)
 
-    await handleLoadQuestionario()    
+    await handleLoadQuestionario()
   }
 
   async function handleUpdate() {
     const data = selectedScore
 
-    data.nome  = nome
+    data.nome = nome
     data.forma = forma
-    
 
-    const isUpdated = await updateQuestionario(id, data) 
+
+    const isUpdated = await updateQuestionario(id, data)
     if (isUpdated) handleGetAndSetSettingsModal(isUpdated.id)
     // closeModal()
 
 
     await handleLoadQuestionario()
   }
- 
+
   async function handleDelete(id: string) {
     await deleteQuestionario(id)
 
-    handleGetAndSetSettingsModal(id!)
+    // handleGetAndSetSettingsModal(id!)
 
     handleLoadQuestionario()
   }
@@ -262,13 +272,13 @@ export function EvaluationRecord() {
   async function updateSecondary() {
 
     const data = {
-      de: de, 
+      de: de,
       ate: ate,
       nome: nome,
       score: score,
       formato: formato,
       tipo: tipo,
-      
+
       questionariorioScoreId: selectedScore,
       questionarioScore: selectedScore,
     }
@@ -280,13 +290,13 @@ export function EvaluationRecord() {
 
     await handleLoadQuestionario()
   }
- 
 
-  
 
-  async function handleCreateSubItem(){
+
+
+  async function handleCreateSubItem() {
     let data = {
-      de:   de, 
+      de: de,
       ate: ate,
       nome: titulo,
       score: score,
@@ -299,10 +309,10 @@ export function EvaluationRecord() {
     await handleLoadQuestionario()
   }
 
-  async function handleEditSubItem(){
+  async function handleEditSubItem() {
 
     let data = {
-      de:  Number(de), 
+      de: Number(de),
       ate: Number(ate),
       nome: titulo,
       score: score,
@@ -316,7 +326,7 @@ export function EvaluationRecord() {
 
     await handleLoadQuestionario()
   }
-  
+
 
   async function handleDeleteSubItem(id: string) {
     await avaliacaoScoreItem.delete(id)
@@ -324,7 +334,7 @@ export function EvaluationRecord() {
 
     handleLoadQuestionario()
   }
-  
+
 
   /*
   ==========================================================================================================
@@ -336,29 +346,29 @@ export function EvaluationRecord() {
     return <h1>{title}</h1>
   }
 
-  
-  
 
-  function ScoreComponent({titleAvaliation, from, to, id}: PropsModal) {
+
+
+  function ScoreComponent({ titleAvaliation, from, to, id }: PropsModal) {
     return (
       <div>
         <div className="gridScore addBox">
           <span>{titleAvaliation}</span>
           <span>{from}{tipo === "porcentagem" && "%"}</span>
-          <span>{to}  {tipo === "porcentagem" && "%"}</span>
+          <span>{to}{tipo === "porcentagem" && "%"}</span>
           <div>
             {/* <button onClick={() => handleDeleteSubItem(id!)}>
               <FiTrash2 />
             </button> */}
             <button onClick={() => {
-              
+
               setSelectedScoreItem(id)
               setDe(from!)
               setAte(to!)
               setTitulo(titleAvaliation!)
 
               openModal(5)
-              }
+            }
             }>
               <FiEdit />
             </button>
@@ -369,7 +379,7 @@ export function EvaluationRecord() {
   }
 
 
-  function ConfigCheckTitle({titleConfig}: PropsModal) {
+  function ConfigCheckTitle({ titleConfig }: PropsModal) {
     return (
       <>
         <span>{titleConfig}</span>
@@ -379,15 +389,19 @@ export function EvaluationRecord() {
 
 
 
-/*
-==========================================================================================================
+  /*
+  ==========================================================================================================
+                                    UseEffects 
                                   UseEffects 
-==========================================================================================================
-*/
+                                    UseEffects 
+                                  UseEffects 
+                                    UseEffects 
+  ==========================================================================================================
+  */
 
   useEffect(() => {
     handleLoadQuestionario()
-  }, [  ])
+  }, [])
 
 
 
@@ -404,7 +418,7 @@ export function EvaluationRecord() {
           <S.Container>
             <S.LinksScore>
               <div>
-                <Status active={true}/>
+                <Status active={true} />
                 <small>Avaliação</small>
               </div>
 
@@ -421,17 +435,16 @@ export function EvaluationRecord() {
         <S.Container>
           <S.LinksContainer>
             <Link
-            className='active-class'
-            to='/cadastro-de-avaliacao'
+              className='active-class'
+              to='/cadastro-de-avaliacao'
             >
               Avaliação &gt;
             </Link>
             <p
-            // to='/questionario'
             >
               Iniciativa ou KPI &gt;
             </p>
-            
+
           </S.LinksContainer>
 
           <S.FlexInit>
@@ -445,45 +458,89 @@ export function EvaluationRecord() {
           <div>
             <Switch defaultChecked />
           </div>
-          
-          {
-          questionario && questionario?.map(
-           ( questioryItem: iQuestoes ) => (
 
-            <div className='box-avaliacoes' key={questioryItem.id}>
-              <Link to={`/avaliacao/${questioryItem.id}`}>{questioryItem.nome}</Link>
-              <div className='flex-configs'>
+          <div className='box-avaliacoes'>
+            <div className="flex-name">
+              <span>
+                Nome
+              </span>
+            </div>
 
-                {/*
-                <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.avaliacaoScore[0], questioryItem.id)} className='settings'>
-                  <FiSettings />
-                  <span>Configurar</span>
-                </button>
-                */}
 
-                <button className='delete' onClick={() => handleDelete(questioryItem.id)}>
-                  <FiTrash2 />
-                </button>
-                <button onClick={() => handleOpenEditModal(questioryItem.id, questioryItem.nome, questioryItem?.avaliacaoScore[0])} className='edit'>
-                  <FiEdit2 />
-                </button>
-              </div>
+            <span className='flex-info flex-info--title'>
+              <InfoHover
+                infoContent="Caso finalizada a aviação terá um check!"
+              >
+                Finalizada
+              </InfoHover>
+            </span>
+
+            <div className='flex-configs'>
+              <span>
+                Ações
+              </span>
+            </div>
           </div>
 
-           )
-          )}
+          {
+            questionario && questionario?.map(
+              (questioryItem: iQuestoes) => (
 
-          
+                <div className='box-avaliacoes' key={questioryItem.id}>
+                  <div className="flex-name">
+                    <Link to={`/avaliacao/${questioryItem.id}`}>
+                      {questioryItem.nome}
+                    </Link>
+                  </div>
+
+
+                  {
+                    questioryItem.isFinalizada && <div className='flex-info'>
+                      <InfoHover
+                        infoContent="Avaliação Finalizada"
+                      >
+                        <FiCheck size={20} />
+                      </InfoHover>
+                    </div>
+                  }
+
+                  <div className='flex-configs'>
+                    {/*
+                    Instead of click in other button, the modal have steps 
+
+                    <button onClick={() => handleOpenSettingsModal(questioryItem.id, questioryItem?.avaliacaoScore[0], questioryItem.id)} className='settings'>
+                      <FiSettings />
+                      <span>Configurar</span>
+                    </button>
+                    */}
+
+                    <button className='delete' onClick={() => handleDelete(questioryItem.id)}>
+                      <FiTrash2 />
+                    </button>
+                    <button onClick={() => handleOpenEditModal(questioryItem.id, questioryItem.nome, questioryItem?.avaliacaoScore[0])} className='edit'>
+                      <FiEdit2 />
+                    </button>
+                  </div>
+                </div>
+
+              )
+            )}
+
+
         </S.Container>
       </S.Body>
 
-{
-/*
-==========================================================================================================
+      {
+        /*
+        ==========================================================================================================
+                                                     Modal 
                                              Modal 
-==========================================================================================================
-*/
-}
+                                                     Modal 
+                                             Modal 
+                                                     Modal 
+        ==========================================================================================================
+        */
+      }
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -498,118 +555,149 @@ export function EvaluationRecord() {
           <FiX />
         </button>
 
-      {/* <EvaluationRecordModal />*/}
+        {/* <EvaluationRecordModal />*/}
 
         <S.ContainerForm
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
         >
-          
+
           {activeKey === 1 && (
-						<>
+            <>
               <TitleComponent title='Adicionar avaliação' />
-              <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
+              <InputComponent title='Titulo' onChange={(text: any) => setNome(text)} value={nome} />
 
               <ConfigCheckTitle titleConfig='Esta Avaliação é' />
               <div className="checkContainer">
-                <CheckBox value="PDI"                     checkBoxTitle='PDI'                         onChange={() => setForma("PDI")}                      checked={forma === "PDI" } />
-                <CheckBox value="PMP"                     checkBoxTitle='PMP'                         onChange={() => setForma("PMP")}                      checked={forma === "PMP" }  />
-                <CheckBox value="questionarioDesempenho"  checkBoxTitle='Avaliacação Desempenho'      onChange={() => setForma("questionarioDesempenho")}   checked={forma === "questionarioDesempenho" }  />
+                <CheckBox value="PDI" checkBoxTitle='PDI' onChange={() => setForma("PDI")} checked={forma === "PDI"} />
+                <CheckBox value="PMP" checkBoxTitle='PMP' onChange={() => setForma("PMP")} checked={forma === "PMP"} />
+                <CheckBox value="questionarioDesempenho" checkBoxTitle='Avaliacação Desempenho' onChange={() => setForma("questionarioDesempenho")} checked={forma === "questionarioDesempenho"} />
               </div>
+
+              <button className='send' type='submit'>Cadastrar</button>
 
             </>
-					)}
+          )}
 
           {activeKey === 2 && (
-						<div className='confgContainer'>
-              <TitleComponent title='Configurar' />
-              {/* <ConfigCheckTitle titleConfig='Avaliação' /> */}
 
-              
+            <>
+              <div className='confgContainer'>
+                <TitleComponent title='Configurar' />
+                {/* <ConfigCheckTitle titleConfig='Avaliação' /> */}
 
-              <ConfigCheckTitle titleConfig='Formato' />
-              <div className="checkContainer">
-                <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("x")} checked={formato === "x"}   />
-                <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("y")} checked={formato === "y" }  />
-              </div>
 
-              <ConfigCheckTitle titleConfig='Tipo de pontuação' />
-              <div className="checkContainer">
-                <CheckBox value="porcentagem" checkBoxTitle='Porcentagem' onChange={() => setTipo("porcentagem")}  checked={tipo === "porcentagem" } />
-                <CheckBox value="quantidade"  checkBoxTitle='Pontos'      onChange={() => setTipo("quantidade")}   checked={tipo === "quantidade" }  />
-              </div>
 
-              <div className="flexBtn">
-                <h2>Score</h2>
+              {/*
+                Now the user cannot config that
 
-                {/*
-                <button onClick={() => {
-                  openModal(4)
-                  setTitulo("")
-                  setDe("")
-                  setAte("")
-                  }}><FiPlus /> Novo
+                <ConfigCheckTitle titleConfig='Formato' />
+                <div className="checkContainer">
+                  <CheckBox value="numerico"     checkBoxTitle='Númerico'     onChange={() => setFormato("x")} checked={formato === "x"}   />
+                  <CheckBox value="naoNumerico"  checkBoxTitle='Não númerico' onChange={() => setFormato("y")} checked={formato === "y" }  />
+                </div>
+
+                <ConfigCheckTitle titleConfig='Tipo de pontuação' />
+                <div className="checkContainer">
+                  <CheckBox value="porcentagem" checkBoxTitle='Porcentagem' onChange={() => setTipo("porcentagem")}  checked={tipo === "porcentagem" } />
+                  <CheckBox value="quantidade"  checkBoxTitle='Pontos'      onChange={() => setTipo("quantidade")}   checked={tipo === "quantidade" }  />
+                </div>
+                
+              */}
+
+                <div className="flexBtn">
+                  <h2>Score</h2>
+                  {/*
+                  Now user cannot create a Score subItem
+
+                  <button onClick={() => {
+                    openModal(4)
+                    setTitulo("")
+                    setDe("")
+                    setAte("")
+                    }}><FiPlus /> Novo
+                    </button>
                   </button>  
-                */}
-              </div>
+                    </button>
+                  </button>  
+                    </button>
+                  */}
+                </div>
+                <div className="gridScore">
+                  <span>Nome</span>
+                  <span>De</span>
+                  <span>
+                    {
+                      tipo === "porcentagem" ? (
+                        "Maior que"
+                      ) : (
+                        "Até"
+                      )
+                    }
+                  </span>
+                </div>
+                {
+                  subItens?.map(
+                    (item, i: number) => (
+                      <div
+                        onClick={() => setIdScore(item.id)}
+                      >
+                        <ScoreComponent
+                          id={item.id}
+                          titleAvaliation={item.nome}
+                          from={item.de}
+                          to={item.ate}
+                        />
+                      </div>
+                    )
+                  )
+                }
+              </div >
 
-              <div className="gridScore">
-                <span>Nome</span>
-                <span>De</span>
-                <span>Até</span>
-              </div>
+              <button className='send' type='submit'>Atualizar</button>
+            </>
 
-              {
-              subItens?.map(
-                (item, i: number) => (
-                  <div
-                  onClick={() => setIdScore(item.id)}
-                  >
-                    <ScoreComponent
-                      id={item.id}
-                      titleAvaliation={item.nome}
-                      from={item.de}
-                      to={item.ate}
-                    />
-                  </div>
-                )
-              )
-              }
-            </div >
-					)}
+
+          )}
 
           {activeKey === 3 && (
             <>
               <TitleComponent title='Editar avaliação ' />
-              <InputComponent title='Titulo' onChange={(text :any) => setNome(text)} value={nome} />
-            
+              <InputComponent title='Titulo' onChange={(text: any) => setNome(text)} value={nome} />
+
               <ConfigCheckTitle titleConfig='Esta Avaliação é' />
               <div className="checkContainer">
-                <CheckBox value="PDI"                     checkBoxTitle='PDI'                         onChange={() => setForma("PDI")}                      checked={forma === "PDI" } />
-                <CheckBox value="PMP"                     checkBoxTitle='PMP'                         onChange={() => setForma("PMP")}                      checked={forma === "PMP" }  />
-                <CheckBox value="questionarioDesempenho"  checkBoxTitle='Avaliacação Desempenho'      onChange={() => setForma("questionarioDesempenho")}   checked={forma === "questionarioDesempenho" }  />
+                <CheckBox value="PDI" checkBoxTitle='PDI' onChange={() => setForma("PDI")} checked={forma === "PDI"} />
+                <CheckBox value="PMP" checkBoxTitle='PMP' onChange={() => setForma("PMP")} checked={forma === "PMP"} />
+                <CheckBox value="questionarioDesempenho" checkBoxTitle='Avaliacação Desempenho' onChange={() => setForma("questionarioDesempenho")} checked={forma === "questionarioDesempenho"} />
               </div>
+
+              <button className='send' type='submit'>Atualizar</button>
             </>
           )}
 
           {activeKey === 4 && (
             <>
-              <TitleComponent title='Adicionar score' onChange={(text: any) => setScore(text)}  value={score} />
-              <InputComponent title='Titulo'          onChange={(text: any) => setTitulo(text)} value={titulo}    />
-              <InputComponent title='De'          onChange={(text: any) => setDe(text)}     value={de}        />
-              <InputComponent title='Até'         onChange={(text: any) => setAte(text)}    value={ate}       />
+              <TitleComponent title='Adicionar score' onChange={(text: any) => setScore(text)} value={score} />
+              <InputComponent title='Titulo' onChange={(text: any) => setTitulo(text)} value={titulo} />
+              <InputComponent title='De' onChange={(text: any) => setDe(text)} value={de} />
+              <InputComponent title='Até' onChange={(text: any) => setAte(text)} value={ate} />
+
+              <button className='send' type='submit'>Cadastrar</button>
             </>
           )}
 
           {activeKey === 5 && (
             <>
-              <TitleComponent title='Editar score' onChange={(text: any) => setScore(text)}  value={score} />
-              <InputComponent title='Titulo'       onChange={(text: any) => setTitulo(text)} value={titulo}    />
-              <InputComponent title='De'       onChange={(text: any) => setDe(text)}     value={de}        />
-              <InputComponent title='Até'      onChange={(text: any) => setAte(text)}    value={ate}       />
+              <TitleComponent title='Editar score' onChange={(text: any) => setScore(text)} value={score} />
+              <InputComponent title='Titulo' onChange={(text: any) => setTitulo(text)} value={titulo} />
+              <InputComponent title='De' onChange={(text: any) => setDe(text)} value={de} />
+              <InputComponent title='Até' onChange={(text: any) => setAte(text)} value={ate} />
+
+
+              <button className='send' type='submit'>Atualizar</button>
             </>
           )}
 
-          <button className='send' type='submit'>Cadastrar</button>
         </S.ContainerForm>
       </Modal>
     </>
