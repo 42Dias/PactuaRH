@@ -80,7 +80,8 @@ export const Container = styled.div`
   }
 
   #header .pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
-    background-color: ${theme.colors.gray.gray11};
+    /* background-color: ${theme.colors.gray.gray3}; */
+    background-color: ${theme.colors.gray.gray12};
     overflow: hidden;
   }
 
@@ -98,6 +99,13 @@ export const Container = styled.div`
     overflow-x: hidden;
     max-width: 192px;
     height: 0;
+  }
+
+  .pro-item-content .menu-icons{
+    /* overflow: hidden; */
+    /* text-overflow: unset; */
+    white-space: break-spaces !important;
+    overflow-wrap: break-word !important;
   }
 
   .open .react-slidedown{
