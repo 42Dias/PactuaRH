@@ -94,10 +94,16 @@ export const Container = styled.div`
     color: ${theme.colors.gray.gray2};
   }
 
-  .open .react-slidedown{
-    height: 60vh !important;
-    overflow-y: scroll;
+  .react-slidedown{
     overflow-x: hidden;
+    max-width: 192px;
+    height: 0;
+  }
+
+  .open .react-slidedown{
+    min-height: fit-content !important;
+    max-height: 35vh !important;
+    overflow-y: scroll !important;
 
 
      /* width */
