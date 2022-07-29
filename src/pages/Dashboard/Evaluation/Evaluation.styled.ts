@@ -1,3 +1,4 @@
+import { Route } from 'react-router-dom';
 import styled from 'styled-components'
 import { theme } from 'config'
 
@@ -253,6 +254,7 @@ export const ContainerForm = styled.form`
 
   button.send {
     margin-top: 1.5rem;
+    border: 1px solid black;
     padding: 0 1.5rem;
     width: 150px;
     height: 2.4rem;
@@ -260,7 +262,24 @@ export const ContainerForm = styled.form`
     font-weight: 400;
     color: #ffffff;
     background: black;
-    border: 0;
+    border-radius: 0.25rem;
+    transition: filter 0.2s ease-in-out;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+
+  button.close {
+    margin-top: 1.5rem;
+    padding: 0 1.5rem;
+    width: 150px;
+    height: 2.4rem;
+    font-size: .8rem;
+    font-weight: 400;
+    color: black;
+    background: transparent;
+    border: 1px solid black;
     border-radius: 0.25rem;
     transition: filter 0.2s ease-in-out;
 
@@ -385,6 +404,40 @@ export const ContainerForm = styled.form`
     }
   }
 `
-        
 
-      
+
+export const ButtonsContainer = styled.div`
+display: flex;
+width: 100%;
+/* width: 100%; */
+align-items: center;
+/* justify-content: space-between; */
+
+  button:first-child{
+    /* margin-left: 50px; */
+    margin-right: 50px;
+  }
+
+
+
+  button {
+    width: 140px;
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0 10px;
+
+    color: #ffffff;
+    background: black;
+    border: 0;
+    border-radius: 0.25rem;
+    transition: filter 0.2s ease-in-out;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+`

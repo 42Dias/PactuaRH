@@ -79,46 +79,46 @@ const Sidebar = () => {
               <Menu iconShape='square'>
 
                 <MenuItem active={true} icon={<FiHome />}>
-                  <Link to='/dashboard'>Inicío</Link>
+                  <Link  to='/dashboard'>Inicío</Link>
                 </MenuItem>
                 <SubMenu title='Cadastros' icon={<FiEdit />}>
 
                   <MenuItem>
-                    <Link to='/area'>Área</Link>
+                    <Link className="menu-icons" to='/area'>Área</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/beneficios'>Benefícios</Link>
+                    <Link className="menu-icons" to='/beneficios'>Benefícios</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/cargos'>Cargos</Link>
-                  </MenuItem>
-
-
-                  <MenuItem>
-                    <Link to='/centroCustos'>Centro de Custos</Link>
-                  </MenuItem>
-
-                  <MenuItem>
-                    <Link to='/escolaridade'>Escolaridade</Link>
+                    <Link className="menu-icons" to='/cargos'>Cargos</Link>
                   </MenuItem>
 
 
                   <MenuItem>
-                    <Link to='/funcoes'>Funções</Link>
+                    <Link className="menu-icons" to='/centroCustos'>Centro de Custos</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/habilidades'>Habilidades</Link>
+                    <Link className="menu-icons" to='/escolaridade'>Escolaridade</Link>
+                  </MenuItem>
+
+
+                  <MenuItem>
+                    <Link className="menu-icons" to='/funcoes'>Funções</Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link className="menu-icons" to='/habilidades'>Habilidades</Link>
                   </MenuItem>
 
                   {/* <MenuItem>
-                    <Link to='/plano-de-carreira'>Plano de Carreira</Link>
+                    <Link className="menu-icons" to='/plano-de-carreira'>Plano de Carreira</Link>
                   </MenuItem> */}
 
                   <MenuItem>
-                    <Link to='/profissionais'>Profissionais</Link>
+                    <Link className="menu-icons" to='/profissionais'>Profissionais</Link>
                   </MenuItem>
 
 
@@ -130,25 +130,25 @@ const Sidebar = () => {
 
                 <SubMenu title='Parâmetros' icon={<FiChevronsRight />}>
                   <MenuItem>
-                    <Link to='/cadastro-de-avaliacao'>Avaliações</Link>
+                    <Link className="menu-icons" to='/cadastro-de-avaliacao'>Avaliações</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/checkpoints'>Checkpoints</Link>
+                    <Link className="menu-icons" to='/checkpoints'>Checkpoints</Link>
                   </MenuItem>
 
 
                   <MenuItem>
-                    <Link to='/pdi'>Pdi</Link>
+                    <Link className="menu-icons" to='/pdi'>Pdi</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/pri'>Pri</Link>
+                    <Link className="menu-icons" to='/pri'>Pri</Link>
                   </MenuItem>
 
                   {/* 
                   <MenuItem>
-                    <Link to='/questionarios'>Questionários</Link>
+                    <Link className="menu-icons" to='/questionarios'>Questionários</Link>
                   </MenuItem>
                   */}
                 </SubMenu>
@@ -156,11 +156,11 @@ const Sidebar = () => {
 
                 <SubMenu title='Admin' icon={<FiUser />}>
                   <MenuItem>
-                    <Link to='/cadastro-da-empresa'>Empresas</Link>
+                    <Link className="menu-icons" to='/cadastro-da-empresa'>Empresas</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/cadastrar-usuario'>Usuário</Link>
+                    <Link className="menu-icons" to='/cadastrar-usuario'>Usuário</Link>
                   </MenuItem>
                 </SubMenu>
 
@@ -168,19 +168,19 @@ const Sidebar = () => {
                 <SubMenu title='Relatórios' icon={<FiTrendingUp />}>
 
                   <MenuItem>
-                    <Link to='/desempenho'> Desempenho</Link>
+                    <Link className="menu-icons" to='/desempenho'> Desempenho</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/myAvaliations'> Minhas avaliações</Link>
+                    <Link className="menu-icons" to='/myAvaliations'> Minhas avaliações</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/responder-avaliacoes'>(Novo) Minhas avaliações</Link>
+                    <Link className="menu-icons" to='/responder-avaliacoes'>(Novo) Minhas avaliações</Link>
                   </MenuItem>
 
                   <MenuItem>
-                    <Link to='/relatorio-9box'> 9box </Link>
+                    <Link className="menu-icons" to='/relatorio-9box'> 9box </Link>
                   </MenuItem>
 
                 </SubMenu>

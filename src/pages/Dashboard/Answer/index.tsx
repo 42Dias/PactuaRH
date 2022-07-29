@@ -201,6 +201,8 @@ export function Answer() {
   async function checkIfAvaliationIsDone(questions: iQuestoes[]){
     let questionsAnswered = questions.length
 
+    if(questionsAnswered == 0) return;
+
     questions.map(
       (e) => e.questionarioPonto[0] && questionsAnswered--
     )
@@ -233,22 +235,6 @@ export function Answer() {
     <>
       <S.Body>
         <Sidebar />
-        <S.Title>
-          <S.Container>
-            <S.LinksScore>
-              <div>
-                <Status />
-                <small>Avaliação</small>
-              </div>
-
-              <div>
-                <Status />
-                <small>Iniciativa ou KPI</small>
-              </div>
-
-            </S.LinksScore>
-          </S.Container>
-        </S.Title>
 
         <S.Container>
           <S.LinksContainer>

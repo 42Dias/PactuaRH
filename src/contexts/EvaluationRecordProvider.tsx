@@ -36,6 +36,7 @@ export default function EvaluationRecordProvider({ children }: ReactProps) {
       avaliacaoId: isCreated.id,
       items: data.scoreItem, 
       forma: data.forma,
+      tipo: data.tipo,
     }
 
 
@@ -61,7 +62,9 @@ export default function EvaluationRecordProvider({ children }: ReactProps) {
   }
 
   async function deleteQuestionario(id: string) {
+    
     await questionarioRespository.delete(id)
+
     loadQuestionario()
   }
 

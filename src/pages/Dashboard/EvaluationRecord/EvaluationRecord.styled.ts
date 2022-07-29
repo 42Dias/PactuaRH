@@ -43,7 +43,7 @@ export const LinksScore = styled.div`
   border-radius: 5px;
 
 
-  margin: 14px 0;
+  margin: 14px auto;
 
   position: relative;
 
@@ -109,6 +109,7 @@ export const Container = styled.div`
     padding: 0 12%;
   }
 
+
   .box-avaliacoes {
     margin: 20px 0;
     background: #fff;
@@ -119,10 +120,26 @@ export const Container = styled.div`
     justify-content: space-between;
     padding: 0 3%;
 
+    span{
+        /* color: black; */
+        font-weight: bold;
+      }
+
     a {
       color: black;
       text-decoration: underline;
+      display: flex;
     }
+
+    .flex-name{
+      width: 45%;
+    }
+
+    .flex-info--title{
+      padding-right: 34px;
+    }
+
+
 
     .flex-configs {
       display: flex;
