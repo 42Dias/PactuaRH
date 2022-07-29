@@ -9,6 +9,8 @@ import profissional from 'service/profissional/profissional'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import EditButton from 'ui/components/EditBtn'
+import DeleteButton from 'ui/components/DeleteButton'
 
 export default function Pri() {
 
@@ -220,7 +222,7 @@ export default function Pri() {
                   </a>
                 </td>
                 <td>
-                  <button
+                  <EditButton
                     onClick={() => {
                       setId(pri.id)
                       setNome(pri.nome)
@@ -231,12 +233,12 @@ export default function Pri() {
                     }}
                   >
                     <FiEdit size={18} />
-                  </button>
+                  </EditButton>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(pri.id)}>
+                  <DeleteButton onClick={() => handleDelete(pri.id)}>
                     <FiTrash size={18} />
-                  </button>
+                  </DeleteButton>
                 </td>
               </S.TrSecond>
             ))}

@@ -40,7 +40,7 @@ export const FlexButtons = styled.div`
   margin: 40px 0;
 
   button {
-    background: #000;
+    background:#ED6B47 ;
     border: 0;
     width: 180px;
     height: 48px;

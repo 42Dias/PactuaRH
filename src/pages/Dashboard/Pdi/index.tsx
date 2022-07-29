@@ -10,6 +10,8 @@ import Link from "react-router-dom";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import profissional from 'service/profissional/profissional'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import DeleteButton from 'ui/components/DeleteButton'
+import EditButton from 'ui/components/EditBtn'
 
 export default function Pdi() {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -224,7 +226,7 @@ export default function Pdi() {
                   </a>
                 </td>
                 <td>
-                  <button
+                  <EditButton
                     onClick={() => {
                       setId(pdi.id)
                       setNome(pdi.nome)
@@ -235,12 +237,12 @@ export default function Pdi() {
                     }}
                   >
                     <FiEdit size={18} />
-                  </button>
+                  </EditButton>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(pdi.id)}>
+                  <DeleteButton onClick={() => handleDelete(pdi.id)}>
                     <FiTrash size={18} />
-                  </button>
+                  </DeleteButton>
                 </td>
               </S.TrSecond>
             ))}
