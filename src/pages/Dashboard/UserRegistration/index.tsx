@@ -11,6 +11,8 @@ import { fullName, id } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import fakeapi from 'service/fake-api'
+import DeleteButton from 'ui/components/DeleteButton'
+import EditButton from 'ui/components/EditBtn'
 
 interface IRyan {
   id:number;
@@ -245,7 +247,7 @@ export default function UserRegistration() {
               </td>
               <td>
                 {/* Edits this user data */}
-                <button
+                <EditButton
                   onClick={
                   () => {
 
@@ -255,14 +257,14 @@ export default function UserRegistration() {
                   }
                   }>
                   <FiEdit size={18} />
-                </button>
+                </EditButton>
               </td>
               <td>
-                <button
+                <DeleteButton
                 onClick={() => deleteUser(user.id)}
                 >
                   <FiTrash size={18} />
-                </button>
+                </DeleteButton>
               </td>
             </S.TrSecond>
               )

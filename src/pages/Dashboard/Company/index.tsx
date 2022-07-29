@@ -13,6 +13,8 @@ import { toast } from 'react-toastify'
 import checkCNPJ from '../../../utils/checkCNPJ'
 import LoadingLayer from 'ui/components/LoadingLayer'
 import InputsContainer from 'ui/components/InputsContainer'
+import DeleteButton from 'ui/components/DeleteButton'
+import EditButton from 'ui/components/EditBtn'
 
 
 export default function Company() {
@@ -289,18 +291,18 @@ export default function Company() {
                   <td>{empresa.cnac}</td>
                   <td>
 
-                    <button onClick={() => {
+                    <EditButton onClick={() => {
                       openModal()
                       setEmpresaEdit(empresa)
                     }}>
                       <FiEdit size={18} />
-                    </button>
+                    </EditButton>
                   </td>
 
                   <td>
-                    <button onClick={() => deleteEmpresa(empresa.id)}>
+                    <DeleteButton onClick={() => deleteEmpresa(empresa.id)}>
                       <FiTrash size={18} />
-                    </button>
+                    </DeleteButton>
                   </td>
                 </S.TrSecond>
               )

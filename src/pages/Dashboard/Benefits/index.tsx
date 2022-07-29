@@ -9,6 +9,8 @@ import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import DeleteButton from 'ui/components/DeleteButton'
+import EditButton from 'ui/components/EditBtn'
 
 
 export default function Benefits() {
@@ -201,18 +203,18 @@ export default function Benefits() {
                 <td>{benefit.nome}</td>
                 <td>{benefit.descricao}</td>
                 <td>
-                  <button
+                  <EditButton
                     onClick={() => {
                       openEditModal(benefit)
                     }}
                   >
                     <FiEdit size={18} />
-                  </button>
+                  </EditButton>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(benefit.id)}>
+                  <DeleteButton onClick={() => handleDelete(benefit.id)}>
                     <FiTrash size={18} />
-                  </button>
+                  </DeleteButton>
                 </td>
               </S.TrSecond>
             ))}

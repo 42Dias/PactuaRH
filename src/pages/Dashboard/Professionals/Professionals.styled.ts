@@ -92,7 +92,7 @@ export const ContainerForm = styled.form`
     color: var(--text-title);
   }
 
-  input {
+  input, textarea {
     padding: 0 1.5rem;
     width: 100%;
     height: 3rem;
@@ -106,7 +106,10 @@ export const ContainerForm = styled.form`
       color: #747474;
     }
   }
-
+  textarea {
+    padding: 1rem;
+    height: 5rem;
+  }
   select {
     margin: 10px 0;
     padding: 0 1.5rem;

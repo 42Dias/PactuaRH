@@ -16,6 +16,8 @@ import { iCargo, iData } from '../../../types'
 import { useForm } from 'react-hook-form'
 import LoadingLayer from 'ui/components/LoadingLayer'
 import InputsContainer from 'ui/components/InputsContainer'
+import DeleteButton from 'ui/components/DeleteButton'
+import EditButton from 'ui/components/EditBtn'
 
 
 
@@ -433,7 +435,7 @@ export default function Positions() {
                   <td>{cargo.cbo || 'Não cadastrado'}</td>
                   <td>{cargo.area ? cargo.area.nome : 'Não cadastrado'}</td>
                   <td>
-                    <button
+                    <EditButton
                       onClick={() => {
                         setCargoSelected(cargo)
 
@@ -443,15 +445,15 @@ export default function Positions() {
                       }}
                     >
                       <FiEdit size={18} />
-                    </button>
+                    </EditButton>
                   </td>
                   <td>
-                    <button>
+                    <DeleteButton>
                       <FiTrash
                         size={18}
                         onClick={() => handleDeletePosition(cargo.id)}
                       />
-                    </button>
+                    </DeleteButton>
                   </td>
                 </S.TrSecond>
               ))}

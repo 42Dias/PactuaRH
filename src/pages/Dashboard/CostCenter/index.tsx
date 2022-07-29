@@ -10,6 +10,8 @@ import cargos from 'service/cargos/cargos'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import EditButton from 'ui/components/EditBtn'
+import DeleteButton from 'ui/components/DeleteButton'
 
 export default function CostCenter() {
 
@@ -229,18 +231,18 @@ export default function CostCenter() {
                     </button>
                     </td> */}
                   <td>
-                    <button
+                    <EditButton
                       onClick={() => {
                         openEditModal(c)
                       }}
                     >
                       <FiEdit size={18} />
-                    </button>
+                    </EditButton>
                   </td>
                   <td>
-                    <button onClick={() => handleDelete(c.id)}>
+                    <DeleteButton onClick={() => handleDelete(c.id)}>
                       <FiTrash size={18} />
-                    </button>
+                    </DeleteButton>
                   </td>
                 </S.TrSecond>
               ))}

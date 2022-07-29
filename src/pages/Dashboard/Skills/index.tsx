@@ -8,6 +8,8 @@ import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import EditButton from 'ui/components/EditBtn'
+import DeleteButton from 'ui/components/DeleteButton'
 
 export default function Skills() {
   //===================================== Modal's States
@@ -207,18 +209,18 @@ export default function Skills() {
 
 
                   <td>
-                    <button
+                    <EditButton
                       onClick={() => {
                         openEditModal(skills)
                       }}
                     >
                       <FiEdit size={18} />
-                    </button>
+                    </EditButton>
                   </td>
                   <td>
-                    <button onClick={() => handleDelete(skills.id)}>
+                    <DeleteButton onClick={() => handleDelete(skills.id)}>
                       <FiTrash size={18} />
-                    </button>
+                    </DeleteButton>
                   </td>
                 </S.TrSecond>
               ))}

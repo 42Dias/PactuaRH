@@ -23,6 +23,8 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import LoadingLayer from 'ui/components/LoadingLayer'
 import InputsContainer from 'ui/components/InputsContainer'
 import centroCustos from 'service/centroCustos/centroCustos'
+import DeleteButton from 'ui/components/DeleteButton'
+import EditButton from 'ui/components/EditBtn'
 
 interface iDependent {
   id?: string
@@ -460,7 +462,7 @@ export default function Professionals() {
                 <td>{value.rg}</td>
                 <td>{value.cargo?.nome}</td>
                 <td>
-                  <button
+                  <EditButton
                     onClick={() => {
 
                       setSelectedProfessional(value)
@@ -472,12 +474,12 @@ export default function Professionals() {
                     }}
                   >
                     <FiEdit size={18} />
-                  </button>
+                  </EditButton>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(value.id)}>
+                  <DeleteButton onClick={() => handleDelete(value.id)}>
                     <FiTrash size={18} />
-                  </button>
+                  </DeleteButton>
                 </td>
               </S.TrSecond>
             ))}
@@ -513,167 +515,247 @@ export default function Professionals() {
         >
           <h2>Editar profissional</h2>
 
-          <h4>Selecione um profissional</h4>
 
-          <input
-            required
-            type='text'
-            defaultValue={userSelected?.fullName || selectedProfessional?.nome}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder='Nome'
-          />
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Nome</label>
+              <input
+                required
+                type='text'
+                defaultValue={userSelected?.fullName || selectedProfessional?.nome}
+                onChange={(e) => setNome(e.target.value)}
+                placeholder='Nome'
+              />
+            </div>
+            <div>
+              <label htmlFor="">CPF</label>
+              <InputMask
+                // defaultValue={userSelected?.cpf}
+                required
+                onChange={(e) => setCpf(e.target.value)}
+                mask='999.999.999-99'
+                placeholder='Seu CPF'
+                defaultValue={selectedProfessional?.cpf}
+              />
+            </div>
+          </InputsContainer>
+          <InputsContainer>
+            <div>
+              <label htmlFor="">RG</label>
 
-          <InputMask
-            // defaultValue={userSelected?.cpf}
-            required
-            onChange={(e) => setCpf(e.target.value)}
-            mask='999.999.999-99'
-            placeholder='Seu CPF'
-            defaultValue={selectedProfessional?.cpf}
-          />
+              <InputMask
+                required
+                // defaultValue={userSelected?.rg}
+                onChange={(e) => setRg(e.target.value)}
+                mask='99.999.999-9'
+                placeholder='Seu RG'
+                defaultValue={selectedProfessional?.rg}
+              />
+            </div>
+            <div>
+              <label htmlFor="">Descrição</label>
+              <input
+                required
+                onChange={(e) => setDescricao(e.target.value)}
+                placeholder='Descrição'
+                defaultValue={selectedProfessional?.descricao}
+              />
+            </div>
+          </InputsContainer>
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Data de Nascimento</label>
+              <input
+                type='date'
+                required
+                placeholder='Data de nascimento'
+                value={nascimento}
+                defaultValue={selectedProfessional?.dataNas}
+                onChange={(e) => setNascimento(e.target.value)}
+              />
+            </div>
 
-          <InputMask
-            required
-            // defaultValue={userSelected?.rg}
-            onChange={(e) => setRg(e.target.value)}
-            mask='99.999.999-9'
-            placeholder='Seu RG'
-            defaultValue={selectedProfessional?.rg}
-          />
+            {/* These are not saved in user data */}
+            <div>
+              <label htmlFor="">Nome da Mãe</label>
+              <input
+                type='text'
+                required
+                placeholder='Nome da mãe'
+                value={nomeMae}
+                defaultValue={selectedProfessional?.nomeMae}
+                onChange={(e) => setNomeMae(e.target.value)}
+              />
+            </div>
+          </InputsContainer>
 
-          <input
-            required
-            onChange={(e) => setDescricao(e.target.value)}
-            placeholder='Descrição'
-            defaultValue={selectedProfessional?.descricao}
-          />
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Telefone</label>
+              <InputMask
+                className='masked-input'
+                type='text'
+                required
+                name='phoneNumber'
+                mask='(99) 99999-9999'
+                placeholder='Telefone'
+                defaultValue={selectedProfessional?.telefone1}
+                onChange={(e) => setTelefone(e.target.value)}
+              />
+            </div>
 
-          <input
-            type='date'
-            required
-            placeholder='Data de nascimento'
-            value={nascimento}
-            defaultValue={selectedProfessional?.dataNas}
-            onChange={(e) => setNascimento(e.target.value)}
-          />
+            <div>
+              <label htmlFor="">Telefone 2</label>
+              <InputMask
+                className='masked-input'
+                type='text'
+                required
+                name='phoneNumber'
+                mask='(99) 99999-9999'
+                placeholder='Telefone 2'
+                defaultValue={selectedProfessional?.telefone2}
+                onChange={(e) => setTelefone2(e.target.value)}
+              />
+            </div>
+          </InputsContainer>
 
-          {/* These are not saved in user data */}
-          <input
-            type='text'
-            required
-            placeholder='Nome da mãe'
-            value={nomeMae}
-            defaultValue={selectedProfessional?.nomeMae}
-            onChange={(e) => setNomeMae(e.target.value)}
-          />
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Cargo</label>
+              <select
+                // value={cargo}
+                defaultValue={selectedProfessional?.cargo.id}
+                required
+                onChange={(e) => setCargo(e.target.value)}
+              >
+                <option hidden>Cargo</option>
+                {allPositions.map((position) => (
+                  <option key={position.id} value={position.id}>{position.nome}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="">CEP</label>
+              <InputMask
+                onChange={(e) => setCep(e.target.value)}
+                onBlur={(ev) => handleChangeCep(ev.target.value)}
+                mask='99999-999'
+                placeholder='CEP*'
+                defaultValue={selectedProfessional?.cep}
+                value={cep}
+              />
+            </div>
+          </InputsContainer>
 
-          <InputMask
-            className='masked-input'
-            type='text'
-            required
-            name='phoneNumber'
-            mask='(99) 99999-9999'
-            placeholder='Telefone'
-            defaultValue={selectedProfessional?.telefone1}
-            onChange={(e) => setTelefone(e.target.value)}
-          />
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Cidade</label>
+              <input
+                type='text'
+                placeholder='Cidade*'
+                // value={cidade}
+                required
+                defaultValue={selectedProfessional?.cidade}
+                onChange={(e) => setCidade(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="">Bairro</label>
+              <input
+                type='text'
+                placeholder='Bairro*'
+                // value={bairro}
+                required
+                defaultValue={selectedProfessional?.bairro}
+                onChange={(e) => setBairro(e.target.value)}
+              />
+            </div>
+          </InputsContainer>
 
-          <InputMask
-            className='masked-input'
-            type='text'
-            required
-            name='phoneNumber'
-            mask='(99) 99999-9999'
-            placeholder='Telefone 2'
-            defaultValue={selectedProfessional?.telefone2}
-            onChange={(e) => setTelefone2(e.target.value)}
-          />
-
-          <select
-            // value={cargo}
-            defaultValue={selectedProfessional?.cargo.id}
-            required
-            onChange={(e) => setCargo(e.target.value)}
-          >
-            <option hidden>Cargo</option>
-            {allPositions.map((position) => (
-              <option key={position.id} value={position.id}>{position.nome}</option>
-            ))}
-          </select>
-
-          <InputMask
-            onChange={(e) => setCep(e.target.value)}
-            onBlur={(ev) => handleChangeCep(ev.target.value)}
-            mask='99999-999'
-            placeholder='CEP*'
-            defaultValue={selectedProfessional?.cep}
-            value={cep}
-          />
-
-
-          <input
-            type='text'
-            placeholder='Cidade*'
-            // value={cidade}
-            required
-            defaultValue={selectedProfessional?.cidade}
-            onChange={(e) => setCidade(e.target.value)}
-          />
-
-          <input
-            type='text'
-            placeholder='Bairro*'
-            // value={bairro}
-            required
-            defaultValue={selectedProfessional?.bairro}
-            onChange={(e) => setBairro(e.target.value)}
-          />
-          <input
-            type='text'
-            placeholder='Logradouro*'
-            required
-            defaultValue={selectedProfessional?.logradouro}
-            onChange={(e) => setLogradouro(e.target.value)}
-          />
-          <input
-            type='text'
-            placeholder='Número*'
-            defaultValue={selectedProfessional?.numero}
-            required
-            onChange={(e) => setNumero(e.target.value)}
-          />
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Logradouro</label>
+              <input
+                type='text'
+                placeholder='Logradouro*'
+                required
+                defaultValue={selectedProfessional?.logradouro}
+                onChange={(e) => setLogradouro(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="">Número</label>
+              <input
+                type='text'
+                placeholder='Número*'
+                defaultValue={selectedProfessional?.numero}
+                required
+                onChange={(e) => setNumero(e.target.value)}
+              />
+            </div>
+          </InputsContainer>
 
           {!userSelected && (
             <>
-              <input
-                type='text'
-                placeholder='Email'
-                onChange={(e) => setEmail(e.target.value)}
-                defaultValue={selectedProfessional?.genero}
-              />
-              <select name='' id='' onChange={(e) => setGenero(e.target.value)}>
-                <option hidden>Gênero</option>
-                <option value='Mulher'>Mulher</option>
-                <option value='Homem'>Homem</option>
-                <option value='Prefiro não responder'>
-                  Prefiro não responder
-                </option>
-              </select>
-              <select
-                name=''
-                id=''
-                onChange={(e) => setEstadoCivil(e.target.value)}
-                defaultValue={selectedProfessional?.estadoCivil}
-              >
-                <option hidden>Estado civil</option>
-                <option value='Solteiro(a)'>Solteiro(a)</option>
-                <option value='Casado(a)'>Casado(a)</option>
-                <option value='Viúvo(a)'>Viúvo(a)</option>
-              </select>
-            </>
-          )}
+              <InputsContainer>
+                <div>
+                  <label htmlFor="">E-mail</label>
+                  <input
+                    type='text'
+                    placeholder='Email'
+                    onChange={(e) => setEmail(e.target.value)}
+                    defaultValue={selectedProfessional?.genero}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Gênero</label>
+                  <select name='' id='' onChange={(e) => setGenero(e.target.value)}>
+                    <option hidden>Gênero</option>
+                    <option value='Mulher'>Mulher</option>
+                    <option value='Homem'>Homem</option>
+                    <option value='Prefiro não responder'>
+                      Prefiro não responder
+                    </option>
+                  </select>
+                </div>
+              </InputsContainer>
 
+
+
+              
+               
+                <div>
+                <label htmlFor="">Estado Civil</label>
+
+            
+                <select
+                  name=''
+                  id=''
+                  onChange={(e) => setEstadoCivil(e.target.value)}
+                  defaultValue={selectedProfessional?.estadoCivil}
+                >
+                  <option hidden>Estado civil</option>
+                  <option value='Solteiro(a)'>Solteiro(a)</option>
+                  <option value='Casado(a)'>Casado(a)</option>
+                  <option value='Viúvo(a)'>Viúvo(a)</option>
+                  </select>
+                  </div>
+                 
+             
+             
+
+
+
+            </>
+           
+
+          )}
+          
+
+        
+          
           <label htmlFor="">Centro de custo</label>
+         
           <select
             name=''
             id=''
@@ -689,6 +771,15 @@ export default function Professionals() {
             ))}
 
           </select>
+          
+          
+          
+
+
+
+
+
+
 
           <S.divCheck>
             <Checkbox
@@ -851,33 +942,390 @@ export default function Professionals() {
         >
           <h2>Cadastrar profissional</h2>
 
-          <h4>Selecione um profissional</h4>
+
 
           <InputsContainer>
-          <div>
+            <div>
+              <label>Selecione um profissional</label>
+              <select
+                onChange={(e) => {
+                  const userIndex: number = parseInt(e.target.value)
+
+
+                  const newUserSelected = allUsers[userIndex]
+                  setUserSelected(newUserSelected)
+                  // (newUserSelected.fullName)
+                  setNome(newUserSelected.fullName)
+                  setEmail(newUserSelected.email)
+                }}
+                placeholder='Usuário Cadastrado'
+              >
+                <option hidden>Selecione usuário</option>
+
+                {allUsers.map((user, i) => (
+                  <option key={i} value={i}>
+                    {user.fullName} | {user.email}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="">Nome completo</label>
+              <input
+                type='text'
+                defaultValue={userSelected?.fullName}
+                onChange={(e) => setNome(e.target.value)}
+                placeholder='Nome'
+              />
+            </div>
+          </InputsContainer>
+
+          <InputsContainer>
+            <div>
+              <label htmlFor="">CPF</label>
+              <InputMask
+                // defaultValue={userSelected?.cpf}
+                onChange={(e) => setCpf(e.target.value)}
+                mask='999.999.999-99'
+                placeholder='Seu CPF'
+                value={cpf}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="">RG</label>
+              <InputMask
+                // defaultValue={userSelected?.rg}
+                onChange={(e) => setRg(e.target.value)}
+                mask='99.999.999-9'
+                placeholder='Seu RG'
+                value={rg}
+              />
+            </div>
+          </InputsContainer>
+
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Descrição</label>
+              <textarea
+
+                defaultValue={userSelected?.descricao}
+                onChange={(e) => setDescricao(e.target.value)}
+                placeholder='Descrição'
+              />
+            </div>
+
+            {/* <InputMask
+            mask='99/99/9999'
+            placeholder='Data de nascimento'
+            value={nascimento}
+            onChange={(e) => setNascimento(e.target.value)}
+          /> */}
+            <div>
+              <div>
+                <label htmlFor="">Data de nascimento</label>
+                <input
+                  type='date'
+                  placeholder='Data de nascimento'
+                  value={nascimento}
+                  onChange={(e) => setNascimento(e.target.value)}
+                />
+              </div>
+            </div>
+          </InputsContainer>
+
+
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Nome da mãe</label>
+              {/* These are not saved in user data */}
+              <input
+                type='text'
+                placeholder='Nome da mãe'
+                value={nomeMae}
+                onChange={(e) => setNomeMae(e.target.value)}
+              />
+            </div>
+
+
+            <div>
+              <label htmlFor="">Seu telefone</label>
+              <InputMask
+                className='masked-input'
+                type='text'
+                name='phoneNumber'
+                mask='(99) 99999-9999'
+                placeholder='Telefone'
+                onChange={(e) => setTelefone(e.target.value)}
+              />
+            </div>
+          </InputsContainer>
+
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Telefone 2</label>
+              <InputMask
+                className='masked-input'
+                type='text'
+                name='phoneNumber'
+                mask='(99) 99999-9999'
+                placeholder='Telefone 2'
+                onChange={(e) => setTelefone2(e.target.value)}
+              />
+            </div>
+            {/*
+
+          ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
+
+
+          */}
+            <div>
+              <label htmlFor="">Cargo</label>
+              <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
+                <option hidden>Cargo</option>
+                {allPositions.map((position) => (
+                  <option key={position.id} value={position.id}>{position.nome}</option>
+                ))}
+              </select>
+            </div>
+          </InputsContainer>
+
+          <InputsContainer>
+            <div>
+              <label htmlFor="">CEP</label>
+              <InputMask
+                onChange={(e) => setCep(e.target.value)}
+                onBlur={(ev) => handleChangeCep(ev.target.value)}
+                mask='99999-999'
+                placeholder='CEP*'
+                value={cep}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="">Cidade</label>
+              <input
+                type='text'
+                placeholder='Cidade*'
+                value={cidade}
+                onChange={(e) => setCidade(e.target.value)}
+              />
+            </div>
+          </InputsContainer>
+
+
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Bairro</label>
+              <input
+                type='text'
+                placeholder='Bairro*'
+                value={bairro}
+                onChange={(e) => setBairro(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="">Logradouro</label>
+              <input
+                type='text'
+                placeholder='Logradouro*'
+                value={logradouro}
+                onChange={(e) => setLogradouro(e.target.value)}
+              />
+            </div>
+          </InputsContainer>
+
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Número</label>
+              <input
+                type='number'
+                placeholder='Número*'
+                value={numero}
+                onChange={(e) => setNumero(e.target.value.replace(/\D/g, ""))}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="">Email</label>
+              <input
+                type='text'
+                placeholder='Email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          </InputsContainer>
+
+          <InputsContainer>
+            <div>
+              <label htmlFor="">Gênero</label>
+              <select name='' id=''
+                onChange={(e) => {
+                  setGenero(e.target.value)
+
+                }
+                }>
+                <option hidden>Gênero</option>
+                <option value='Mulher'>
+                  Mulher
+                </option>
+                <option value='Homem'>
+                  Homem
+                </option>
+                <option value='Prefiro não responder'>
+                  Prefiro não responder
+                </option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="">Estado civil</label>
+              <select
+                name=''
+                id=''
+                onChange={(e) => setEstadoCivil(e.target.value)}
+              >
+                <option hidden>Estado civil</option>
+
+                <option value='Solteiro(a)'>
+                  Solteiro(a)
+                </option>
+
+                <option value='Casado(a)'>
+                  Casado(a)
+                </option>
+
+                <option value='Viúvo(a)'>
+                  Viúvo(a)
+                </option>
+
+              </select>
+            </div>
+          </InputsContainer>
+
+          <label htmlFor="">Centro de custo</label>
           <select
-            onChange={(e) => {
-              const userIndex: number = parseInt(e.target.value)
-
-
-              const newUserSelected = allUsers[userIndex]
-              setUserSelected(newUserSelected)
-              // (newUserSelected.fullName)
-              setNome(newUserSelected.fullName)
-              setEmail(newUserSelected.email)
-            }}
-            placeholder='Usuário Cadastrado'
+            name=''
+            id=''
+            required
+            onChange={(e) => setCentroCustoId(e.target.value)}
           >
-            <option hidden>Selecione usuário</option>
-
-            {allUsers.map((user, i) => (
-              <option key={i} value={i}>
-                {user.fullName} | {user.email}
+            <option hidden>Centro de custo</option>
+            {centroCustoList && centroCustoList.map(item => (
+              <option key={item.id} value={item.id}>
+                {item.nome} - {item.codigo}
               </option>
             ))}
+
           </select>
-          </div>
-          <div>
+
+          <S.divCheck>
+            <Checkbox
+              type='checkbox'
+              placeholder='Sub-Área?'
+              defaultChecked={hasDependente}
+              onChange={() => setHasDependente(!hasDependente)}
+            />
+            <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
+          </S.divCheck>
+
+
+          {hasDependente && (
+            <>
+              {dependentes.map((e, index) => (
+
+                <div key={index} className='border'>
+
+                  <label htmlFor="">Nome do Dependente</label>
+                  <input
+                    type='text'
+                    placeholder='Nome do Dependente'
+                    name='nome'
+                    onChange={(e) => handleChangeDependente(index, e)}
+                  />
+
+                  <label htmlFor="">CPF do Dependente</label>
+                  <InputMask
+                    name='cpf'
+                    mask='999.999.999-99'
+                    placeholder='CPF do Dependente'
+                    onChange={(e) => {
+                      handleChangeDependente(index, e)
+
+                      const cpfWithLetters = e.target.value
+                      const clearedCpf = cpfWithLetters.replace(/\D/g, '')
+
+                      if (clearedCpf.length != 11) return
+
+                      checkCPF(clearedCpf)
+                    }}
+                  />
+
+                  <label htmlFor="">RG do dependente</label>
+                  <InputMask
+                    name='rg'
+                    mask='99.999.999-9'
+                    placeholder='RG do Dependente'
+                    onChange={(e) => handleChangeDependente(index, e)}
+                  />
+
+                  <label htmlFor="">Data de Nascimento do Dependente</label>
+                  <div className="return">
+                    <input
+                      name='dataNas'
+                      type='date'
+                      placeholder='Data de Nascimento do Dependente'
+                      onChange={(e) => handleChangeDependente(index, e)}
+                    />
+                    <button
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(index)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <button
+                type='button'
+                className='btn-actions btn-plus'
+                onClick={() => addFormFields()}
+              >
+                <FiPlus />
+              </button>
+            </>
+          )}
+
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+      </Modal >
+
+      <Modal
+        isOpen={modalIsOpenFilter}
+        onRequestClose={closeModalFilter}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalFilter}
+        >
+          <FiX />
+        </button>
+
+        <S.ContainerForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleFilterProfessionals()
+          }}
+        >
+          <h2>Filtros</h2>
+
+
+
+
           <label htmlFor="">Nome completo</label>
           <input
             type='text'
@@ -885,51 +1333,23 @@ export default function Professionals() {
             onChange={(e) => setNome(e.target.value)}
             placeholder='Nome'
           />
-          </div>
-          </InputsContainer>
-    
-          <InputsContainer>
-          <div>
+
           <label htmlFor="">CPF</label>
           <InputMask
-            // defaultValue={userSelected?.cpf}
             onChange={(e) => setCpf(e.target.value)}
             mask='999.999.999-99'
             placeholder='Seu CPF'
             value={cpf}
           />
-          </div>
-       
-          <div>
+
           <label htmlFor="">RG</label>
           <InputMask
-            // defaultValue={userSelected?.rg}
             onChange={(e) => setRg(e.target.value)}
             mask='99.999.999-9'
             placeholder='Seu RG'
             value={rg}
           />
-          </div>
-          </InputsContainer>
 
-          <InputsContainer>
-          <div>
-          <input
-            type='text'
-            defaultValue={userSelected?.descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-            placeholder='Descrição'
-          />
-          </div>
-        
-        {/* <InputMask
-            mask='99/99/9999'
-            placeholder='Data de nascimento'
-            value={nascimento}
-            onChange={(e) => setNascimento(e.target.value)}
-          /> */}
-        <div>
-        <div>
           <label htmlFor="">Data de nascimento</label>
           <input
             type='date'
@@ -937,56 +1357,16 @@ export default function Professionals() {
             value={nascimento}
             onChange={(e) => setNascimento(e.target.value)}
           />
-        </div>
-        </div>
-        </InputsContainer>
-      
 
-      <InputsContainer>
-        <div>
+
           <label htmlFor="">Nome da mãe</label>
-          {/* These are not saved in user data */}
           <input
             type='text'
             placeholder='Nome da mãe'
             value={nomeMae}
             onChange={(e) => setNomeMae(e.target.value)}
           />
-        </div>
 
-
-        <div>
-          <label htmlFor="">Seu telefone</label>
-          <InputMask
-            className='masked-input'
-            type='text'
-            name='phoneNumber'
-            mask='(99) 99999-9999'
-            placeholder='Telefone'
-            onChange={(e) => setTelefone(e.target.value)}
-          />
-        </div>
-      </InputsContainer>
-
-      <InputsContainer>
-        <div>
-          <label htmlFor="">Telefone 2</label>
-          <InputMask
-            className='masked-input'
-            type='text'
-            name='phoneNumber'
-            mask='(99) 99999-9999'
-            placeholder='Telefone 2'
-            onChange={(e) => setTelefone2(e.target.value)}
-          />
-        </div>
-        {/*
-
-          ISSO AQUI É UM SELECT COM OS DADOS DA TABLEA
-
-
-          */}
-        <div>
           <label htmlFor="">Cargo</label>
           <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
             <option hidden>Cargo</option>
@@ -994,11 +1374,8 @@ export default function Professionals() {
               <option key={position.id} value={position.id}>{position.nome}</option>
             ))}
           </select>
-        </div>
-      </InputsContainer>
 
-      <InputsContainer>
-        <div>
+
           <label htmlFor="">CEP</label>
           <InputMask
             onChange={(e) => setCep(e.target.value)}
@@ -1016,12 +1393,7 @@ export default function Professionals() {
             value={cidade}
             onChange={(e) => setCidade(e.target.value)}
           />
-        </div>
-      </InputsContainer>
 
-
-      <InputsContainer>
-        <div>
           <label htmlFor="">Bairro</label>
           <input
             type='text'
@@ -1029,284 +1401,10 @@ export default function Professionals() {
             value={bairro}
             onChange={(e) => setBairro(e.target.value)}
           />
-        </div>
-        <div>
-          <label htmlFor="">Logradouro</label>
-          <input
-            type='text'
-            placeholder='Logradouro*'
-            value={logradouro}
-            onChange={(e) => setLogradouro(e.target.value)}
-          />
-        </div>
-      </InputsContainer>
 
-      <InputsContainer>
-        <div>
-          <label htmlFor="">Número</label>
-          <input
-            type='number'
-            placeholder='Número*'
-            value={numero}
-            onChange={(e) => setNumero(e.target.value.replace(/\D/g, ""))}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="">Email</label>
-          <input
-            type='text'
-            placeholder='Email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-      </InputsContainer>
-
-      <InputsContainer>
-        <div>
-          <label htmlFor="">Gênero</label>
-          <select name='' id=''
-            onChange={(e) => {
-              setGenero(e.target.value)
-
-            }
-            }>
-            <option hidden>Gênero</option>
-            <option value='Mulher'>
-              Mulher
-            </option>
-            <option value='Homem'>
-              Homem
-            </option>
-            <option value='Prefiro não responder'>
-              Prefiro não responder
-            </option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="">Estado civil</label>
-          <select
-            name=''
-            id=''
-            onChange={(e) => setEstadoCivil(e.target.value)}
-          >
-            <option hidden>Estado civil</option>
-
-            <option value='Solteiro(a)'>
-              Solteiro(a)
-            </option>
-
-            <option value='Casado(a)'>
-              Casado(a)
-            </option>
-
-            <option value='Viúvo(a)'>
-              Viúvo(a)
-            </option>
-
-          </select>
-        </div>
-      </InputsContainer>
-
-      <label htmlFor="">Centro de custo</label>
-      <select
-        name=''
-        id=''
-        required
-        onChange={(e) => setCentroCustoId(e.target.value)}
-      >
-        <option hidden>Centro de custo</option>
-        {centroCustoList && centroCustoList.map(item => (
-          <option key={item.id} value={item.id}>
-            {item.nome} - {item.codigo}
-          </option>
-        ))}
-
-      </select>
-
-      <S.divCheck>
-        <Checkbox
-          type='checkbox'
-          placeholder='Sub-Área?'
-          defaultChecked={hasDependente}
-          onChange={() => setHasDependente(!hasDependente)}
-        />
-        <S.Label htmlFor='subarea'>Possui dependentes?</S.Label>
-      </S.divCheck>
-      {hasDependente && (
-        <>
-          {dependentes.map((e, index) => (
-            <div key={index} className='border'>
-              <label htmlFor="">Nome do Dependente</label>
-              <input
-                type='text'
-                placeholder='Nome do Dependente'
-                name='nome'
-                onChange={(e) => handleChangeDependente(index, e)}
-              />
-
-              <label htmlFor="">CPF do Dependente</label>
-              <InputMask
-                name='cpf'
-                mask='999.999.999-99'
-                placeholder='CPF do Dependente'
-                onChange={(e) => {
-                  handleChangeDependente(index, e)
-
-                  const cpfWithLetters = e.target.value
-                  const clearedCpf = cpfWithLetters.replace(/\D/g, '')
-
-                  if (clearedCpf.length != 11) return
-
-                  checkCPF(clearedCpf)
-                }}
-              />
-
-              <label htmlFor="">RG do dependente</label>
-              <InputMask
-                name='rg'
-                mask='99.999.999-9'
-                placeholder='RG do Dependente'
-                onChange={(e) => handleChangeDependente(index, e)}
-              />
-
-              <label htmlFor="">Data de Nascimento do Dependente</label>
-              <div className="return">
-                <input
-                  name='dataNas'
-                  type='date'
-                  placeholder='Data de Nascimento do Dependente'
-                  onChange={(e) => handleChangeDependente(index, e)}
-                />
-                <button
-                  className='btn-actions btn-trash'
-                  type='button'
-                  onClick={() => removeFormFields(index)}
-                >
-                  <FiTrash />
-                </button>
-              </div>
-            </div>
-          ))}
-          <button
-            type='button'
-            className='btn-actions btn-plus'
-            onClick={() => addFormFields()}
-          >
-            <FiPlus />
-          </button>
-        </>
-      )}
-
-      <button type='submit'>Enviar</button>
-    </S.ContainerForm>
-      </Modal >
-
-    <Modal
-      isOpen={modalIsOpenFilter}
-      onRequestClose={closeModalFilter}
-      overlayClassName='react-modal-overlay'
-      className='react-modal-content'
-    >
-      <button
-        className='react-modal-close'
-        type='button'
-        onClick={closeModalFilter}
-      >
-        <FiX />
-      </button>
-
-      <S.ContainerForm
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleFilterProfessionals()
-        }}
-      >
-        <h2>Filtros</h2>
-
-
-
-
-        <label htmlFor="">Nome completo</label>
-        <input
-          type='text'
-          defaultValue={userSelected?.fullName}
-          onChange={(e) => setNome(e.target.value)}
-          placeholder='Nome'
-        />
-
-        <label htmlFor="">CPF</label>
-        <InputMask
-          onChange={(e) => setCpf(e.target.value)}
-          mask='999.999.999-99'
-          placeholder='Seu CPF'
-          value={cpf}
-        />
-
-        <label htmlFor="">RG</label>
-        <InputMask
-          onChange={(e) => setRg(e.target.value)}
-          mask='99.999.999-9'
-          placeholder='Seu RG'
-          value={rg}
-        />
-
-        <label htmlFor="">Data de nascimento</label>
-        <input
-          type='date'
-          placeholder='Data de nascimento'
-          value={nascimento}
-          onChange={(e) => setNascimento(e.target.value)}
-        />
-
-
-        <label htmlFor="">Nome da mãe</label>
-        <input
-          type='text'
-          placeholder='Nome da mãe'
-          value={nomeMae}
-          onChange={(e) => setNomeMae(e.target.value)}
-        />
-
-        <label htmlFor="">Cargo</label>
-        <select value={cargo} onChange={(e) => setCargo(e.target.value)}>
-          <option hidden>Cargo</option>
-          {allPositions.map((position) => (
-            <option key={position.id} value={position.id}>{position.nome}</option>
-          ))}
-        </select>
-
-
-        <label htmlFor="">CEP</label>
-        <InputMask
-          onChange={(e) => setCep(e.target.value)}
-          onBlur={(ev) => handleChangeCep(ev.target.value)}
-          mask='99999-999'
-          placeholder='CEP*'
-          value={cep}
-        />
-
-
-        <label htmlFor="">Cidade</label>
-        <input
-          type='text'
-          placeholder='Cidade*'
-          value={cidade}
-          onChange={(e) => setCidade(e.target.value)}
-        />
-
-        <label htmlFor="">Bairro</label>
-        <input
-          type='text'
-          placeholder='Bairro*'
-          value={bairro}
-          onChange={(e) => setBairro(e.target.value)}
-        />
-
-        <button type='submit'>Enviar</button>
-      </S.ContainerForm>
-    </Modal>
+          <button type='submit'>Enviar</button>
+        </S.ContainerForm>
+      </Modal>
     </>
   )
 }

@@ -9,6 +9,8 @@ import { fullName } from 'service/api'
 // @ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import DeleteButton from 'ui/components/DeleteButton'
+import EditButton from 'ui/components/EditBtn'
 
 export default function Area() {
 
@@ -227,18 +229,17 @@ export default function Area() {
 
                   <td>{area.descricao}</td>
                   <td>
-                    <button
+                    <EditButton
                       onClick={() => {
                         openEditModal(area)
                       }}
-                    >
-                      <FiEdit size={18} />
-                    </button>
+                    />
+                      
+                    
                   </td>
                   <td>
-                    <button onClick={() => handleDelete(area.id)}>
-                      <FiTrash size={18} />
-                    </button>
+                    <DeleteButton onClick={() => handleDelete(area.id)}/>
+                      
                   </td>
                 </S.TrSecond>
               ))}

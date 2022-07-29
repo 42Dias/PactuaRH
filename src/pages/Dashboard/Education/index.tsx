@@ -8,6 +8,8 @@ import { fullName } from 'service/api'
 //@ts-ignore
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import LoadingLayer from 'ui/components/LoadingLayer'
+import DeleteButton from 'ui/components/DeleteButton'
+import EditButton from 'ui/components/EditBtn'
 
 export default function Education() {
 
@@ -200,21 +202,21 @@ export default function Education() {
                 <td>{education.nome}</td>
                 <td>{education.descricao}</td>
                 <td>
-                  <button onClick={() => {
+                  <EditButton onClick={() => {
                     setId(education.id)
                     setNome(education.nome)
                     setDesc(education.descricao)
                     openModal()
                     }}>
                     <FiEdit size={18} />
-                  </button>
+                  </EditButton>
                 </td>
                 <td>
-                  <button
+                  <DeleteButton
                   onClick={() => handleDelete(education.id)}
                   >
                     <FiTrash size={18} />
-                  </button>
+                  </DeleteButton>
                 </td>
               </S.TrSecond> )
               )
